@@ -54,12 +54,14 @@ export function About() {
         <div className="flex flex-col gap-3.5 md:gap-6 md:w-[600px]">
           <SectionEyebrow>01 — ABOUT</SectionEyebrow>
           <h2 className="font-display text-[30px] md:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.4px] text-text-primary md:w-[640px]">
-            I turn complex problems into calm, fast interfaces.
+            I&apos;m Hein Htet Aung, a full-stack developer who builds AI-native products.
           </h2>
           <p ref={bodyRef} className="font-body text-[15px] md:text-[17px] leading-[1.65] text-text-secondary md:w-[600px]">
-            Five years building products across the stack — React and Next.js on the front, Node and Postgres
-            underneath. I care about the details most people scroll past: the easing on a hover state, the shape of
-            an API response, the 40ms that make an interaction feel instant instead of merely functional.
+            I&apos;m 21 and a 2nd-year Software Engineering / Computer Science student at the
+            University of Information Technology. Alongside my studies, I design and build
+            full-stack web applications end to end — React and Next.js on the front, Node and
+            Postgres underneath — and wire in AI integrations that actually hold up in production,
+            not just a demo.
           </p>
           <DetailCta href="/about" route="/about" />
         </div>

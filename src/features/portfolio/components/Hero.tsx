@@ -62,11 +62,11 @@ export function Hero() {
       <div className="mx-5 md:mx-0 md:absolute md:left-[120px] md:top-[236px] flex flex-col gap-4 md:gap-8 md:w-[760px]">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           <span className="md:hidden">
-            NARIHITO — FULL-STACK
+            HEIN HTET AUNG — FULL-STACK
             <br />
-            SOFTWARE DEVELOPER
+            DEVELOPER, AI INTEGRATIONS
           </span>
-          <span className="hidden md:inline">NARIHITO — FULL-STACK SOFTWARE DEVELOPER</span>
+          <span className="hidden md:inline">HEIN HTET AUNG — FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
         </p>
 
         <h1
@@ -80,8 +80,8 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary md:w-[520px]">
-          I design and build performant, motion-rich web products end to end — from data models to the pixel that
-          reacts to your <span className="md:hidden">touch</span>
+          Building faster, writing cleaner code, and shipping sooner — from data models to the
+          pixel that reacts to your <span className="md:hidden">touch</span>
           <span className="hidden md:inline">cursor</span>.
         </p>
 
