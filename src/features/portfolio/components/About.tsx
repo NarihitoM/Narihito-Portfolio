@@ -1,0 +1,69 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
+import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
+import { DetailCta } from "@/shared/components/ui/DetailCta";
+
+export function About() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const bodyRef = useRef<HTMLParagraphElement>(null);
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const body = bodyRef.current;
+      if (!body) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(body, { opacity: 1 });
+      });
+
+      mm.add(`not ${REDUCED_MOTION_QUERY}`, () => {
+        const split = new SplitText(body, { type: "lines" });
+        gsap.from(split.lines, {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: ease.entrance,
+          stagger: 0.06,
+          scrollTrigger: { trigger: body },
+        });
+
+        return () => split.revert();
+      });
+
+      return () => mm.revert();
+    },
+    { scope: sectionRef },
+  );
+
+  return (
+    <section id="about" ref={sectionRef} className="w-full bg-bg py-14 md:py-0 md:h-[780px]">
+      <div className="mx-5 md:mx-[120px] flex flex-col md:flex-row md:items-center gap-8 md:gap-[120px] md:h-full">
+        <div className="relative w-full md:w-[380px] h-[340px] md:h-[460px] shrink-0">
+          <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
+          <div className="relative h-full w-full md:h-[440px] md:w-[360px] flex items-center justify-center bg-portrait">
+            <span className="font-mono text-[12px] text-text-muted">PORTRAIT</span>
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3.5 md:gap-6 md:w-[600px]">
+          <SectionEyebrow>01 — ABOUT</SectionEyebrow>
+          <h2 className="font-display text-[30px] md:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.4px] text-text-primary md:w-[640px]">
+            I turn complex problems into calm, fast interfaces.
+          </h2>
+          <p ref={bodyRef} className="font-body text-[15px] md:text-[17px] leading-[1.65] text-text-secondary md:w-[600px]">
+            Five years building products across the stack — React and Next.js on the front, Node and Postgres
+            underneath. I care about the details most people scroll past: the easing on a hover state, the shape of
+            an API response, the 40ms that make an interaction feel instant instead of merely functional.
+          </p>
+          <DetailCta href="/about" route="/about" />
+        </div>
+      </div>
+    </section>
+  );
+}
