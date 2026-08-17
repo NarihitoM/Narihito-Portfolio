@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export type Theme = "dark" | "light";
 
@@ -10,14 +10,13 @@ function applyTheme(theme: Theme) {
   document.documentElement.setAttribute("data-theme", theme);
 }
 
-function readInitialTheme(): Theme {
-  if (typeof document === "undefined") return "dark";
-  const attr = document.documentElement.getAttribute("data-theme");
-  return attr === "light" ? "light" : "dark";
-}
-
 export function useTheme() {
-  const [theme, setThemeState] = useState<Theme>(readInitialTheme);
+  const [theme, setThemeState] = useState<Theme>("dark");
+
+  useEffect(() => {
+    const attr = document.documentElement.getAttribute("data-theme");
+    if (attr === "light" || attr === "dark") setThemeState(attr);
+  }, []);
 
   const setTheme = useCallback((next: Theme) => {
     setThemeState(next);

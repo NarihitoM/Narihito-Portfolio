@@ -42,7 +42,8 @@ export function Testimonials() {
       const cards = gsap.utils.toArray<HTMLElement>("[data-testimonial-card]", track);
       if (cards.length === 0) return;
 
-      const cardWidth = cards[0].offsetWidth + 24;
+      const trackGap = parseFloat(getComputedStyle(track).columnGap || "0");
+      const cardWidth = cards[0].offsetWidth + trackGap;
       const maxX = -(cardWidth * (cards.length - 1));
 
       const [draggable] = Draggable.create(track, {
@@ -71,18 +72,7 @@ export function Testimonials() {
     <section id="testimonials" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px] overflow-hidden">
       <div className="mx-5 md:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
         <SectionEyebrow>05 — WORDS</SectionEyebrow>
-        <div className="flex flex-col gap-2.5 md:flex-row md:items-end md:justify-between">
-          <SectionHeading>What people say</SectionHeading>
-          <p className="font-mono text-[10px] md:text-[11px] text-text-muted max-w-[360px]">
-            <span className="hidden md:inline">
-              ◆ Horizontal drag/scroll carousel — momentum snap between cards, GSAP-driven
-            </span>
-            <span className="md:hidden">
-              ◆ SWIPE — GSAP Draggable — Horizontal drag with momentum and snap-to-card; dots track the active
-              index.
-            </span>
-          </p>
-        </div>
+        <SectionHeading>What people say</SectionHeading>
       </div>
 
       <div className="px-5 md:px-[120px] cursor-grab active:cursor-grabbing">

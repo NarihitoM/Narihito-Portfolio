@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Lenis from "lenis";
 import { gsap, ScrollTrigger, registerGsap } from "@/shared/lib/gsap";
+import { setLenisInstance } from "@/shared/lib/lenis";
 
 export function useLenis() {
   useEffect(() => {
@@ -15,6 +16,7 @@ export function useLenis() {
       autoRaf: false,
     });
 
+    setLenisInstance(lenis);
     lenis.on("scroll", ScrollTrigger.update);
 
     const tick = (time: number) => {
@@ -25,6 +27,7 @@ export function useLenis() {
 
     return () => {
       gsap.ticker.remove(tick);
+      setLenisInstance(null);
       lenis.destroy();
     };
   }, []);

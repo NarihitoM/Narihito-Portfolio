@@ -40,19 +40,9 @@ export function Projects() {
   return (
     <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
       <div className="mx-5 md:mx-[120px] flex flex-col gap-6 md:gap-24">
-        <div className="flex flex-col gap-2.5 md:flex-row md:items-end md:justify-between">
-          <div className="flex flex-col gap-2 md:gap-3">
-            <SectionEyebrow>04 — PROJECTS</SectionEyebrow>
-            <SectionHeading>Selected work</SectionHeading>
-          </div>
-          <p className="font-mono text-[10px] md:text-[11px] text-text-muted max-w-[360px]">
-            <span className="hidden md:inline">
-              ◆ Hover: card tilts toward cursor (tilt.js/GSAP) + violet-cyan glow follows pointer
-            </span>
-            <span className="md:hidden">
-              ◆ GSAP — Cards rise and settle on scroll; press-and-hold tilts the card toward the touch point.
-            </span>
-          </p>
+        <div className="flex flex-col gap-2 md:gap-3">
+          <SectionEyebrow>04 — PROJECTS</SectionEyebrow>
+          <SectionHeading>Selected work</SectionHeading>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">

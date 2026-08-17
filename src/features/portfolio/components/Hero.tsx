@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
+import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { HeroSphere } from "@/features/portfolio/three/HeroSphere";
 
@@ -22,7 +22,7 @@ export function Hero() {
         gsap.set(headline, { opacity: 1 });
       });
 
-      mm.add(`not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
         const split = new SplitText(headline, { type: "lines" });
         gsap.from(split.lines, {
           opacity: 0,

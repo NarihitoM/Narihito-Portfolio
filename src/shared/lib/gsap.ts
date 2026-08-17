@@ -42,5 +42,6 @@ export const stagger = {
 } as const;
 
 export const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
+export const NO_REDUCED_MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
 
 export { gsap, ScrollTrigger, SplitText, Draggable, InertiaPlugin };

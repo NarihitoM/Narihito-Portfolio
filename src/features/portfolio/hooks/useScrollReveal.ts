@@ -2,7 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import type { RefObject } from "react";
-import { ease, gsap, registerGsap, stagger, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import { ease, gsap, registerGsap, stagger, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 
 type RevealOptions = {
   selector?: string;
@@ -27,7 +27,7 @@ export function useScrollReveal(
         gsap.set(selector, { opacity: 1, y: 0 });
       });
 
-      mm.add(`not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
         gsap.from(selector, {
           opacity: 0,
           y,

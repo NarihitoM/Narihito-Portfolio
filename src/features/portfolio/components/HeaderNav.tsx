@@ -3,10 +3,12 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap } from "@/shared/lib/gsap";
+import { scrollToTarget } from "@/shared/lib/lenis";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "@/shared/components/ui/Button";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
+const HEADER_OFFSET = -72;
 
 export function HeaderNav() {
   const headerRef = useRef<HTMLElement>(null);
@@ -79,6 +81,10 @@ export function HeaderNav() {
             <li key={link}>
               <a
                 href={`#${link.toLowerCase()}`}
+                onClick={(event) => {
+                  event.preventDefault();
+                  scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
+                }}
                 className="group relative font-body text-[14px] font-medium text-text-secondary"
               >
                 {link}
@@ -126,7 +132,11 @@ export function HeaderNav() {
             key={link}
             data-drawer-item
             href={`#${link.toLowerCase()}`}
-            onClick={() => setMenuOpen(false)}
+            onClick={(event) => {
+              event.preventDefault();
+              setMenuOpen(false);
+              scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
+            }}
             className="font-display text-[28px] font-semibold text-text-primary"
           >
             {link}

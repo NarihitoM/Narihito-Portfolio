@@ -1,28 +1,28 @@
 "use client";
 
-import { useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 
 const ENTRIES = [
   {
-    dates: "2024 — Present",
+    dates: "2024 - Present",
     role: "Senior Full-Stack Engineer",
     company: "Northwind Labs",
     description:
       "Leading the rebuild of the core product on Next.js and a Node/Postgres service layer, cutting median page load by 60%.",
   },
   {
-    dates: "2022 — 2024",
+    dates: "2022 - 2024",
     role: "Full-Stack Developer",
     company: "Fieldstone",
     description:
       "Owned the design system and the API gateway; shipped real-time collaboration features used by 50k weekly users.",
   },
   {
-    dates: "2020 — 2022",
+    dates: "2020 - 2022",
     role: "Frontend Developer",
     company: "Loop & Co.",
     description:
@@ -33,6 +33,35 @@ const ENTRIES = [
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
+  const spineColRef = useRef<HTMLDivElement>(null);
+  const entryRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
+
+  useLayoutEffect(() => {
+    const spineCol = spineColRef.current;
+    if (!spineCol) return;
+
+    const positionDots = () => {
+      const spineTop = spineCol.getBoundingClientRect().top;
+      entryRefs.current.forEach((entry, i) => {
+        const dot = dotRefs.current[i];
+        if (!entry || !dot) return;
+        const dateRow = entry.querySelector("[data-entry-date]");
+        const target = dateRow ?? entry;
+        const rect = target.getBoundingClientRect();
+        const offset = rect.top - spineTop + rect.height / 2;
+        dot.style.top = `${offset}px`;
+      });
+    };
+
+    positionDots();
+
+    const observer = new ResizeObserver(positionDots);
+    observer.observe(spineCol);
+    entryRefs.current.forEach((entry) => entry && observer.observe(entry));
+
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(
     () => {
@@ -47,7 +76,7 @@ export function Experience() {
         gsap.set("[data-timeline-dot]", { opacity: 1, scale: 1 });
       });
 
-      mm.add(`not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
         gsap.fromTo(
           spine,
           { scaleY: 0 },
@@ -90,39 +119,56 @@ export function Experience() {
 
   return (
     <section id="experience" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
-      <div className="mx-5 md:mx-[120px] flex flex-col gap-6 md:gap-24">
-        <div className="flex flex-col gap-2 md:gap-3 md:w-[599px]">
-          <SectionEyebrow>03 — EXPERIENCE</SectionEyebrow>
+      <div className="mx-5 flex flex-col gap-6 md:mx-[120px] md:gap-24">
+        <div className="flex flex-col gap-2 md:w-[599px] md:gap-3">
+          <SectionEyebrow>03 - EXPERIENCE</SectionEyebrow>
           <SectionHeading>Where I&apos;ve worked</SectionHeading>
-          <p className="font-mono text-[10px] md:text-[11px] text-text-muted">
-            ◆ GSAP ScrollTrigger — the spine line draws downward as you scroll, dot pulses on entry
-          </p>
         </div>
 
-        <div className="flex gap-4 md:gap-10 pl-1.5 md:pl-0">
-          <div className="relative w-2.5 md:w-6 shrink-0">
-            <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow md:bg-border-glow" />
+        <div className="flex flex-col gap-10 pl-1.5 md:flex-row md:gap-10 md:pl-0">
+          <div ref={spineColRef} className="relative hidden w-6 shrink-0 md:block">
+            <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
             <div
               ref={spineFillRef}
-              className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-violet md:bg-violet"
+              className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-violet"
             />
+            {ENTRIES.map((entry, index) => (
+              <span
+                key={entry.role}
+                ref={(el) => {
+                  dotRefs.current[index] = el;
+                }}
+                data-timeline-dot
+                className="absolute left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-bg bg-violet"
+              />
+            ))}
           </div>
 
           <div className="flex flex-1 flex-col gap-10">
-            {ENTRIES.map((entry) => (
-              <div key={entry.role} data-timeline-entry className="flex flex-col gap-2 md:gap-2.5">
-                <div className="flex items-center gap-2">
-                  <span data-timeline-dot className="h-[7px] w-[7px] rounded-full bg-violet md:hidden" />
+            {ENTRIES.map((entry, index) => (
+              <div
+                key={entry.role}
+                ref={(el) => {
+                  entryRefs.current[index] = el;
+                }}
+                data-timeline-entry
+                className={`flex flex-col gap-2 md:gap-2.5 ${
+                  index > 0 ? "md:border-t md:border-border-glow-soft md:pt-10" : ""
+                }`}
+              >
+                <div data-entry-date className="flex items-center gap-2">
+                  <span className="h-[7px] w-[7px] rounded-full bg-violet md:hidden" />
                   <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
                 </div>
-                <h3 className="font-display text-[19px] md:text-[24px] font-semibold tracking-[-0.5px] text-text-primary">
+
+                <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
                   <span className="md:hidden block">{entry.role}</span>
                   <span className="hidden md:inline">
                     {entry.role} · {entry.company}
                   </span>
                 </h3>
-                <span className="md:hidden font-mono text-[12px] text-cyan">{entry.company}</span>
-                <p className="font-body text-[14px] md:text-[15px] leading-[1.55] text-text-secondary md:w-[640px]">
+                <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
+                <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:w-[640px] md:text-[15px]">
                   {entry.description}
                 </p>
               </div>

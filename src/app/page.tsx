@@ -7,6 +7,7 @@ import { Projects } from "@/features/portfolio/components/Projects";
 import { Testimonials } from "@/features/portfolio/components/Testimonials";
 import { Contact } from "@/features/portfolio/components/Contact";
 import { SmoothScrollProvider } from "@/features/portfolio/components/SmoothScrollProvider";
+import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 
 export default function Home() {
   return (
@@ -21,6 +22,7 @@ export default function Home() {
         <Testimonials />
         <Contact />
       </main>
+      <ScrollToTop />
     </SmoothScrollProvider>
   );
 }

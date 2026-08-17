@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
+import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 
@@ -22,7 +22,7 @@ export function About() {
         gsap.set(body, { opacity: 1 });
       });
 
-      mm.add(`not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
         const split = new SplitText(body, { type: "lines" });
         gsap.from(split.lines, {
           opacity: 0,

@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 
 const SOCIALS = [
@@ -24,7 +24,7 @@ export function Contact() {
 
       const mm = gsap.matchMedia();
 
-      mm.add(`(min-width: 768px) and not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(`(min-width: 768px) and ${NO_REDUCED_MOTION_QUERY}`, () => {
         const quickX = gsap.quickTo(cta, "x", { duration: 0.3, ease: ease.interaction });
         const quickY = gsap.quickTo(cta, "y", { duration: 0.3, ease: ease.interaction });
         const radius = 60;
@@ -50,7 +50,7 @@ export function Contact() {
         return () => window.removeEventListener("mousemove", onMove);
       });
 
-      mm.add(`(max-width: 767px) and not ${REDUCED_MOTION_QUERY}`, () => {
+      mm.add(`(max-width: 767px) and ${NO_REDUCED_MOTION_QUERY}`, () => {
         const onDown = () => gsap.to(cta, { scale: 0.96, duration: 0.15, ease: ease.interaction });
         const onUp = () => gsap.to(cta, { scale: 1, duration: 0.15, ease: ease.interaction });
 
@@ -95,14 +95,6 @@ export function Contact() {
           >
             Say hello →
           </a>
-          <p className="font-mono text-[10px] md:text-[11px] text-text-muted">
-            <span className="hidden md:inline">
-              ◆ Magnetic button — pulls toward cursor within a 60px radius, GSAP quickTo
-            </span>
-            <span className="md:hidden">
-              ◆ GSAP quickTo — Button presses inward on touch-down and springs back on release.
-            </span>
-          </p>
         </div>
 
         <div className="flex items-center gap-3">

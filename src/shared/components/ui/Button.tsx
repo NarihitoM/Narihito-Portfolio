@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import { scrollToTarget } from "@/shared/lib/lenis";
 
 type ButtonVariant = "primary" | "secondary";
 
@@ -34,8 +35,20 @@ export function Button({ children, variant = "primary", className = "", ...props
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
 
   if ("href" in props && props.href) {
+    const isHashLink = props.href.startsWith("#");
     return (
-      <Link href={props.href} className={classes}>
+      <Link
+        href={props.href}
+        className={classes}
+        onClick={
+          isHashLink
+            ? (event) => {
+                event.preventDefault();
+                scrollToTarget(props.href, -72);
+              }
+            : undefined
+        }
+      >
         {children}
       </Link>
     );
