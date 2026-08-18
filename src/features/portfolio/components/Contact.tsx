@@ -93,7 +93,7 @@ export function Contact() {
             href="mailto:hello@narihito.dev"
             className="flex h-14 md:h-auto w-full md:w-auto items-center justify-center rounded-[4px] bg-violet px-11 py-5 font-body text-[16px] md:text-[17px] font-semibold text-wire"
           >
-            Say hello →
+            Let&apos;s Connect →
           </a>
         </div>
 

@@ -240,7 +240,7 @@ export function PageLayout({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 px-5 md:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
+      <div className="flex items-center gap-3 px-5 md:px-10 lg:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
         <Link
           href={backHref}
           className="group font-mono text-[12px] text-text-secondary hover:text-text-primary transition-colors"
@@ -250,7 +250,7 @@ export function PageLayout({
         <span className="font-mono text-[11px] text-text-muted">{breadcrumb}</span>
       </div>
 
-      <div className="flex flex-col gap-6 md:gap-7 px-5 md:px-[120px] pt-6 md:pt-12">
+      <div className="flex flex-col gap-6 md:gap-7 px-5 md:px-10 lg:px-[120px] pt-6 md:pt-12">
         <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
           {eyebrow}
         </p>
@@ -268,7 +268,7 @@ export function PageLayout({
         </p>
       </div>
 
-      <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-4 px-5 md:px-[120px] pt-8 md:pt-12">
+      <div className="flex flex-wrap gap-x-8 md:gap-x-12 gap-y-4 px-5 md:px-10 lg:px-[120px] pt-8 md:pt-12">
         {meta.map((item) => (
           <div key={item.key} data-meta-item className="flex flex-col gap-2">
             <span className="font-mono text-[10px] text-text-muted">{item.key}</span>
@@ -277,15 +277,15 @@ export function PageLayout({
         ))}
       </div>
 
-      <div className="px-5 md:px-[120px] pt-8 md:pt-12">
+      <div className="px-5 md:px-10 lg:px-[120px] pt-8 md:pt-12">
         <div className="h-px w-full bg-border-glow-soft" />
       </div>
 
-      <div className="px-5 md:px-[120px] pt-8 md:pt-20 pb-16 md:pb-24">
+      <div className="px-5 md:px-10 lg:px-[120px] pt-8 md:pt-20 pb-16 md:pb-24">
         {children}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-5 md:px-[120px] pt-12 md:pt-28 pb-12">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-5 md:px-10 lg:px-[120px] pt-12 md:pt-28 pb-12">
         <Link
           href={prev.href}
           className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft"
@@ -310,7 +310,7 @@ export function PageLayout({
         </Link>
       </div>
 
-      <footer className="px-5 md:px-[120px] pb-8 md:pb-14">
+      <footer className="px-5 md:px-10 lg:px-[120px] pb-8 md:pb-14">
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 pt-5">
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">

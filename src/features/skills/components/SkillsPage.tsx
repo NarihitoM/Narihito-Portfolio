@@ -91,9 +91,9 @@ function ToolRow({ tool }: { tool: Tool }) {
   return (
     <div
       data-tool-row
-      className="group flex items-center gap-7 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30"
+      className="group flex flex-col gap-3 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30 md:flex-row md:items-center md:gap-7"
     >
-      <div className="flex w-[290px] shrink-0 items-center gap-3">
+      <div className="flex items-center gap-3 md:w-[290px] md:shrink-0">
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[4px] bg-chip">
           <TechIcon name={tool.icon} className="h-[18px] w-[18px] text-text-primary" />
         </div>
@@ -101,13 +101,15 @@ function ToolRow({ tool }: { tool: Tool }) {
           {tool.name}
         </span>
       </div>
-      <span className="flex-1 font-body text-[15px] leading-[1.6] text-text-secondary">
+      <span className="font-body text-[15px] leading-[1.6] text-text-secondary md:flex-1">
         {tool.note}
       </span>
-      <span className="w-[110px] shrink-0 text-right font-mono text-[11px] tracking-[2px] text-text-muted">
-        {tool.frequency}
-      </span>
-      <ProficiencyBar level={tool.proficiency} />
+      <div className="flex items-center justify-between gap-4 md:contents">
+        <span className="font-mono text-[11px] tracking-[2px] text-text-muted md:w-[110px] md:shrink-0 md:text-right">
+          {tool.frequency}
+        </span>
+        <ProficiencyBar level={tool.proficiency} />
+      </div>
     </div>
   );
 }
@@ -222,9 +224,9 @@ export function SkillsPage() {
 
         <div
           data-learning
-          className="flex gap-16 rounded border border-border-glow-soft bg-surface p-10"
+          className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
         >
-          <div className="w-[320px] shrink-0 flex flex-col gap-3.5">
+          <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
             <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
               CURRENTLY LEARNING
             </span>
@@ -233,14 +235,14 @@ export function SkillsPage() {
               above stays honest.
             </p>
           </div>
-          <div className="flex flex-col gap-4 flex-1">
+          <div className="flex flex-1 flex-col gap-4">
             {LEARNING.map((item) => (
               <div
                 key={item.name}
                 data-learning-item
-                className="flex gap-5 border-b border-border-glow-soft pb-3.5"
+                className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
               >
-                <span className="w-[170px] shrink-0 font-body text-[16px] font-medium text-text-primary">
+                <span className="font-body text-[16px] font-medium text-text-primary md:w-[170px] md:shrink-0">
                   {item.name}
                 </span>
                 <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
