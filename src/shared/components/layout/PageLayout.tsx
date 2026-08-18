@@ -238,9 +238,9 @@ export function PageLayout({
       <div className="flex items-center gap-3 px-5 md:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
         <Link
           href={backHref}
-          className="font-mono text-[12px] text-text-secondary hover:text-text-primary transition-colors"
+          className="group font-mono text-[12px] text-text-secondary hover:text-text-primary transition-colors"
         >
-          {backLink}
+          <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1">←</span> {backLink}
         </Link>
         <span className="font-mono text-[11px] text-text-muted">{breadcrumb}</span>
       </div>
@@ -286,7 +286,7 @@ export function PageLayout({
           className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
-            {prev.direction}
+            <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1">←</span> HOME
           </span>
           <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
             {prev.title}
@@ -297,7 +297,7 @@ export function PageLayout({
           className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft md:text-right"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
-            {next.direction}
+            NEXT <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
           </span>
           <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
             {next.title}

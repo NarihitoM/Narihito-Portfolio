@@ -124,7 +124,7 @@ export function AboutPage() {
 
   return (
     <PageLayout
-      backLink="← Back to Home"
+      backLink="Back to Home"
       backHref="/"
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 — ABOUT ]"
@@ -136,8 +136,8 @@ export function AboutPage() {
         { key: "PRACTICING", value: "SINCE 2025" },
         { key: "STATUS", value: "OPEN TO WORK" },
       ]}
-      prev={{ direction: "← HOME", title: "Portfolio index", href: "/" }}
-      next={{ direction: "NEXT →", title: "Skills & tech stack", href: "/tools" }}
+      prev={{ direction: "HOME", title: "Portfolio index", href: "/" }}
+      next={{ direction: "NEXT", title: "Skills & tech stack", href: "/tools" }}
     >
       <div ref={contentRef} className="flex flex-col gap-12 md:gap-20">
         <p
