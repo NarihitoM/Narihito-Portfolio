@@ -2,6 +2,7 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
@@ -48,6 +49,7 @@ export function PageLayout({
   const pageRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   useGSAP(
     () => {
@@ -159,22 +161,25 @@ export function PageLayout({
 
         <nav className="hidden lg:flex items-center gap-9">
           <ul className="flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
-              <li key={link}>
-                <Link
-                  href={`/${link === "About" ? "about" : `#${link.toLowerCase()}`}`}
-                  className="group relative font-body text-[14px] font-medium text-text-secondary"
-                >
-                  {link}
-                  {link === "About" && (
-                    <span className="absolute -bottom-1 left-0 h-px w-full bg-text-primary" />
-                  )}
-                  {link !== "About" && (
-                    <span className="absolute -bottom-1 left-0 h-px w-0 bg-text-primary transition-all duration-300 ease-out group-hover:w-full" />
-                  )}
-                </Link>
-              </li>
-            ))}
+            {NAV_LINKS.map((link) => {
+              const href = `/${link === "About" || link === "Skills" ? link.toLowerCase() : `#${link.toLowerCase()}`}`;
+              const isActive = pathname === `/${link.toLowerCase()}`;
+              return (
+                <li key={link}>
+                  <Link
+                    href={href}
+                    className="group relative font-body text-[14px] font-medium text-text-secondary"
+                  >
+                    {link}
+                    {isActive ? (
+                      <span className="absolute -bottom-1 left-0 h-px w-full bg-text-primary" />
+                    ) : (
+                      <span className="absolute -bottom-1 left-0 h-px w-0 bg-text-primary transition-all duration-300 ease-out group-hover:w-full" />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
           <ModeToggle />
           <Link
@@ -218,7 +223,7 @@ export function PageLayout({
           <Link
             key={link}
             data-drawer-item
-            href={`/${link === "About" ? "about" : `#${link.toLowerCase()}`}`}
+            href={`/${link === "About" || link === "Skills" ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
             onClick={() => setMenuOpen(false)}
             className="font-display text-[28px] font-semibold text-text-primary"
           >

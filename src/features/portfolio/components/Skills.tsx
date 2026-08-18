@@ -5,6 +5,7 @@ import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHe
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
+import { useTilt } from "@/shared/hooks/useTilt";
 
 const SKILLS = [
   "React",
@@ -33,22 +34,27 @@ export function Skills() {
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           {SKILLS.map((skill) => (
-            <div
-              key={skill}
-              data-skill-card
-              className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px]"
-            >
-              <TechIcon
-                name={skill}
-                className="h-[22px] w-[22px] md:h-6 md:w-6 text-text-primary"
-              />
-              <span className="font-mono text-[13px] md:text-[14px] text-text-secondary">{skill}</span>
-            </div>
+            <SkillCard key={skill} skill={skill} />
           ))}
         </div>
 
         <DetailCta href="/skills" route="/skills" />
       </div>
     </section>
+  );
+}
+
+function SkillCard({ skill }: { skill: string }) {
+  const tilt = useTilt<HTMLDivElement>();
+
+  return (
+    <div
+      {...tilt}
+      data-skill-card
+      className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px]"
+    >
+      <TechIcon name={skill} className="h-[22px] w-[22px] md:h-6 md:w-6 text-text-primary" />
+      <span className="font-mono text-[13px] md:text-[14px] text-text-secondary">{skill}</span>
+    </div>
   );
 }
