@@ -181,7 +181,7 @@ export function ToolsPage() {
     <PageLayout
       backLink="Back to Home"
       backHref="/"
-      breadcrumb="HOME / TOOLS"
+      breadcrumb="HOME / SKILLS"
       eyebrow="[ 02 — SKILLS & TECH STACK ]"
       title="The tools I reach for, and the ones I reach for first."
       deck="A working inventory rather than a badge wall — what each tool is actually used for, how often, and where I am still learning."

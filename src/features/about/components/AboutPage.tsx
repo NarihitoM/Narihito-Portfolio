@@ -137,7 +137,7 @@ export function AboutPage() {
         { key: "STATUS", value: "OPEN TO WORK" },
       ]}
       prev={{ direction: "HOME", title: "Portfolio index", href: "/" }}
-      next={{ direction: "NEXT", title: "Skills & tech stack", href: "/tools" }}
+      next={{ direction: "NEXT →", title: "Skills & tech stack", href: "/skills" }}
     >
       <div ref={contentRef} className="flex flex-col gap-12 md:gap-20">
         <p

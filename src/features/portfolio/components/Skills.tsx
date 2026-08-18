@@ -47,7 +47,7 @@ export function Skills() {
           ))}
         </div>
 
-        <DetailCta href="/tools" route="/tools" />
+        <DetailCta href="/skills" route="/skills" />
       </div>
     </section>
   );
