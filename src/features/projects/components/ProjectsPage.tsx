@@ -14,7 +14,7 @@ import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { FEATURED, FILTERS, PROJECTS } from "@/features/projects/data/data";
-import type { ProjectCard } from "../types/types";
+import type { FeaturedProject, ProjectCard } from "../types/types";
 
 function FeaturedBlock({ project }: { project: FeaturedProject }) {
   return (
