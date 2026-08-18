@@ -12,6 +12,7 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
+import { useTilt } from "@/shared/hooks/useTilt";
 import type { FeaturedProject, FilterTag, ProjectCard } from "../types/types";
 
 const FILTERS: FilterTag[] = [
@@ -190,8 +191,11 @@ function FeaturedBlock({ project }: { project: FeaturedProject }) {
 }
 
 function ProjectCardBlock({ project }: { project: ProjectCard }) {
+  const tilt = useTilt<HTMLDivElement>();
+
   return (
     <div
+      {...tilt}
       data-project-card
       className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
     >

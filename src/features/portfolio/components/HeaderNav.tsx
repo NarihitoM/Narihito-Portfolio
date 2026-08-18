@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap } from "@/shared/lib/gsap";
@@ -74,7 +75,16 @@ export function HeaderNav() {
       ref={headerRef}
       className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12"
     >
-      <span className="font-mono text-[16px] md:text-[17px] font-semibold text-text-primary">N / H</span>
+      <a href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
+        <Image
+          src="/Narihito.jpg"
+          alt="Narihito"
+          width={36}
+          height={36}
+          className="h-full w-full object-cover"
+          priority
+        />
+      </a>
 
       <nav className="hidden lg:flex items-center gap-9">
         <ul className="flex items-center gap-8">
