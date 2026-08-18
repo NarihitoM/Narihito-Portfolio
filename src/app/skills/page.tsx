@@ -1,5 +1,10 @@
-import { ToolsPage } from "@/features/tools/components/ToolsPage";
+import { SkillsPage } from "@/features/skills/components/SkillsPage";
+import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 
 export default function SkillsRoute() {
-  return <ToolsPage />;
+  return (
+    <SmoothScrollProvider>
+      <SkillsPage /> 
+    </SmoothScrollProvider>
+  );
 }

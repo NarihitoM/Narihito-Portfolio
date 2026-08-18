@@ -112,7 +112,7 @@ function ToolRow({ tool }: { tool: Tool }) {
   );
 }
 
-export function ToolsPage() {
+export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useGSAP(
