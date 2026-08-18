@@ -13,6 +13,7 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
+import { parseCountable } from "@/shared/lib/countUp";
 import type { Duty, Metric, Role } from "@/features/experience/types/types";
 
 const ROLES: Role[] = [
@@ -98,14 +99,6 @@ function DutyRow({ duty }: { duty: Duty }) {
   );
 }
 
-function parseCountable(value: string) {
-  const match = value.match(/^([+-]?)(\d+(?:\.\d+)?)(.*)$/);
-  if (!match) return null;
-  const [, prefix, num, suffix] = match;
-  if (suffix.includes("→")) return null;
-  return { prefix, target: parseFloat(num), suffix };
-}
-
 function MetricBlock({ metric }: { metric: Metric }) {
   const countable = parseCountable(metric.value);
 
@@ -117,6 +110,7 @@ function MetricBlock({ metric }: { metric: Metric }) {
             data-count-to={countable.target}
             data-count-prefix={countable.prefix}
             data-count-suffix={countable.suffix}
+            data-count-decimals={countable.decimals}
           >
             {countable.prefix}0{countable.suffix}
           </span>
@@ -243,6 +237,7 @@ export function ExperiencePage() {
           const target = parseFloat(el.dataset.countTo || "0");
           const prefix = el.dataset.countPrefix || "";
           const suffix = el.dataset.countSuffix || "";
+          const decimals = parseInt(el.dataset.countDecimals || "0", 10);
           const counter = { val: 0 };
 
           gsap.to(counter, {
@@ -251,7 +246,7 @@ export function ExperiencePage() {
             ease: "power2.out",
             scrollTrigger: { trigger: el, start: "top 90%", once: true },
             onUpdate: () => {
-              el.textContent = `${prefix}${Math.round(counter.val)}${suffix}`;
+              el.textContent = `${prefix}${counter.val.toFixed(decimals)}${suffix}`;
             },
           });
         });
