@@ -12,27 +12,7 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
-
-interface Duty {
-  index: string;
-  text: string;
-}
-
-interface Metric {
-  value: string;
-  label: string;
-}
-
-interface Role {
-  period: string;
-  type: string;
-  title: string;
-  org: string;
-  desc: string;
-  duties: Duty[];
-  impact: Metric[];
-  chips: string[];
-}
+import type { Duty, Metric, Role } from "@/features/experience/types/types";
 
 const ROLES: Role[] = [
   {
@@ -105,12 +85,12 @@ function DutyRow({ duty }: { duty: Duty }) {
   return (
     <div
       data-duty
-      className="flex items-start gap-[18px] border-t border-border-glow-soft py-3"
+      className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-3"
     >
       <span className="shrink-0 font-mono text-[13px] text-text-muted">
         {duty.index}
       </span>
-      <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
+      <span className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary">
         {duty.text}
       </span>
     </div>
@@ -120,7 +100,7 @@ function DutyRow({ duty }: { duty: Duty }) {
 function MetricBlock({ metric }: { metric: Metric }) {
   return (
     <div data-metric className="flex-1 flex flex-col gap-2 pt-6">
-      <span className="font-display text-[34px] font-semibold tracking-[-1px] text-text-primary">
+      <span className="font-display text-[28px] md:text-[34px] font-semibold tracking-[-1px] text-text-primary">
         {metric.value}
       </span>
       <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
@@ -134,9 +114,9 @@ function RoleBlock({ role }: { role: Role }) {
   return (
     <div
       data-role
-      className="flex gap-14 border-t border-border-glow pt-9"
+      className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow pt-9"
     >
-      <div className="w-[240px] shrink-0 flex flex-col gap-2.5">
+      <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
         <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
           {role.period}
         </span>
@@ -145,14 +125,14 @@ function RoleBlock({ role }: { role: Role }) {
         </span>
       </div>
 
-      <div className="flex-1 flex flex-col gap-[26px]">
-        <h3 className="font-display text-[34px] font-semibold leading-[1.15] tracking-[-1.2px] text-text-primary">
+      <div className="flex-1 flex flex-col gap-5 md:gap-[26px]">
+        <h3 className="font-display text-[26px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] md:tracking-[-1.2px] text-text-primary">
           {role.title}
         </h3>
         <span className="font-mono text-[13px] tracking-[0.6px] text-text-secondary">
           {role.org}
         </span>
-        <p className="max-w-[820px] font-body text-[16px] leading-[1.7] text-text-secondary">
+        <p className="max-w-[820px] font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">
           {role.desc}
         </p>
 
@@ -162,7 +142,7 @@ function RoleBlock({ role }: { role: Role }) {
           ))}
         </div>
 
-        <div className="flex gap-6 pt-2">
+        <div className="flex flex-col sm:flex-row gap-6 pt-2">
           {role.impact.map((metric) => (
             <MetricBlock key={metric.label} metric={metric} />
           ))}
@@ -290,15 +270,15 @@ export function ExperiencePage() {
             <div
               key={edu.name}
               data-edu-row
-              className="flex items-center gap-7 border-t border-border-glow-soft py-3.5"
+              className="flex flex-col md:flex-row md:items-center gap-1 md:gap-7 border-t border-border-glow-soft py-3.5"
             >
               <span className="w-[70px] shrink-0 font-mono text-[12px] tracking-[1px] text-text-muted">
                 {edu.year}
               </span>
-              <span className="flex-1 font-body text-[17px] font-medium text-text-primary">
+              <span className="flex-1 font-body text-[15px] md:text-[17px] font-medium text-text-primary">
                 {edu.name}
               </span>
-              <span className="w-[340px] shrink-0 text-right font-mono text-[11px] tracking-[0.6px] text-text-muted">
+              <span className="md:w-[340px] md:shrink-0 md:text-right font-mono text-[11px] tracking-[0.6px] text-text-muted">
                 {edu.org}
               </span>
             </div>
