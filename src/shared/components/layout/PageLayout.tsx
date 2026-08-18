@@ -7,8 +7,10 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
+import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
+const ROUTED_LINKS = ["About", "Skills", "Experience"];
 
 interface MetaItem {
   key: string;
@@ -162,7 +164,7 @@ export function PageLayout({
         <nav className="hidden lg:flex items-center gap-9">
           <ul className="flex items-center gap-8">
             {NAV_LINKS.map((link) => {
-              const href = `/${link === "About" || link === "Skills" ? link.toLowerCase() : `#${link.toLowerCase()}`}`;
+              const href = `/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`;
               const isActive = pathname === `/${link.toLowerCase()}`;
               return (
                 <li key={link}>
@@ -223,7 +225,7 @@ export function PageLayout({
           <Link
             key={link}
             data-drawer-item
-            href={`/${link === "About" || link === "Skills" ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
+            href={`/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
             onClick={() => setMenuOpen(false)}
             className="font-display text-[28px] font-semibold text-text-primary"
           >
@@ -321,6 +323,8 @@ export function PageLayout({
           </span>
         </div>
       </footer>
+
+      <ScrollToTop />
     </div>
   );
 }
