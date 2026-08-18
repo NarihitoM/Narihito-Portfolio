@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
+  duration,
   ease,
   gsap,
   registerGsap,
@@ -97,11 +98,31 @@ function DutyRow({ duty }: { duty: Duty }) {
   );
 }
 
+function parseCountable(value: string) {
+  const match = value.match(/^([+-]?)(\d+(?:\.\d+)?)(.*)$/);
+  if (!match) return null;
+  const [, prefix, num, suffix] = match;
+  if (suffix.includes("→")) return null;
+  return { prefix, target: parseFloat(num), suffix };
+}
+
 function MetricBlock({ metric }: { metric: Metric }) {
+  const countable = parseCountable(metric.value);
+
   return (
     <div data-metric className="flex-1 flex flex-col gap-2 pt-6">
       <span className="font-display text-[28px] md:text-[34px] font-semibold tracking-[-1px] text-text-primary">
-        {metric.value}
+        {countable ? (
+          <span
+            data-count-to={countable.target}
+            data-count-prefix={countable.prefix}
+            data-count-suffix={countable.suffix}
+          >
+            {countable.prefix}0{countable.suffix}
+          </span>
+        ) : (
+          metric.value
+        )}
       </span>
       <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
         {metric.label}
@@ -171,6 +192,10 @@ export function ExperiencePage() {
 
       mm.add(REDUCED_MOTION_QUERY, () => {
         gsap.set("[data-exp-reveal]", { opacity: 1, y: 0 });
+
+        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
+          el.textContent = `${el.dataset.countPrefix}${el.dataset.countTo}${el.dataset.countSuffix}`;
+        });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
@@ -212,6 +237,23 @@ export function ExperiencePage() {
           ease: ease.entrance,
           stagger: 0.06,
           scrollTrigger: { trigger: content, start: "top 55%" },
+        });
+
+        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
+          const target = parseFloat(el.dataset.countTo || "0");
+          const prefix = el.dataset.countPrefix || "";
+          const suffix = el.dataset.countSuffix || "";
+          const counter = { val: 0 };
+
+          gsap.to(counter, {
+            val: target,
+            duration: duration.countUp,
+            ease: "power2.out",
+            scrollTrigger: { trigger: el, start: "top 90%", once: true },
+            onUpdate: () => {
+              el.textContent = `${prefix}${Math.round(counter.val)}${suffix}`;
+            },
+          });
         });
 
         gsap.from("[data-edu-row]", {

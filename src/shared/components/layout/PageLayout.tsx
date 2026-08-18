@@ -314,10 +314,10 @@ export function PageLayout({
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 pt-5">
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
-            © 2026 Narihito. Built with care.
+            © 2026 Narihito. Built with love.
           </span>
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
-            Designed &amp; developed in Pencil
+            Designed &amp; Developed By Narihito.
           </span>
         </div>
       </footer>
