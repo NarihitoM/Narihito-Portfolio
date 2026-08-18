@@ -1,5 +1,10 @@
+import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ToolsPage } from "@/features/tools/components/ToolsPage";
 
 export default function ToolsRoute() {
-  return <ToolsPage />;
+  return (
+    <SmoothScrollProvider >
+      <ToolsPage />
+    </SmoothScrollProvider >
+  );
 }
