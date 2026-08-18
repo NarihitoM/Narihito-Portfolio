@@ -42,21 +42,21 @@ export function About() {
   );
 
   return (
-    <section id="about" ref={sectionRef} className="w-full bg-bg py-14 md:py-0 md:h-[780px]">
-      <div className="mx-5 md:mx-[120px] flex flex-col md:flex-row md:items-center gap-8 md:gap-[120px] md:h-full">
-        <div className="relative w-full md:w-[380px] h-[340px] md:h-[460px] shrink-0">
+    <section id="about" ref={sectionRef} className="w-full bg-bg py-14 md:py-16 lg:py-0 lg:h-[780px]">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full">
+        <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
-          <div className="relative h-full w-full md:h-[440px] md:w-[360px] flex items-center justify-center bg-portrait">
+          <div className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] flex items-center justify-center bg-portrait">
             <span className="font-mono text-[12px] text-text-muted">PORTRAIT</span>
           </div>
         </div>
 
-        <div className="flex flex-col gap-3.5 md:gap-6 md:w-[600px]">
+        <div className="flex flex-col gap-3.5 md:gap-6 min-w-0 flex-1 lg:max-w-[600px]">
           <SectionEyebrow>01 — ABOUT</SectionEyebrow>
-          <h2 className="font-display text-[30px] md:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.4px] text-text-primary md:w-[640px]">
+          <h2 className="font-display text-[30px] md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
             I&apos;m Hein Htet Aung, a full-stack developer who builds AI-native products.
           </h2>
-          <p ref={bodyRef} className="font-body text-[15px] md:text-[17px] leading-[1.65] text-text-secondary md:w-[600px]">
+          <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
             I&apos;m 21 and a 2nd-year Software Engineering / Computer Science student at the
             University of Information Technology. Alongside my studies, I design and build
             full-stack web applications end to end — React and Next.js on the front, Node and

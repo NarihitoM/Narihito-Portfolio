@@ -70,12 +70,12 @@ export function Testimonials() {
 
   return (
     <section id="testimonials" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px] overflow-hidden">
-      <div className="mx-5 md:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
         <SectionEyebrow>05 — WORDS</SectionEyebrow>
         <SectionHeading>What people say</SectionHeading>
       </div>
 
-      <div className="px-5 md:px-[120px] cursor-grab active:cursor-grabbing">
+      <div className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing">
         <div ref={trackRef} className="flex gap-3.5 md:gap-6">
           {TESTIMONIALS.map((t) => (
             <div
@@ -109,7 +109,7 @@ export function Testimonials() {
         ))}
       </div>
 
-      <div className="mx-5 md:mx-[120px] mt-6 md:mt-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
         <DetailCta href="/testimonials" route="/testimonials" />
       </div>
     </section>

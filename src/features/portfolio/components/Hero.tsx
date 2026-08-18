@@ -50,65 +50,61 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative w-full bg-bg-alt pt-[76px] md:pt-0 md:h-[940px] overflow-hidden">
-      <div className="hidden md:block absolute right-[120px] top-[150px] h-[576px] w-[576px] bg-surface">
+    <section ref={sectionRef} className="relative w-full bg-bg-alt pt-[76px] lg:pt-0 lg:h-[940px] overflow-hidden">
+      <div className="relative mx-5 md:mx-10 mt-9 mb-11 h-[300px] md:h-[380px] bg-surface lg:absolute lg:inset-auto lg:right-[120px] lg:top-[150px] lg:mx-0 lg:my-0 lg:h-[576px] lg:w-[576px]">
         <HeroSphere />
       </div>
 
-      <div className="flex flex-col md:hidden mx-5 mt-9 mb-11 h-[300px] bg-surface relative">
-        <HeroSphere />
-      </div>
-
-      <div className="mx-5 md:mx-0 md:absolute md:left-[120px] md:top-[236px] flex flex-col gap-4 md:gap-8 md:w-[760px]">
+      <div className="mx-5 md:mx-10 lg:mx-0 lg:absolute lg:left-[120px] lg:top-[236px] flex flex-col gap-4 md:gap-6 lg:gap-8 lg:w-[760px]">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
-          <span className="md:hidden">
+          <span className="lg:hidden">
             HEIN HTET AUNG — FULL-STACK
             <br />
             DEVELOPER, AI INTEGRATIONS
           </span>
-          <span className="hidden md:inline">HEIN HTET AUNG — FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
+          <span className="hidden lg:inline">HEIN HTET AUNG — FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
         </p>
 
         <h1
           ref={headlineRef}
           data-hero-fade
-          className="font-display text-[42px] md:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-3px] text-text-primary md:w-[660px]"
+          className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[660px]"
         >
           Building interfaces
           <br />
           that feel alive.
         </h1>
 
-        <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary md:w-[520px]">
+        <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
           Building faster, writing cleaner code, and shipping sooner — from data models to the
-          pixel that reacts to your <span className="md:hidden">touch</span>
-          <span className="hidden md:inline">cursor</span>.
+          pixel that reacts to your <span className="lg:hidden">touch</span>
+          <span className="hidden lg:inline">cursor</span>.
         </p>
 
-        <div data-hero-fade className="flex flex-col md:flex-row gap-2.5 md:gap-4">
-          <Button href="#projects" variant="primary" className="w-full md:w-auto h-[52px] md:h-auto">
+        <div data-hero-fade className="flex flex-col sm:flex-row gap-2.5 md:gap-4">
+          <Button href="#projects" variant="primary" className="w-full sm:w-auto h-[52px] md:h-auto">
             View Projects
           </Button>
-          <Button href="#contact" variant="secondary" className="w-full md:w-auto h-[52px] md:h-auto">
+          <Button href="#contact" variant="secondary" className="w-full sm:w-auto h-[52px] md:h-auto">
             Contact Me
           </Button>
         </div>
       </div>
 
-      <div className="hidden md:block absolute left-[120px] top-[838px] h-px w-[1200px] bg-border-glow-soft" />
+      <div className="hidden lg:block absolute left-[120px] top-[838px] h-px w-[1200px] bg-border-glow-soft" />
 
-      <div className="hidden md:grid absolute left-[400px] top-[860px] w-[920px] grid-cols-3 gap-8">
+      <div className="hidden lg:grid absolute left-[400px] top-[860px] w-[920px] grid-cols-3 gap-8">
         <MetaItem label="AVAILABLE" value="MAR 2026" />
         <MetaItem label="BASED IN" value="TOKYO REMOTE" />
         <MetaItem label="FOCUS" value="MOTION · 3D · PERF" />
       </div>
 
-      <div className="hidden md:flex absolute left-[120px] top-[860px] flex-col items-center gap-3">
+      <div className="hidden lg:flex absolute left-[120px] top-[860px] flex-col items-center gap-3">
         <span className="font-mono text-[11px] text-text-muted">SCROLL</span>
         <span className="h-9 w-px bg-cyan" />
       </div>
 
-      <div className="flex md:hidden flex-col items-center gap-2 py-8">
+      <div className="flex lg:hidden flex-col items-center gap-2 py-8">
         <span className="font-mono text-[10px] text-text-muted">SCROLL</span>
         <span className="h-7 w-px bg-cyan" />
       </div>

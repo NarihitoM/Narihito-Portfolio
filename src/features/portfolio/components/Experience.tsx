@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -33,35 +33,6 @@ const ENTRIES = [
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
-  const spineColRef = useRef<HTMLDivElement>(null);
-  const entryRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const dotRefs = useRef<(HTMLSpanElement | null)[]>([]);
-
-  useLayoutEffect(() => {
-    const spineCol = spineColRef.current;
-    if (!spineCol) return;
-
-    const positionDots = () => {
-      const spineTop = spineCol.getBoundingClientRect().top;
-      entryRefs.current.forEach((entry, i) => {
-        const dot = dotRefs.current[i];
-        if (!entry || !dot) return;
-        const dateRow = entry.querySelector("[data-entry-date]");
-        const target = dateRow ?? entry;
-        const rect = target.getBoundingClientRect();
-        const offset = rect.top - spineTop + rect.height / 2;
-        dot.style.top = `${offset}px`;
-      });
-    };
-
-    positionDots();
-
-    const observer = new ResizeObserver(positionDots);
-    observer.observe(spineCol);
-    entryRefs.current.forEach((entry) => entry && observer.observe(entry));
-
-    return () => observer.disconnect();
-  }, []);
 
   useGSAP(
     () => {
@@ -119,44 +90,37 @@ export function Experience() {
 
   return (
     <section id="experience" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
-      <div className="mx-5 flex flex-col gap-6 md:mx-[120px] md:gap-24">
-        <div className="flex flex-col gap-2 md:w-[599px] md:gap-3">
+      <div className="mx-5 flex flex-col gap-6 md:mx-10 lg:mx-[120px] md:gap-24">
+        <div className="flex flex-col gap-2 md:max-w-[599px] md:gap-3">
           <SectionEyebrow>03 - EXPERIENCE</SectionEyebrow>
           <SectionHeading>Where I&apos;ve worked</SectionHeading>
         </div>
 
-        <div className="flex flex-col gap-10 pl-1.5 md:flex-row md:gap-10 md:pl-0">
-          <div ref={spineColRef} className="relative hidden w-6 shrink-0 md:block">
+        <div className="flex flex-row gap-6 md:gap-10">
+          <div className="relative w-[9px] shrink-0 md:w-6">
             <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
             <div
               ref={spineFillRef}
               className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-violet"
             />
-            {ENTRIES.map((entry, index) => (
-              <span
-                key={entry.role}
-                ref={(el) => {
-                  dotRefs.current[index] = el;
-                }}
-                data-timeline-dot
-                className="absolute left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-[3px] border-bg bg-violet"
-              />
-            ))}
           </div>
 
           <div className="flex flex-1 flex-col gap-10">
             {ENTRIES.map((entry, index) => (
               <div
                 key={entry.role}
-                ref={(el) => {
-                  entryRefs.current[index] = el;
-                }}
                 data-timeline-entry
-                className={`flex flex-col gap-2 md:gap-2.5 ${
+                className={`relative flex flex-col gap-2 md:gap-2.5 ${
                   index > 0 ? "md:border-t md:border-border-glow-soft md:pt-10" : ""
                 }`}
               >
-                <div data-entry-date className="flex items-center gap-2">
+                <span
+                  data-timeline-dot
+                  className={`absolute left-[-52px] hidden h-3 w-3 rounded-full border-[3px] border-bg bg-violet md:block ${
+                    index > 0 ? "md:top-[42px]" : "md:top-[2px]"
+                  }`}
+                />
+                <div className="flex items-center gap-2">
                   <span className="h-[7px] w-[7px] rounded-full bg-violet md:hidden" />
                   <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
                 </div>
@@ -168,7 +132,7 @@ export function Experience() {
                   </span>
                 </h3>
                 <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
-                <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:w-[640px] md:text-[15px]">
+                <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
                   {entry.description}
                 </p>
               </div>

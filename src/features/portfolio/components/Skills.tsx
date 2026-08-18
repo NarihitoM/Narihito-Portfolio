@@ -25,13 +25,13 @@ export function Skills() {
 
   return (
     <section id="skills" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
-      <div className="mx-5 md:mx-[120px] flex flex-col gap-6 md:gap-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>02 — STACK</SectionEyebrow>
           <SectionHeading>Tools I reach for</SectionHeading>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
           {SKILLS.map((skill) => (
             <div
               key={skill}

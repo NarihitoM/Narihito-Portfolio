@@ -69,10 +69,10 @@ export function Contact() {
 
   return (
     <section id="contact" ref={sectionRef} className="w-full bg-bg-alt py-16 md:pt-[160px] md:pb-16">
-      <div className="mx-5 md:mx-[120px] flex flex-col items-center text-center gap-4.5 md:gap-14">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
         <SectionEyebrow>06 — CONTACT</SectionEyebrow>
 
-        <h2 className="font-display text-[34px] md:text-[72px] font-semibold leading-[1.1] md:leading-[1.04] tracking-[-1px] md:tracking-[-2.8px] text-text-primary md:w-[880px]">
+        <h2 className="font-display text-[34px] md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
           <span className="md:hidden">
             Let&apos;s build
             <br />
@@ -87,7 +87,7 @@ export function Contact() {
           </span>
         </h2>
 
-        <div className="flex flex-col items-center gap-3 w-full md:w-auto">
+        <div className="flex flex-col items-start md:items-center gap-3 w-full md:w-auto">
           <a
             ref={ctaRef}
             href="mailto:hello@narihito.dev"
@@ -111,7 +111,7 @@ export function Contact() {
         </div>
       </div>
 
-      <div className="mx-5 md:mx-[120px] mt-10 md:mt-14">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-10 md:mt-14">
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 pt-5">
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">

@@ -69,13 +69,14 @@ export function HeaderNav() {
   );
 
   return (
+    <>
     <header
       ref={headerRef}
       className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12"
     >
       <span className="font-mono text-[16px] md:text-[17px] font-semibold text-text-primary">N / H</span>
 
-      <nav className="hidden md:flex items-center gap-9">
+      <nav className="hidden lg:flex items-center gap-9">
         <ul className="flex items-center gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link}>
@@ -99,7 +100,7 @@ export function HeaderNav() {
         </Button>
       </nav>
 
-      <div className="flex md:hidden items-center gap-2">
+      <div className="flex lg:hidden items-center gap-2">
         <ModeToggle />
         <button
           type="button"
@@ -112,42 +113,54 @@ export function HeaderNav() {
           </svg>
         </button>
       </div>
-
-      <div
-        ref={drawerRef}
-        className="fixed inset-0 z-[60] hidden flex-col items-center justify-center gap-8 bg-bg-panel-solid md:hidden"
-      >
-        <button
-          type="button"
-          aria-label="Close menu"
-          onClick={() => setMenuOpen(false)}
-          className="absolute top-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M6 6l12 12M18 6L6 18" />
-          </svg>
-        </button>
-        {NAV_LINKS.map((link) => (
-          <a
-            key={link}
-            data-drawer-item
-            href={`#${link.toLowerCase()}`}
-            onClick={(event) => {
-              event.preventDefault();
-              setMenuOpen(false);
-              scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
-            }}
-            className="font-display text-[28px] font-semibold text-text-primary"
-          >
-            {link}
-          </a>
-        ))}
-        <div data-drawer-item>
-          <Button href="/resume.pdf" variant="primary">
-            Resume
-          </Button>
-        </div>
-      </div>
     </header>
+    <MobileDrawer drawerRef={drawerRef} onClose={() => setMenuOpen(false)} />
+    </>
+  );
+}
+
+function MobileDrawer({
+  drawerRef,
+  onClose,
+}: {
+  drawerRef: React.RefObject<HTMLDivElement | null>;
+  onClose: () => void;
+}) {
+  return (
+    <div
+      ref={drawerRef}
+      className="fixed inset-0 z-[60] hidden flex-col items-center justify-center gap-8 bg-bg-panel-solid lg:hidden"
+    >
+      <button
+        type="button"
+        aria-label="Close menu"
+        onClick={onClose}
+        className="absolute top-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
+      {NAV_LINKS.map((link) => (
+        <a
+          key={link}
+          data-drawer-item
+          href={`#${link.toLowerCase()}`}
+          onClick={(event) => {
+            event.preventDefault();
+            onClose();
+            scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
+          }}
+          className="font-display text-[28px] font-semibold text-text-primary"
+        >
+          {link}
+        </a>
+      ))}
+      <div data-drawer-item>
+        <Button href="/resume.pdf" variant="primary">
+          Resume
+        </Button>
+      </div>
+    </div>
   );
 }
