@@ -96,8 +96,8 @@ export function Experience() {
           <SectionHeading>Where I&apos;ve worked</SectionHeading>
         </div>
 
-        <div className="flex flex-row gap-6 md:gap-10">
-          <div className="relative w-[9px] shrink-0 md:w-6">
+        <div className="flex flex-row gap-6">
+          <div className="relative w-6 shrink-0">
             <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
             <div
               ref={spineFillRef}
@@ -106,24 +106,17 @@ export function Experience() {
           </div>
 
           <div className="flex flex-1 flex-col gap-10">
-            {ENTRIES.map((entry, index) => (
+            {ENTRIES.map((entry) => (
               <div
                 key={entry.role}
                 data-timeline-entry
-                className={`relative flex flex-col gap-2 md:gap-2.5 ${
-                  index > 0 ? "md:border-t md:border-border-glow-soft md:pt-10" : ""
-                }`}
+                className="relative flex flex-col gap-2 md:gap-2.5"
               >
                 <span
                   data-timeline-dot
-                  className={`absolute left-[-52px] hidden h-3 w-3 rounded-full border-[3px] border-bg bg-violet md:block ${
-                    index > 0 ? "md:top-[42px]" : "md:top-[2px]"
-                  }`}
+                  className="absolute left-[-42px] top-[2px] h-3 w-3 rounded-full border-[3px] border-bg bg-violet"
                 />
-                <div className="flex items-center gap-2">
-                  <span className="h-[7px] w-[7px] rounded-full bg-violet md:hidden" />
-                  <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
-                </div>
+                <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
 
                 <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
                   <span className="md:hidden block">{entry.role}</span>
