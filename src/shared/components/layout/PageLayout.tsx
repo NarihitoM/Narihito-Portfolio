@@ -1,6 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
@@ -10,7 +11,7 @@ import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
-const ROUTED_LINKS = ["About", "Skills", "Experience"];
+const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials"];
 
 interface MetaItem {
   key: string;
@@ -157,8 +158,15 @@ export function PageLayout({
   return (
     <div ref={pageRef} className="min-h-screen bg-bg">
       <header className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12">
-        <Link href="/" className="font-mono text-[16px] md:text-[17px] font-semibold text-text-primary">
-          N / H
+        <Link href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
+          <Image
+            src="/Narihito.jpg"
+            alt="Narihito"
+            width={36}
+            height={36}
+            className="h-full w-full object-cover"
+            priority
+          />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-9">

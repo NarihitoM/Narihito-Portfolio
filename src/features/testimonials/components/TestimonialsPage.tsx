@@ -1,0 +1,232 @@
+"use client";
+
+import { useRef } from "react";
+import { useGSAP } from "@gsap/react";
+import {
+  ease,
+  gsap,
+  registerGsap,
+  REDUCED_MOTION_QUERY,
+  NO_REDUCED_MOTION_QUERY,
+  SplitText,
+} from "@/shared/lib/gsap";
+import { PageLayout } from "@/shared/components/layout/PageLayout";
+import type { Stat, Testimonial } from "../types/types";
+
+const STATS: Stat[] = [
+  { value: "11", label: "PROJECTS DELIVERED" },
+  { value: "9", label: "CLIENTS SINCE 2022" },
+  { value: "67%", label: "CAME BACK FOR MORE" },
+  { value: "4.9", label: "AVERAGE RATING, 7 REVIEWS" },
+];
+
+const TESTIMONIALS: Testimonial[] = [
+  {
+    initials: "NP",
+    name: "Napat Prasert",
+    role: "Head of Product, Sansiri Stay",
+    quote:
+      "He rewrote our booking flow in six weeks and then spent the last one teaching our team how it worked. The handover doc is still the best thing in our repo.",
+    context: "SANSIRI STAY — BOOKING PLATFORM · 2026",
+  },
+  {
+    initials: "ML",
+    name: "Marisa Leung",
+    role: "Creative Director, Nimbus Digital",
+    quote:
+      "I have worked with developers who make things move. Narihito is the first one who argued with me about which things should not move. The site is calmer and it converts better.",
+    context: "NIMBUS AGENCY SITE · 2024",
+  },
+  {
+    initials: "TK",
+    name: "Thanaphan Kittisak",
+    role: "Operations Manager, Thanaphan Logistics",
+    quote:
+      "The dispatch dashboard went from a page we dreaded to the page the floor keeps open all day. He sat with the dispatchers every week until it fit how they actually work.",
+    context: "DISPATCH DASHBOARD REBUILD · 2023",
+  },
+  {
+    initials: "AC",
+    name: "Alice Chen",
+    role: "Founder, Fieldnote",
+    quote:
+      "Direct to the point of being blunt about scope. He told us two features would ship late and badly, and he was right. We cut them and launched on time.",
+    context: "FIELDNOTE APP · 2025",
+  },
+  {
+    initials: "SR",
+    name: "Suchada Rattana",
+    role: "Engineering Lead, Sook Health",
+    quote:
+      "Handed us a component library our junior devs could actually extend. Six months later it has not been rewritten once, which for us is unprecedented.",
+    context: "PATIENT INTAKE FLOW · 2023",
+  },
+  {
+    initials: "JD",
+    name: "James Delaney",
+    role: "Marketing Lead, Ora Studio",
+    quote:
+      "Fast, quiet, and slightly obsessive about load time. Our Lighthouse score went from 61 to 98 and nothing about the design got worse.",
+    context: "ORA STUDIO SITE · 2025",
+  },
+  {
+    initials: "PW",
+    name: "Pim Worrawat",
+    role: "Product Manager, Lamphu Rentals",
+    quote:
+      "He is not the developer to hire if you want someone who says yes to everything. He is the one to hire if you want it to still work in a year.",
+    context: "PROPERTY CONSOLE · 2024",
+  },
+];
+
+function StatBlock({ stat }: { stat: Stat }) {
+  return (
+    <div data-stat className="flex-1 flex flex-col gap-2">
+      <span className="font-display text-[36px] md:text-[44px] lg:text-[52px] font-semibold tracking-[-1px] text-text-primary">
+        {stat.value}
+      </span>
+      <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
+        {stat.label}
+      </span>
+    </div>
+  );
+}
+
+function QuoteCard({ testimonial }: { testimonial: Testimonial }) {
+  return (
+    <div
+      data-quote-card
+      className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 transition-colors hover:border-border-glow"
+    >
+      <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-primary italic">
+        &ldquo;{testimonial.quote}&rdquo;
+      </p>
+      <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
+          {testimonial.initials}
+        </div>
+        <div className="flex flex-col gap-1">
+          <span className="font-body text-[14px] font-medium text-text-primary">
+            {testimonial.name}
+          </span>
+          <span className="font-mono text-[11px] tracking-[0.5px] text-text-muted">
+            {testimonial.role}
+          </span>
+        </div>
+      </div>
+      <span className="font-mono text-[10px] tracking-[1.5px] text-text-muted">
+        CONTEXT — {testimonial.context}
+      </span>
+    </div>
+  );
+}
+
+export function TestimonialsPage() {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const content = contentRef.current;
+      if (!content) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set("[data-testimonials-reveal]", { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        const lead = content.querySelector("[data-lead]");
+        if (lead) {
+          const split = new SplitText(lead, { type: "lines" });
+          gsap.from(split.lines, {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            ease: ease.entrance,
+            stagger: 0.06,
+            scrollTrigger: { trigger: lead },
+          });
+        }
+
+        gsap.from("[data-stat]", {
+          opacity: 0,
+          y: 20,
+          duration: 0.5,
+          ease: ease.entrance,
+          stagger: 0.08,
+          scrollTrigger: { trigger: "[data-stats]", start: "top 80%" },
+        });
+
+        gsap.from("[data-quote-card]", {
+          opacity: 0,
+          y: 24,
+          duration: 0.6,
+          ease: ease.entrance,
+          stagger: 0.1,
+          scrollTrigger: { trigger: "[data-list]", start: "top 75%" },
+        });
+
+        return undefined;
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef },
+  );
+
+  return (
+    <PageLayout
+      backLink="Back to Home"
+      backHref="/"
+      breadcrumb="HOME / TESTIMONIALS"
+      eyebrow="[ 05 — TESTIMONIALS ]"
+      title="What the people who paid the invoice said afterwards."
+      deck="Unedited feedback from clients and colleagues, with the project each one came from — including the parts that were not entirely flattering."
+      meta={[
+        { key: "COLLECTED", value: "2022 — 2026" },
+        { key: "VOICES", value: "SEVEN" },
+        { key: "REPEAT WORK", value: "6 OF 9 CLIENTS" },
+        { key: "AVERAGE", value: "4.9 / 5" },
+      ]}
+      prev={{ direction: "← HOME", title: "Projects", href: "/projects" }}
+      next={{ direction: "NEXT →", title: "About", href: "/about" }}
+    >
+      <div ref={contentRef} className="flex flex-col gap-16">
+        <p
+          data-lead
+          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+        >
+          I collect feedback the way some people collect stamps — regularly and
+          with a critical eye. What follows is every review that shaped how I
+          work, including the ones that made me change a process.
+        </p>
+
+        <div
+          data-stats
+          className="flex flex-col sm:flex-row gap-8 sm:gap-6"
+        >
+          {STATS.map((stat) => (
+            <StatBlock key={stat.label} stat={stat} />
+          ))}
+        </div>
+
+        <div className="border-t border-border-glow-soft pt-8">
+          <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+            ALL FEEDBACK — SEVEN VOICES
+          </span>
+        </div>
+
+        <div
+          data-list
+          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+        >
+          {TESTIMONIALS.map((testimonial) => (
+            <QuoteCard key={testimonial.name} testimonial={testimonial} />
+          ))}
+        </div>
+      </div>
+    </PageLayout>
+  );
+}
