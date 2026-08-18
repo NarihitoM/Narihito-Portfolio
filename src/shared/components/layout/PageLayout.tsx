@@ -1,6 +1,5 @@
 "use client";
 
-import type { ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -9,33 +8,10 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
+import type { PageLayoutProps } from "@/shared/types/types";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
 const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials"];
-
-interface MetaItem {
-  key: string;
-  value: string;
-}
-
-interface NavEntry {
-  direction: string;
-  title: string;
-  href: string;
-}
-
-interface PageLayoutProps {
-  children: ReactNode;
-  backLink: string;
-  backHref: string;
-  breadcrumb: string;
-  eyebrow: string;
-  title: string;
-  deck: string;
-  meta: MetaItem[];
-  prev: NavEntry;
-  next: NavEntry;
-}
 
 export function PageLayout({
   children,
