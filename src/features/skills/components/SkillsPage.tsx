@@ -12,59 +12,11 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { Category, Tool } from "../types/types";
-
-const CATEGORIES: Category[] = [
-  {
-    eyebrow: "FRONTEND",
-    note: "The layer I spend most of the week in.",
-    tools: [
-      { name: "React", icon: "react", note: "Component architecture, hooks, and server components in Next.js app router.", frequency: "DAILY", proficiency: 5 },
-      { name: "TypeScript", icon: "typescript", note: "Strict mode, no escape hatches. Types as the first line of documentation.", frequency: "DAILY", proficiency: 5 },
-      { name: "Next.js", icon: "next.js", note: "App router, server actions, route-level loading and error states.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "Tailwind CSS", icon: "tailwind", note: "Token-driven utility work, paired with a small set of shared primitives.", frequency: "DAILY", proficiency: 5 },
-      { name: "Zustand / TanStack Query", icon: "zustand", note: "Client state kept thin; server state kept where it belongs.", frequency: "WEEKLY", proficiency: 4 },
-    ],
-  },
-  {
-    eyebrow: "BACKEND",
-    note: "Where I started, and still comfortable.",
-    tools: [
-      { name: "Node + Express", icon: "node.js", note: "REST services split by feature module: controller, service, route, validation.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "PHP", icon: "php", note: "Two years of production work. Still the fastest way to ship a small CMS-backed site.", frequency: "OCCASIONAL", proficiency: 3 },
-      { name: "REST + Zod", icon: "rest", note: "Contract-first endpoints with runtime validation at the trust boundary.", frequency: "WEEKLY", proficiency: 4 },
-    ],
-  },
-  {
-    eyebrow: "DATABASE",
-    note: "Modelling before migrating.",
-    tools: [
-      { name: "PostgreSQL", icon: "postgresql", note: "Relational modelling, indexing, and query plans when a page gets slow.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "Prisma", icon: "prisma", note: "Schema split by domain, typed access, migrations reviewed before they run.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "MySQL", icon: "mysql", note: "Legacy estates and reporting queries.", frequency: "OCCASIONAL", proficiency: 3 },
-      { name: "Redis", icon: "redis", note: "Session storage and rate limiting. Nothing that cannot be rebuilt.", frequency: "OCCASIONAL", proficiency: 3 },
-    ],
-  },
-  {
-    eyebrow: "DEVOPS",
-    note: "Enough to own what I ship.",
-    tools: [
-      { name: "Docker", icon: "docker", note: "Compose files for local parity; single-stage images unless size actually hurts.", frequency: "WEEKLY", proficiency: 3 },
-      { name: "GitHub Actions", icon: "github", note: "Lint, typecheck, test, deploy. Fails loudly and early.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "Vercel / Railway", icon: "vercel", note: "Preview deployments on every branch so review happens on the real thing.", frequency: "WEEKLY", proficiency: 4 },
-    ],
-  },
-  {
-    eyebrow: "MOTION",
-    note: "The part clients remember.",
-    tools: [
-      { name: "GSAP", icon: "gsap", note: "ScrollTrigger sequences, timeline choreography, and pinned sections.", frequency: "DAILY", proficiency: 5 },
-      { name: "Three.js", icon: "three.js", note: "Lightweight WebGL scenes — never more geometry than the story needs.", frequency: "OCCASIONAL", proficiency: 3 },
-      { name: "Lenis", icon: "lenis", note: "Smooth scroll that respects reduced-motion and never hijacks input.", frequency: "WEEKLY", proficiency: 4 },
-      { name: "Framer Motion", icon: "framer", note: "Component-level state transitions where GSAP would be overkill.", frequency: "WEEKLY", proficiency: 4 },
-    ],
-  },
-];
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { useSkills } from "../hooks/useSkills";
+import { useSkillsUI } from "../store/skillsUIStore";
+import { Tool } from "../types/types";
 
 const LEARNING = [
   { name: "Rust", desc: "Reading the book slowly, writing small CLI tools. Not in production, not pretending otherwise." },
@@ -116,6 +68,19 @@ function ToolRow({ tool }: { tool: Tool }) {
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { categories: allCategories, isLoading, isError, refetch } = useSkills();
+  const { activeCategory, setActiveCategory } = useSkillsUI();
+  const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
+  const primaryStack = allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
+  const pageMeta = [
+    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "CATEGORIES", value: String(allCategories.length) },
+    { key: "TOOLS LISTED", value: String(toolCount) },
+    { key: "PRIMARY", value: primaryStack.toUpperCase() },
+  ];
+
+  const CATEGORIES =
+    activeCategory === "All" ? allCategories : allCategories.filter((c) => c.eyebrow === activeCategory);
 
   useGSAP(
     () => {
@@ -176,7 +141,7 @@ export function SkillsPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [CATEGORIES] },
   );
 
   return (
@@ -187,12 +152,7 @@ export function SkillsPage() {
       eyebrow="[ 02 — SKILLS & TECH STACK ]"
       title="The tools I reach for, and the ones I reach for first."
       deck="A working inventory rather than a badge wall — what each tool is actually used for, how often, and where I am still learning."
-      meta={[
-        { key: "UPDATED", value: "MAR 2026" },
-        { key: "CATEGORIES", value: "FIVE" },
-        { key: "TOOLS LISTED", value: "24" },
-        { key: "PRIMARY", value: "TS + REACT" },
-      ]}
+      meta={pageMeta}
       prev={{ direction: "← HOME", title: "About", href: "/about" }}
       next={{ direction: "NEXT →", title: "Experience", href: "/experience" }}
     >
@@ -206,21 +166,49 @@ export function SkillsPage() {
           a dependency is that it saves more than the few lines it replaces.
         </p>
 
-        {CATEGORIES.map((cat) => (
-          <div key={cat.eyebrow} data-tools-category className="flex flex-col gap-[18px]">
-            <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
-              <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                {cat.eyebrow}
-              </span>
-              <span className="font-body text-[15px] text-text-muted">
-                {cat.note}
-              </span>
-            </div>
-            {cat.tools.map((tool) => (
-              <ToolRow key={tool.name} tool={tool} />
+        {!isLoading && !isError && allCategories.length > 0 && (
+          <div className="flex flex-wrap gap-3">
+            {["All", ...allCategories.map((c) => c.eyebrow)].map((label) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setActiveCategory(label)}
+                className={`rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-colors hover:border-violet hover:text-text-primary ${
+                  activeCategory === label
+                    ? "border-violet bg-surface text-text-primary"
+                    : "border-border-glow-soft bg-surface text-text-secondary"
+                }`}
+              >
+                {label}
+              </button>
             ))}
           </div>
-        ))}
+        )}
+
+        {isLoading ? (
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-[200px] w-full" />
+            <Skeleton className="h-[200px] w-full" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          CATEGORIES.map((cat) => (
+            <div key={cat.eyebrow} data-tools-category className="flex flex-col gap-[18px]">
+              <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
+                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                  {cat.eyebrow}
+                </span>
+                <span className="font-body text-[15px] text-text-muted">
+                  {cat.note}
+                </span>
+              </div>
+              {cat.tools.map((tool) => (
+                <ToolRow key={tool.name} tool={tool} />
+              ))}
+            </div>
+          ))
+        )}
 
         <div
           data-learning

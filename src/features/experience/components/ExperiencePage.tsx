@@ -14,7 +14,10 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { parseCountable } from "@/shared/lib/countUp";
-import { EDUCATION, ROLES } from "@/features/experience/data/data";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { useExperience } from "@/features/experience/hooks/useExperience";
+import { useExperienceUI } from "@/features/experience/store/experienceUIStore";
 import type { Duty, Metric, Role } from "@/features/experience/types/types";
 
 function DutyRow({ duty }: { duty: Duty }) {
@@ -59,7 +62,7 @@ function MetricBlock({ metric }: { metric: Metric }) {
   );
 }
 
-function RoleBlock({ role }: { role: Role }) {
+function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boolean; onToggle: () => void }) {
   return (
     <div
       data-role
@@ -75,9 +78,18 @@ function RoleBlock({ role }: { role: Role }) {
       </div>
 
       <div className="flex-1 flex flex-col gap-5 md:gap-[26px]">
-        <h3 className="font-display text-[26px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] md:tracking-[-1.2px] text-text-primary">
-          {role.title}
-        </h3>
+        <div className="flex items-start justify-between gap-4">
+          <h3 className="font-display text-[26px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] md:tracking-[-1.2px] text-text-primary">
+            {role.title}
+          </h3>
+          <button
+            type="button"
+            onClick={onToggle}
+            className="shrink-0 font-mono text-[11px] tracking-[1px] text-text-muted transition-colors hover:text-text-primary"
+          >
+            {collapsed ? "SHOW DETAILS" : "HIDE DETAILS"}
+          </button>
+        </div>
         <span className="font-mono text-[13px] tracking-[0.6px] text-text-secondary">
           {role.org}
         </span>
@@ -85,23 +97,27 @@ function RoleBlock({ role }: { role: Role }) {
           {role.desc}
         </p>
 
-        <div className="flex flex-col">
-          {role.duties.map((duty) => (
-            <DutyRow key={duty.index} duty={duty} />
-          ))}
-        </div>
+        {!collapsed && (
+          <>
+            <div className="flex flex-col">
+              {role.duties.map((duty) => (
+                <DutyRow key={duty.index} duty={duty} />
+              ))}
+            </div>
 
-        <div className="flex flex-col sm:flex-row gap-6 pt-2">
-          {role.impact.map((metric) => (
-            <MetricBlock key={metric.label} metric={metric} />
-          ))}
-        </div>
+            <div className="flex flex-col sm:flex-row gap-6 pt-2">
+              {role.impact.map((metric) => (
+                <MetricBlock key={metric.label} metric={metric} />
+              ))}
+            </div>
 
-        <div className="flex flex-wrap gap-2.5">
-          {role.chips.map((chip) => (
-            <Chip key={chip}>{chip}</Chip>
-          ))}
-        </div>
+            <div className="flex flex-wrap gap-2.5">
+              {role.chips.map((chip) => (
+                <Chip key={chip}>{chip}</Chip>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
@@ -109,6 +125,14 @@ function RoleBlock({ role }: { role: Role }) {
 
 export function ExperiencePage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { roles: ROLES, education: EDUCATION, isLoading, isError, refetch } = useExperience();
+  const { collapsedRoles, toggleRole } = useExperienceUI();
+  const currentRole = ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
+  const pageMeta = [
+    { key: "ROLES", value: String(ROLES.length) },
+    { key: "CURRENT", value: currentRole?.title.toUpperCase() ?? "Loading" },
+    { key: "EDUCATION", value: String(EDUCATION.length) },
+  ];
 
   useGSAP(
     () => {
@@ -199,7 +223,7 @@ export function ExperiencePage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [ROLES, EDUCATION] },
   );
 
   return (
@@ -210,12 +234,7 @@ export function ExperiencePage() {
       eyebrow="[ 03 — EXPERIENCE ]"
       title="Five years, three employers, and the lessons that outlasted each one."
       deck="Full role histories with what I owned, what shipped, and the numbers that moved — plus where the formal training came from."
-      meta={[
-        { key: "SPAN", value: "2021 — PRESENT" },
-        { key: "ROLES", value: "THREE" },
-        { key: "CURRENT", value: "INDEPENDENT" },
-        { key: "AVAILABILITY", value: "Q2 2026" },
-      ]}
+      meta={pageMeta}
       prev={{ direction: "← HOME", title: "Skills & tech stack", href: "/skills" }}
       next={{ direction: "NEXT →", title: "Projects", href: "/projects" }}
     >
@@ -229,9 +248,23 @@ export function ExperiencePage() {
           worked inside, and the results I can still point at.
         </p>
 
-        {ROLES.map((role) => (
-          <RoleBlock key={role.title} role={role} />
-        ))}
+        {isLoading ? (
+          <div className="flex flex-col gap-6">
+            <Skeleton className="h-[240px] w-full" />
+            <Skeleton className="h-[240px] w-full" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          ROLES.map((role) => (
+            <RoleBlock
+              key={role.title}
+              role={role}
+              collapsed={collapsedRoles.has(role.title)}
+              onToggle={() => toggleRole(role.title)}
+            />
+          ))
+        )}
 
         <div data-education className="flex flex-col gap-5 border-t border-border-glow pt-9">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">

@@ -11,3 +11,20 @@ export interface Route {
 }
 
 export type Interest = string;
+
+export interface RawPrinciple {
+  num: string;
+  title: string;
+  desc: string;
+}
+
+export interface RawRoute {
+  year: string;
+  title: string;
+  desc?: string;
+}
+
+export interface AboutResponse {
+  principles: RawPrinciple[];
+  routes: RawRoute[];
+}

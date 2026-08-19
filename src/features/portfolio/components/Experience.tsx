@@ -5,34 +5,12 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
-
-const ENTRIES = [
-  {
-    dates: "2024 - Present",
-    role: "Senior Full-Stack Engineer",
-    company: "Northwind Labs",
-    description:
-      "Leading the rebuild of the core product on Next.js and a Node/Postgres service layer, cutting median page load by 60%.",
-  },
-  {
-    dates: "2022 - 2024",
-    role: "Full-Stack Developer",
-    company: "Fieldstone",
-    description:
-      "Owned the design system and the API gateway; shipped real-time collaboration features used by 50k weekly users.",
-  },
-  {
-    dates: "2020 - 2022",
-    role: "Frontend Developer",
-    company: "Loop & Co.",
-    description:
-      "Built the marketing site and internal tools, introduced motion design patterns still used across the product.",
-  },
-];
+import { useExperiencePreview } from "@/features/experience/hooks/useExperiencePreview";
 
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
+  const { entries: ENTRIES } = useExperiencePreview(3);
 
   useGSAP(
     () => {
@@ -85,7 +63,7 @@ export function Experience() {
 
       return () => mm.revert();
     },
-    { scope: sectionRef },
+    { scope: sectionRef, dependencies: [ENTRIES] },
   );
 
   return (

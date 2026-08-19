@@ -12,10 +12,20 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
-import { INTERESTS, PRINCIPLES, ROUTE } from "@/features/about/data/data";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { useAbout } from "@/features/about/hooks/useAbout";
 
 export function AboutPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { principles: PRINCIPLES, routes: ROUTE, interests: INTERESTS, isLoading, isError, refetch } = useAbout();
+  const latestRouteYear = ROUTE.map((route) => route.year).sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
+  const pageMeta = [
+    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "PRINCIPLES", value: String(PRINCIPLES.length) },
+    { key: "ROUTE", value: String(ROUTE.length) },
+    { key: "LATEST", value: latestRouteYear },
+  ];
 
   useGSAP(
     () => {
@@ -96,7 +106,7 @@ export function AboutPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [PRINCIPLES, ROUTE] },
   );
 
   return (
@@ -107,12 +117,7 @@ export function AboutPage() {
       eyebrow="[ 01 — ABOUT ]"
       title="A developer who treats motion as structure, not decoration."
       deck="Five years of building interfaces in Bangkok — how I got here, how I work, and what I care about when the deadline is close."
-      meta={[
-        { key: "BASED", value: "Myanmar, Yg" },
-        { key: "FOCUS", value: "FRONTEND + BACKEND + MOTION" },
-        { key: "PRACTICING", value: "SINCE 2025" },
-        { key: "STATUS", value: "OPEN TO WORK" },
-      ]}
+      meta={pageMeta}
       prev={{ direction: "HOME", title: "Portfolio index", href: "/" }}
       next={{ direction: "NEXT →", title: "Skills & tech stack", href: "/skills" }}
     >
@@ -157,25 +162,35 @@ export function AboutPage() {
             <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet mb-6">
               HOW I WORK
             </p>
-            {PRINCIPLES.map((p) => (
-              <div
-                key={p.key}
-                data-principle-row
-                className="flex gap-5 py-5 border-t border-border-glow-soft"
-              >
-                <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
-                  {p.key}
-                </span>
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-display text-[17px] font-semibold text-text-primary">
-                    {p.title}
-                  </h3>
-                  <p className="font-body text-[14px] leading-[1.55] text-text-secondary">
-                    {p.desc}
-                  </p>
-                </div>
+            {isLoading ? (
+              <div className="flex flex-col gap-4 py-5">
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
+                <Skeleton className="h-16 w-full" />
               </div>
-            ))}
+            ) : isError ? (
+              <ErrorState onRetry={refetch} />
+            ) : (
+              PRINCIPLES.map((p) => (
+                <div
+                  key={p.key}
+                  data-principle-row
+                  className="flex gap-5 py-5 border-t border-border-glow-soft"
+                >
+                  <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
+                    {p.key}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                      {p.title}
+                    </h3>
+                    <p className="font-body text-[14px] leading-[1.55] text-text-secondary">
+                      {p.desc}
+                    </p>
+                  </div>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -183,25 +198,34 @@ export function AboutPage() {
           <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
             THE ROUTE HERE
           </p>
-          {ROUTE.map((r) => (
-            <div
-              key={r.year}
-              data-route-row
-              className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
-            >
-              <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
-                {r.year}
-              </span>
-              <div className="flex flex-col gap-1">
-                <h3 className="font-display text-[17px] font-semibold text-text-primary">
-                  {r.title}
-                </h3>
-                <p className="font-body text-[14px] leading-[1.55] text-text-secondary max-w-[640px]">
-                  {r.desc}
-                </p>
-              </div>
+          {isLoading ? (
+            <div className="flex flex-col gap-4 py-5">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
             </div>
-          ))}
+          ) : isError ? (
+            <ErrorState onRetry={refetch} />
+          ) : (
+            ROUTE.map((r) => (
+              <div
+                key={r.year}
+                data-route-row
+                className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
+              >
+                <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
+                  {r.year}
+                </span>
+                <div className="flex flex-col gap-1">
+                  <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                    {r.title}
+                  </h3>
+                  <p className="font-body text-[14px] leading-[1.55] text-text-secondary max-w-[640px]">
+                    {r.desc}
+                  </p>
+                </div>
+              </div>
+            ))
+          )}
         </div>
 
         <div data-interests className="flex flex-col gap-5" data-about-reveal>

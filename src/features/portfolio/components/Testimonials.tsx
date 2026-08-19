@@ -1,34 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { Draggable, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
-
-const TESTIMONIALS = [
-  {
-    quote:
-      "Rare to find someone who cares equally about the API contract and the easing curve on a modal.",
-    name: "Mei Tanaka",
-    role: "Product Lead, Northwind Labs",
-  },
-  {
-    quote: "Shipped our real-time layer two weeks early and it hasn't needed a hotfix since.",
-    name: "Daniel Osei",
-    role: "CTO, Fieldstone",
-  },
-  {
-    quote: "The kind of engineer who leaves a codebase better than a design system.",
-    name: "Priya Nair",
-    role: "Design Director, Loop & Co.",
-  },
-];
+import { useTestimonialsPreview } from "@/features/testimonials/hooks/useTestimonialsPreview";
+import { useTestimonialsUI } from "@/features/testimonials/store/testimonialsUIStore";
 
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
+  const { activeIndex, setActiveIndex } = useTestimonialsUI();
+  const { testimonials: TESTIMONIALS } = useTestimonialsPreview(3);
 
   useGSAP(
     () => {
@@ -65,7 +49,7 @@ export function Testimonials() {
 
       return () => draggable.kill();
     },
-    { scope: sectionRef, dependencies: [] },
+    { scope: sectionRef, dependencies: [TESTIMONIALS] },
   );
 
   return (

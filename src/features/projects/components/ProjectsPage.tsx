@@ -13,7 +13,10 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { useTilt } from "@/shared/hooks/useTilt";
-import { FEATURED, FILTERS, PROJECTS } from "@/features/projects/data/data";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { useProjects } from "../hooks/useProjects";
+import { useProjectsUI } from "../store/projectsUIStore";
 import type { FeaturedProject, ProjectCard } from "../types/types";
 
 function FeaturedBlock({ project }: { project: FeaturedProject }) {
@@ -114,6 +117,20 @@ function ProjectCardBlock({ project }: { project: ProjectCard }) {
 
 export function ProjectsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { filters: FILTERS, featured: FEATURED, projects: allProjects, isLoading, isError, refetch } = useProjects();
+  const { filter, setFilter } = useProjectsUI();
+  const newestYear = allProjects
+    .map((project) => project.year)
+    .sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
+  const inBuildCount = allProjects.filter((project) => project.status.toLowerCase().includes("build")).length;
+  const pageMeta = [
+    { key: "INDEX", value: `${allProjects.length} PROJECTS` },
+    { key: "FILTERS", value: `${Math.max(FILTERS.length - 1, 0)} TAGS` },
+    { key: "NEWEST", value: newestYear },
+    { key: "IN BUILD", value: String(inBuildCount) },
+  ];
+
+  const PROJECTS = filter === "All" ? allProjects : allProjects.filter((p) => p.category === filter);
 
   useGSAP(
     () => {
@@ -172,7 +189,7 @@ export function ProjectsPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [PROJECTS, FEATURED, FILTERS] },
   );
 
   return (
@@ -183,12 +200,7 @@ export function ProjectsPage() {
       eyebrow="[ 04 — PROJECTS ]"
       title="Eleven builds, and what each one was actually solving."
       deck="The full index — client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
-      meta={[
-        { key: "INDEX", value: "11 PROJECTS" },
-        { key: "FILTERS", value: "5 TAGS" },
-        { key: "NEWEST", value: "MAR 2026" },
-        { key: "STATUS", value: "2 IN BUILD" },
-      ]}
+      meta={pageMeta}
       prev={{ direction: "← HOME", title: "Experience", href: "/experience" }}
       next={{ direction: "NEXT →", title: "Testimonials", href: "/testimonials" }}
     >
@@ -206,29 +218,47 @@ export function ProjectsPage() {
           data-filters
           className="flex flex-wrap gap-3"
         >
-          {FILTERS.map((filter) => (
+          {FILTERS.map((tag) => (
             <button
-              key={filter.label}
+              key={tag.label}
               data-filter-tag
               type="button"
-              className="flex items-center gap-2 rounded-full border border-border-glow-soft bg-surface px-4 py-2 font-mono text-[11px] tracking-[1px] text-text-secondary transition-colors hover:border-violet hover:text-text-primary"
+              onClick={() => setFilter(tag.label)}
+              className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-colors hover:border-violet hover:text-text-primary ${
+                filter === tag.label
+                  ? "border-violet bg-surface text-text-primary"
+                  : "border-border-glow-soft bg-surface text-text-secondary"
+              }`}
             >
-              <span>{filter.label}</span>
-              <span className="text-text-muted">({filter.count})</span>
+              <span>{tag.label}</span>
+              <span className="text-text-muted">({tag.count})</span>
             </button>
           ))}
         </div>
 
-        <FeaturedBlock project={FEATURED} />
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            <Skeleton className="h-[280px] w-full" />
+            <Skeleton className="h-[280px] w-full" />
+            <Skeleton className="h-[280px] w-full" />
+            <Skeleton className="h-[280px] w-full" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          <>
+            {FEATURED && <FeaturedBlock project={FEATURED} />}
 
-        <div
-          data-grid
-          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-        >
-          {PROJECTS.map((project) => (
-            <ProjectCardBlock key={project.title} project={project} />
-          ))}
-        </div>
+            <div
+              data-grid
+              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+            >
+              {PROJECTS.map((project) => (
+                <ProjectCardBlock key={project.title} project={project} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </PageLayout>
   );

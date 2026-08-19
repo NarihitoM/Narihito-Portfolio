@@ -11,3 +11,8 @@ export interface Category {
   note: string;
   tools: Tool[];
 }
+
+export interface RawSkillGroup {
+  label: string;
+  items: { name: string }[];
+}

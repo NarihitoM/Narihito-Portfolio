@@ -6,23 +6,13 @@ import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
-
-const SKILLS = [
-  "React",
-  "TypeScript",
-  "Node.js",
-  "Next.js",
-  "PostgreSQL",
-  "GraphQL",
-  "Three.js",
-  "GSAP",
-  "Docker",
-  "AWS",
-];
+import { useSkills } from "@/features/skills/hooks/useSkills";
 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
-  useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16 });
+  const { categories } = useSkills();
+  const SKILLS = categories.flatMap((c) => c.tools.map((t) => t.name)).slice(0, 10);
+  useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS] });
 
   return (
     <section id="skills" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">

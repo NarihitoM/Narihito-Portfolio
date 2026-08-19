@@ -5,37 +5,18 @@ import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHe
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { ProjectCard } from "./ProjectCard";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
-
-const PROJECTS = [
-  {
-    name: "Orbit",
-    title: "Orbit",
-    description: "Real-time collaborative whiteboard with CRDT sync and WebGL rendering.",
-    tags: ["React", "WebGL", "CRDT"],
-  },
-  {
-    name: "Ledgerline",
-    title: "Ledgerline",
-    description: "A ledger-grade finance dashboard with anomaly detection on transaction streams.",
-    tags: ["Next.js", "Node", "Postgres"],
-  },
-  {
-    name: "Kinet",
-    title: "Kinet",
-    description: "Motion-first component library used across six production products.",
-    tags: ["TypeScript", "GSAP", "Storybook"],
-  },
-  {
-    name: "Fathom",
-    title: "Fathom",
-    description: "Self-hosted analytics with sub-100ms query latency at 10M events/day.",
-    tags: ["Rust", "ClickHouse", "Next.js"],
-  },
-];
+import { useProjectsPreview } from "@/features/projects/hooks/useProjectsPreview";
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08 });
+  const { projects: previewProjects } = useProjectsPreview(4);
+  const PROJECTS = previewProjects.map((p) => ({
+    name: p.title,
+    title: p.title,
+    description: p.description,
+    tags: p.chips,
+  }));
+  useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS] });
 
   return (
     <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">

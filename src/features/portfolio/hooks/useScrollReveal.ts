@@ -9,11 +9,12 @@ type RevealOptions = {
   y?: number;
   staggerAmount?: number;
   delay?: number;
+  dependencies?: unknown[];
 };
 
 export function useScrollReveal(
   scope: RefObject<HTMLElement | null>,
-  { selector = "[data-reveal]", y = 24, staggerAmount = stagger.default, delay = 0 }: RevealOptions = {},
+  { selector = "[data-reveal]", y = 24, staggerAmount = stagger.default, delay = 0, dependencies = [] }: RevealOptions = {},
 ) {
   useGSAP(
     () => {
@@ -43,6 +44,6 @@ export function useScrollReveal(
 
       return () => mm.revert();
     },
-    { scope },
+    { scope, dependencies },
   );
 }

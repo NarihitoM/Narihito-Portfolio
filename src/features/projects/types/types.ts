@@ -26,3 +26,14 @@ export interface FilterTag {
   label: string;
   count: number;
 }
+
+export interface RawProject {
+  title: string;
+  year: string;
+  category: string;
+  role: string;
+  status: string;
+  description: string;
+  featured: boolean;
+  chips: { name: string }[];
+}

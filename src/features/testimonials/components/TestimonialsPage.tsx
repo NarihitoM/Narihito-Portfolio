@@ -13,7 +13,9 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { parseCountable } from "@/shared/lib/countUp";
-import { STATS, TESTIMONIALS } from "@/features/testimonials/data/data";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { useTestimonials } from "../hooks/useTestimonials";
 import type { Stat, Testimonial } from "../types/types";
 
 function StatBlock({ stat }: { stat: Stat }) {
@@ -71,8 +73,21 @@ function QuoteCard({ testimonial }: { testimonial: Testimonial }) {
   );
 }
 
+function pluralize(count: number, singular: string, plural: string) {
+  return `${count} ${count === 1 ? singular : plural}`;
+}
+
 export function TestimonialsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const { stats, testimonials, isLoading, isError, refetch } = useTestimonials();
+  const testimonialCount = testimonials.length;
+  const clientsRepresented = stats.find((stat) => stat.label === "CLIENTS REPRESENTED")?.value ?? "0";
+  const pageMeta = [
+    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "VOICES", value: String(testimonialCount) },
+    { key: "CLIENTS", value: clientsRepresented },
+  ];
+  const feedbackLabel = `ALL FEEDBACK - ${pluralize(testimonialCount, "VOICE", "VOICES")}`;
 
   useGSAP(
     () => {
@@ -145,7 +160,7 @@ export function TestimonialsPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [stats, testimonials] },
   );
 
   return (
@@ -156,12 +171,7 @@ export function TestimonialsPage() {
       eyebrow="[ 05 — TESTIMONIALS ]"
       title="What the people who paid the invoice said afterwards."
       deck="Unedited feedback from clients and colleagues, with the project each one came from — including the parts that were not entirely flattering."
-      meta={[
-        { key: "COLLECTED", value: "2022 — 2026" },
-        { key: "VOICES", value: "SEVEN" },
-        { key: "REPEAT WORK", value: "6 OF 9 CLIENTS" },
-        { key: "AVERAGE", value: "4.9 / 5" },
-      ]}
+      meta={pageMeta}
       prev={{ direction: "← HOME", title: "Projects", href: "/projects" }}
       next={{ direction: "NEXT →", title: "About", href: "/about" }}
     >
@@ -179,25 +189,34 @@ export function TestimonialsPage() {
           data-stats
           className="flex flex-col sm:flex-row gap-8 sm:gap-6"
         >
-          {STATS.map((stat) => (
+          {stats.map((stat) => (
             <StatBlock key={stat.label} stat={stat} />
           ))}
         </div>
 
         <div className="border-t border-border-glow-soft pt-8">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            ALL FEEDBACK — SEVEN VOICES
+            {feedbackLabel}
           </span>
         </div>
 
-        <div
-          data-list
-          className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-        >
-          {TESTIMONIALS.map((testimonial) => (
-            <QuoteCard key={testimonial.name} testimonial={testimonial} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            <Skeleton className="h-[220px] w-full" />
+            <Skeleton className="h-[220px] w-full" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          <div
+            data-list
+            className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+          >
+            {testimonials.map((testimonial) => (
+              <QuoteCard key={testimonial.name} testimonial={testimonial} />
+            ))}
+          </div>
+        )}
       </div>
     </PageLayout>
   );
