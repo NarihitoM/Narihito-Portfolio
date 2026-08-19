@@ -5,6 +5,7 @@ export interface Principle {
 }
 
 export interface Route {
+  id: string;
   year: string;
   title: string;
   desc: string;
@@ -19,6 +20,7 @@ export interface RawPrinciple {
 }
 
 export interface RawRoute {
+  id: string;
   year: string;
   title: string;
   desc?: string;

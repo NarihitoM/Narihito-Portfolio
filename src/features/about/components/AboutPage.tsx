@@ -9,6 +9,7 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
   SplitText,
+  ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
@@ -104,9 +105,15 @@ export function AboutPage() {
         return undefined;
       });
 
-      return () => mm.revert();
+      ScrollTrigger.refresh();
+      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+      return () => {
+        window.clearTimeout(refreshTimeout);
+        mm.revert();
+      };
     },
-    { scope: contentRef, dependencies: [PRINCIPLES, ROUTE] },
+    { scope: contentRef, dependencies: [PRINCIPLES, ROUTE, INTERESTS, isLoading] },
   );
 
   return (
@@ -210,7 +217,7 @@ export function AboutPage() {
           ) : (
             ROUTE.map((r) => (
               <div
-                key={r.year}
+                key={r.id}
                 data-route-row
                 className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
               >

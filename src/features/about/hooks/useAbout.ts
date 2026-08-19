@@ -15,6 +15,7 @@ export function useAbout() {
   }));
 
   const routes: Route[] = (query.data?.routes ?? []).map((r) => ({
+    id: r.id,
     year: r.year,
     title: r.title,
     desc: r.desc ?? "",
