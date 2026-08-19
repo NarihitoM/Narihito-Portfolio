@@ -21,6 +21,7 @@ export interface PageLayoutProps {
   deck: string;
   meta: MetaItem[];
   metaLoading?: boolean;
+  metaError?: boolean;
   prev: NavEntry;
   next: NavEntry;
 }

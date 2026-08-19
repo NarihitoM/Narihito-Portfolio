@@ -119,6 +119,7 @@ export function AboutPage() {
       deck="Five years of building interfaces in Bangkok — how I got here, how I work, and what I care about when the deadline is close."
       meta={pageMeta}
       metaLoading={isLoading}
+      metaError={isError}
       prev={{ direction: "HOME", title: "Portfolio index", href: "/" }}
       next={{ direction: "NEXT →", title: "Skills & tech stack", href: "/skills" }}
     >

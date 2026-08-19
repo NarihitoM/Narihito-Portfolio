@@ -7,10 +7,12 @@ import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { useSkills } from "@/features/skills/hooks/useSkills";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { categories } = useSkills();
+  const { categories, isLoading, isError, refetch } = useSkills();
   const SKILLS = categories.flatMap((c) => c.tools.map((t) => t.name)).slice(0, 10);
   useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS] });
 
@@ -22,11 +24,21 @@ export function Skills() {
           <SectionHeading>Tools I reach for</SectionHeading>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
-          {SKILLS.map((skill) => (
-            <SkillCard key={skill} skill={skill} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+            {Array.from({ length: 10 }, (_, i) => (
+              <Skeleton key={i} className="h-[92px] md:h-[104px] w-full" />
+            ))}
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+            {SKILLS.map((skill) => (
+              <SkillCard key={skill} skill={skill} />
+            ))}
+          </div>
+        )}
 
         <DetailCta href="/skills" route="/skills" />
       </div>

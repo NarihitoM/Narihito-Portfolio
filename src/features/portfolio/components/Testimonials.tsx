@@ -7,12 +7,14 @@ import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHe
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { useTestimonialsPreview } from "@/features/testimonials/hooks/useTestimonialsPreview";
 import { useTestimonialsUI } from "@/features/testimonials/store/testimonialsUIStore";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
 
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const { activeIndex, setActiveIndex } = useTestimonialsUI();
-  const { testimonials: TESTIMONIALS } = useTestimonialsPreview(3);
+  const { testimonials: TESTIMONIALS, isLoading, isError, refetch } = useTestimonialsPreview(3);
 
   useGSAP(
     () => {
@@ -60,24 +62,33 @@ export function Testimonials() {
       </div>
 
       <div className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing">
-        <div ref={trackRef} className="flex gap-3.5 md:gap-6">
-          {TESTIMONIALS.map((t) => (
-            <div
-              key={t.name}
-              data-testimonial-card
-              className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8"
-            >
-              <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
-                &ldquo;
-              </span>
-              <p className="font-body text-[15px] leading-[1.55] text-text-primary">{t.quote}</p>
-              <div className="flex flex-col gap-[3px]">
-                <span className="font-mono text-[13px] text-cyan">{t.name}</span>
-                <span className="font-body text-[12px] text-text-muted">{t.role}</span>
+        {isLoading ? (
+          <div className="flex gap-3.5 md:gap-6">
+            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
+            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          <div ref={trackRef} className="flex gap-3.5 md:gap-6">
+            {TESTIMONIALS.map((t) => (
+              <div
+                key={t.name}
+                data-testimonial-card
+                className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8"
+              >
+                <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
+                  &ldquo;
+                </span>
+                <p className="font-body text-[15px] leading-[1.55] text-text-primary">{t.quote}</p>
+                <div className="flex flex-col gap-[3px]">
+                  <span className="font-mono text-[13px] text-cyan">{t.name}</span>
+                  <span className="font-body text-[12px] text-text-muted">{t.role}</span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex md:hidden items-center gap-[7px] px-5 pt-4">

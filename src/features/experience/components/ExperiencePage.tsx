@@ -236,6 +236,7 @@ export function ExperiencePage() {
       deck="Full role histories with what I owned, what shipped, and the numbers that moved — plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}
+      metaError={isError}
       prev={{ direction: "← HOME", title: "Skills & tech stack", href: "/skills" }}
       next={{ direction: "NEXT →", title: "Projects", href: "/projects" }}
     >

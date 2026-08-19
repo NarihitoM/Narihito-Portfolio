@@ -6,11 +6,13 @@ import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { useExperiencePreview } from "@/features/experience/hooks/useExperiencePreview";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
 
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
-  const { entries: ENTRIES } = useExperiencePreview(3);
+  const { entries: ENTRIES, isLoading, isError, refetch } = useExperiencePreview(3);
 
   useGSAP(
     () => {
@@ -84,30 +86,40 @@ export function Experience() {
           </div>
 
           <div className="flex flex-1 flex-col gap-10">
-            {ENTRIES.map((entry) => (
-              <div
-                key={entry.role}
-                data-timeline-entry
-                className="relative flex flex-col gap-2 md:gap-2.5"
-              >
-                <span
-                  data-timeline-dot
-                  className="absolute left-[-42px] top-[2px] h-3 w-3 rounded-full border-[3px] border-bg bg-violet"
-                />
-                <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
+            {isLoading ? (
+              <>
+                <Skeleton className="h-[110px] w-full" />
+                <Skeleton className="h-[110px] w-full" />
+                <Skeleton className="h-[110px] w-full" />
+              </>
+            ) : isError ? (
+              <ErrorState onRetry={refetch} />
+            ) : (
+              ENTRIES.map((entry) => (
+                <div
+                  key={entry.role}
+                  data-timeline-entry
+                  className="relative flex flex-col gap-2 md:gap-2.5"
+                >
+                  <span
+                    data-timeline-dot
+                    className="absolute left-[-42px] top-[2px] h-3 w-3 rounded-full border-[3px] border-bg bg-violet"
+                  />
+                  <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
 
-                <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
-                  <span className="md:hidden block">{entry.role}</span>
-                  <span className="hidden md:inline">
-                    {entry.role} · {entry.company}
-                  </span>
-                </h3>
-                <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
-                <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
-                  {entry.description}
-                </p>
-              </div>
-            ))}
+                  <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
+                    <span className="md:hidden block">{entry.role}</span>
+                    <span className="hidden md:inline">
+                      {entry.role} · {entry.company}
+                    </span>
+                  </h3>
+                  <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
+                  <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
+                    {entry.description}
+                  </p>
+                </div>
+              ))
+            )}
           </div>
         </div>
 

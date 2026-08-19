@@ -24,6 +24,7 @@ export function PageLayout({
   deck,
   meta,
   metaLoading = false,
+  metaError = false,
   prev,
   next,
 }: PageLayoutProps) {
@@ -262,6 +263,8 @@ export function PageLayout({
             <span className="font-mono text-[10px] text-text-muted">{item.key}</span>
             {metaLoading ? (
               <Skeleton className="h-3 w-20" />
+            ) : metaError ? (
+              <span className="font-mono text-[12px] text-text-secondary">-</span>
             ) : (
               <span className="font-mono text-[12px] text-text-secondary">{item.value}</span>
             )}

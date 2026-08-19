@@ -94,9 +94,9 @@ export function Hero() {
       <div className="hidden lg:block absolute left-[120px] top-[838px] h-px w-[1200px] bg-border-glow-soft" />
 
       <div className="hidden lg:grid absolute left-[400px] top-[860px] w-[920px] grid-cols-3 gap-8">
-        <MetaItem label="AVAILABLE" value="MAR 2026" />
-        <MetaItem label="BASED IN" value="TOKYO REMOTE" />
-        <MetaItem label="FOCUS" value="MOTION · 3D · PERF" />
+        <MetaItem label="AVAILABLE" value="EVERY TIME" />
+        <MetaItem label="BASED IN" value="MYANMAR" />
+        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AI DEVELOPMENT" />
       </div>
 
       <div className="hidden lg:flex absolute left-[120px] top-[860px] flex-col items-center gap-3">

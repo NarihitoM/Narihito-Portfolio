@@ -202,6 +202,7 @@ export function ProjectsPage() {
       deck="The full index — client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
       meta={pageMeta}
       metaLoading={isLoading}
+      metaError={isError}
       prev={{ direction: "← HOME", title: "Experience", href: "/experience" }}
       next={{ direction: "NEXT →", title: "Testimonials", href: "/testimonials" }}
     >

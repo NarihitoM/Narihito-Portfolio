@@ -6,10 +6,12 @@ import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { ProjectCard } from "./ProjectCard";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useProjectsPreview } from "@/features/projects/hooks/useProjectsPreview";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ErrorState } from "@/shared/components/ui/ErrorState";
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { projects: previewProjects } = useProjectsPreview(4);
+  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(4);
   const PROJECTS = previewProjects.map((p) => ({
     name: p.title,
     title: p.title,
@@ -26,11 +28,20 @@ export function Projects() {
           <SectionHeading>Selected work</SectionHeading>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
-          {PROJECTS.map((project) => (
-            <ProjectCard key={project.name} project={project} />
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+            <Skeleton className="h-[280px] w-full" />
+            <Skeleton className="h-[280px] w-full" />
+          </div>
+        ) : isError ? (
+          <ErrorState onRetry={refetch} />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+            {PROJECTS.map((project) => (
+              <ProjectCard key={project.name} project={project} />
+            ))}
+          </div>
+        )}
 
         <DetailCta href="/projects" route="/projects" />
       </div>

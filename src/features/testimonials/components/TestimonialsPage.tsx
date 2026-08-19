@@ -173,6 +173,7 @@ export function TestimonialsPage() {
       deck="Unedited feedback from clients and colleagues, with the project each one came from — including the parts that were not entirely flattering."
       meta={pageMeta}
       metaLoading={isLoading}
+      metaError={isError}
       prev={{ direction: "← HOME", title: "Projects", href: "/projects" }}
       next={{ direction: "NEXT →", title: "About", href: "/about" }}
     >
