@@ -20,6 +20,7 @@ export interface PageLayoutProps {
   title: string;
   deck: string;
   meta: MetaItem[];
+  metaLoading?: boolean;
   prev: NavEntry;
   next: NavEntry;
 }

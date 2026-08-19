@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import type { PageLayoutProps } from "@/shared/types/types";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
@@ -22,6 +23,7 @@ export function PageLayout({
   title,
   deck,
   meta,
+  metaLoading = false,
   prev,
   next,
 }: PageLayoutProps) {
@@ -258,7 +260,11 @@ export function PageLayout({
         {meta.map((item) => (
           <div key={item.key} data-meta-item className="flex flex-col gap-2">
             <span className="font-mono text-[10px] text-text-muted">{item.key}</span>
-            <span className="font-mono text-[12px] text-text-secondary">{item.value}</span>
+            {metaLoading ? (
+              <Skeleton className="h-3 w-20" />
+            ) : (
+              <span className="font-mono text-[12px] text-text-secondary">{item.value}</span>
+            )}
           </div>
         ))}
       </div>

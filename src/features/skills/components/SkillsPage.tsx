@@ -153,6 +153,7 @@ export function SkillsPage() {
       title="The tools I reach for, and the ones I reach for first."
       deck="A working inventory rather than a badge wall — what each tool is actually used for, how often, and where I am still learning."
       meta={pageMeta}
+      metaLoading={isLoading}
       prev={{ direction: "← HOME", title: "About", href: "/about" }}
       next={{ direction: "NEXT →", title: "Experience", href: "/experience" }}
     >
