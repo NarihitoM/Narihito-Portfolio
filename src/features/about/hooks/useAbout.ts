@@ -2,16 +2,6 @@ import { useQuery } from "@tanstack/react-query";
 import { aboutApi } from "../api/aboutApi";
 import type { Interest, Principle, Route } from "../types/types";
 
-const INTERESTS: Interest[] = [
-  "Film photography",
-  "Long-distance running",
-  "Typography books",
-  "Muay Thai",
-  "Cooking Isaan food",
-  "Ambient records",
-  "Cycling at 5am",
-];
-
 export function useAbout() {
   const query = useQuery({
     queryKey: ["about"],
@@ -30,5 +20,7 @@ export function useAbout() {
     desc: r.desc ?? "",
   }));
 
-  return { ...query, principles, routes, interests: INTERESTS };
+  const interests: Interest[] = (query.data?.interests ?? []).map((i) => i.label);
+
+  return { ...query, principles, routes, interests };
 }

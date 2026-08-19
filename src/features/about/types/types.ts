@@ -24,7 +24,13 @@ export interface RawRoute {
   desc?: string;
 }
 
+export interface RawInterest {
+  id: string;
+  label: string;
+}
+
 export interface AboutResponse {
   principles: RawPrinciple[];
   routes: RawRoute[];
+  interests: RawInterest[];
 }
