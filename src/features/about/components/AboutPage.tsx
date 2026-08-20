@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -195,13 +196,14 @@ export function AboutPage() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-16">
-          <div className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] bg-portrait rounded">
-            <span className="absolute inset-0 flex items-center justify-center font-mono text-[12px] text-text-muted">
-              PORTRAIT — 460 × 580
-            </span>
-            <span className="absolute bottom-4 left-4 font-mono text-[11px] text-text-muted">
-              Studio desk, Sathorn — 2026
-            </span>
+          <div className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait">
+            <Image
+              src="/HeinHtetAung.jpg"
+              alt="Hein Htet Aung"
+              fill
+              className="object-cover"
+              sizes="(min-width: 768px) 460px, 100vw"
+            />
           </div>
 
           <div ref={principlesRef} className="flex flex-col gap-0 flex-1">

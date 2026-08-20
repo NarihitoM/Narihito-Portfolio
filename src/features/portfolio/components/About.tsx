@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
@@ -46,8 +47,15 @@ export function About() {
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full">
         <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
-          <div className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] flex items-center justify-center bg-portrait">
-            <span className="font-mono text-[12px] text-text-muted">PORTRAIT</span>
+          <div className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] overflow-hidden bg-portrait">
+            <Image
+              src="/HeinHtetAung.jpg"
+              alt="Hein Htet Aung"
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 360px, (min-width: 768px) 220px, 100vw"
+              priority
+            />
           </div>
         </div>
 
