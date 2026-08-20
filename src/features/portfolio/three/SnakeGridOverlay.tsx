@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 interface Point {
   x: number;
@@ -19,7 +20,7 @@ interface Runner {
 const CELL = 56;
 const SPEED = 90;
 const TRAIL_LENGTH = 52;
-const RUNNER_COUNT = 10;
+const RUNNER_COUNT = 18;
 
 function randomDir(exclude?: { dx: number; dy: number }) {
   const dirs = [
@@ -36,6 +37,7 @@ function randomDir(exclude?: { dx: number; dy: number }) {
 
 export function SnakeGridOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -45,6 +47,7 @@ export function SnakeGridOverlay() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const rgb = theme === "light" ? "10,10,10" : "255,255,255";
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let width = 0;
     let height = 0;
@@ -125,8 +128,8 @@ export function SnakeGridOverlay() {
           const tail = runner.trail[0];
           const head = runner.trail[runner.trail.length - 1];
           const gradient = ctx!.createLinearGradient(tail.x, tail.y, head.x, head.y);
-          gradient.addColorStop(0, "rgba(255,255,255,0)");
-          gradient.addColorStop(1, "rgba(255,255,255,0.28)");
+          gradient.addColorStop(0, `rgba(${rgb},0)`);
+          gradient.addColorStop(1, `rgba(${rgb},0.28)`);
 
           ctx!.strokeStyle = gradient;
           ctx!.lineWidth = 1.5;
@@ -142,14 +145,14 @@ export function SnakeGridOverlay() {
         const head = runner.trail[runner.trail.length - 1];
         if (head) {
           const glow = ctx!.createRadialGradient(head.x, head.y, 0, head.x, head.y, 5);
-          glow.addColorStop(0, "rgba(255,255,255,0.5)");
-          glow.addColorStop(1, "rgba(255,255,255,0)");
+          glow.addColorStop(0, `rgba(${rgb},0.5)`);
+          glow.addColorStop(1, `rgba(${rgb},0)`);
           ctx!.fillStyle = glow;
           ctx!.fillRect(head.x - 5, head.y - 5, 10, 10);
 
           ctx!.beginPath();
           ctx!.arc(head.x, head.y, 1.8, 0, Math.PI * 2);
-          ctx!.fillStyle = "rgba(255,255,255,0.6)";
+          ctx!.fillStyle = `rgba(${rgb},0.6)`;
           ctx!.fill();
         }
       }
@@ -163,7 +166,7 @@ export function SnakeGridOverlay() {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [theme]);
 
   return <canvas ref={canvasRef} className="pointer-events-none absolute inset-0" />;
 }
