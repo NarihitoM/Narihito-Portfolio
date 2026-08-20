@@ -58,7 +58,7 @@ function FeaturedBlock({ project }: { project: FeaturedProject }) {
 
           <div className="flex flex-wrap gap-2.5">
             {project.chips.map((chip) => (
-              <Chip key={chip}>{chip}</Chip>
+              <Chip key={chip} icon={chip}>{chip}</Chip>
             ))}
           </div>
 
