@@ -15,7 +15,7 @@ export function Skills() {
   const { categories, isLoading, isError, refetch } = useSkills();
   const allTools = categories.flatMap((c) => c.tools);
   const SKILLS = Array.from(new Map(allTools.map((t) => [t.name, t])).values()).slice(0, 10);
-  useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS] });
+  useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS, isLoading] });
 
   return (
     <section id="skills" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">

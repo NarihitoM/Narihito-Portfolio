@@ -9,6 +9,7 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
   SplitText,
+  ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
@@ -207,9 +208,15 @@ export function ProjectsPage() {
         return undefined;
       });
 
-      return () => mm.revert();
+      ScrollTrigger.refresh();
+      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+      return () => {
+        window.clearTimeout(refreshTimeout);
+        mm.revert();
+      };
     },
-    { scope: contentRef, dependencies: [PROJECTS, FEATURED, FILTERS] },
+    { scope: contentRef, dependencies: [PROJECTS, FEATURED, FILTERS, isLoading] },
   );
 
   return (

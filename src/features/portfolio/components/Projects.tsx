@@ -19,7 +19,7 @@ export function Projects() {
     description: p.description,
     tags: p.chips,
   }));
-  useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS] });
+  useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS, isLoading] });
 
   return (
     <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">

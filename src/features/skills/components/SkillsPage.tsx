@@ -9,6 +9,7 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
   SplitText,
+  ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
@@ -139,9 +140,15 @@ export function SkillsPage() {
         return undefined;
       });
 
-      return () => mm.revert();
+      ScrollTrigger.refresh();
+      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+      return () => {
+        window.clearTimeout(refreshTimeout);
+        mm.revert();
+      };
     },
-    { scope: contentRef, dependencies: [CATEGORIES] },
+    { scope: contentRef, dependencies: [CATEGORIES, isLoading] },
   );
 
   return (

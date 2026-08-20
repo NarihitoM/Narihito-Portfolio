@@ -10,6 +10,7 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
   SplitText,
+  ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { parseCountable } from "@/shared/lib/countUp";
@@ -158,9 +159,15 @@ export function TestimonialsPage() {
         return undefined;
       });
 
-      return () => mm.revert();
+      ScrollTrigger.refresh();
+      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+      return () => {
+        window.clearTimeout(refreshTimeout);
+        mm.revert();
+      };
     },
-    { scope: contentRef, dependencies: [stats, testimonials] },
+    { scope: contentRef, dependencies: [stats, testimonials, isLoading] },
   );
 
   return (

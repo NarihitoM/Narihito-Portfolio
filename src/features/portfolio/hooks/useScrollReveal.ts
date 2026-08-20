@@ -2,7 +2,15 @@
 
 import { useGSAP } from "@gsap/react";
 import type { RefObject } from "react";
-import { ease, gsap, registerGsap, stagger, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import {
+  ease,
+  gsap,
+  registerGsap,
+  stagger,
+  REDUCED_MOTION_QUERY,
+  NO_REDUCED_MOTION_QUERY,
+  ScrollTrigger,
+} from "@/shared/lib/gsap";
 
 type RevealOptions = {
   selector?: string;
@@ -42,7 +50,13 @@ export function useScrollReveal(
         });
       });
 
-      return () => mm.revert();
+      ScrollTrigger.refresh();
+      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+
+      return () => {
+        window.clearTimeout(refreshTimeout);
+        mm.revert();
+      };
     },
     { scope, dependencies },
   );
