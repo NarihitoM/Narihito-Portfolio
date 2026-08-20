@@ -14,7 +14,7 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { X, ExternalLink } from "lucide-react";
+import { X, ExternalLink, Globe } from "lucide-react";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
@@ -150,6 +150,17 @@ function ProjectCardBlock({ project, onView }: { project: ProjectCard; onView: (
               className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
             >
               <TechIcon name="github" className="h-4 w-4" />
+            </a>
+          )}
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.title}`}
+              className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <Globe size={16} />
             </a>
           )}
         </div>
