@@ -6,6 +6,8 @@ export function useProjects() {
   const query = useQuery({
     queryKey: ["projects"],
     queryFn: () => projectsApi.list(),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const raw = query.data ?? [];

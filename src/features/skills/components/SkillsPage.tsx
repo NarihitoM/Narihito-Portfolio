@@ -8,7 +8,6 @@ import {
   registerGsap,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  SplitText,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
@@ -31,7 +30,6 @@ function ProficiencyBar({ level }: { level: number }) {
       {Array.from({ length: 5 }, (_, i) => (
         <span
           key={i}
-          data-proficiency-seg
           className="block h-1 w-[18px] rounded-sm bg-violet"
           style={{ opacity: i < level ? 1 : 0.15 }}
         />
@@ -43,7 +41,6 @@ function ProficiencyBar({ level }: { level: number }) {
 function ToolRow({ tool }: { tool: Tool }) {
   return (
     <div
-      data-tool-row
       className="group flex flex-col gap-3 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30 md:flex-row md:items-center md:gap-7"
     >
       <div className="flex items-center gap-3 md:w-[290px] md:shrink-0">
@@ -69,6 +66,9 @@ function ToolRow({ tool }: { tool: Tool }) {
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
+  const categoriesRef = useRef<HTMLDivElement>(null);
+  const learningRef = useRef<HTMLDivElement>(null);
   const { categories: allCategories, isLoading, isError, refetch } = useSkills();
   const { activeCategory, setActiveCategory } = useSkillsUI();
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
@@ -86,69 +86,100 @@ export function SkillsPage() {
   useGSAP(
     () => {
       registerGsap();
-      const content = contentRef.current;
-      if (!content) return;
+      const lead = leadRef.current;
+      if (!lead) return;
 
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set("[data-tools-reveal]", { opacity: 1, y: 0 });
-        gsap.set("[data-proficiency-seg]", { scaleX: 1 });
+        gsap.set(lead, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const lead = content.querySelector("[data-lead]");
-        if (lead) {
-          const split = new SplitText(lead, { type: "lines" });
-          gsap.from(split.lines, {
-            opacity: 0,
-            y: 20,
+        gsap.fromTo(
+          lead,
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1,
+            y: 0,
             duration: 0.6,
             ease: ease.entrance,
-            stagger: 0.06,
-            scrollTrigger: { trigger: lead },
-          });
-        }
-
-        gsap.from("[data-tools-category]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.1,
-          scrollTrigger: { trigger: content, start: "top 70%" },
-        });
-
-        gsap.from("[data-proficiency-seg]", {
-          scaleX: 0,
-          transformOrigin: "left",
-          duration: 0.45,
-          ease: "power2.out",
-          stagger: { each: 0.06, from: "start" },
-          scrollTrigger: { trigger: content, start: "top 60%", once: true },
-        });
-
-        gsap.from("[data-learning-item]", {
-          opacity: 0,
-          y: 16,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.08,
-          scrollTrigger: { trigger: "[data-learning]", start: "top 80%" },
-        });
-
-        return undefined;
+            scrollTrigger: { trigger: lead, once: true },
+          },
+        );
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
+      return () => mm.revert();
+    },
+    { scope: contentRef },
+  );
 
+  useGSAP(
+    () => {
+      registerGsap();
+      const cats = categoriesRef.current;
+      if (!cats || !cats.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(cats.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(
+          cats.children,
+          { opacity: 0, y: 24 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: ease.entrance,
+            stagger: 0.1,
+            scrollTrigger: { trigger: cats, start: "top 80%", once: true },
+          },
+        );
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
       return () => {
-        window.clearTimeout(refreshTimeout);
+        window.clearTimeout(t);
         mm.revert();
       };
     },
-    { scope: contentRef, dependencies: [CATEGORIES, isLoading] },
+    { scope: categoriesRef, dependencies: [CATEGORIES] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const learn = learningRef.current;
+      if (!learn || !learn.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(learn.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(
+          learn.children,
+          { opacity: 0, y: 16 },
+          {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            ease: ease.entrance,
+            stagger: 0.08,
+            scrollTrigger: { trigger: learn, start: "top 80%", once: true },
+          },
+        );
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef },
   );
 
   return (
@@ -167,7 +198,7 @@ export function SkillsPage() {
     >
       <div ref={contentRef} className="flex flex-col gap-20">
         <p
-          data-lead
+          ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I keep the stack small on purpose. Four or five tools I know deeply
@@ -202,25 +233,27 @@ export function SkillsPage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
-          CATEGORIES.map((cat) => (
-            <div key={cat.eyebrow} data-tools-category className="flex flex-col gap-[18px]">
-              <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
-                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                  {cat.eyebrow}
-                </span>
-                <span className="font-body text-[15px] text-text-muted">
-                  {cat.note}
-                </span>
+          <div ref={categoriesRef} className="flex flex-col gap-20">
+            {CATEGORIES.map((cat) => (
+              <div key={cat.eyebrow} className="flex flex-col gap-[18px]">
+                <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
+                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                    {cat.eyebrow}
+                  </span>
+                  <span className="font-body text-[15px] text-text-muted">
+                    {cat.note}
+                  </span>
+                </div>
+                {cat.tools.map((tool) => (
+                  <ToolRow key={tool.id} tool={tool} />
+                ))}
               </div>
-              {cat.tools.map((tool) => (
-                <ToolRow key={tool.id} tool={tool} />
-              ))}
-            </div>
-          ))
+            ))}
+          </div>
         )}
 
         <div
-          data-learning
+          ref={learningRef}
           className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
         >
           <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
@@ -236,7 +269,6 @@ export function SkillsPage() {
             {LEARNING.map((item) => (
               <div
                 key={item.name}
-                data-learning-item
                 className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
               >
                 <span className="font-body text-[16px] font-medium text-text-primary md:w-[170px] md:shrink-0">

@@ -6,6 +6,8 @@ export function useTestimonials() {
   const query = useQuery({
     queryKey: ["testimonials"],
     queryFn: () => testimonialsApi.list(),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const testimonials = query.data ?? [];

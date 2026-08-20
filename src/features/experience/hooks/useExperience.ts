@@ -6,6 +6,8 @@ export function useExperience() {
   const query = useQuery({
     queryKey: ["experience"],
     queryFn: () => experienceApi.get(),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const roles: Role[] = (query.data?.roles ?? []).map((r) => ({

@@ -6,6 +6,8 @@ export function useProjectsPreview(limit: number) {
   const query = useQuery({
     queryKey: ["projects", "preview", limit],
     queryFn: () => projectsApi.list(limit),
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const projects: ProjectCard[] = (query.data ?? []).map((p) => ({

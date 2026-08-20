@@ -9,7 +9,6 @@ import {
   registerGsap,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  SplitText,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
@@ -126,6 +125,9 @@ function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boole
 
 export function ExperiencePage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
+  const rolesRef = useRef<HTMLDivElement>(null);
+  const eduRef = useRef<HTMLDivElement>(null);
   const { roles: ROLES, education: EDUCATION, isLoading, isError, refetch } = useExperience();
   const { collapsedRoles, toggleRole } = useExperienceUI();
   const currentRole = ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
@@ -138,99 +140,78 @@ export function ExperiencePage() {
   useGSAP(
     () => {
       registerGsap();
-      const content = contentRef.current;
-      if (!content) return;
+      const lead = leadRef.current;
+      if (!lead) return;
 
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set("[data-exp-reveal]", { opacity: 1, y: 0 });
-
-        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
-          el.textContent = `${el.dataset.countPrefix}${el.dataset.countTo}${el.dataset.countSuffix}`;
-        });
+        gsap.set(lead, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const lead = content.querySelector("[data-lead]");
-        if (lead) {
-          const split = new SplitText(lead, { type: "lines" });
-          gsap.from(split.lines, {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: ease.entrance,
-            stagger: 0.06,
-            scrollTrigger: { trigger: lead },
-          });
-        }
-
-        gsap.from("[data-role]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.12,
-          scrollTrigger: { trigger: content, start: "top 70%" },
+        gsap.fromTo(lead, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+          scrollTrigger: { trigger: lead, once: true },
         });
-
-        gsap.from("[data-duty]", {
-          opacity: 0,
-          y: 16,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.06,
-          scrollTrigger: { trigger: content, start: "top 60%" },
-        });
-
-        gsap.from("[data-metric]", {
-          opacity: 0,
-          y: 12,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.06,
-          scrollTrigger: { trigger: content, start: "top 55%" },
-        });
-
-        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
-          const target = parseFloat(el.dataset.countTo || "0");
-          const prefix = el.dataset.countPrefix || "";
-          const suffix = el.dataset.countSuffix || "";
-          const decimals = parseInt(el.dataset.countDecimals || "0", 10);
-          const counter = { val: 0 };
-
-          gsap.to(counter, {
-            val: target,
-            duration: duration.countUp,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
-            onUpdate: () => {
-              el.textContent = `${prefix}${counter.val.toFixed(decimals)}${suffix}`;
-            },
-          });
-        });
-
-        gsap.from("[data-edu-row]", {
-          opacity: 0,
-          y: 16,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.06,
-          scrollTrigger: { trigger: "[data-education]", start: "top 80%" },
-        });
-
-        return undefined;
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
-
-      return () => {
-        window.clearTimeout(refreshTimeout);
-        mm.revert();
-      };
+      return () => mm.revert();
     },
-    { scope: contentRef, dependencies: [ROLES, EDUCATION, isLoading] },
+    { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = rolesRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.12,
+          scrollTrigger: { trigger: container, start: "top 70%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [ROLES] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = eduRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.querySelectorAll("[data-edu-row]"), { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        const rows = container.querySelectorAll("[data-edu-row]");
+        if (rows.length) {
+          gsap.fromTo(rows, { opacity: 0, y: 16 }, {
+            opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.06,
+            scrollTrigger: { trigger: container, start: "top 80%", once: true },
+          });
+        }
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [EDUCATION] },
   );
 
   return (
@@ -249,7 +230,7 @@ export function ExperiencePage() {
     >
       <div ref={contentRef} className="flex flex-col gap-20">
         <p
-          data-lead
+          ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I have never had a job title that matched what I actually did. What
@@ -265,17 +246,19 @@ export function ExperiencePage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
-          ROLES.map((role) => (
-            <RoleBlock
-              key={role.title}
-              role={role}
-              collapsed={collapsedRoles.has(role.title)}
-              onToggle={() => toggleRole(role.title)}
-            />
-          ))
+          <div ref={rolesRef}>
+            {ROLES.map((role) => (
+              <RoleBlock
+                key={role.title}
+                role={role}
+                collapsed={collapsedRoles.has(role.title)}
+                onToggle={() => toggleRole(role.title)}
+              />
+            ))}
+          </div>
         )}
 
-        <div data-education className="flex flex-col gap-5 border-t border-border-glow pt-9">
+        <div ref={eduRef} className="flex flex-col gap-5 border-t border-border-glow pt-9">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
             EDUCATION & CERTIFICATIONS
           </span>

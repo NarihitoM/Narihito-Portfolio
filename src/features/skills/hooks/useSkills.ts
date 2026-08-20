@@ -6,6 +6,8 @@ export function useSkills() {
   const query = useQuery({
     queryKey: ["skills"],
     queryFn: skillsApi.listGroups,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const categories: Category[] = (query.data ?? []).map((g) => ({

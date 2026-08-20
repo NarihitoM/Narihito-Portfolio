@@ -6,6 +6,8 @@ export function useAbout() {
   const query = useQuery({
     queryKey: ["about"],
     queryFn: aboutApi.get,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
   });
 
   const principles: Principle[] = (query.data?.principles ?? []).map((p) => ({

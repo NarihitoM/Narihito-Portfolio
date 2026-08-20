@@ -8,7 +8,6 @@ import {
   registerGsap,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  SplitText,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
@@ -19,6 +18,12 @@ import { useAbout } from "@/features/about/hooks/useAbout";
 
 export function AboutPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
+  const bioRef = useRef<HTMLDivElement>(null);
+  const principlesRef = useRef<HTMLDivElement>(null);
+  const routeRef = useRef<HTMLDivElement>(null);
+  const interestsRef = useRef<HTMLDivElement>(null);
+  const quoteRef = useRef<HTMLQuoteElement>(null);
   const { principles: PRINCIPLES, routes: ROUTE, interests: INTERESTS, isLoading, isError, refetch } = useAbout();
   const latestRouteYear = ROUTE.map((route) => route.year).sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
   const pageMeta = [
@@ -31,89 +36,121 @@ export function AboutPage() {
   useGSAP(
     () => {
       registerGsap();
-      const content = contentRef.current;
-      if (!content) return;
+      const lead = leadRef.current;
+      const bio = bioRef.current;
+      const quote = quoteRef.current;
+      if (!lead && !bio && !quote) return;
 
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set("[data-about-reveal]", { opacity: 1, y: 0 });
+        if (lead) gsap.set(lead, { opacity: 1, y: 0 });
+        if (bio) gsap.set(bio, { opacity: 1, y: 0 });
+        if (quote) gsap.set(quote, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const lead = content.querySelector("[data-lead]");
         if (lead) {
-          const split = new SplitText(lead, { type: "lines" });
-          gsap.from(split.lines, {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: ease.entrance,
-            stagger: 0.06,
-            scrollTrigger: { trigger: lead },
+          gsap.fromTo(lead, { opacity: 0, y: 20 }, {
+            opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+            scrollTrigger: { trigger: lead, once: true },
           });
         }
-
-        gsap.from("[data-about-reveal]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.08,
-          scrollTrigger: { trigger: content, start: "top 70%" },
-        });
-
-        gsap.from("[data-principle-row]", {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.08,
-          scrollTrigger: { trigger: "[data-principles]", start: "top 78%" },
-        });
-
-        gsap.from("[data-route-row]", {
-          opacity: 0,
-          y: 16,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.1,
-          scrollTrigger: { trigger: "[data-route]", start: "top 75%" },
-        });
-
-        gsap.from("[data-chip]", {
-          opacity: 0,
-          scale: 0.9,
-          duration: 0.4,
-          ease: "back.out(1.6)",
-          stagger: 0.04,
-          scrollTrigger: { trigger: "[data-interests]", start: "top 80%" },
-        });
-
-        const quote = content.querySelector("[data-quote]");
+        if (bio) {
+          gsap.fromTo(bio, { opacity: 0, y: 24 }, {
+            opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+            scrollTrigger: { trigger: bio, start: "top 80%", once: true },
+          });
+        }
         if (quote) {
-          const split = new SplitText(quote, { type: "words" });
-          gsap.from(split.words, {
-            opacity: 0.15,
-            duration: 0.5,
-            ease: "power1.out",
-            stagger: 0.03,
-            scrollTrigger: { trigger: quote, start: "top 75%", end: "top 35%", scrub: true },
+          gsap.fromTo(quote, { opacity: 0, y: 20 }, {
+            opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+            scrollTrigger: { trigger: quote, start: "top 80%", once: true },
           });
         }
-
-        return undefined;
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
-
-      return () => {
-        window.clearTimeout(refreshTimeout);
-        mm.revert();
-      };
+      return () => mm.revert();
     },
-    { scope: contentRef, dependencies: [PRINCIPLES, ROUTE, INTERESTS, isLoading] },
+    { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = principlesRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.08,
+          scrollTrigger: { trigger: container, start: "top 78%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [PRINCIPLES] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = routeRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 16 }, {
+          opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.1,
+          scrollTrigger: { trigger: container, start: "top 75%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [ROUTE] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = interestsRef.current;
+      if (!container) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, scale: 1 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        const chips = container.querySelectorAll("[data-chip]");
+        if (chips.length) {
+          gsap.fromTo(chips, { opacity: 0, scale: 0.9 }, {
+            opacity: 1, scale: 1, duration: 0.4, ease: "back.out(1.6)", stagger: 0.04,
+            scrollTrigger: { trigger: container, start: "top 80%", once: true },
+          });
+        }
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [INTERESTS] },
   );
 
   return (
@@ -132,7 +169,7 @@ export function AboutPage() {
     >
       <div ref={contentRef} className="flex flex-col gap-12 md:gap-20">
         <p
-          data-lead
+          ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
           I am Narihito — a full stack developer from Yangon. I build product
@@ -141,7 +178,7 @@ export function AboutPage() {
           makes the page feel alive.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16" data-about-reveal>
+        <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
             I started on the wrong side of the stack. Two years of PHP and MySQL for a
             logistics firm taught me that a fast query means nothing if the screen it feeds
@@ -157,7 +194,7 @@ export function AboutPage() {
           </p>
         </div>
 
-        <div className="flex flex-col md:flex-row gap-6 md:gap-16" data-about-reveal>
+        <div className="flex flex-col md:flex-row gap-6 md:gap-16">
           <div className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] bg-portrait rounded">
             <span className="absolute inset-0 flex items-center justify-center font-mono text-[12px] text-text-muted">
               PORTRAIT — 460 × 580
@@ -167,7 +204,7 @@ export function AboutPage() {
             </span>
           </div>
 
-          <div data-principles className="flex flex-col gap-0 flex-1">
+          <div ref={principlesRef} className="flex flex-col gap-0 flex-1">
             <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet mb-6">
               HOW I WORK
             </p>
@@ -183,7 +220,6 @@ export function AboutPage() {
               PRINCIPLES.map((p) => (
                 <div
                   key={p.key}
-                  data-principle-row
                   className="flex gap-5 py-5 border-t border-border-glow-soft"
                 >
                   <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
@@ -203,7 +239,7 @@ export function AboutPage() {
           </div>
         </div>
 
-        <div data-route className="flex flex-col gap-5" data-about-reveal>
+        <div ref={routeRef} className="flex flex-col gap-5">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
             THE ROUTE HERE
           </p>
@@ -218,7 +254,6 @@ export function AboutPage() {
             ROUTE.map((r) => (
               <div
                 key={r.id}
-                data-route-row
                 className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
               >
                 <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
@@ -237,7 +272,7 @@ export function AboutPage() {
           )}
         </div>
 
-        <div data-interests className="flex flex-col gap-5" data-about-reveal>
+        <div ref={interestsRef} className="flex flex-col gap-5">
           <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
             OFF THE CLOCK
           </p>
@@ -254,13 +289,10 @@ export function AboutPage() {
         </div>
 
         <blockquote
-          data-about-reveal
+          ref={quoteRef}
           className="border-l-2 border-violet pl-6 md:pl-10 py-2 flex flex-col gap-3"
         >
-          <p
-            data-quote
-            className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary"
-          >
+          <p className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
             &ldquo;The interface should feel like it was already there and you just
             arrived.&rdquo;
           </p>

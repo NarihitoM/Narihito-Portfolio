@@ -9,7 +9,6 @@ import {
   registerGsap,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  SplitText,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
@@ -80,6 +79,9 @@ function pluralize(count: number, singular: string, plural: string) {
 
 export function TestimonialsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
+  const statsRef = useRef<HTMLDivElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
   const { stats, testimonials, isLoading, isError, refetch } = useTestimonials();
   const testimonialCount = testimonials.length;
   const clientsRepresented = stats.find((stat) => stat.label === "CLIENTS REPRESENTED")?.value ?? "0";
@@ -93,81 +95,75 @@ export function TestimonialsPage() {
   useGSAP(
     () => {
       registerGsap();
-      const content = contentRef.current;
-      if (!content) return;
+      const lead = leadRef.current;
+      if (!lead) return;
 
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set("[data-testimonials-reveal]", { opacity: 1, y: 0 });
-
-        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
-          el.textContent = `${el.dataset.countPrefix}${el.dataset.countTo}${el.dataset.countSuffix}`;
-        });
+        gsap.set(lead, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const lead = content.querySelector("[data-lead]");
-        if (lead) {
-          const split = new SplitText(lead, { type: "lines" });
-          gsap.from(split.lines, {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: ease.entrance,
-            stagger: 0.06,
-            scrollTrigger: { trigger: lead },
-          });
-        }
-
-        gsap.from("[data-stat]", {
-          opacity: 0,
-          y: 20,
-          duration: 0.5,
-          ease: ease.entrance,
-          stagger: 0.08,
-          scrollTrigger: { trigger: "[data-stats]", start: "top 80%" },
+        gsap.fromTo(lead, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+          scrollTrigger: { trigger: lead, once: true },
         });
-
-        gsap.utils.toArray<HTMLElement>("[data-count-to]").forEach((el) => {
-          const target = parseFloat(el.dataset.countTo || "0");
-          const prefix = el.dataset.countPrefix || "";
-          const suffix = el.dataset.countSuffix || "";
-          const decimals = parseInt(el.dataset.countDecimals || "0", 10);
-          const counter = { val: 0 };
-
-          gsap.to(counter, {
-            val: target,
-            duration: duration.countUp,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 90%", once: true },
-            onUpdate: () => {
-              el.textContent = `${prefix}${counter.val.toFixed(decimals)}${suffix}`;
-            },
-          });
-        });
-
-        gsap.from("[data-quote-card]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.1,
-          scrollTrigger: { trigger: "[data-list]", start: "top 75%" },
-        });
-
-        return undefined;
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
-
-      return () => {
-        window.clearTimeout(refreshTimeout);
-        mm.revert();
-      };
+      return () => mm.revert();
     },
-    { scope: contentRef, dependencies: [stats, testimonials, isLoading] },
+    { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = statsRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.08,
+          scrollTrigger: { trigger: container, start: "top 80%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [stats] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = cardsRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.1,
+          scrollTrigger: { trigger: container, start: "top 75%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [testimonials] },
   );
 
   return (
@@ -186,7 +182,7 @@ export function TestimonialsPage() {
     >
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
-          data-lead
+          ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I collect feedback the way some people collect stamps — regularly and
@@ -195,7 +191,7 @@ export function TestimonialsPage() {
         </p>
 
         <div
-          data-stats
+          ref={statsRef}
           className="flex flex-col sm:flex-row gap-8 sm:gap-6"
         >
           {stats.map((stat) => (
@@ -218,7 +214,7 @@ export function TestimonialsPage() {
           <ErrorState onRetry={refetch} />
         ) : (
           <div
-            data-list
+            ref={cardsRef}
             className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
           >
             {testimonials.map((testimonial) => (

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -8,7 +8,6 @@ import {
   registerGsap,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  SplitText,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
@@ -164,6 +163,10 @@ function ProjectCardBlock({ project }: { project: ProjectCard }) {
 
 export function ProjectsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
+  const leadRef = useRef<HTMLParagraphElement>(null);
+  const filtersRef = useRef<HTMLDivElement>(null);
+  const featuredRef = useRef<HTMLDivElement>(null);
+  const gridRef = useRef<HTMLDivElement>(null);
   const { filters: FILTERS, featured: FEATURED, projects: allProjects, isLoading, isError, refetch } = useProjects();
   const { filter, setFilter } = useProjectsUI();
   const newestYear = allProjects
@@ -182,68 +185,106 @@ export function ProjectsPage() {
   useGSAP(
     () => {
       registerGsap();
-      const content = contentRef.current;
-      if (!content) return;
+      const lead = leadRef.current;
+      if (!lead) return;
 
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set("[data-projects-reveal]", { opacity: 1, y: 0 });
+        gsap.set(lead, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const lead = content.querySelector("[data-lead]");
-        if (lead) {
-          const split = new SplitText(lead, { type: "lines" });
-          gsap.from(split.lines, {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: ease.entrance,
-            stagger: 0.06,
-            scrollTrigger: { trigger: lead },
-          });
-        }
-
-        gsap.from("[data-filter-tag]", {
-          opacity: 0,
-          y: 12,
-          duration: 0.4,
-          ease: ease.entrance,
-          stagger: 0.05,
-          scrollTrigger: { trigger: "[data-filters]", start: "top 85%" },
+        gsap.fromTo(lead, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance,
+          scrollTrigger: { trigger: lead, once: true },
         });
-
-        gsap.from("[data-featured]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.7,
-          ease: ease.entrance,
-          scrollTrigger: { trigger: "[data-featured]", start: "top 80%" },
-        });
-
-        gsap.from("[data-project-card]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.08,
-          scrollTrigger: { trigger: "[data-grid]", start: "top 75%" },
-        });
-
-        return undefined;
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
-
-      return () => {
-        window.clearTimeout(refreshTimeout);
-        mm.revert();
-      };
+      return () => mm.revert();
     },
-    { scope: contentRef, dependencies: [PROJECTS, FEATURED, FILTERS, isLoading] },
+    { scope: contentRef },
   );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = filtersRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 12 }, {
+          opacity: 1, y: 0, duration: 0.4, ease: ease.entrance, stagger: 0.05,
+          scrollTrigger: { trigger: container, start: "top 85%", once: true },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = featuredRef.current;
+      if (!container) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.7, ease: ease.entrance,
+          scrollTrigger: { trigger: container, start: "top 80%", once: true },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef, dependencies: [FEATURED] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = gridRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.08,
+          scrollTrigger: { trigger: container, start: "top 75%", once: true },
+        });
+      });
+
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [PROJECTS] },
+  );
+
+  useEffect(() => {
+    if (!isLoading) {
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 500);
+      return () => window.clearTimeout(t);
+    }
+  }, [isLoading]);
 
   return (
     <PageLayout
@@ -261,7 +302,7 @@ export function ProjectsPage() {
     >
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
-          data-lead
+          ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I keep a running index of every project that shipped or got close enough
@@ -270,13 +311,12 @@ export function ProjectsPage() {
         </p>
 
         <div
-          data-filters
+          ref={filtersRef}
           className="flex flex-wrap gap-3"
         >
           {FILTERS.map((tag) => (
             <button
               key={tag.label}
-              data-filter-tag
               type="button"
               onClick={() => setFilter(tag.label)}
               className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-colors hover:border-violet hover:text-text-primary ${
@@ -302,10 +342,14 @@ export function ProjectsPage() {
           <ErrorState onRetry={refetch} />
         ) : (
           <>
-            {FEATURED && <FeaturedBlock project={FEATURED} />}
+            {FEATURED && (
+              <div ref={featuredRef}>
+                <FeaturedBlock project={FEATURED} />
+              </div>
+            )}
 
             <div
-              data-grid
+              ref={gridRef}
               className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
             >
               {PROJECTS.map((project) => (
