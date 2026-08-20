@@ -17,6 +17,8 @@ export function Projects() {
     name: p.title,
     title: p.title,
     description: p.description,
+    url: p.url,
+    github: p.github,
     tags: p.chips,
   }));
   useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS, isLoading] });

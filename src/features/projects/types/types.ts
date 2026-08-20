@@ -6,6 +6,8 @@ export interface ProjectCard {
   role: string;
   status: string;
   description: string;
+  url: string;
+  github: string;
   chips: string[];
 }
 
@@ -14,6 +16,8 @@ export interface FeaturedProject {
   eyebrow: string;
   title: string;
   description: string;
+  url: string;
+  github: string;
   chips: string[];
   meta: {
     year: string;
@@ -37,6 +41,8 @@ export interface RawProject {
   role: string;
   status: string;
   description: string;
+  url: string;
+  github: string;
   featured: boolean;
   chips: { name: string }[];
 }

@@ -16,6 +16,8 @@ export function useProjectsPreview(limit: number) {
     role: p.role,
     status: p.status,
     description: p.description,
+    url: p.url,
+    github: p.github,
     chips: p.chips.map((c) => c.name),
   }));
 

@@ -13,6 +13,8 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
+import { TechIcon } from "@/shared/components/ui/TechIcon";
+import { Globe } from "lucide-react";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
@@ -130,6 +132,30 @@ function ProjectCardBlock({ project }: { project: ProjectCard }) {
           {project.chips.map((chip) => (
             <Chip key={chip}>{chip}</Chip>
           ))}
+        </div>
+        <div className="flex items-center gap-2 pt-2">
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.title} on GitHub`}
+              className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <TechIcon name="github" className="h-4 w-4" />
+            </a>
+          )}
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.title}`}
+              className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <Globe size={16} />
+            </a>
+          )}
         </div>
       </div>
     </div>

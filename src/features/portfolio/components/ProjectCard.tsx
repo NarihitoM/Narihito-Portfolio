@@ -2,6 +2,8 @@
 
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Chip } from "@/shared/components/ui/Chip";
+import { TechIcon } from "@/shared/components/ui/TechIcon";
+import { Globe } from "lucide-react";
 import type { Project } from "@/features/portfolio/types/types";
 
 export function ProjectCard({ project }: { project: Project }) {
@@ -33,6 +35,30 @@ export function ProjectCard({ project }: { project: Project }) {
           {project.tags.map((tag) => (
             <Chip key={tag}>{tag}</Chip>
           ))}
+        </div>
+        <div className="flex items-center gap-2 pt-1">
+          {project.github && (
+            <a
+              href={project.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`${project.title} on GitHub`}
+              className="flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <TechIcon name="github" className="h-3.5 w-3.5" />
+            </a>
+          )}
+          {project.url && (
+            <a
+              href={project.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Open ${project.title}`}
+              className="flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <Globe size={14} />
+            </a>
+          )}
         </div>
       </div>
     </div>

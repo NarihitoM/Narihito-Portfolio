@@ -18,6 +18,8 @@ export function useProjects() {
     role: p.role,
     status: p.status,
     description: p.description,
+    url: p.url,
+    github: p.github,
     chips: p.chips.map((c) => c.name),
   }));
 
@@ -28,6 +30,8 @@ export function useProjects() {
         eyebrow: `FEATURED — ${featuredRaw.year}`,
         title: featuredRaw.title,
         description: featuredRaw.description,
+        url: featuredRaw.url,
+        github: featuredRaw.github,
         chips: featuredRaw.chips.map((c) => c.name),
         meta: {
           year: featuredRaw.year,
