@@ -114,7 +114,7 @@ export function ProjectCard({ project }: { project: Project }) {
           </p>
           <div className="flex flex-wrap gap-2">
             {project.tags.map((chip) => (
-              <Chip key={chip}>{chip}</Chip>
+              <Chip key={chip} icon={chip}>{chip}</Chip>
             ))}
           </div>
           <div className="flex items-center gap-2 pt-2">

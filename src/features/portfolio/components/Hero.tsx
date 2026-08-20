@@ -55,7 +55,7 @@ export function Hero() {
         <SnakeGridOverlay />
       </div>
 
-      <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center lg:text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           <span className="lg:hidden">
             HEIN HTET AUNG — FULL-STACK
@@ -92,8 +92,15 @@ export function Hero() {
       </div>
 
       <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-[838px] h-px w-[1200px] bg-border-glow-soft" />
+      <div className="lg:hidden mx-5 md:mx-10 mt-8 h-px w-full bg-border-glow-soft" />
 
       <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 top-[860px] w-[920px] grid-cols-3 gap-8">
+        <MetaItem label="AVAILABLE" value="EVERY TIME" />
+        <MetaItem label="BASED IN" value="MYANMAR" />
+        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AI DEVELOPMENT" />
+      </div>
+
+      <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-3 gap-4">
         <MetaItem label="AVAILABLE" value="EVERY TIME" />
         <MetaItem label="BASED IN" value="MYANMAR" />
         <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AI DEVELOPMENT" />
