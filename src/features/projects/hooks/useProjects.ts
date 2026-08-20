@@ -11,6 +11,7 @@ export function useProjects() {
   const raw = query.data ?? [];
 
   const projects: ProjectCard[] = raw.map((p) => ({
+    projectimg: p.projectimg,
     title: p.title,
     year: p.year,
     category: p.category,
@@ -23,6 +24,7 @@ export function useProjects() {
   const featuredRaw = raw.find((p) => p.featured);
   const featured: FeaturedProject | null = featuredRaw
     ? {
+        projectimg: featuredRaw.projectimg,
         eyebrow: `FEATURED — ${featuredRaw.year}`,
         title: featuredRaw.title,
         description: featuredRaw.description,

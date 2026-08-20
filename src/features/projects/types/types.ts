@@ -1,4 +1,5 @@
 export interface ProjectCard {
+  projectimg: string;
   title: string;
   year: string;
   category: string;
@@ -9,6 +10,7 @@ export interface ProjectCard {
 }
 
 export interface FeaturedProject {
+  projectimg: string;
   eyebrow: string;
   title: string;
   description: string;
@@ -28,6 +30,7 @@ export interface FilterTag {
 }
 
 export interface RawProject {
+  projectimg: string;
   title: string;
   year: string;
   category: string;

@@ -28,11 +28,21 @@ function FeaturedBlock({ project }: { project: FeaturedProject }) {
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
         <div className="flex-1 flex flex-col gap-6">
-          <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
-            <span className="font-mono text-[12px] tracking-[2px] text-text-muted">
-              SANSIRI STAY
-            </span>
-          </div>
+          {project.projectimg ? (
+            <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
+              <img
+                src={project.projectimg}
+                alt={project.title}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
+              <span className="font-mono text-[12px] tracking-[2px] text-text-muted">
+                {project.title}
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="flex-1 flex flex-col gap-6">
@@ -77,11 +87,21 @@ function ProjectCardBlock({ project }: { project: ProjectCard }) {
       data-project-card
       className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
     >
-      <div className="h-[200px] md:h-[230px] w-full flex items-center justify-center bg-bg-panel">
-        <span className="font-mono text-[11px] tracking-[2px] text-text-muted uppercase">
-          {project.title}
-        </span>
-      </div>
+      {project.projectimg ? (
+        <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
+          <img
+            src={project.projectimg}
+            alt={project.title}
+            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+        </div>
+      ) : (
+        <div className="h-[200px] md:h-[230px] w-full flex items-center justify-center bg-bg-panel">
+          <span className="font-mono text-[11px] tracking-[2px] text-text-muted uppercase">
+            {project.title}
+          </span>
+        </div>
+      )}
       <div className="flex flex-col gap-4 p-5 md:p-6">
         <div className="flex items-center gap-3">
           <h3 className="font-display text-[18px] md:text-[20px] font-semibold text-text-primary">

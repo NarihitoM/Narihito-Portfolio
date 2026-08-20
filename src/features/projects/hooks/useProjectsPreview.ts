@@ -9,6 +9,7 @@ export function useProjectsPreview(limit: number) {
   });
 
   const projects: ProjectCard[] = (query.data ?? []).map((p) => ({
+    projectimg: p.projectimg,
     title: p.title,
     year: p.year,
     category: p.category,
