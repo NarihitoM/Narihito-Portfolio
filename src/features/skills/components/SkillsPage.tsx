@@ -206,7 +206,7 @@ export function SkillsPage() {
                 </span>
               </div>
               {cat.tools.map((tool) => (
-                <ToolRow key={tool.name} tool={tool} />
+                <ToolRow key={tool.id} tool={tool} />
               ))}
             </div>
           ))

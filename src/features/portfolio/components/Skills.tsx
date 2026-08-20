@@ -13,7 +13,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const { categories, isLoading, isError, refetch } = useSkills();
-  const SKILLS = categories.flatMap((c) => c.tools.map((t) => t.name)).slice(0, 10);
+  const SKILLS = categories.flatMap((c) => c.tools).slice(0, 10);
   useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS] });
 
   return (
@@ -35,7 +35,7 @@ export function Skills() {
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
             {SKILLS.map((skill) => (
-              <SkillCard key={skill} skill={skill} />
+              <SkillCard key={skill.id} skill={skill.name} />
             ))}
           </div>
         )}

@@ -12,6 +12,7 @@ export function useSkills() {
     eyebrow: g.label.toUpperCase(),
     note: "",
     tools: g.items.map((item) => ({
+      id: item.id,
       name: item.name,
       icon: item.name.toLowerCase().replace(/\s+/g, "-"),
       note: "",

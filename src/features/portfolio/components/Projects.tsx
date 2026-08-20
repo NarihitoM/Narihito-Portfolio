@@ -13,6 +13,7 @@ export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(4);
   const PROJECTS = previewProjects.map((p) => ({
+    projectimg: p.projectimg,
     name: p.title,
     title: p.title,
     description: p.description,

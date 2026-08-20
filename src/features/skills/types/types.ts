@@ -1,4 +1,5 @@
 export interface Tool {
+  id: string;
   name: string;
   icon: string;
   note: string;
@@ -13,6 +14,7 @@ export interface Category {
 }
 
 export interface RawSkillGroup {
+  id: string;
   label: string;
-  items: { name: string }[];
+  items: { id: string; name: string }[];
 }
