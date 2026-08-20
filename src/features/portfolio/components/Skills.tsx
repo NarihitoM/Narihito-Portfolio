@@ -13,7 +13,8 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const { categories, isLoading, isError, refetch } = useSkills();
-  const SKILLS = categories.flatMap((c) => c.tools).slice(0, 10);
+  const allTools = categories.flatMap((c) => c.tools);
+  const SKILLS = Array.from(new Map(allTools.map((t) => [t.name, t])).values()).slice(0, 10);
   useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS] });
 
   return (
