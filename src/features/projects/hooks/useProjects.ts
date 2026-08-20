@@ -40,7 +40,6 @@ export function useProjects() {
           role: featuredRaw.role,
           stack: featuredRaw.category,
           status: featuredRaw.status,
-          duration: "",
         },
       }
     : null;

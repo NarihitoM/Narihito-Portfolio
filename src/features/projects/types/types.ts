@@ -24,7 +24,6 @@ export interface FeaturedProject {
     role: string;
     stack: string;
     status: string;
-    duration: string;
   };
 }
 
