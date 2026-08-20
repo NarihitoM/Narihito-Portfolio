@@ -108,12 +108,12 @@ export function Hero() {
 
       <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[860px] flex-col items-center gap-3">
         <span className="font-mono text-[11px] text-text-muted">SCROLL</span>
-        <span className="h-9 w-px bg-cyan" />
+        <ScrollMouseIcon className="h-9 w-5" dotClassName="h-1.5 w-1.5" />
       </div>
 
       <div className="flex lg:hidden flex-col items-center gap-2 py-8">
         <span className="font-mono text-[10px] text-text-muted">SCROLL</span>
-        <span className="h-7 w-px bg-cyan" />
+        <ScrollMouseIcon className="h-7 w-4" dotClassName="h-1 w-1" />
       </div>
     </section>
   );
@@ -124,6 +124,14 @@ function MetaItem({ label, value }: { label: string; value: string }) {
     <div className="flex flex-col gap-1.5">
       <span className="font-mono text-[10px] text-text-muted">{label}</span>
       <span className="font-mono text-[12px] text-text-secondary">{value}</span>
+    </div>
+  );
+}
+
+function ScrollMouseIcon({ className, dotClassName }: { className: string; dotClassName: string }) {
+  return (
+    <div className={`flex justify-center rounded-full border border-cyan pt-2 ${className}`}>
+      <span className={`animate-scroll-dot rounded-full bg-cyan ${dotClassName}`} />
     </div>
   );
 }
