@@ -12,7 +12,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
-  const { entries: ENTRIES, isLoading, isError, refetch } = useExperiencePreview(3);
+  const { entries: ENTRIES, isLoading, isError, refetch } = useExperiencePreview(10);
 
   useGSAP(
     () => {
