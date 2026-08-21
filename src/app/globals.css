@@ -27,6 +27,15 @@
   cursor: none;
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @property --preload-progress {
   syntax: "<integer>";
   initial-value: 0;

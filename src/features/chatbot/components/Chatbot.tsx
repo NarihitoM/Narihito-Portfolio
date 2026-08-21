@@ -82,7 +82,11 @@ export function Chatbot() {
             </div>
           </div>
 
-          <div ref={listRef} className="flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3">
+          <div
+            ref={listRef}
+            data-lenis-prevent
+            className="no-scrollbar flex-1 overflow-y-auto px-4 py-4 flex flex-col gap-3"
+          >
             {messages.map((m, i) => {
               const isPendingReply = isSending && i === messages.length - 1 && m.role === "assistant" && m.content === "";
               return (
