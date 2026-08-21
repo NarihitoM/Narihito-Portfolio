@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import { Button } from "@/shared/components/ui/Button";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { useSendContact } from "@/features/contact/hooks/useSendContact";
 import type { ContactFormData } from "@/features/contact/types/types";
@@ -160,13 +161,9 @@ export function Contact() {
               {sendMut.isError && (
                 <p className="font-body text-[13px] text-danger">Failed to send message. Please try again.</p>
               )}
-              <button
-                type="submit"
-                disabled={sendMut.isPending}
-                className="self-start mt-1 flex h-12 items-center justify-center rounded-[4px] bg-violet px-8 font-body text-[15px] font-semibold text-wire hover:shadow-[0_10px_28px_-12px_var(--color-violet)] hover:opacity-90 active:opacity-100 transition-all disabled:opacity-50"
-              >
+              <Button type="submit" disabled={sendMut.isPending} className="self-start mt-1">
                 {sendMut.isPending ? "SENDING..." : "SEND MESSAGE"}
-              </button>
+              </Button>
             </form>
           )}
         </div>

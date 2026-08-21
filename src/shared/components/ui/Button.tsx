@@ -19,6 +19,7 @@ type ButtonAsButton = BaseProps & {
   href?: never;
   onClick?: () => void;
   type?: "button" | "submit";
+  disabled?: boolean;
 };
 
 type ButtonProps = ButtonAsLink | ButtonAsButton;
@@ -35,7 +36,8 @@ const baseClasses =
   "transition-[transform,opacity,background-color,border-color,box-shadow] duration-300 ease-out " +
   "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-bg " +
-  "motion-reduce:transform-none motion-reduce:transition-none";
+  "motion-reduce:transform-none motion-reduce:transition-none " +
+  "disabled:opacity-50 disabled:pointer-events-none";
 
 export function Button({ children, variant = "primary", className = "", ...props }: ButtonProps) {
   const classes = `${baseClasses} ${variantClasses[variant]} ${className}`;
@@ -60,9 +62,9 @@ export function Button({ children, variant = "primary", className = "", ...props
     );
   }
 
-  const { onClick, type = "button" } = props as ButtonAsButton;
+  const { onClick, type = "button", disabled } = props as ButtonAsButton;
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} disabled={disabled} className={classes}>
       {children}
     </button>
   );
