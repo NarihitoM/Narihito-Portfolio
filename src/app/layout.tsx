@@ -6,6 +6,7 @@ import { Providers } from "@/shared/components/layout/Providers";
 import { ClickRipple } from "@/shared/components/ui/ClickRipple";
 import { CursorFollower } from "@/shared/components/ui/CursorFollower";
 import { Preloader } from "@/shared/components/ui/Preloader";
+import { Chatbot } from "@/features/chatbot/components/Chatbot";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -60,6 +61,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ClickRipple />
         <CursorFollower />
         <Providers>{children}</Providers>
+        <Chatbot />
       </body>
     </html>
   );
