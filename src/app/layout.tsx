@@ -41,6 +41,11 @@ try {
 } catch (e) {
   document.documentElement.setAttribute('data-theme', 'dark');
 }
+try {
+  if (window.sessionStorage.getItem('narihito-intro-played')) {
+    document.documentElement.setAttribute('data-intro-played', '1');
+  }
+} catch (e) {}
 `;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

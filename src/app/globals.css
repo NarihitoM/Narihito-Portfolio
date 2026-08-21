@@ -27,6 +27,62 @@
   cursor: none;
 }
 
+@property --preload-progress {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+@keyframes preload-count {
+  to {
+    --preload-progress: 100;
+  }
+}
+
+@keyframes preload-bar {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes preload-travel {
+  from {
+    left: 0%;
+  }
+  to {
+    left: 100%;
+  }
+}
+
+.preload-bar {
+  transform: scaleX(0);
+  animation: preload-bar 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.preload-counter {
+  counter-reset: preload-num var(--preload-progress);
+  animation:
+    preload-count 2s cubic-bezier(0.4, 0, 0.2, 1) forwards,
+    preload-travel 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.preload-counter::after {
+  content: counter(preload-num) "%";
+}
+
+[data-intro-played="1"] #preloader {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #preloader {
+    display: none;
+  }
+}
+
 :root {
   --color-bg: #0a0a0a;
   --color-bg-panel: #161616b0;
