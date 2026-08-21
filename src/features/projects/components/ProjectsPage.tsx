@@ -22,6 +22,22 @@ import { useProjects } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
 import type { FeaturedProject, ProjectCard } from "../types/types";
 
+const NUMBER_WORDS: Record<number, string> = {
+  0: "Zero",
+  1: "One",
+  2: "Two",
+  3: "Three",
+  4: "Four",
+  5: "Five",
+  6: "Six",
+  7: "Seven",
+  8: "Eight",
+  9: "Nine",
+  10: "Ten",
+  11: "Eleven",
+  12: "Twelve",
+};
+
 function FeaturedBlock({ project }: { project: FeaturedProject }) {
   return (
     <div data-featured className="flex flex-col gap-8 border-t border-border-glow pt-9">
@@ -323,6 +339,7 @@ export function ProjectsPage() {
     { key: "NEWEST", value: newestYear },
     { key: "IN BUILD", value: String(inBuildCount) },
   ];
+  const projectCountWord = NUMBER_WORDS[allProjects.length] ?? String(allProjects.length);
 
   const PROJECTS = filter === "All" ? allProjects : allProjects.filter((p) => p.category === filter);
 
@@ -436,7 +453,7 @@ export function ProjectsPage() {
       backHref="/"
       breadcrumb="HOME / PROJECTS"
       eyebrow="[ 04 — PROJECTS ]"
-      title="Eleven builds, and what each one was actually solving."
+      title={`${projectCountWord} builds, and what each one was actually solving.`}
       deck="The full index — client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
       meta={pageMeta}
       metaLoading={isLoading}
