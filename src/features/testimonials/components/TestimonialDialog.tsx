@@ -103,20 +103,6 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
         <span className="font-mono text-[11px] leading-[1.7] tracking-[0.5px] text-text-muted">
           {testimonial.context}
         </span>
-
-        {testimonial.url && (
-          <a
-            href={testimonial.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="self-start flex items-center gap-2 rounded-[4px] border border-border-glow-soft px-4 py-2.5 font-mono text-[11px] tracking-[1px] text-text-secondary hover:border-violet hover:text-violet transition-colors"
-          >
-            VIEW PROFILE
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M7 17L17 7M17 7H7M17 7v10" />
-            </svg>
-          </a>
-        )}
       </div>
     </div>
   );
