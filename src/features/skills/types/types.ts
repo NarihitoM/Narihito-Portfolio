@@ -16,5 +16,5 @@ export interface Category {
 export interface RawSkillGroup {
   id: string;
   label: string;
-  items: { id: string; name: string }[];
+  items: { id: string; name: string; proficiency: number }[];
 }

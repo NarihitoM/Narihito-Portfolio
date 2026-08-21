@@ -19,7 +19,7 @@ export function useSkills() {
       icon: item.name.toLowerCase().replace(/\s+/g, "-"),
       note: "",
       frequency: "",
-      proficiency: 0,
+      proficiency: item.proficiency ?? 0,
     })),
   }));
 
