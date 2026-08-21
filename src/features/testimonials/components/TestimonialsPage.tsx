@@ -180,14 +180,21 @@ export function TestimonialsPage() {
           ref={statsRef}
           className="flex flex-col sm:flex-row gap-8 sm:gap-6"
         >
-          {stats.map((stat) => (
-            <StatBlock key={stat.label} stat={stat} />
-          ))}
+          {isLoading ? (
+            <>
+              <Skeleton className="h-[80px] flex-1" />
+              <Skeleton className="h-[80px] flex-1" />
+            </>
+          ) : (
+            stats.map((stat) => (
+              <StatBlock key={stat.label} stat={stat} />
+            ))
+          )}
         </div>
 
         <div className="border-t border-border-glow-soft pt-8">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            {feedbackLabel}
+            {isLoading ? "LOADING..." : feedbackLabel}
           </span>
         </div>
 
