@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 const FALLBACK_MS = 2600;
@@ -65,11 +66,21 @@ export function Preloader() {
       ref={rootRef}
       className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-bg"
     >
-      <div className="flex flex-col items-center gap-3">
-        <span className="font-display text-[28px] font-semibold tracking-[6px] text-text-primary">
+      <div className="flex flex-col items-center gap-5">
+        <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
+          <Image
+            src="/Narihito.jpg"
+            alt="Narihito"
+            width={64}
+            height={64}
+            className="h-full w-full object-cover"
+            priority
+          />
+        </div>
+        <span className="font-body text-[28px] font-semibold tracking-[6px] text-text-primary">
           NARIHITO
         </span>
-        <span className="font-mono text-[10px] tracking-[3px] text-text-muted">
+        <span className="font-body text-[10px] tracking-[3px] text-text-muted">
           FULL-STACK DEVELOPER
         </span>
       </div>
