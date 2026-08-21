@@ -25,6 +25,8 @@ import {
   siLangchain,
   siOpenjdk,
   siSpringboot,
+  siPhp,
+  siBootstrap,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -73,6 +75,8 @@ const ICONS: Record<string, IconRef> = {
   springboot: siSpringboot,
   "spring boot": siSpringboot,
   spring: siSpringboot,
+  php: siPhp,
+  bootstrap: siBootstrap,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
