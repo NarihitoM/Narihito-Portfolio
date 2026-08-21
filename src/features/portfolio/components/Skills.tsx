@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useMemo, useRef, useState, useEffect } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
@@ -65,8 +65,10 @@ function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void 
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const { categories, isLoading, isError, refetch } = useSkills();
-  const allTools = categories.flatMap((c) => c.tools);
-  const SKILLS = Array.from(new Map(allTools.map((t) => [t.name, t])).values()).slice(0, 10);
+  const SKILLS = useMemo(() => {
+    const allTools = categories.flatMap((c) => c.tools);
+    return Array.from(new Map(allTools.map((t) => [t.name, t])).values()).slice(0, 10);
+  }, [categories]);
   const [selected, setSelected] = useState<Tool | null>(null);
   useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS, isLoading] });
 
