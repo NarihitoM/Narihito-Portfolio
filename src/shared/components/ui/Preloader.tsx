@@ -58,8 +58,9 @@ export function Preloader() {
         duration: COUNT_DURATION,
         ease: "power2.inOut",
         onUpdate: () => {
-          counter.textContent = String(Math.round(progress.value)).padStart(3, "0");
+          counter.textContent = `${String(Math.round(progress.value)).padStart(3, "0")}%`;
           bar.style.transform = `scaleX(${progress.value / 100})`;
+          counter.style.left = `${progress.value}%`;
         },
       },
       "-=0.2",
@@ -89,19 +90,21 @@ export function Preloader() {
         </span>
       </div>
 
-      <div className="flex w-[220px] flex-col gap-4">
+      <div className="flex w-[280px] flex-col gap-4">
         <div className="h-px w-full overflow-hidden bg-border-glow-soft">
           <span
             ref={barRef}
             className="block h-full w-full origin-left scale-x-0 bg-text-primary"
           />
         </div>
-        <span
-          ref={counterRef}
-          className="self-end font-mono text-[11px] tracking-[2px] text-text-secondary"
-        >
-          000
-        </span>
+        <div className="relative h-4 w-full">
+          <span
+            ref={counterRef}
+            className="absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-text-secondary"
+          >
+            000%
+          </span>
+        </div>
       </div>
     </div>
   );
