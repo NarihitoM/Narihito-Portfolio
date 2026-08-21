@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef, useState } from "react";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 const SESSION_KEY = "narihito-intro-played";
@@ -12,15 +11,18 @@ export function Preloader() {
   const barRef = useRef<HTMLSpanElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const wordmarkRef = useRef<HTMLDivElement>(null);
+  const startedRef = useRef(false);
   const [done, setDone] = useState(false);
 
-  useGSAP(() => {
-    if (done) return;
+  useEffect(() => {
+    if (startedRef.current) return;
+    startedRef.current = true;
 
     const alreadyPlayed = window.sessionStorage.getItem(SESSION_KEY) !== null;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (alreadyPlayed || reduced) {
-      setDone(true);
+      if (rootRef.current) rootRef.current.style.display = "none";
+      requestAnimationFrame(() => setDone(true));
       return;
     }
 
@@ -32,13 +34,13 @@ export function Preloader() {
     const wordmark = wordmarkRef.current;
     if (!root || !bar || !counter || !wordmark) return;
 
-    window.sessionStorage.setItem(SESSION_KEY, "1");
     document.body.style.overflow = "hidden";
 
     const progress = { value: 0 };
 
     const tl = gsap.timeline({
       onComplete: () => {
+        window.sessionStorage.setItem(SESSION_KEY, "1");
         document.body.style.overflow = "";
         setDone(true);
         ScrollTrigger.refresh();
@@ -70,6 +72,8 @@ export function Preloader() {
     tl.to(root, { yPercent: -100, duration: 0.7, ease: ease.entrance }, "-=0.1");
 
     return () => {
+      startedRef.current = false;
+      tl.kill();
       document.body.style.overflow = "";
     };
   }, []);
