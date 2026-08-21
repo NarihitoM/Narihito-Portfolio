@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import {
   duration,
@@ -48,11 +49,13 @@ function FeaturedBlock({ project }: { project: FeaturedProject }) {
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
         <div className="flex-1 flex flex-col gap-6">
           {project.projectimg ? (
-            <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
-              <img
+            <div className="relative h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
+              <Image
                 src={project.projectimg}
                 alt={project.title}
-                className="h-full w-full object-cover"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 600px, 100vw"
               />
             </div>
           ) : (
@@ -107,11 +110,13 @@ function ProjectCardBlock({ project, onView }: { project: ProjectCard; onView: (
       className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
     >
       {project.projectimg ? (
-        <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
-          <img
+        <div className="relative h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
+          <Image
             src={project.projectimg}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(min-width: 768px) 400px, 100vw"
           />
         </div>
       ) : (
@@ -252,11 +257,13 @@ function Dialog({ project, onClose }: { project: ProjectCard; onClose: () => voi
         </button>
 
         {project.projectimg && (
-          <div className="w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">
-            <img
+          <div className="relative w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">
+            <Image
               src={project.projectimg}
               alt={project.title}
-              className="h-full w-full object-cover"
+              fill
+              className="object-cover"
+              sizes="(min-width: 768px) 720px, 100vw"
             />
           </div>
         )}
