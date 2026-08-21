@@ -13,7 +13,6 @@ import {
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
-import { parseCountable } from "@/shared/lib/countUp";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useExperience } from "@/features/experience/hooks/useExperience";
@@ -37,23 +36,10 @@ function DutyRow({ duty }: { duty: Duty }) {
 }
 
 function MetricBlock({ metric }: { metric: Metric }) {
-  const countable = parseCountable(metric.value);
-
   return (
     <div data-metric className="flex-1 flex flex-col gap-2 pt-6">
       <span className="font-display text-[28px] md:text-[34px] font-semibold tracking-[-1px] text-text-primary">
-        {countable ? (
-          <span
-            data-count-to={countable.target}
-            data-count-prefix={countable.prefix}
-            data-count-suffix={countable.suffix}
-            data-count-decimals={countable.decimals}
-          >
-            {countable.prefix}0{countable.suffix}
-          </span>
-        ) : (
-          metric.value
-        )}
+        {metric.value}
       </span>
       <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
         {metric.label}

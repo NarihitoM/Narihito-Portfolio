@@ -12,30 +12,16 @@ import {
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
-import { parseCountable } from "@/shared/lib/countUp";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useTestimonials } from "../hooks/useTestimonials";
 import type { Stat, Testimonial } from "../types/types";
 
 function StatBlock({ stat }: { stat: Stat }) {
-  const countable = parseCountable(stat.value);
-
   return (
     <div data-stat className="flex-1 flex flex-col gap-2">
       <span className="font-display text-[36px] md:text-[44px] lg:text-[52px] font-semibold tracking-[-1px] text-text-primary">
-        {countable ? (
-          <span
-            data-count-to={countable.target}
-            data-count-prefix={countable.prefix}
-            data-count-suffix={countable.suffix}
-            data-count-decimals={countable.decimals}
-          >
-            {countable.prefix}0{countable.suffix}
-          </span>
-        ) : (
-          stat.value
-        )}
+        {stat.value}
       </span>
       <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
         {stat.label}
