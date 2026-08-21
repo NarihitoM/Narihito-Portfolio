@@ -6,6 +6,7 @@ export interface Testimonial {
   context: string;
   profilePic: string | null;
   url: string | null;
+  type: string;
 }
 
 export interface Stat {

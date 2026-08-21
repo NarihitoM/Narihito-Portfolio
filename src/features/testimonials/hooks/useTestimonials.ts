@@ -15,7 +15,10 @@ export function useTestimonials() {
 
   const stats: Stat[] = useMemo(() => {
     const clientsRepresented = new Set(
-      testimonials.map((t) => t.name.trim()).filter(Boolean),
+      testimonials
+        .filter((t) => t.type === "client")
+        .map((t) => t.name.trim())
+        .filter(Boolean),
     ).size;
     return [
       { value: String(testimonials.length), label: "TESTIMONIALS COLLECTED" },

@@ -104,7 +104,13 @@ function ProjectCardBlock({ project, onView }: { project: ProjectCard; onView: (
     <div
       {...tilt}
       data-project-card
-      className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
+      role="button"
+      tabIndex={0}
+      onClick={onView}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onView();
+      }}
+      className="group flex cursor-pointer flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
     >
       {project.projectimg ? (
         <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
