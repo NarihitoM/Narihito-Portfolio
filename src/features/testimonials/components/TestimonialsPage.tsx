@@ -58,9 +58,9 @@ function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick
           </span>
         </div>
       </div>
-      <span className="font-mono text-[10px] tracking-[1.5px] text-text-muted line-clamp-2">
+      <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
         {testimonial.context}
-      </span>
+      </p>
     </button>
   );
 }

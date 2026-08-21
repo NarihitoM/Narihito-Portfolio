@@ -103,9 +103,9 @@ export function Testimonials() {
                     <span className="font-body text-[12px] text-text-muted">{t.role}</span>
                   </div>
                 </div>
-                <span className="font-mono text-[10px] leading-[1.5] tracking-[1px] text-text-muted line-clamp-2">
+                <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
                   {t.context}
-                </span>
+                </p>
               </div>
             ))}
           </div>
