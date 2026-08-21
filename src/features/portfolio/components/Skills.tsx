@@ -114,17 +114,6 @@ function SkillCard({ skill, onClick }: { skill: Tool; onClick: () => void }) {
     >
       <TechIcon name={skill.name} className="h-[22px] w-[22px] md:h-6 md:w-6 text-text-primary" />
       <span className="font-mono text-[13px] md:text-[14px] text-text-secondary">{skill.name}</span>
-      {skill.proficiency > 0 && (
-        <div className="flex items-center gap-2 mt-1">
-          <div className="flex-1 h-1 rounded-full bg-border-glow-soft overflow-hidden">
-            <div
-              className="h-full rounded-full bg-violet transition-all duration-500"
-              style={{ width: `${skill.proficiency}%` }}
-            />
-          </div>
-          <span className="font-mono text-[10px] text-text-muted">{skill.proficiency}%</span>
-        </div>
-      )}
     </div>
   );
 }
