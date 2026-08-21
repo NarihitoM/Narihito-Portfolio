@@ -29,9 +29,13 @@ const jetBrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Narihito — Full-Stack Software Developer",
+  title: "Narihito",
   description:
     "I design and build performant, motion-rich web products end to end — from data models to the pixel that reacts to your cursor.",
+  icons: {
+    icon: "/Narihito.jpg",
+    apple: "/Narihito.jpg",
+  },
 };
 
 const themeInitScript = `
