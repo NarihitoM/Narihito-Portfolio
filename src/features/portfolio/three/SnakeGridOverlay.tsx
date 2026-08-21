@@ -31,18 +31,8 @@ const TRAIL_BANDS = 6;
 const PULSE_DURATION = 1600;
 const PULSE_INTERVAL = 520;
 
-function randomDir(exclude?: { dx: number; dy: number }) {
-  const dirs = [
-    { dx: 1, dy: 0 },
-    { dx: -1, dy: 0 },
-    { dx: 0, dy: 1 },
-    { dx: 0, dy: -1 },
-  ];
-  const options = exclude
-    ? dirs.filter((d) => !(d.dx === -exclude.dx && d.dy === -exclude.dy))
-    : dirs;
-  return options[Math.floor(Math.random() * options.length)];
-}
+const JOG_CHANCE = 0.28;
+const RESUME_CHANCE = 0.7;
 
 export function SnakeGridOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -101,18 +91,29 @@ export function SnakeGridOverlay() {
       }
     }
 
+    function resetRunner(runner: Runner, seeded: boolean) {
+      runner.x = Math.floor(Math.random() * (cols + 1)) * CELL;
+      runner.y = seeded ? Math.floor(Math.random() * (rows + 1)) * CELL : -CELL;
+      runner.dx = 0;
+      runner.dy = 1;
+      runner.distSinceTurn = 0;
+      runner.speed = 70 + Math.random() * 55;
+      runner.trail.length = 0;
+    }
+
     function makeRunners() {
       return Array.from({ length: RUNNER_COUNT }, () => {
-        const dir = randomDir();
-        return {
-          x: Math.floor(Math.random() * Math.max(cols, 1)) * CELL,
-          y: Math.floor(Math.random() * Math.max(rows, 1)) * CELL,
-          dx: dir.dx,
-          dy: dir.dy,
+        const runner: Runner = {
+          x: 0,
+          y: 0,
+          dx: 0,
+          dy: 1,
           distSinceTurn: 0,
-          speed: 70 + Math.random() * 55,
-          trail: [] as Point[],
+          speed: 0,
+          trail: [],
         };
+        resetRunner(runner, true);
+        return runner;
       });
     }
 
@@ -205,27 +206,27 @@ export function SnakeGridOverlay() {
         runner.x = Math.round(runner.x / CELL) * CELL;
         runner.y = Math.round(runner.y / CELL) * CELL;
 
-        if (runner.x <= 0) {
-          runner.dx = 1;
-          runner.dy = 0;
-        } else if (runner.x >= width) {
-          runner.dx = -1;
-          runner.dy = 0;
-        } else if (runner.y <= 0) {
+        if (runner.dy === 1) {
+          if (Math.random() < JOG_CHANCE) {
+            runner.dx = Math.random() < 0.5 ? -1 : 1;
+            runner.dy = 0;
+          }
+        } else if (Math.random() < RESUME_CHANCE) {
           runner.dx = 0;
           runner.dy = 1;
-        } else if (runner.y >= height) {
+        }
+
+        const maxX = cols * CELL;
+        if ((runner.x <= 0 && runner.dx === -1) || (runner.x >= maxX && runner.dx === 1)) {
           runner.dx = 0;
-          runner.dy = -1;
-        } else if (Math.random() < 0.55) {
-          const dir = randomDir({ dx: runner.dx, dy: runner.dy });
-          runner.dx = dir.dx;
-          runner.dy = dir.dy;
+          runner.dy = 1;
         }
       }
 
       runner.trail.push({ x: runner.x, y: runner.y });
       if (runner.trail.length > TRAIL_LENGTH) runner.trail.shift();
+
+      if (runner.trail[0].y > height) resetRunner(runner, false);
     }
 
     function frame(now: number) {
