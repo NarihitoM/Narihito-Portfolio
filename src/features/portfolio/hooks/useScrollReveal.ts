@@ -37,15 +37,16 @@ export function useScrollReveal(
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        gsap.from(selector, {
-          opacity: 0,
-          y,
+        gsap.fromTo(selector, { opacity: 0, y }, {
+          opacity: 1,
+          y: 0,
           duration: 0.7,
           ease: ease.entrance,
           stagger: staggerAmount,
           delay,
           scrollTrigger: {
             trigger: el,
+            once: true,
           },
         });
       });
