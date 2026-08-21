@@ -93,19 +93,21 @@ export function Chatbot() {
 
   return (
     <>
-      <button
-        type="button"
-        aria-label={open ? "Close chat" : "Open chat"}
-        onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
-      >
-        <MessageCircle size={18} />
-      </button>
+      {!open && (
+        <button
+          type="button"
+          aria-label="Open chat"
+          onClick={() => setOpen(true)}
+          className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
+        >
+          <MessageCircle size={18} />
+        </button>
+      )}
 
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-6 right-[132px] md:bottom-8 md:right-[156px] z-40 flex h-[65vh] max-h-[520px] w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
+          className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-[65vh] max-h-[520px] w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
         >
           <div className="flex items-center gap-3 border-b border-border-glow-soft px-4 py-3.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chip text-text-primary">
