@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
-  duration,
   ease,
   gsap,
   registerGsap,
@@ -194,7 +193,7 @@ export function TestimonialsPage() {
 
         <div className="border-t border-border-glow-soft pt-8">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            {isLoading ? "LOADING..." : feedbackLabel}
+            {feedbackLabel}
           </span>
         </div>
 
