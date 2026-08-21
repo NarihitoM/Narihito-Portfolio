@@ -73,10 +73,6 @@
   content: counter(preload-num) "%";
 }
 
-[data-intro-played="1"] #preloader {
-  display: none;
-}
-
 @media (prefers-reduced-motion: reduce) {
   #preloader {
     display: none;

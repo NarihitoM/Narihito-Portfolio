@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
-const SESSION_KEY = "narihito-intro-played";
 const FALLBACK_MS = 2600;
 
 export function Preloader() {
@@ -16,11 +15,7 @@ export function Preloader() {
     const counter = counterRef.current;
     if (!root || !counter) return;
 
-    const skip =
-      window.sessionStorage.getItem(SESSION_KEY) !== null ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-    if (skip) {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       requestAnimationFrame(() => setDone(true));
       return;
     }
@@ -39,8 +34,6 @@ export function Preloader() {
         duration: 0.7,
         ease: ease.entrance,
         onComplete: () => {
-          window.sessionStorage.setItem(SESSION_KEY, "1");
-          document.documentElement.setAttribute("data-intro-played", "1");
           document.body.style.overflow = "";
           setDone(true);
           ScrollTrigger.refresh();
