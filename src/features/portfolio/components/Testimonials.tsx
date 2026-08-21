@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { Draggable, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -9,12 +9,15 @@ import { useTestimonialsPreview } from "@/features/testimonials/hooks/useTestimo
 import { useTestimonialsUI } from "@/features/testimonials/store/testimonialsUIStore";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { TestimonialDialog } from "@/features/testimonials/components/TestimonialDialog";
+import type { Testimonial } from "@/features/testimonials/types/types";
 
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const { activeIndex, setActiveIndex } = useTestimonialsUI();
   const { testimonials: TESTIMONIALS, isLoading, isError, refetch } = useTestimonialsPreview(3);
+  const [selected, setSelected] = useState<Testimonial | null>(null);
 
   useGSAP(
     () => {
@@ -75,7 +78,13 @@ export function Testimonials() {
               <div
                 key={t.name}
                 data-testimonial-card
-                className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8"
+                role="button"
+                tabIndex={0}
+                onClick={() => setSelected(t)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") setSelected(t);
+                }}
+                className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40"
               >
                 <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
                   &ldquo;
@@ -115,6 +124,8 @@ export function Testimonials() {
       <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
         <DetailCta href="/testimonials" route="/testimonials" />
       </div>
+
+      {selected && <TestimonialDialog testimonial={selected} onClose={() => setSelected(null)} />}
     </section>
   );
 }
