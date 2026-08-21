@@ -205,9 +205,9 @@ export function ExperiencePage() {
       backLink="Back to Home"
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
-      eyebrow="[ 03 — EXPERIENCE ]"
+      eyebrow="[ 03 - EXPERIENCE ]"
       title="Five years, three employers, and the lessons that outlasted each one."
-      deck="Full role histories with what I owned, what shipped, and the numbers that moved — plus where the formal training came from."
+      deck="Full role histories with what I owned, what shipped, and the numbers that moved, plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}

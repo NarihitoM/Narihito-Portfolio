@@ -191,9 +191,9 @@ export function SkillsPage() {
       backLink="Back to Home"
       backHref="/"
       breadcrumb="HOME / SKILLS"
-      eyebrow="[ 02 — SKILLS & TECH STACK ]"
+      eyebrow="[ 02 - SKILLS & TECH STACK ]"
       title="The tools I reach for, and the ones I reach for first."
-      deck="A working inventory rather than a badge wall — what each tool is actually used for, how often, and where I am still learning."
+      deck="A working inventory rather than a badge wall, what each tool is actually used for, how often, and where I am still learning."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -206,7 +206,7 @@ export function SkillsPage() {
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I keep the stack small on purpose. Four or five tools I know deeply
-          beat a dozen I have only skimmed the docs for — and the bar for adding
+          beat a dozen I have only skimmed the docs for, and the bar for adding
           a dependency is that it saves more than the few lines it replaces.
         </p>
 

@@ -159,9 +159,9 @@ export function AboutPage() {
       backLink="Back to Home"
       backHref="/"
       breadcrumb="HOME / ABOUT"
-      eyebrow="[ 01 — ABOUT ]"
+      eyebrow="[ 01 - ABOUT ]"
       title="A developer who treats motion as structure, not decoration."
-      deck="Five years of building interfaces in Bangkok — how I got here, how I work, and what I care about when the deadline is close."
+      deck="Two years of building interfaces in Myanmar, how I got here, how I work, and what I care about when the deadline is close."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -173,7 +173,7 @@ export function AboutPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
-          I am Narihito — a full stack developer from Yangon. I build product
+          I am Narihito, a full stack developer from Yangon. I build product
           interfaces where the animation carries meaning: a transition that explains where a
           panel came from, a stagger that tells you the list has order, a scroll cue that
           makes the page feel alive.
@@ -184,11 +184,11 @@ export function AboutPage() {
             I started on the wrong side of the stack. Two years of PHP and MySQL for a
             logistics firm taught me that a fast query means nothing if the screen it feeds
             is confusing. So I moved toward the browser, first with vanilla JS, then React,
-            and eventually Next.js — where the server and the client feel like parts of the
+            and eventually Next.js, where the server and the client feel like parts of the
             same system instead of two teams that email each other.
           </p>
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            Motion came later and by accident — a client wanted a hero that &quot;felt
+            Motion came later and by accident, a client wanted a hero that &quot;felt
             alive&quot; and I spent a weekend inside GSAP timelines. What stuck was not the
             effect but the discipline: every eased value is a decision about what the user
             should notice first. That idea now touches every project I ship.
@@ -279,7 +279,7 @@ export function AboutPage() {
             OFF THE CLOCK
           </p>
           <p className="font-body text-[15px] text-text-secondary">
-            Things that keep the work honest — and occasionally end up in it.
+            Things that keep the work honest, and occasionally end up in it.
           </p>
           <div className="flex flex-wrap gap-2">
             {INTERESTS.map((interest) => (
@@ -299,7 +299,7 @@ export function AboutPage() {
             arrived.&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">
-            — A note I keep pinned above the monitor
+            A note I keep pinned above the monitor
           </cite>
         </blockquote>
       </div>

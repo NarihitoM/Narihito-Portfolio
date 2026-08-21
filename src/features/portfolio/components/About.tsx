@@ -60,15 +60,15 @@ export function About() {
         </div>
 
         <div className="flex flex-col gap-3.5 md:gap-6 min-w-0 flex-1 lg:max-w-[600px]">
-          <SectionEyebrow>01 — ABOUT</SectionEyebrow>
+          <SectionEyebrow>01 - ABOUT</SectionEyebrow>
           <h2 className="font-display text-[30px] md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
             I&apos;m Hein Htet Aung, a full-stack developer who builds AI-native products.
           </h2>
           <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
             I&apos;m 21 and a 2nd-year Software Engineering / Computer Science student at the
             University of Information Technology. Alongside my studies, I design and build
-            full-stack web applications end to end — React and Next.js on the front, Node and
-            Postgres underneath — and wire in AI integrations that actually hold up in production,
+            full-stack web applications end to end, React and Next.js on the front, Node and
+            Postgres underneath, and wire in AI integrations that actually hold up in production,
             not just a demo.
           </p>
           <DetailCta href="/about" route="/about" />

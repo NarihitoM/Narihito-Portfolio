@@ -31,7 +31,7 @@ export function Projects() {
     <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
-          <SectionEyebrow>04 — PROJECTS</SectionEyebrow>
+          <SectionEyebrow>04 - PROJECTS</SectionEyebrow>
           <SectionHeading>Selected work</SectionHeading>
         </div>
 

@@ -58,11 +58,11 @@ export function Hero() {
       <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           <span className="lg:hidden">
-            HEIN HTET AUNG — FULL-STACK
+            HEIN HTET AUNG - FULL-STACK
             <br />
             DEVELOPER, AI INTEGRATIONS
           </span>
-          <span className="hidden lg:inline">HEIN HTET AUNG — FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
+          <span className="hidden lg:inline">HEIN HTET AUNG - FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
         </p>
 
         <h1
@@ -76,7 +76,7 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Building faster, writing cleaner code, and shipping sooner — from data models to the
+          Building faster, writing cleaner code, and shipping sooner, from data models to the
           pixel that reacts to your <span className="lg:hidden">touch</span>
           <span className="hidden lg:inline">cursor</span>.
         </p>

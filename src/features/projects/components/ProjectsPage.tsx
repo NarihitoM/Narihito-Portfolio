@@ -452,9 +452,9 @@ export function ProjectsPage() {
       backLink="Back to Home"
       backHref="/"
       breadcrumb="HOME / PROJECTS"
-      eyebrow="[ 04 — PROJECTS ]"
+      eyebrow="[ 04 - PROJECTS ]"
       title={`${projectCountWord} builds, and what each one was actually solving.`}
-      deck="The full index — client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
+      deck="The full index, client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -467,7 +467,7 @@ export function ProjectsPage() {
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I keep a running index of every project that shipped or got close enough
-          to teach me something. The ones that did not work are here too — usually
+          to teach me something. The ones that did not work are here too, usually
           the lessons were bigger on those.
         </p>
 
