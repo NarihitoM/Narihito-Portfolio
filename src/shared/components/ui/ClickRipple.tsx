@@ -84,14 +84,14 @@ export function ClickRipple() {
     }
 
     function drawImpact(ripple: Ripple, t: number) {
-      const it = Math.min(t / 0.3, 1);
+      const it = Math.min(Math.max(t / 0.3, 0), 1);
       if (it >= 1) return;
 
       const eased = 1 - Math.pow(1 - it, 2);
       const radius = 3 + eased * 15;
       const alpha = Math.pow(1 - it, 2) * 0.5;
 
-      const glow = ctx!.createRadialGradient(ripple.x, ripple.y, 0, ripple.x, ripple.y, Math.max(radius, 0.01));
+      const glow = ctx!.createRadialGradient(ripple.x, ripple.y, 0, ripple.x, ripple.y, radius);
       glow.addColorStop(0, `rgba(${rgb},${alpha})`);
       glow.addColorStop(1, `rgba(${rgb},0)`);
       ctx!.fillStyle = glow;
