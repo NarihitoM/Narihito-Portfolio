@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { MessageCircle, Send, X } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import {
   ease,
   gsap,
@@ -11,6 +13,39 @@ import {
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
 import { useChatbot } from "../hooks/useChatbot";
+
+function ChatMarkdown({ content }: { content: string }) {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      components={{
+        p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+        strong: ({ children }) => <strong className="font-semibold text-text-primary">{children}</strong>,
+        ul: ({ children }) => <ul className="mb-2 list-disc space-y-1 pl-4 last:mb-0">{children}</ul>,
+        ol: ({ children }) => <ol className="mb-2 list-decimal space-y-1 pl-4 last:mb-0">{children}</ol>,
+        li: ({ children }) => <li>{children}</li>,
+        a: ({ children, href }) => (
+          <a href={href} target="_blank" rel="noopener noreferrer" className="text-violet underline underline-offset-2">
+            {children}
+          </a>
+        ),
+        code: ({ children }) => (
+          <code className="rounded bg-surface px-1 py-0.5 font-mono text-[12px]">{children}</code>
+        ),
+        table: ({ children }) => (
+          <div className="mb-2 overflow-x-auto last:mb-0">
+            <table className="w-full border-collapse text-[12px]">{children}</table>
+          </div>
+        ),
+        thead: ({ children }) => <thead className="border-b border-border-glow-soft">{children}</thead>,
+        th: ({ children }) => <th className="px-2 py-1 text-left font-medium text-text-primary">{children}</th>,
+        td: ({ children }) => <td className="border-t border-border-glow-soft px-2 py-1 align-top">{children}</td>,
+      }}
+    >
+      {content}
+    </ReactMarkdown>
+  );
+}
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
@@ -101,15 +136,15 @@ export function Chatbot() {
                       <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-text-muted" />
                     </div>
                   ) : (
-                    <p
-                      className={`max-w-[85%] rounded-[6px] px-3.5 py-2.5 font-body text-[13px] leading-[1.55] whitespace-pre-wrap ${
+                    <div
+                      className={`max-w-[85%] rounded-[6px] px-3.5 py-2.5 font-body text-[13px] leading-[1.55] ${
                         m.role === "user"
-                          ? "bg-violet text-wire"
+                          ? "bg-violet text-wire whitespace-pre-wrap"
                           : "bg-chip text-text-primary"
                       }`}
                     >
-                      {m.content}
-                    </p>
+                      {m.role === "assistant" ? <ChatMarkdown content={m.content} /> : m.content}
+                    </div>
                   )}
                 </div>
               );
