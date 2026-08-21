@@ -84,7 +84,13 @@ export function ProjectCard({ project }: { project: Project }) {
       <div
         {...tilt}
         data-project-card
-        className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
+        role="button"
+        tabIndex={0}
+        onClick={() => setOpen(true)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") setOpen(true);
+        }}
+        className="group flex cursor-pointer flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
       >
         {project.projectimg ? (
           <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
@@ -118,18 +124,12 @@ export function ProjectCard({ project }: { project: Project }) {
             ))}
           </div>
           <div className="flex items-center gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => setOpen(true)}
-              className="flex h-9 items-center gap-1.5 rounded border border-violet bg-violet/10 px-3 font-mono text-[11px] tracking-[1px] text-violet transition-colors hover:bg-violet/20"
-            >
-              VIEW
-            </button>
             {project.github && (
               <a
                 href={project.github}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 aria-label={`${project.title} on GitHub`}
                 className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
               >
@@ -141,6 +141,7 @@ export function ProjectCard({ project }: { project: Project }) {
                 href={project.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
                 aria-label={`Open ${project.title}`}
                 className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
               >

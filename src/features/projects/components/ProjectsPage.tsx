@@ -156,18 +156,12 @@ function ProjectCardBlock({ project, onView }: { project: ProjectCard; onView: (
           ))}
         </div>
         <div className="flex items-center gap-2 pt-2">
-          <button
-            type="button"
-            onClick={onView}
-            className="flex h-9 items-center gap-1.5 rounded border border-violet bg-violet/10 px-3 font-mono text-[11px] tracking-[1px] text-violet transition-colors hover:bg-violet/20"
-          >
-            VIEW
-          </button>
           {project.github && (
             <a
               href={project.github}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               aria-label={`${project.title} on GitHub`}
               className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
             >
@@ -179,6 +173,7 @@ function ProjectCardBlock({ project, onView }: { project: ProjectCard; onView: (
               href={project.url}
               target="_blank"
               rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
               aria-label={`Open ${project.title}`}
               className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
             >
