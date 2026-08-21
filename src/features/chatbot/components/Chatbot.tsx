@@ -49,9 +49,18 @@ function ChatMarkdown({ content }: { content: string }) {
   );
 }
 
-function MessageActions({ messageId, content }: { messageId: string; content: string }) {
+function MessageActions({
+  messageId,
+  content,
+  feedback,
+  onFeedback,
+}: {
+  messageId: string;
+  content: string;
+  feedback: ChatFeedbackType | null;
+  onFeedback: (messageId: string, type: ChatFeedbackType) => void;
+}) {
   const [copied, setCopied] = useState(false);
-  const [feedback, setFeedback] = useState<ChatFeedbackType | null>(null);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(content);
@@ -61,7 +70,7 @@ function MessageActions({ messageId, content }: { messageId: string; content: st
 
   const handleFeedback = (type: ChatFeedbackType) => {
     if (feedback === type) return;
-    setFeedback(type);
+    onFeedback(messageId, type);
     chatbotApi.sendFeedback(messageId, content, type).catch(() => {});
   };
 
@@ -105,6 +114,11 @@ export function Chatbot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const { messages, isSending, error, send } = useChatbot();
+  const [feedbackByMessage, setFeedbackByMessage] = useState<Record<string, ChatFeedbackType>>({});
+
+  const handleFeedback = (messageId: string, type: ChatFeedbackType) => {
+    setFeedbackByMessage((prev) => ({ ...prev, [messageId]: type }));
+  };
 
   useGSAP(
     () => {
@@ -209,7 +223,12 @@ export function Chatbot() {
                     </div>
                   )}
                   {m.role === "assistant" && !isPendingReply && m.content && (
-                    <MessageActions messageId={m.id} content={m.content} />
+                    <MessageActions
+                      messageId={m.id}
+                      content={m.content}
+                      feedback={feedbackByMessage[m.id] ?? null}
+                      onFeedback={handleFeedback}
+                    />
                   )}
                 </div>
               );
