@@ -53,7 +53,7 @@ function QuoteCard({ testimonial }: { testimonial: Testimonial }) {
         </div>
       </div>
       <span className="font-mono text-[10px] tracking-[1.5px] text-text-muted">
-        CONTEXT — {testimonial.context}
+        {testimonial.context}
       </span>
     </div>
   );
