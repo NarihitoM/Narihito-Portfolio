@@ -105,7 +105,7 @@ export function Chatbot() {
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-[92px] right-5 md:bottom-[108px] md:right-8 z-40 flex h-[65vh] max-h-[520px] w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
+          className="fixed bottom-6 right-[132px] md:bottom-8 md:right-[156px] z-40 flex h-[65vh] max-h-[520px] w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
         >
           <div className="flex items-center gap-3 border-b border-border-glow-soft px-4 py-3.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chip text-text-primary">
