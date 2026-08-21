@@ -99,7 +99,7 @@ export function Chatbot() {
         onClick={() => setOpen((v) => !v)}
         className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
       >
-        {open ? <X size={18} /> : <MessageCircle size={18} />}
+        <MessageCircle size={18} />
       </button>
 
       {open && (
@@ -115,6 +115,14 @@ export function Chatbot() {
               <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
               <span className="font-mono text-[10px] tracking-[1px] text-text-muted">ASK ABOUT SKILLS, WORK, PROJECTS</span>
             </div>
+            <button
+              type="button"
+              aria-label="Close chat"
+              onClick={() => setOpen(false)}
+              className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text-primary"
+            >
+              <X size={16} />
+            </button>
           </div>
 
           <div
