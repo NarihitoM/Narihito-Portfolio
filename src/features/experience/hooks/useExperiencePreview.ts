@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { experienceApi } from "../api/experienceApi";
 import type { ExperienceEntry } from "../types/types";
@@ -10,12 +11,18 @@ export function useExperiencePreview(limit: number) {
     gcTime: 30 * 60 * 1000,
   });
 
-  const entries: ExperienceEntry[] = (query.data?.roles ?? []).map((r) => ({
-    dates: r.period,
-    role: r.title,
-    company: r.org,
-    description: r.desc,
-  }));
+  const data = query.data;
+
+  const entries: ExperienceEntry[] = useMemo(
+    () =>
+      (data?.roles ?? []).map((r) => ({
+        dates: r.period,
+        role: r.title,
+        company: r.org,
+        description: r.desc,
+      })),
+    [data],
+  );
 
   return { ...query, entries };
 }

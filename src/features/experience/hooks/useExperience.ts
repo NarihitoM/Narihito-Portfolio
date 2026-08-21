@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { experienceApi } from "../api/experienceApi";
 import type { Role } from "../types/types";
@@ -10,18 +11,24 @@ export function useExperience() {
     gcTime: 30 * 60 * 1000,
   });
 
-  const roles: Role[] = (query.data?.roles ?? []).map((r) => ({
-    period: r.period,
-    type: r.type,
-    title: r.title,
-    org: r.org,
-    desc: r.desc,
-    duties: r.duties,
-    impact: r.metrics,
-    chips: r.chips.map((c) => c.name),
-  }));
+  const data = query.data;
 
-  const education = query.data?.education ?? [];
+  const roles: Role[] = useMemo(
+    () =>
+      (data?.roles ?? []).map((r) => ({
+        period: r.period,
+        type: r.type,
+        title: r.title,
+        org: r.org,
+        desc: r.desc,
+        duties: r.duties,
+        impact: r.metrics,
+        chips: r.chips.map((c) => c.name),
+      })),
+    [data],
+  );
+
+  const education = useMemo(() => data?.education ?? [], [data]);
 
   return { ...query, roles, education };
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -80,8 +80,10 @@ export function SkillsPage() {
     { key: "PRIMARY", value: primaryStack.toUpperCase() },
   ];
 
-  const CATEGORIES =
-    activeCategory === "All" ? allCategories : allCategories.filter((c) => c.eyebrow === activeCategory);
+  const CATEGORIES = useMemo(
+    () => (activeCategory === "All" ? allCategories : allCategories.filter((c) => c.eyebrow === activeCategory)),
+    [allCategories, activeCategory],
+  );
 
   useGSAP(
     () => {
