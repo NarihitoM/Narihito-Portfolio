@@ -49,7 +49,7 @@ function ChatMarkdown({ content }: { content: string }) {
   );
 }
 
-function MessageActions({ content }: { content: string }) {
+function MessageActions({ messageId, content }: { messageId: string; content: string }) {
   const [copied, setCopied] = useState(false);
   const [feedback, setFeedback] = useState<ChatFeedbackType | null>(null);
 
@@ -60,12 +60,9 @@ function MessageActions({ content }: { content: string }) {
   };
 
   const handleFeedback = (type: ChatFeedbackType) => {
-    if (feedback === type) {
-      setFeedback(null);
-      return;
-    }
+    if (feedback === type) return;
     setFeedback(type);
-    chatbotApi.sendFeedback(content, type).catch(() => {});
+    chatbotApi.sendFeedback(messageId, content, type).catch(() => {});
   };
 
   return (
@@ -191,7 +188,7 @@ export function Chatbot() {
               const isPendingReply = isSending && i === messages.length - 1 && m.role === "assistant" && m.content === "";
               return (
                 <div
-                  key={i}
+                  key={m.id}
                   className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}
                 >
                   {isPendingReply ? (
@@ -212,7 +209,7 @@ export function Chatbot() {
                     </div>
                   )}
                   {m.role === "assistant" && !isPendingReply && m.content && (
-                    <MessageActions content={m.content} />
+                    <MessageActions messageId={m.id} content={m.content} />
                   )}
                 </div>
               );

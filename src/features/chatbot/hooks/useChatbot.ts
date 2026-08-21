@@ -5,6 +5,7 @@ import { chatbotApi } from "../api/chatbotApi";
 import type { ChatMessage } from "../types/types";
 
 const GREETING: ChatMessage = {
+  id: "greeting",
   role: "assistant",
   content: "Hey, I'm Narihito's assistant. Ask me anything about his skills, experience, or projects.",
 };
@@ -21,7 +22,11 @@ export function useChatbot() {
     if (!trimmed || isSending) return;
 
     const history = messages.slice(-HISTORY_LIMIT);
-    setMessages((prev) => [...prev, { role: "user", content: trimmed }, { role: "assistant", content: "" }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: crypto.randomUUID(), role: "user", content: trimmed },
+      { id: crypto.randomUUID(), role: "assistant", content: "" },
+    ]);
     setError(false);
     setIsSending(true);
 
