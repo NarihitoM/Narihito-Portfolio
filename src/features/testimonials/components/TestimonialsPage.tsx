@@ -42,9 +42,13 @@ function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick
         &ldquo;{testimonial.quote}&rdquo;
       </p>
       <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
-        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
-          {testimonial.initials}
-        </div>
+        {testimonial.profilePic ? (
+          <img src={testimonial.profilePic} alt={testimonial.name} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+        ) : (
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
+            {testimonial.initials}
+          </div>
+        )}
         <div className="flex flex-col gap-1">
           <span className="font-body text-[14px] font-medium text-text-primary">
             {testimonial.name}
