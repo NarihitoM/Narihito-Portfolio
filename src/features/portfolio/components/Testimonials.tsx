@@ -108,7 +108,7 @@ export function Testimonials() {
         )}
       </div>
 
-      <div className="flex md:hidden items-center gap-[7px] px-5 pt-4">
+      <div className="flex items-center justify-center gap-[7px] px-5 pt-4 md:px-10 lg:px-[120px]">
         {TESTIMONIALS.map((t, index) => (
           <span
             key={t.name}
