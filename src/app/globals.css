@@ -22,6 +22,11 @@
   animation: scroll-dot 1.6s ease-in-out infinite;
 }
 
+.cursor-none,
+.cursor-none * {
+  cursor: none;
+}
+
 :root {
   --color-bg: #0a0a0a;
   --color-bg-panel: #161616b0;
