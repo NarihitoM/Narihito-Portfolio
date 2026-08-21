@@ -8,6 +8,7 @@ export interface ProjectCard {
   description: string;
   url: string;
   github: string;
+  featured: boolean;
   chips: string[];
 }
 
