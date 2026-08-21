@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
+import { useSendContact } from "@/features/contact/hooks/useSendContact";
+import type { ContactFormData } from "@/features/contact/types/types";
 
 const SOCIALS = [
   { label: "github", href: "https://github.com" },
@@ -15,6 +17,9 @@ const SOCIALS = [
 export function Contact() {
   const sectionRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLAnchorElement>(null);
+  const sendMut = useSendContact();
+  const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
+  const [submitted, setSubmitted] = useState(false);
 
   useGSAP(
     () => {
@@ -67,6 +72,16 @@ export function Contact() {
     { scope: sectionRef },
   );
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    sendMut.mutate(form, {
+      onSuccess: () => {
+        setSubmitted(true);
+        setForm({ name: "", email: "", message: "" });
+      },
+    });
+  };
+
   return (
     <section id="contact" ref={sectionRef} className="w-full bg-bg-alt py-16 md:pt-[160px] md:pb-16">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
@@ -87,14 +102,73 @@ export function Contact() {
           </span>
         </h2>
 
-        <div className="flex flex-col items-start md:items-center gap-3 w-full md:w-auto">
-          <a
-            ref={ctaRef}
-            href="mailto:hello@narihito.dev"
-            className="flex h-14 md:h-auto w-full md:w-auto items-center justify-center rounded-[4px] bg-violet px-11 py-5 font-body text-[16px] md:text-[17px] font-semibold text-wire"
-          >
-            Let&apos;s Connect →
-          </a>
+        <div className="w-full max-w-[600px]">
+          {submitted ? (
+            <div className="flex flex-col items-center gap-4 py-12">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet/10">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-violet">
+                  <path d="M20 6L9 17l-5-5" />
+                </svg>
+              </div>
+              <p className="font-body text-[16px] text-text-primary">Message sent successfully.</p>
+              <p className="font-body text-[14px] text-text-muted">I will get back to you soon.</p>
+              <button
+                type="button"
+                onClick={() => setSubmitted(false)}
+                className="mt-2 font-mono text-[12px] tracking-[1px] text-text-muted hover:text-text-primary transition-colors"
+              >
+                SEND ANOTHER
+              </button>
+            </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
+              <div className="flex gap-4">
+                <div className="flex flex-col gap-1.5 flex-1">
+                  <label className="font-mono text-[10px] tracking-[1.5px] text-text-muted">NAME</label>
+                  <input
+                    type="text"
+                    required
+                    value={form.name}
+                    onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
+                    className="h-11 rounded-[4px] border border-border-glow-soft bg-surface px-3 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors placeholder:text-text-muted"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div className="flex flex-col gap-1.5 flex-1">
+                  <label className="font-mono text-[10px] tracking-[1.5px] text-text-muted">EMAIL</label>
+                  <input
+                    type="email"
+                    required
+                    value={form.email}
+                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                    className="h-11 rounded-[4px] border border-border-glow-soft bg-surface px-3 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors placeholder:text-text-muted"
+                    placeholder="your@email.com"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col gap-1.5">
+                <label className="font-mono text-[10px] tracking-[1.5px] text-text-muted">MESSAGE</label>
+                <textarea
+                  required
+                  rows={4}
+                  value={form.message}
+                  onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
+                  className="rounded-[4px] border border-border-glow-soft bg-surface px-3 py-2.5 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors resize-none placeholder:text-text-muted"
+                  placeholder="Tell me about your project..."
+                />
+              </div>
+              {sendMut.isError && (
+                <p className="font-body text-[13px] text-danger">Failed to send message. Please try again.</p>
+              )}
+              <button
+                type="submit"
+                disabled={sendMut.isPending}
+                className="self-start mt-1 flex h-12 items-center justify-center rounded-[4px] bg-violet px-8 font-body text-[15px] font-semibold text-wire hover:shadow-[0_10px_28px_-12px_var(--color-violet)] hover:opacity-90 active:opacity-100 transition-all disabled:opacity-50"
+              >
+                {sendMut.isPending ? "SENDING..." : "SEND MESSAGE"}
+              </button>
+            </form>
+          )}
         </div>
 
         <div className="flex items-center gap-3">
