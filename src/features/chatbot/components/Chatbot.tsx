@@ -112,7 +112,7 @@ export function Chatbot() {
               <MessageCircle size={16} />
             </div>
             <div className="flex flex-col">
-              <span className="font-body text-[14px] font-medium text-text-primary">Narihito's Assistant</span>
+              <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
               <span className="font-mono text-[10px] tracking-[1px] text-text-muted">ASK ABOUT SKILLS, WORK, PROJECTS</span>
             </div>
           </div>

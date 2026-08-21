@@ -5,6 +5,7 @@ export interface Testimonial {
   quote: string;
   context: string;
   profilePic: string | null;
+  url: string | null;
 }
 
 export interface Stat {
