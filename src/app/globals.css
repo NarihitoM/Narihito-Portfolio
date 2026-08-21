@@ -36,6 +36,29 @@
   display: none;
 }
 
+.themed-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-glow) transparent;
+}
+
+.themed-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+
+.themed-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--color-border-glow);
+  border-radius: 999px;
+}
+
+.themed-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-violet);
+}
+
 @property --preload-progress {
   syntax: "<integer>";
   initial-value: 0;

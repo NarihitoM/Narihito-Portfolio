@@ -33,7 +33,7 @@ function ChatMarkdown({ content }: { content: string }) {
           <code className="rounded bg-surface px-1 py-0.5 font-mono text-[12px]">{children}</code>
         ),
         table: ({ children }) => (
-          <div className="mb-2 overflow-x-auto last:mb-0">
+          <div className="themed-scrollbar mb-2 overflow-x-auto last:mb-0">
             <table className="w-full border-collapse text-[12px]">{children}</table>
           </div>
         ),
