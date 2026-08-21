@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
@@ -28,14 +27,8 @@ function Dialog({ project, onClose }: { project: Project; onClose: () => void })
         </button>
 
         {project.projectimg && (
-          <div className="relative w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">
-            <Image
-              src={project.projectimg}
-              alt={project.title}
-              fill
-              className="object-cover"
-              sizes="(min-width: 768px) 720px, 100vw"
-            />
+          <div className="w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">
+            <img src={project.projectimg} alt={project.title} className="h-full w-full object-cover" />
           </div>
         )}
 
@@ -94,13 +87,11 @@ export function ProjectCard({ project }: { project: Project }) {
         className="group flex flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
       >
         {project.projectimg ? (
-          <div className="relative h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
-            <Image
+          <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">
+            <img
               src={project.projectimg}
               alt={project.title}
-              fill
-              className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 768px) 400px, 100vw"
+              className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
             />
           </div>
         ) : (
