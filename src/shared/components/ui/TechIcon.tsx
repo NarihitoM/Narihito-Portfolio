@@ -27,6 +27,7 @@ import {
   siSpringboot,
   siPhp,
   siBootstrap,
+  siElectron,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -77,6 +78,7 @@ const ICONS: Record<string, IconRef> = {
   spring: siSpringboot,
   php: siPhp,
   bootstrap: siBootstrap,
+  electron: siElectron,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
