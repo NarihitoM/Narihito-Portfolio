@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
-import { MessageCircle, Send, X } from "lucide-react";
+import { Check, Copy, MessageCircle, Send, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -12,7 +12,9 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
+import { chatbotApi } from "../api/chatbotApi";
 import { useChatbot } from "../hooks/useChatbot";
+import type { ChatFeedbackType } from "../types/types";
 
 function ChatMarkdown({ content }: { content: string }) {
   return (
@@ -44,6 +46,58 @@ function ChatMarkdown({ content }: { content: string }) {
     >
       {content}
     </ReactMarkdown>
+  );
+}
+
+function MessageActions({ content }: { content: string }) {
+  const [copied, setCopied] = useState(false);
+  const [feedback, setFeedback] = useState<ChatFeedbackType | null>(null);
+
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(content);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 1500);
+  };
+
+  const handleFeedback = (type: ChatFeedbackType) => {
+    if (feedback) return;
+    setFeedback(type);
+    chatbotApi.sendFeedback(content, type).catch(() => {});
+  };
+
+  return (
+    <div className="flex items-center gap-1 pt-1">
+      <button
+        type="button"
+        aria-label="Copy message"
+        onClick={handleCopy}
+        className="flex h-6 w-6 items-center justify-center rounded text-text-muted transition-colors hover:text-text-primary"
+      >
+        {copied ? <Check size={13} /> : <Copy size={13} />}
+      </button>
+      <button
+        type="button"
+        aria-label="Like message"
+        disabled={feedback !== null}
+        onClick={() => handleFeedback("like")}
+        className={`flex h-6 w-6 items-center justify-center rounded transition-colors ${
+          feedback === "like" ? "text-violet" : "text-text-muted hover:text-text-primary"
+        } disabled:pointer-events-none`}
+      >
+        <ThumbsUp size={13} />
+      </button>
+      <button
+        type="button"
+        aria-label="Dislike message"
+        disabled={feedback !== null}
+        onClick={() => handleFeedback("dislike")}
+        className={`flex h-6 w-6 items-center justify-center rounded transition-colors ${
+          feedback === "dislike" ? "text-violet" : "text-text-muted hover:text-text-primary"
+        } disabled:pointer-events-none`}
+      >
+        <ThumbsDown size={13} />
+      </button>
+    </div>
   );
 }
 
@@ -137,7 +191,7 @@ export function Chatbot() {
               return (
                 <div
                   key={i}
-                  className={`flex ${m.role === "user" ? "justify-end" : "justify-start"}`}
+                  className={`flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}
                 >
                   {isPendingReply ? (
                     <div className="flex items-center gap-1.5 rounded-[6px] bg-chip px-3.5 py-2.5">
@@ -155,6 +209,9 @@ export function Chatbot() {
                     >
                       {m.role === "assistant" ? <ChatMarkdown content={m.content} /> : m.content}
                     </div>
+                  )}
+                  {m.role === "assistant" && !isPendingReply && m.content && (
+                    <MessageActions content={m.content} />
                   )}
                 </div>
               );
