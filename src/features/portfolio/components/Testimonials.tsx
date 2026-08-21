@@ -91,9 +91,13 @@ export function Testimonials() {
                 </span>
                 <p className="font-body text-[15px] leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
                 <div className="flex items-center gap-3">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[12px] font-medium text-text-primary">
-                    {t.initials}
-                  </div>
+                  {t.profilePic ? (
+                    <img src={t.profilePic} alt={t.name} className="h-9 w-9 shrink-0 rounded-full object-cover" />
+                  ) : (
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[12px] font-medium text-text-primary">
+                      {t.initials}
+                    </div>
+                  )}
                   <div className="flex flex-col gap-[3px]">
                     <span className="font-mono text-[13px] text-cyan">{t.name}</span>
                     <span className="font-body text-[12px] text-text-muted">{t.role}</span>
