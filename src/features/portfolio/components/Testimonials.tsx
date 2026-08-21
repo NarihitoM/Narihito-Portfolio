@@ -80,7 +80,7 @@ export function Testimonials() {
                 <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
                   &ldquo;
                 </span>
-                <p className="font-body text-[15px] leading-[1.55] text-text-primary">{t.quote}</p>
+                <p className="font-body text-[15px] leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
                 <div className="flex items-center gap-3">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[12px] font-medium text-text-primary">
                     {t.initials}
@@ -90,6 +90,9 @@ export function Testimonials() {
                     <span className="font-body text-[12px] text-text-muted">{t.role}</span>
                   </div>
                 </div>
+                <span className="font-mono text-[10px] leading-[1.5] tracking-[1px] text-text-muted line-clamp-2">
+                  {t.context}
+                </span>
               </div>
             ))}
           </div>
