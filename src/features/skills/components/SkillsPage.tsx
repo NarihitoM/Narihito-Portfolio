@@ -35,6 +35,7 @@ function ProficiencyBar({ level }: { level: number }) {
           style={{ opacity: i < segments ? 1 : 0.15 }}
         />
       ))}
+      <span className="font-mono text-[11px] text-text-muted ml-2">{level}%</span>
     </div>
   );
 }
