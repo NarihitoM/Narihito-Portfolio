@@ -22,6 +22,22 @@
   animation: scroll-dot 1.6s ease-in-out infinite;
 }
 
+@keyframes feedback-pop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.35);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-feedback-pop {
+  animation: feedback-pop 0.3s ease-out;
+}
+
 .cursor-none,
 .cursor-none * {
   cursor: none;

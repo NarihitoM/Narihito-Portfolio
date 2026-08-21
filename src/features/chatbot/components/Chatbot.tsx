@@ -60,7 +60,10 @@ function MessageActions({ content }: { content: string }) {
   };
 
   const handleFeedback = (type: ChatFeedbackType) => {
-    if (feedback) return;
+    if (feedback === type) {
+      setFeedback(null);
+      return;
+    }
     setFeedback(type);
     chatbotApi.sendFeedback(content, type).catch(() => {});
   };
@@ -78,24 +81,22 @@ function MessageActions({ content }: { content: string }) {
       <button
         type="button"
         aria-label="Like message"
-        disabled={feedback !== null}
         onClick={() => handleFeedback("like")}
-        className={`flex h-6 w-6 items-center justify-center rounded transition-colors ${
-          feedback === "like" ? "text-violet" : "text-text-muted hover:text-text-primary"
-        } disabled:pointer-events-none`}
+        className={`flex h-6 w-6 items-center justify-center rounded text-text-muted transition-colors hover:text-text-primary ${
+          feedback === "like" ? "animate-feedback-pop text-violet" : ""
+        }`}
       >
-        <ThumbsUp size={13} />
+        <ThumbsUp size={13} fill={feedback === "like" ? "currentColor" : "none"} />
       </button>
       <button
         type="button"
         aria-label="Dislike message"
-        disabled={feedback !== null}
         onClick={() => handleFeedback("dislike")}
-        className={`flex h-6 w-6 items-center justify-center rounded transition-colors ${
-          feedback === "dislike" ? "text-violet" : "text-text-muted hover:text-text-primary"
-        } disabled:pointer-events-none`}
+        className={`flex h-6 w-6 items-center justify-center rounded text-text-muted transition-colors hover:text-text-primary ${
+          feedback === "dislike" ? "animate-feedback-pop text-violet" : ""
+        }`}
       >
-        <ThumbsDown size={13} />
+        <ThumbsDown size={13} fill={feedback === "dislike" ? "currentColor" : "none"} />
       </button>
     </div>
   );
