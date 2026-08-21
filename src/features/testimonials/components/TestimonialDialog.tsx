@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { X } from "lucide-react";
+import { ExternalLink, X } from "lucide-react";
 import {
   ease,
   gsap,
@@ -100,9 +100,9 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
           </div>
         </div>
 
-        <span className="font-mono text-[11px] leading-[1.7] tracking-[0.5px] text-text-muted">
+        <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-secondary">
           {testimonial.context}
-        </span>
+        </p>
 
         {testimonial.url && (
           <a
@@ -111,6 +111,7 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
             rel="noopener noreferrer"
             className="self-start flex items-center gap-2 rounded-[4px] border border-border-glow-soft px-4 py-2.5 font-mono text-[11px] tracking-[1px] text-text-secondary hover:border-violet hover:text-violet transition-colors"
           >
+            <ExternalLink size={14} />
             VIEW PROFILE
           </a>
         )}
