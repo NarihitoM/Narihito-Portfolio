@@ -18,6 +18,7 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
         const hash = window.location.hash;
         if (hash && document.querySelector(hash)) {
           scrollToTarget(hash, HEADER_OFFSET);
+          window.history.replaceState(null, "", window.location.pathname + window.location.search);
         }
       });
     }
