@@ -22,7 +22,9 @@ import {
   siTanstack,
   siRedis,
   siPython,
-  siLangchain
+  siLangchain,
+  siOpenjdk,
+  siSpringboot,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -66,7 +68,11 @@ const ICONS: Record<string, IconRef> = {
   "tanstack query": siTanstack,
   redis: siRedis,
   python: siPython,
-  langchain: siLangchain
+  langchain: siLangchain,
+  java: siOpenjdk,
+  springboot: siSpringboot,
+  "spring boot": siSpringboot,
+  spring: siSpringboot,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
