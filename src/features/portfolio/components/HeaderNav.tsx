@@ -160,7 +160,7 @@ function MobileDrawer({
         </svg>
       </button>
 
-      <div className="mb-auto flex w-full flex-col items-end gap-2">
+      <div className="m-auto flex w-full flex-col items-end gap-5 pr-1">
         {NAV_LINKS.map((link) => (
           <a
             key={link}
