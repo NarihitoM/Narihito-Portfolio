@@ -84,8 +84,10 @@ function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boole
           {role.desc}
         </p>
 
-        {!collapsed && (
-          <>
+        <div
+          className={`grid transition-[grid-template-rows] duration-300 ease-out ${collapsed ? "grid-rows-[0fr]" : "grid-rows-[1fr]"}`}
+        >
+          <div className={`flex flex-col gap-5 md:gap-[26px] overflow-hidden transition-opacity duration-300 ${collapsed ? "opacity-0" : "opacity-100"}`}>
             <div className="flex flex-col">
               {role.duties.map((duty) => (
                 <DutyRow key={duty.index} duty={duty} />
@@ -103,8 +105,8 @@ function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boole
                 <Chip key={chip}>{chip}</Chip>
               ))}
             </div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
     </div>
   );
