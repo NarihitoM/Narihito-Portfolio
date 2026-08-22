@@ -251,7 +251,9 @@ export function ExperiencePage() {
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
             EDUCATION & CERTIFICATIONS
           </span>
-          {EDUCATION.map((edu) => (
+          {isLoading ? (
+            <Skeleton className="h-[140px] w-full" />
+          ) : EDUCATION.map((edu) => (
             <div
               key={edu.name}
               data-edu-row
