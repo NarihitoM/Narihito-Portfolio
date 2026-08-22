@@ -17,6 +17,7 @@ import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useExperience } from "@/features/experience/hooks/useExperience";
 import { useExperienceUI } from "@/features/experience/store/experienceUIStore";
+import { yearsOfExperience } from "@/shared/lib/experience";
 import type { Duty, Metric, Role } from "@/features/experience/types/types";
 
 function DutyRow({ duty }: { duty: Duty }) {
@@ -206,7 +207,7 @@ export function ExperiencePage() {
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
-      title="Five years, three employers, and the lessons that outlasted each one."
+      title={`${yearsOfExperience()} in the industry of working with full stack development.`}
       deck="Full role histories with what I owned, what shipped, and the numbers that moved, plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}

@@ -77,7 +77,7 @@ export function Preloader() {
             priority
           />
         </div>
-        <span className="font-body text-[28px] font-semibold tracking-[6px] text-text-primary">
+        <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
           NARIHITO
         </span>
         <span className="font-body text-[10px] tracking-[3px] text-text-muted">

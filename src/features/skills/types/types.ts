@@ -18,3 +18,9 @@ export interface RawSkillGroup {
   label: string;
   items: { id: string; name: string; proficiency: number }[];
 }
+
+export interface LearningItem {
+  id: string;
+  name: string;
+  desc: string;
+}

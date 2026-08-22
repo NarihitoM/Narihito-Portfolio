@@ -14,15 +14,9 @@ import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { useSkills } from "../hooks/useSkills";
+import { useSkills, useLearning } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
 import { Tool } from "../types/types";
-
-const LEARNING = [
-  { name: "Rust", desc: "Reading the book slowly, writing small CLI tools. Not in production, not pretending otherwise." },
-  { name: "WebGPU", desc: "Following the spec settle. Curious what it does to the Three.js workflow." },
-  { name: "Motion accessibility", desc: "Auditing my own sites against prefers-reduced-motion and vestibular guidance." },
-];
 
 function ProficiencyBar({ level }: { level: number }) {
   const segments = Math.round(level / 20);
@@ -72,6 +66,7 @@ export function SkillsPage() {
   const categoriesRef = useRef<HTMLDivElement>(null);
   const learningRef = useRef<HTMLDivElement>(null);
   const { categories: allCategories, isLoading, isError, refetch } = useSkills();
+  const { items: learningItems, isLoading: learningLoading, isError: learningError, refetch: refetchLearning } = useLearning();
   const { activeCategory, setActiveCategory } = useSkillsUI();
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
   const primaryStack = allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
@@ -183,7 +178,7 @@ export function SkillsPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef },
+    { scope: contentRef, dependencies: [learningItems] },
   );
 
   return (
@@ -256,35 +251,41 @@ export function SkillsPage() {
           </div>
         )}
 
-        <div
-          ref={learningRef}
-          className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
-        >
-          <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
-            <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-              CURRENTLY LEARNING
-            </span>
-            <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-              Three things on the bench this quarter. Listed here so the stack
-              above stays honest.
-            </p>
+        {learningLoading ? (
+          <Skeleton className="h-[140px] w-full" />
+        ) : learningError ? (
+          <ErrorState onRetry={refetchLearning} />
+        ) : learningItems.length > 0 ? (
+          <div
+            ref={learningRef}
+            className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
+          >
+            <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
+              <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                CURRENTLY LEARNING
+              </span>
+              <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
+                {learningItems.length} thing{learningItems.length === 1 ? "" : "s"} on the bench
+                this quarter. Listed here so the stack above stays honest.
+              </p>
+            </div>
+            <div className="flex flex-1 flex-col gap-4">
+              {learningItems.map((item) => (
+                <div
+                  key={item.id}
+                  className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
+                >
+                  <span className="font-body text-[16px] font-medium text-text-primary md:w-[170px] md:shrink-0">
+                    {item.name}
+                  </span>
+                  <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
+                    {item.desc}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-1 flex-col gap-4">
-            {LEARNING.map((item) => (
-              <div
-                key={item.name}
-                className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
-              >
-                <span className="font-body text-[16px] font-medium text-text-primary md:w-[170px] md:shrink-0">
-                  {item.name}
-                </span>
-                <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
-                  {item.desc}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
+        ) : null}
       </div>
     </PageLayout>
   );

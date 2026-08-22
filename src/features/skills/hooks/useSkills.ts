@@ -31,3 +31,14 @@ export function useSkills() {
 
   return { ...query, categories };
 }
+
+export function useLearning() {
+  const query = useQuery({
+    queryKey: ["learning"],
+    queryFn: skillsApi.listLearning,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
+
+  return { ...query, items: query.data ?? [] };
+}

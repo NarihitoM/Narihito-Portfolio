@@ -16,6 +16,7 @@ import { Chip } from "@/shared/components/ui/Chip";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useAbout } from "@/features/about/hooks/useAbout";
+import { yearsOfExperience } from "@/shared/lib/experience";
 
 export function AboutPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -161,7 +162,7 @@ export function AboutPage() {
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 - ABOUT ]"
       title="A developer who treats motion as structure, not decoration."
-      deck="Two years of building interfaces in Myanmar, how I got here, how I work, and what I care about when the deadline is close."
+      deck={`${yearsOfExperience()} of building interfaces in Myanmar, how I got here, how I work, and what I care about when the deadline is close.`}
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
