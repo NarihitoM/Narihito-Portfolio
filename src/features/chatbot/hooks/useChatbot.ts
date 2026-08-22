@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import { chatbotApi } from "../api/chatbotApi";
+import { scrollToTarget } from "@/shared/lib/lenis";
 import type { ChatMessage } from "../types/types";
+
+const HEADER_OFFSET = -72;
 
 const GREETING: ChatMessage = {
   id: "greeting",
@@ -12,10 +16,14 @@ const GREETING: ChatMessage = {
 
 const HISTORY_LIMIT = 10;
 
+const NAV_ALLOWLIST = new Set(["/", "/about", "/skills", "/experience", "/projects", "/testimonials", "/#contact"]);
+
 export function useChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([GREETING]);
   const [isSending, setIsSending] = useState(false);
   const [error, setError] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const send = async (text: string) => {
     const trimmed = text.trim();
@@ -31,7 +39,7 @@ export function useChatbot() {
     setIsSending(true);
 
     try {
-      await chatbotApi.stream(trimmed, history, (chunk) => {
+      const nav = await chatbotApi.stream(trimmed, history, (chunk) => {
         setMessages((prev) => {
           const next = [...prev];
           const last = next[next.length - 1];
@@ -39,6 +47,14 @@ export function useChatbot() {
           return next;
         });
       });
+
+      if (nav?.mode === "auto" && NAV_ALLOWLIST.has(nav.path)) {
+        if (pathname === "/") {
+          scrollToTarget(nav.path === "/" ? 0 : nav.path.replace(/^\/#?/, "#"), HEADER_OFFSET);
+        } else {
+          router.push(nav.path);
+        }
+      }
     } catch {
       setError(true);
       setMessages((prev) => prev.slice(0, -1));

@@ -118,7 +118,7 @@ export function Contact() {
                 onClick={() => setSubmitted(false)}
                 className="mt-2 font-mono text-[12px] tracking-[1px] text-text-muted hover:text-text-primary transition-colors"
               >
-                SEND ANOTHER
+                Send Another
               </button>
             </div>
           ) : (
@@ -162,7 +162,7 @@ export function Contact() {
                 <p className="font-body text-[13px] text-danger">Failed to send message. Please try again.</p>
               )}
               <Button type="submit" disabled={sendMut.isPending} className="self-start mt-1">
-                {sendMut.isPending ? "SENDING..." : "SEND MESSAGE"}
+                {sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
           )}

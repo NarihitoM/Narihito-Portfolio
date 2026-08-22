@@ -114,14 +114,19 @@ export function PageLayout({
           { xPercent: 100 },
           { xPercent: 0, duration: 0.5, ease: ease.wipe },
         );
-        gsap.from("[data-drawer-item]", {
-          opacity: 0,
-          y: 12,
-          duration: 0.4,
-          stagger: 0.05,
-          delay: 0.15,
-          ease: ease.entrance,
-        });
+        gsap.fromTo(
+          drawer.querySelectorAll("[data-drawer-item]"),
+          { opacity: 0, xPercent: 8, y: 28 },
+          {
+            opacity: 1,
+            xPercent: 0,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.06,
+            delay: 0.2,
+            ease: ease.entrance,
+          },
+        );
       } else {
         gsap.to(drawer, {
           xPercent: 100,
@@ -196,36 +201,49 @@ export function PageLayout({
 
       <div
         ref={drawerRef}
-        className="fixed inset-0 z-[60] hidden flex-col items-center justify-center gap-8 bg-bg-panel-solid lg:hidden"
+        data-lenis-prevent
+        className="no-scrollbar fixed inset-0 z-[60] hidden flex-col overflow-y-auto bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
       >
         <button
           type="button"
           aria-label="Close menu"
           onClick={() => setMenuOpen(false)}
-          className="absolute top-5 right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
+          className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 6l12 12M18 6L6 18" />
           </svg>
         </button>
-        {NAV_LINKS.map((link) => (
-          <Link
-            key={link}
-            data-drawer-item
-            href={`/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
-            onClick={() => setMenuOpen(false)}
-            className="font-display text-[28px] font-semibold text-text-primary"
-          >
-            {link}
-          </Link>
-        ))}
-        <div data-drawer-item>
-          <Link
-            href="/resume.pdf"
-            className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body text-[15px] font-semibold text-wire"
-          >
-            Resume
-          </Link>
+
+        <div className="m-auto flex w-full flex-col items-end gap-5 pr-1">
+          {NAV_LINKS.map((link) => {
+            const isActive = pathname === `/${link.toLowerCase()}`;
+            return (
+              <Link
+                key={link}
+                data-drawer-item
+                href={`/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
+                onClick={() => setMenuOpen(false)}
+                aria-current={isActive ? "page" : undefined}
+                className={`wave-link${isActive ? " is-active" : ""} shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em]`}
+              >
+                {link.split("").map((char, i) => (
+                  <span key={i} className="wave-char" style={{ transitionDelay: `${i * 35}ms` }}>
+                    {char}
+                  </span>
+                ))}
+              </Link>
+            );
+          })}
+
+          <div data-drawer-item className="shrink-0 pt-4">
+            <Link
+              href="/resume.pdf"
+              className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body text-[15px] font-semibold text-wire"
+            >
+              Resume
+            </Link>
+          </div>
         </div>
       </div>
 

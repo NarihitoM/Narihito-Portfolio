@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { Check, Copy, MessageCircle, Send, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
@@ -26,11 +27,21 @@ function ChatMarkdown({ content }: { content: string }) {
         ul: ({ children }) => <ul className="mb-2 list-disc space-y-1 pl-4 last:mb-0">{children}</ul>,
         ol: ({ children }) => <ol className="mb-2 list-decimal space-y-1 pl-4 last:mb-0">{children}</ol>,
         li: ({ children }) => <li>{children}</li>,
-        a: ({ children, href }) => (
-          <a href={href} target="_blank" rel="noopener noreferrer" className="text-violet underline underline-offset-2">
-            {children}
-          </a>
-        ),
+        a: ({ children, href }) => {
+          const isInternal = (href?.startsWith("/") && !href.startsWith("//")) || href?.startsWith("#");
+          if (isInternal) {
+            return (
+              <Link href={href!} className="text-violet underline underline-offset-2">
+                {children}
+              </Link>
+            );
+          }
+          return (
+            <a href={href} target="_blank" rel="noopener noreferrer" className="text-violet underline underline-offset-2">
+              {children}
+            </a>
+          );
+        },
         code: ({ children }) => (
           <code className="rounded bg-surface px-1 py-0.5 font-mono text-[12px]">{children}</code>
         ),
@@ -164,16 +175,17 @@ export function Chatbot() {
           type="button"
           aria-label="Open chat"
           onClick={() => setOpen(true)}
-          className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
+          className="fixed bottom-6 right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
         >
           <MessageCircle size={18} />
         </button>
       )}
 
       {open && (
+        <div className="pointer-events-none fixed bottom-6 md:bottom-8 inset-x-0 z-40 flex justify-end px-5 md:pr-8">
         <div
           ref={panelRef}
-          className="fixed bottom-[76px] inset-x-5 md:bottom-8 md:inset-x-auto md:right-[92px] z-40 flex h-[65vh] max-h-[520px] w-auto md:w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
+          className="pointer-events-auto flex h-[65vh] max-h-[520px] w-full max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
         >
           <div className="flex items-center gap-3 border-b border-border-glow-soft px-4 py-3.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chip text-text-primary">
@@ -258,6 +270,7 @@ export function Chatbot() {
               <Send size={15} />
             </button>
           </form>
+        </div>
         </div>
       )}
     </>

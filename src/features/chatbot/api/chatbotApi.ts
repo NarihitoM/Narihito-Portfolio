@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { ChatFeedbackType, ChatMessage } from "../types/types";
+import type { ChatFeedbackType, ChatMessage, NavDirective } from "../types/types";
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
@@ -8,7 +8,7 @@ export const chatbotApi = {
     await api.post("/public/chat-feedback", { messageId, message, type });
   },
 
-  async stream(message: string, history: ChatMessage[], onChunk: (text: string) => void) {
+  async stream(message: string, history: ChatMessage[], onChunk: (text: string) => void): Promise<NavDirective | null> {
     const res = await fetch(`${BASE_URL}/chatbot`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -19,6 +19,16 @@ export const chatbotApi = {
       throw new Error("Request failed");
     }
 
+    let nav: NavDirective | null = null;
+    const navHeader = res.headers.get("X-Nav-Directive");
+    if (navHeader) {
+      try {
+        nav = JSON.parse(navHeader) as NavDirective;
+      } catch {
+        nav = null;
+      }
+    }
+
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
 
@@ -27,5 +37,7 @@ export const chatbotApi = {
       if (done) break;
       onChunk(decoder.decode(value, { stream: true }));
     }
+
+    return nav;
   },
 };

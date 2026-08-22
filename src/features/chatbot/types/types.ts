@@ -5,3 +5,9 @@ export interface ChatMessage {
 }
 
 export type ChatFeedbackType = "like" | "dislike";
+
+export interface NavDirective {
+  path: string;
+  mode: "auto" | "link";
+  label: string;
+}

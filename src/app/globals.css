@@ -324,6 +324,10 @@ body {
   transition: color 0.3s ease, transform 0.3s ease;
 }
 
+.wave-link.is-active .wave-char {
+  color: var(--color-text-primary);
+}
+
 .wave-link:hover .wave-char,
 .wave-link:focus-visible .wave-char {
   color: var(--color-text-primary);
