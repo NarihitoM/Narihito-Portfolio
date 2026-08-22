@@ -311,3 +311,28 @@ body {
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
 }
+
+.text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-primary);
+}
+
+.wave-link .wave-char {
+  display: inline-block;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-text-primary);
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.wave-link:hover .wave-char,
+.wave-link:focus-visible .wave-char {
+  color: var(--color-text-primary);
+  transform: translateY(-6px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-link .wave-char {
+    transition-delay: 0ms !important;
+    transform: none !important;
+  }
+}

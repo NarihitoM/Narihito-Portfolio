@@ -123,8 +123,8 @@ export function Contact() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
-              <div className="flex gap-4">
-                <div className="flex flex-col gap-1.5 flex-1">
+              <div className="flex flex-col sm:flex-row gap-4">
+                <div className="flex min-w-0 flex-col gap-1.5 flex-1">
                   <label className="font-mono text-[10px] tracking-[1.5px] text-text-muted">NAME</label>
                   <input
                     type="text"
@@ -135,7 +135,7 @@ export function Contact() {
                     placeholder="Your name"
                   />
                 </div>
-                <div className="flex flex-col gap-1.5 flex-1">
+                <div className="flex min-w-0 flex-col gap-1.5 flex-1">
                   <label className="font-mono text-[10px] tracking-[1.5px] text-text-muted">EMAIL</label>
                   <input
                     type="email"

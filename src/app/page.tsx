@@ -1,6 +1,7 @@
 import { HeaderNav } from "@/features/portfolio/components/HeaderNav";
 import { Hero } from "@/features/portfolio/components/Hero";
 import { About } from "@/features/portfolio/components/About";
+import { NameMarquee } from "@/features/portfolio/components/NameMarquee";
 import { Skills } from "@/features/portfolio/components/Skills";
 import { Experience } from "@/features/portfolio/components/Experience";
 import { Projects } from "@/features/portfolio/components/Projects";
@@ -16,6 +17,7 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <About />
+        <NameMarquee />
         <Skills />
         <Experience />
         <Projects />

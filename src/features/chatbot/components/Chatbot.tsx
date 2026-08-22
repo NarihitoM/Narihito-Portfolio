@@ -173,7 +173,7 @@ export function Chatbot() {
       {open && (
         <div
           ref={panelRef}
-          className="fixed bottom-6 right-[76px] md:bottom-8 md:right-[92px] z-40 flex h-[65vh] max-h-[520px] w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
+          className="fixed bottom-[76px] inset-x-5 md:bottom-8 md:inset-x-auto md:right-[92px] z-40 flex h-[65vh] max-h-[520px] w-auto md:w-[calc(100vw-40px)] max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"
         >
           <div className="flex items-center gap-3 border-b border-border-glow-soft px-4 py-3.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chip text-text-primary">
@@ -181,7 +181,7 @@ export function Chatbot() {
             </div>
             <div className="flex flex-col">
               <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
-              <span className="font-mono text-[10px] tracking-[1px] text-text-muted">ASK ABOUT SKILLS, WORK, PROJECTS</span>
+              <span className="font-body text-[12px] tracking-[1px] text-text-muted">Ask about skills, works or projects</span>
             </div>
             <button
               type="button"
