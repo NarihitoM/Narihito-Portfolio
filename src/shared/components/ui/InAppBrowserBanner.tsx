@@ -1,0 +1,50 @@
+"use client";
+
+import { useEffect, useState } from "react";
+
+function isInAppBrowser(ua: string) {
+  return /Instagram|FBAN|FBAV|Telegram|Line\//i.test(ua);
+}
+
+export function InAppBrowserBanner() {
+  const [show, setShow] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  useEffect(() => {
+    if (isInAppBrowser(navigator.userAgent)) setShow(true);
+  }, []);
+
+  if (!show) return null;
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 2000);
+    });
+  };
+
+  return (
+    <div className="fixed inset-x-0 top-0 z-[110] flex items-center justify-between gap-3 bg-violet px-4 py-2.5 font-body text-[13px] text-wire">
+      <span>
+        Animations are limited in this in-app browser. Copy the link and open it in Chrome or Safari for the full experience.
+      </span>
+      <div className="flex shrink-0 items-center gap-2">
+        <button
+          type="button"
+          onClick={copyLink}
+          className="rounded-[4px] bg-wire px-3 py-1.5 font-semibold text-violet"
+        >
+          {copied ? "Copied" : "Copy link"}
+        </button>
+        <button
+          type="button"
+          aria-label="Dismiss"
+          onClick={() => setShow(false)}
+          className="px-1 text-wire"
+        >
+          ✕
+        </button>
+      </div>
+    </div>
+  );
+}

@@ -6,6 +6,7 @@ import { Providers } from "@/shared/components/layout/Providers";
 import { ClickRipple } from "@/shared/components/ui/ClickRipple";
 import { CursorFollower } from "@/shared/components/ui/CursorFollower";
 import { Preloader } from "@/shared/components/ui/Preloader";
+import { InAppBrowserBanner } from "@/shared/components/ui/InAppBrowserBanner";
 import { Chatbot } from "@/features/chatbot/components/Chatbot";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
@@ -61,6 +62,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body bg-bg text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
+        <InAppBrowserBanner />
         <Preloader />
         <ClickRipple />
         <CursorFollower />
