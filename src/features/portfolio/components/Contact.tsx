@@ -1,6 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { Mail } from "lucide-react";
+import { siGithub, siFacebook, siDiscord } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
@@ -9,10 +11,11 @@ import { useSendContact } from "@/features/contact/hooks/useSendContact";
 import type { ContactFormData } from "@/features/contact/types/types";
 
 const SOCIALS = [
-  { label: "github", href: "https://github.com" },
-  { label: "linkedin", href: "https://linkedin.com" },
-  { label: "twitter", href: "https://twitter.com" },
-  { label: "mail", href: "mailto:hello@narihito.dev" },
+  { label: "github", href: "https://github.com/NarihitoM" },
+  { label: "linkedin", href: "https://www.linkedin.com/in/hein-htet-aung-3b3b15375" },
+  { label: "facebook", href: "https://www.facebook.com/hein.htet.aung.703001/" },
+  { label: "discord", href: "https://discord.com/users/860793734324682782" },
+  { label: "mail", href: "mailto:heinboss234@gmail.com" },
 ];
 
 export function Contact() {
@@ -174,7 +177,7 @@ export function Contact() {
               key={social.label}
               href={social.href}
               aria-label={social.label}
-              className="flex h-[52px] w-[52px] md:h-[42px] md:w-[42px] items-center justify-center rounded-xl bg-chip text-text-secondary"
+              className="flex h-[52px] w-[52px] md:h-[42px] md:w-[42px] items-center justify-center rounded-xl bg-chip text-text-secondary transition-all duration-200 hover:-translate-y-1 hover:bg-violet/15 hover:text-violet"
             >
               <SocialIcon name={social.label} />
             </a>
@@ -201,8 +204,8 @@ function SocialIcon({ name }: { name: string }) {
   switch (name) {
     case "github":
       return (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M9 19c-4.3 1.4-4.3-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2.8-.3 5.5-1.4 5.5-6a4.6 4.6 0 0 0-1.3-3.2 4.2 4.2 0 0 0-.1-3.2s-1.1-.3-3.5 1.3a12.3 12.3 0 0 0-6.2 0C6.5 2.8 5.4 3.1 5.4 3.1a4.2 4.2 0 0 0-.1 3.2A4.6 4.6 0 0 0 4 9.5c0 4.6 2.7 5.7 5.5 6-.6.6-.6 1.2-.5 2V21" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d={siGithub.path} />
         </svg>
       );
     case "linkedin":
@@ -212,18 +215,19 @@ function SocialIcon({ name }: { name: string }) {
           <path d="M7 10v7M7 7v.01M11 17v-4.5a2.5 2.5 0 0 1 5 0V17" />
         </svg>
       );
-    case "twitter":
+    case "facebook":
       return (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <path d="M22 5.9a8.4 8.4 0 0 1-2.4.7 4.2 4.2 0 0 0 1.8-2.3 8.3 8.3 0 0 1-2.6 1 4.1 4.1 0 0 0-7 3.8A11.7 11.7 0 0 1 3.1 4.6a4.2 4.2 0 0 0 1.3 5.5 4.1 4.1 0 0 1-1.9-.5v.1a4.1 4.1 0 0 0 3.3 4 4.2 4.2 0 0 1-1.9.1 4.1 4.1 0 0 0 3.8 2.9A8.3 8.3 0 0 1 2 18.4a11.7 11.7 0 0 0 6.3 1.8c7.5 0 11.7-6.3 11.7-11.7v-.5A8.4 8.4 0 0 0 22 5.9Z" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d={siFacebook.path} />
+        </svg>
+      );
+    case "discord":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d={siDiscord.path} />
         </svg>
       );
     default:
-      return (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <rect x="3" y="5" width="18" height="14" rx="2" />
-          <path d="m4 6 8 7 8-7" />
-        </svg>
-      );
+      return <Mail size={18} strokeWidth={1.6} />;
   }
 }

@@ -79,7 +79,7 @@ export function TestimonialsPage() {
   const testimonialCount = testimonials.length;
   const clientsRepresented = stats.find((stat) => stat.label === "CLIENTS REPRESENTED")?.value ?? "0";
   const pageMeta = [
-    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "SOURCE", value: "NARIHITO" },
     { key: "VOICES", value: String(testimonialCount) },
     { key: "CLIENTS", value: clientsRepresented },
   ];

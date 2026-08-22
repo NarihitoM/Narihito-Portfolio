@@ -71,7 +71,7 @@ export function SkillsPage() {
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
   const primaryStack = allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
   const pageMeta = [
-    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "SOURCE", value: "NARIHITO" },
     { key: "CATEGORIES", value: String(allCategories.length) },
     { key: "TOOLS LISTED", value: String(toolCount) },
     { key: "PRIMARY", value: primaryStack.toUpperCase() },
@@ -275,9 +275,17 @@ export function SkillsPage() {
                   key={item.id}
                   className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
                 >
-                  <span className="font-body text-[16px] font-medium text-text-primary md:w-[170px] md:shrink-0">
-                    {item.name}
-                  </span>
+                  <div className="flex items-center gap-2.5 md:w-[170px] md:shrink-0">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] bg-chip">
+                      <TechIcon
+                        name={item.name.toLowerCase().replace(/\s+/g, "-")}
+                        className="h-[15px] w-[15px] text-text-primary"
+                      />
+                    </div>
+                    <span className="font-body text-[16px] font-medium text-text-primary">
+                      {item.name}
+                    </span>
+                  </div>
                   <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
                     {item.desc}
                   </span>

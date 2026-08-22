@@ -455,7 +455,7 @@ export function ProjectsPage() {
       breadcrumb="HOME / PROJECTS"
       eyebrow="[ 04 - PROJECTS ]"
       title={`${projectCountWord} builds, and what each one was actually solving.`}
-      deck="The full index, client work, contract builds, and two things I made because nobody asked me to. Filter by discipline or read straight through."
+      deck="The full index, client works and the things I made because nobody asked me to. Filter by discipline or read straight through."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}

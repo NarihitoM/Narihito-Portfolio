@@ -28,6 +28,7 @@ import {
   siPhp,
   siBootstrap,
   siElectron,
+  siGo,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -72,6 +73,8 @@ const ICONS: Record<string, IconRef> = {
   redis: siRedis,
   python: siPython,
   langchain: siLangchain,
+  go: siGo,
+  golang: siGo,
   java: siOpenjdk,
   springboot: siSpringboot,
   "spring boot": siSpringboot,

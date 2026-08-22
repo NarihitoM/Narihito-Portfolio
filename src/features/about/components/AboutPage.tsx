@@ -29,7 +29,7 @@ export function AboutPage() {
   const { principles: PRINCIPLES, routes: ROUTE, interests: INTERESTS, isLoading, isError, refetch } = useAbout();
   const latestRouteYear = ROUTE.map((route) => route.year).sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
   const pageMeta = [
-    { key: "SOURCE", value: "DASHBOARD API" },
+    { key: "SOURCE", value: "NARIHITO" },
     { key: "PRINCIPLES", value: String(PRINCIPLES.length) },
     { key: "ROUTE", value: String(ROUTE.length) },
     { key: "LATEST", value: latestRouteYear },
@@ -174,7 +174,7 @@ export function AboutPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
-          I am Narihito, a full stack developer from Yangon. I build product
+          I am Narihito, a full stack developer and Agentic Ai developer from Yangon. I build product
           interfaces where the animation carries meaning: a transition that explains where a
           panel came from, a stagger that tells you the list has order, a scroll cue that
           makes the page feel alive.
@@ -182,17 +182,21 @@ export function AboutPage() {
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            I started on the wrong side of the stack. Two years of PHP and MySQL for a
-            logistics firm taught me that a fast query means nothing if the screen it feeds
-            is confusing. So I moved toward the browser, first with vanilla JS, then React,
-            and eventually Next.js, where the server and the client feel like parts of the
-            same system instead of two teams that email each other.
+            My first year was HTML and CSS, and I regretted it, static pages felt like a
+            ceiling, not a craft. By the final semester I turned toward backend development
+            instead, databases and server logic for a logistics firm, and learned that a
+            fast query means nothing if the screen it feeds is confusing. So I climbed back
+            toward the browser, first with vanilla JS, then React, and eventually Next.js,
+            where the server and the client feel like parts of the same system instead of
+            two teams that email each other. Later I forcus on the Agentic Ai Development.
           </p>
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            Motion came later and by accident, a client wanted a hero that &quot;felt
-            alive&quot; and I spent a weekend inside GSAP timelines. What stuck was not the
-            effect but the discipline: every eased value is a decision about what the user
-            should notice first. That idea now touches every project I ship.
+            These days the stack I&apos;m most curious about isn&apos;t visual at all. I am
+            working through machine learning fundamentals and the software engineering ideas
+            that only matter past a certain scale, system design, testing discipline, the
+            kind of architecture that survives a team growing around it. It is a slower kind
+            of craft than shipping a hero animation, but it is the one I want under
+            everything else I build next.
           </p>
         </div>
 
@@ -296,11 +300,11 @@ export function AboutPage() {
           className="border-l-2 border-violet pl-6 md:pl-10 py-2 flex flex-col gap-3"
         >
           <p className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
-            &ldquo;The interface should feel like it was already there and you just
-            arrived.&rdquo;
+            &ldquo;Good code disappears. Good design does too. The best work is the
+            kind no one thanks you for, because they never noticed it was hard.&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">
-            A note I keep pinned above the monitor
+            A quote I always believe in.
           </cite>
         </blockquote>
       </div>

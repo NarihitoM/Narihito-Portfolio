@@ -177,10 +177,10 @@ export function PageLayout({
           </ul>
           <ModeToggle />
           <Link
-            href="/resume.pdf"
+            href="/Narihito CV.pdf"
             className="flex items-center justify-center rounded-[4px] bg-violet px-5 py-2.5 font-body text-[13px] font-semibold text-wire"
           >
-            Resume
+            CV
           </Link>
         </nav>
 
@@ -238,10 +238,10 @@ export function PageLayout({
 
           <div data-drawer-item className="shrink-0 pt-4">
             <Link
-              href="/resume.pdf"
+              href="/Narihito CV.pdf"
               className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body text-[15px] font-semibold text-wire"
             >
-              Resume
+              CV
             </Link>
           </div>
         </div>

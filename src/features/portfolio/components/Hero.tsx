@@ -76,9 +76,8 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Building faster, writing cleaner code, and shipping sooner, from data models to the
-          pixel that reacts to your <span className="lg:hidden">touch</span>
-          <span className="hidden lg:inline">cursor</span>.
+          Building faster, writing cleaner code, and shipping sooner, with the trust, security,
+          and performance clients can build on.
         </p>
 
         <div data-hero-fade className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
