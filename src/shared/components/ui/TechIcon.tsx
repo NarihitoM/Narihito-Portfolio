@@ -29,6 +29,7 @@ import {
   siBootstrap,
   siElectron,
   siGo,
+  siN8n,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -75,6 +76,7 @@ const ICONS: Record<string, IconRef> = {
   langchain: siLangchain,
   go: siGo,
   golang: siGo,
+  n8n: siN8n,
   java: siOpenjdk,
   springboot: siSpringboot,
   "spring boot": siSpringboot,
