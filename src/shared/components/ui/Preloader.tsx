@@ -4,12 +4,27 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
-const FALLBACK_MS = 2600;
+const TAGLINE = "Full-Stack & Agentic AI Developer";
+const TYPE_MS = 50;
+const TYPE_DELAY_MS = TAGLINE.length * TYPE_MS;
+const FALLBACK_MS = TYPE_DELAY_MS + 2300;
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
   const counterRef = useRef<HTMLSpanElement>(null);
   const [done, setDone] = useState(false);
+  const [typed, setTyped] = useState(TAGLINE.slice(0, 1));
+
+  useEffect(() => {
+    let i = 1;
+    const tick = () => {
+      i += 1;
+      setTyped(TAGLINE.slice(0, i));
+      if (i < TAGLINE.length) id = window.setTimeout(tick, TYPE_MS);
+    };
+    let id = window.setTimeout(tick, TYPE_MS);
+    return () => window.clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     const root = rootRef.current;
@@ -80,19 +95,23 @@ export function Preloader() {
         <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
           NARIHITO
         </span>
-        <span className="font-mono text-[10px] font-light tracking-[2px] text-violet uppercase">
-          Full-Stack &amp; Agentic AI Developer
+        <span className="font-mono text-[10px] font-light tracking-[2px] text-violet uppercase after:ml-0.5 after:animate-pulse after:content-['|']">
+          {typed}
         </span>
       </div>
 
       <div className="flex w-70 flex-col gap-4">
         <div className="h-px w-full overflow-hidden bg-border-glow-soft">
-          <span className="preload-bar block h-full w-full origin-left bg-text-primary" />
+          <span
+            className="preload-bar block h-full w-full origin-left bg-text-primary"
+            style={{ animationDelay: `${TYPE_DELAY_MS}ms` }}
+          />
         </div>
         <div className="relative h-4 w-full">
           <span
             ref={counterRef}
             className="preload-counter absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-text-secondary"
+            style={{ animationDelay: `${TYPE_DELAY_MS}ms, ${TYPE_DELAY_MS}ms` }}
           />
         </div>
       </div>
