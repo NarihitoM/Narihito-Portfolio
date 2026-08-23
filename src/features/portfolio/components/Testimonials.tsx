@@ -14,7 +14,7 @@ import { useTilt } from "@/shared/hooks/useTilt";
 import type { Testimonial } from "@/features/testimonials/types/types";
 
 function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void }) {
-  const tilt = useTilt<HTMLDivElement>();
+  const { ref: tiltRef, style: tiltStyle, onMouseMove, onMouseLeave, onTouchStart, onTouchEnd } = useTilt<HTMLDivElement>();
 
   return (
     <div
@@ -25,12 +25,12 @@ function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") onSelect();
       }}
-      ref={tilt.ref}
-      style={tilt.style}
-      onMouseMove={tilt.onMouseMove}
-      onMouseLeave={tilt.onMouseLeave}
-      onTouchStart={tilt.onTouchStart}
-      onTouchEnd={tilt.onTouchEnd}
+      ref={tiltRef}
+      style={tiltStyle}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40"
     >
       <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">

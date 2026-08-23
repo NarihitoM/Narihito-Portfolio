@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { chatbotApi } from "../api/chatbotApi";
 
 const SILENCE_THRESHOLD = 0.02;
@@ -18,6 +18,8 @@ export function useVoiceInput(onText: (text: string) => void) {
   const silenceStartRef = useRef<number | null>(null);
   const segmentStartRef = useRef(0);
   const hasSpeechRef = useRef(false);
+
+  const startSegmentRef = useRef<(stream: MediaStream) => void>(() => {});
 
   const startSegment = useCallback(
     (stream: MediaStream) => {
@@ -45,7 +47,7 @@ export function useVoiceInput(onText: (text: string) => void) {
         }
 
         if (!stoppedRef.current) {
-          startSegment(stream);
+          startSegmentRef.current(stream);
         } else {
           stream.getTracks().forEach((t) => t.stop());
         }
@@ -59,6 +61,10 @@ export function useVoiceInput(onText: (text: string) => void) {
     },
     [onText],
   );
+
+  useEffect(() => {
+    startSegmentRef.current = startSegment;
+  }, [startSegment]);
 
   const watchSilence = useCallback((stream: MediaStream) => {
     const audioCtx = new AudioContext();
