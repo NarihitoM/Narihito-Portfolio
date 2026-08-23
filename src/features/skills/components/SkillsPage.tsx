@@ -17,7 +17,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useSkills, useLearning } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
-import { ToolRow } from "./ToolRow";
+import { CategorySection } from "./CategorySection";
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -202,22 +202,7 @@ export function SkillsPage() {
         ) : (
           <div ref={categoriesRef} className="flex flex-col gap-20">
             {CATEGORIES.map((cat) => (
-              <div key={cat.eyebrow} className="flex flex-col gap-[18px]">
-                <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
-                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                    {cat.eyebrow}
-                  </span>
-                  <span className="font-body text-[15px] text-text-muted">
-                    {cat.note}
-                  </span>
-                  <span className="ml-auto shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">
-                    PROFICIENCY
-                  </span>
-                </div>
-                {cat.tools.map((tool) => (
-                  <ToolRow key={tool.id} tool={tool} />
-                ))}
-              </div>
+              <CategorySection key={cat.id} category={cat} />
             ))}
           </div>
         )}

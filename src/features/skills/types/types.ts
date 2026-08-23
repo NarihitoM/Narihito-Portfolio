@@ -8,15 +8,24 @@ export interface Tool {
 }
 
 export interface Category {
+  id: string;
   eyebrow: string;
   note: string;
   tools: Tool[];
+  toolsTotal: number;
+}
+
+export interface RawSkillItem {
+  id: string;
+  name: string;
+  proficiency: number;
 }
 
 export interface RawSkillGroup {
   id: string;
   label: string;
-  items: { id: string; name: string; proficiency: number }[];
+  items: RawSkillItem[];
+  itemsTotal: number;
 }
 
 export interface LearningItem {
@@ -29,4 +38,9 @@ export interface CursorPage<T> {
   data: T[];
   nextCursor: string | null;
   total: number;
+}
+
+export interface CursorSlice<T> {
+  data: T[];
+  nextCursor: string | null;
 }
