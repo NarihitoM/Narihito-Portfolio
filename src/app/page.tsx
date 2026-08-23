@@ -6,6 +6,7 @@ import { Skills } from "@/features/portfolio/components/Skills";
 import { Experience } from "@/features/portfolio/components/Experience";
 import { Projects } from "@/features/portfolio/components/Projects";
 import { Testimonials } from "@/features/portfolio/components/Testimonials";
+import { Events } from "@/features/portfolio/components/Events";
 import { Contact } from "@/features/portfolio/components/Contact";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
@@ -21,6 +22,7 @@ export default function Home() {
         <Skills />
         <Experience />
         <Projects />
+        <Events />
         <Testimonials />
         <Contact />
       </main>
