@@ -30,6 +30,8 @@ import {
   siElectron,
   siGo,
   siN8n,
+  siVuedotjs,
+  siSwagger,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -84,6 +86,13 @@ const ICONS: Record<string, IconRef> = {
   php: siPhp,
   bootstrap: siBootstrap,
   electron: siElectron,
+  vue: siVuedotjs,
+  "vue.js": siVuedotjs,
+  vuejs: siVuedotjs,
+  "rest api": siSwagger,
+  restapi: siSwagger,
+  rest: siSwagger,
+  swagger: siSwagger,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
