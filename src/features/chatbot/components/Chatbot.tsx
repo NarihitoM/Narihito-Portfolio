@@ -123,9 +123,10 @@ function MessageActions({
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
-  const { input, justHeard, setFromUser: setInput, appendTyped } = useTypewriterInput();
+  const { input, ghost, ghostVisible, setFromUser: setInput, setFont, appendTyped } = useTypewriterInput();
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const { messages, isSending, error, send } = useChatbot();
   const [feedbackByMessage, setFeedbackByMessage] = useState<Record<string, ChatFeedbackType>>({});
 
@@ -164,6 +165,12 @@ export function Chatbot() {
     const list = listRef.current;
     if (list) list.scrollTop = list.scrollHeight;
   }, [messages, isSending, open]);
+
+  useEffect(() => {
+    if (!open || !inputRef.current) return;
+    const style = getComputedStyle(inputRef.current);
+    setFont(`${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`);
+  }, [open, setFont]);
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -262,15 +269,29 @@ export function Chatbot() {
           </div>
 
           <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-border-glow-soft p-3">
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={recording ? "Listening..." : "Ask a question..."}
-              className={`flex-1 rounded-[4px] border bg-surface px-3 py-2 font-body text-[13px] text-text-primary outline-none placeholder:text-text-muted transition-shadow duration-300 ${
-                recording ? "border-violet animate-pulse" : "border-border-glow-soft focus:border-violet"
-              } ${justHeard ? "ring-2 ring-violet/60" : ""}`}
-            />
+            <div className="relative flex-1">
+              <input
+                ref={inputRef}
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder={recording ? "Listening..." : "Ask a question..."}
+                className={`w-full rounded-[4px] border bg-surface px-3 py-2 font-body text-[13px] text-text-primary outline-none placeholder:text-text-muted transition-colors duration-300 ${
+                  recording ? "border-violet animate-pulse" : "border-border-glow-soft focus:border-violet"
+                }`}
+              />
+              {ghost && (
+                <span
+                  aria-hidden
+                  className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-pre font-body text-[13px] italic text-text-muted transition-all duration-200 ${
+                    ghostVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1"
+                  }`}
+                  style={{ left: 12 + ghost.left }}
+                >
+                  {ghost.text}
+                </span>
+              )}
+            </div>
             <button
               type="button"
               onClick={toggleVoice}

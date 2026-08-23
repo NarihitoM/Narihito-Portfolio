@@ -1,52 +1,76 @@
 import { useCallback, useRef, useState } from "react";
 
-const CHAR_MS = 16;
-const FLASH_MS = 300;
+const GHOST_HOLD_MS = 450;
+const GHOST_FADE_MS = 200;
+
+interface Ghost {
+  text: string;
+  left: number;
+}
 
 export function useTypewriterInput() {
-  const [input, setInput] = useState("");
-  const [justHeard, setJustHeard] = useState(false);
+  const [input, setInputState] = useState("");
+  const [ghost, setGhost] = useState<Ghost | null>(null);
+  const [ghostVisible, setGhostVisible] = useState(false);
   const fullRef = useRef("");
-  const pendingRef = useRef("");
-  const typingRef = useRef(false);
-  const flashTimeoutRef = useRef<number | undefined>(undefined);
+  const queueRef = useRef<string[]>([]);
+  const processingRef = useRef(false);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const fontRef = useRef("");
 
-  const step = useCallback(() => {
-    if (!pendingRef.current.length) {
-      typingRef.current = false;
-      return;
-    }
-    const char = pendingRef.current[0];
-    pendingRef.current = pendingRef.current.slice(1);
-    setInput((prev) => prev + char);
-    window.setTimeout(step, CHAR_MS);
+  const setFont = useCallback((font: string) => {
+    fontRef.current = font;
   }, []);
 
+  const measure = useCallback((text: string) => {
+    if (!fontRef.current) return 0;
+    if (!canvasRef.current) canvasRef.current = document.createElement("canvas");
+    const ctx = canvasRef.current.getContext("2d");
+    if (!ctx) return 0;
+    ctx.font = fontRef.current;
+    return ctx.measureText(text).width;
+  }, []);
+
+  const processQueue = useCallback(() => {
+    if (processingRef.current) return;
+    const next = queueRef.current.shift();
+    if (next === undefined) return;
+    processingRef.current = true;
+
+    const base = fullRef.current;
+    setGhost({ text: next, left: measure(base) });
+    requestAnimationFrame(() => setGhostVisible(true));
+
+    window.setTimeout(() => {
+      fullRef.current = base + next;
+      setInputState(fullRef.current);
+      setGhostVisible(false);
+      window.setTimeout(() => {
+        setGhost(null);
+        processingRef.current = false;
+        processQueue();
+      }, GHOST_FADE_MS);
+    }, GHOST_HOLD_MS);
+  }, [measure]);
+
   const setFromUser = useCallback((value: string) => {
-    setInput(value);
+    queueRef.current = [];
+    processingRef.current = false;
     fullRef.current = value;
-    pendingRef.current = "";
-    typingRef.current = false;
+    setInputState(value);
+    setGhost(null);
+    setGhostVisible(false);
   }, []);
 
   const appendTyped = useCallback(
     (text: string) => {
-      const needsSpace = fullRef.current.length > 0 && !fullRef.current.endsWith(" ");
-      const toAdd = (needsSpace ? " " : "") + text;
-      fullRef.current += toAdd;
-      pendingRef.current += toAdd;
-
-      setJustHeard(true);
-      window.clearTimeout(flashTimeoutRef.current);
-      flashTimeoutRef.current = window.setTimeout(() => setJustHeard(false), text.length * CHAR_MS + FLASH_MS);
-
-      if (!typingRef.current) {
-        typingRef.current = true;
-        step();
-      }
+      const tailBase = fullRef.current + queueRef.current.join("");
+      const needsSpace = tailBase.length > 0 && !tailBase.endsWith(" ");
+      queueRef.current.push((needsSpace ? " " : "") + text);
+      processQueue();
     },
-    [step],
+    [processQueue],
   );
 
-  return { input, justHeard, setFromUser, appendTyped };
+  return { input, ghost, ghostVisible, setFromUser, setFont, appendTyped };
 }
