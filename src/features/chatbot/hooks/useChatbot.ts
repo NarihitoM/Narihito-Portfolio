@@ -16,7 +16,7 @@ const GREETING: ChatMessage = {
 
 const HISTORY_LIMIT = 10;
 
-const NAV_ALLOWLIST = new Set(["/", "/about", "/skills", "/experience", "/projects", "/testimonials", "/#contact"]);
+const NAV_ALLOWLIST = new Set(["/", "/about", "/skills", "/experience", "/projects", "/events", "/testimonials", "/#contact"]);
 
 export function useChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([GREETING]);
