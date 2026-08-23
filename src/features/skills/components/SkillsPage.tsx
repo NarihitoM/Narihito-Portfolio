@@ -16,49 +16,7 @@ import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useSkills, useLearning } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
-import { Tool } from "../types/types";
-
-function ProficiencyBar({ level }: { level: number }) {
-  const segments = Math.round(level / 20);
-  return (
-    <div className="flex gap-[5px] items-center">
-      {Array.from({ length: 5 }, (_, i) => (
-        <span
-          key={i}
-          className="block h-1 w-[18px] rounded-sm bg-violet"
-          style={{ opacity: i < segments ? 1 : 0.15 }}
-        />
-      ))}
-      <span className="font-mono text-[11px] text-text-muted ml-2">{level}%</span>
-    </div>
-  );
-}
-
-function ToolRow({ tool }: { tool: Tool }) {
-  return (
-    <div
-      className="group flex flex-col gap-3 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30 md:flex-row md:items-center md:gap-7"
-    >
-      <div className="flex items-center gap-3 md:w-[290px] md:shrink-0">
-        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[4px] bg-chip">
-          <TechIcon name={tool.icon} className="h-[18px] w-[18px] text-text-primary" />
-        </div>
-        <span className="font-body text-[18px] font-medium text-text-primary">
-          {tool.name}
-        </span>
-      </div>
-      <span className="font-body text-[15px] leading-[1.6] text-text-secondary md:flex-1">
-        {tool.note}
-      </span>
-      <div className="flex items-center justify-between gap-4 md:contents">
-        <span className="font-mono text-[11px] tracking-[2px] text-text-muted md:w-[110px] md:shrink-0 md:text-right">
-          {tool.frequency}
-        </span>
-        <ProficiencyBar level={tool.proficiency} />
-      </div>
-    </div>
-  );
-}
+import { ToolRow } from "./ToolRow";
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -241,6 +199,9 @@ export function SkillsPage() {
                   </span>
                   <span className="font-body text-[15px] text-text-muted">
                     {cat.note}
+                  </span>
+                  <span className="ml-auto shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">
+                    PROFICIENCY
                   </span>
                 </div>
                 {cat.tools.map((tool) => (

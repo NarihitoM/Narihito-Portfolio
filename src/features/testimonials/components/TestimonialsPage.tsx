@@ -15,55 +15,9 @@ import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useTestimonials } from "../hooks/useTestimonials";
 import { TestimonialDialog } from "./TestimonialDialog";
-import type { Stat, Testimonial } from "../types/types";
-
-function StatBlock({ stat }: { stat: Stat }) {
-  return (
-    <div data-stat className="flex-1 flex flex-col gap-2">
-      <span className="font-display text-[36px] md:text-[44px] lg:text-[52px] font-semibold tracking-[-1px] text-text-primary">
-        {stat.value}
-      </span>
-      <span className="font-mono text-[10px] tracking-[2.4px] text-text-muted">
-        {stat.label}
-      </span>
-    </div>
-  );
-}
-
-function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      data-quote-card
-      className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow"
-    >
-      <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-primary italic line-clamp-3">
-        &ldquo;{testimonial.quote}&rdquo;
-      </p>
-      <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
-        {testimonial.profilePic ? (
-          <img src={testimonial.profilePic} alt={testimonial.name} className="h-10 w-10 shrink-0 rounded-full object-cover" />
-        ) : (
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
-            {testimonial.initials}
-          </div>
-        )}
-        <div className="flex flex-col gap-1">
-          <span className="font-body text-[14px] font-medium text-text-primary">
-            {testimonial.name}
-          </span>
-          <span className="font-mono text-[11px] tracking-[0.5px] text-text-muted">
-            {testimonial.role}
-          </span>
-        </div>
-      </div>
-      <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
-        {testimonial.context}
-      </p>
-    </button>
-  );
-}
+import { StatBlock } from "./StatBlock";
+import { QuoteCard } from "./QuoteCard";
+import type { Testimonial } from "../types/types";
 
 function pluralize(count: number, singular: string, plural: string) {
   return `${count} ${count === 1 ? singular : plural}`;
