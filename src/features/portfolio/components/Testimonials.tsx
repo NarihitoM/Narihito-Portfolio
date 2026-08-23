@@ -10,7 +10,52 @@ import { useTestimonialsUI } from "@/features/testimonials/store/testimonialsUIS
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { TestimonialDialog } from "@/features/testimonials/components/TestimonialDialog";
+import { useTilt } from "@/shared/hooks/useTilt";
 import type { Testimonial } from "@/features/testimonials/types/types";
+
+function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void }) {
+  const tilt = useTilt<HTMLDivElement>();
+
+  return (
+    <div
+      data-testimonial-card
+      role="button"
+      tabIndex={0}
+      onClick={onSelect}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onSelect();
+      }}
+      ref={tilt.ref}
+      style={tilt.style}
+      onMouseMove={tilt.onMouseMove}
+      onMouseLeave={tilt.onMouseLeave}
+      onTouchStart={tilt.onTouchStart}
+      onTouchEnd={tilt.onTouchEnd}
+      className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40"
+    >
+      <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
+        &ldquo;
+      </span>
+      <p className="font-body text-[15px] leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
+      <div className="flex items-center gap-3">
+        {t.profilePic ? (
+          <img src={t.profilePic} alt={t.name} className="h-9 w-9 shrink-0 rounded-full object-cover" />
+        ) : (
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[12px] font-medium text-text-primary">
+            {t.initials}
+          </div>
+        )}
+        <div className="flex flex-col gap-[3px]">
+          <span className="font-mono text-[13px] text-cyan">{t.name}</span>
+          <span className="font-body text-[12px] text-text-muted">{t.role}</span>
+        </div>
+      </div>
+      <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
+        {t.context}
+      </p>
+    </div>
+  );
+}
 
 export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -75,38 +120,7 @@ export function Testimonials() {
         ) : (
           <div ref={trackRef} className="flex gap-3.5 md:gap-6">
             {TESTIMONIALS.map((t) => (
-              <div
-                key={t.name}
-                data-testimonial-card
-                role="button"
-                tabIndex={0}
-                onClick={() => setSelected(t)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") setSelected(t);
-                }}
-                className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40"
-              >
-                <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
-                  &ldquo;
-                </span>
-                <p className="font-body text-[15px] leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
-                <div className="flex items-center gap-3">
-                  {t.profilePic ? (
-                    <img src={t.profilePic} alt={t.name} className="h-9 w-9 shrink-0 rounded-full object-cover" />
-                  ) : (
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[12px] font-medium text-text-primary">
-                      {t.initials}
-                    </div>
-                  )}
-                  <div className="flex flex-col gap-[3px]">
-                    <span className="font-mono text-[13px] text-cyan">{t.name}</span>
-                    <span className="font-body text-[12px] text-text-muted">{t.role}</span>
-                  </div>
-                </div>
-                <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
-                  {t.context}
-                </p>
-              </div>
+              <TestimonialCard key={t.name} t={t} onSelect={() => setSelected(t)} />
             ))}
           </div>
         )}

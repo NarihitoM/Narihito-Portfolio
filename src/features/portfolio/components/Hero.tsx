@@ -58,7 +58,7 @@ export function Hero() {
       <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           <span className="lg:hidden">
-            HEIN HTET AUNG - FULL-STACK
+            HEIN HTET AUNG - FULL-STACK & AGENTIC AI
             <br />
             DEVELOPER, AI INTEGRATIONS
           </span>
