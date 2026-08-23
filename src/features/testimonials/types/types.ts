@@ -14,15 +14,9 @@ export interface Stat {
   label: string;
 }
 
-export interface PageMeta {
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface PagedTestimonialsResponse {
+export interface CursorTestimonialsResponse {
   data: Testimonial[];
+  nextCursor: string | null;
+  total: number;
   clientsRepresented: number;
-  meta: PageMeta;
 }

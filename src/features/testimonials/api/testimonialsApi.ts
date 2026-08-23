@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { PagedTestimonialsResponse, Testimonial } from "../types/types";
+import type { CursorTestimonialsResponse, Testimonial } from "../types/types";
 
 export const testimonialsApi = {
   list: (limit?: number) =>
@@ -7,8 +7,8 @@ export const testimonialsApi = {
       .get<{ data: Testimonial[] }>("/public/testimonials", { params: limit ? { limit } : undefined })
       .then((r) => r.data.data),
 
-  listPaged: ({ page, pageSize }: { page: number; pageSize: number }) =>
+  listCursor: (cursor?: string, limit = 6) =>
     api
-      .get<PagedTestimonialsResponse>("/public/testimonials", { params: { page, pageSize } })
+      .get<CursorTestimonialsResponse>("/public/testimonials/paged", { params: { cursor, limit } })
       .then((r) => r.data),
 };
