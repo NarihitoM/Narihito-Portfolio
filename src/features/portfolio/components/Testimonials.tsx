@@ -61,7 +61,7 @@ export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const { activeIndex, setActiveIndex } = useTestimonialsUI();
-  const { testimonials: TESTIMONIALS, isLoading, isError, refetch } = useTestimonialsPreview(3);
+  const { testimonials: TESTIMONIALS, isLoading, isError, refetch } = useTestimonialsPreview(6);
   const [selected, setSelected] = useState<Testimonial | null>(null);
 
   useGSAP(
