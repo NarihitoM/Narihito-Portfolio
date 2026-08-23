@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
-  duration,
   ease,
   gsap,
   registerGsap,

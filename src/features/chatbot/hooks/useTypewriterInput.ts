@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const GHOST_HOLD_MS = 200;
 const GHOST_FADE_MS = 100;
@@ -31,6 +31,8 @@ export function useTypewriterInput() {
     return ctx.measureText(text).width;
   }, []);
 
+  const processQueueRef = useRef<() => void>(() => {});
+
   const processQueue = useCallback(() => {
     if (processingRef.current) return;
     const next = queueRef.current.shift();
@@ -48,10 +50,14 @@ export function useTypewriterInput() {
       window.setTimeout(() => {
         setGhost(null);
         processingRef.current = false;
-        processQueue();
+        processQueueRef.current();
       }, GHOST_FADE_MS);
     }, GHOST_HOLD_MS);
   }, [measure]);
+
+  useEffect(() => {
+    processQueueRef.current = processQueue;
+  }, [processQueue]);
 
   const setFromUser = useCallback((value: string) => {
     queueRef.current = [];

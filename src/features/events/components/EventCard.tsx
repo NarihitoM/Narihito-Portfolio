@@ -5,7 +5,7 @@ import { useEventsUI } from "../store/eventsUIStore";
 import type { Event } from "../types/types";
 
 export function EventCard({ event }: { event: Event }) {
-  const tilt = useTilt<HTMLDivElement>();
+  const { ref: tiltRef, style: tiltStyle, onMouseMove, onMouseLeave, onTouchStart, onTouchEnd } = useTilt<HTMLDivElement>();
   const setSelectedEventId = useEventsUI((s) => s.setSelectedEventId);
 
   return (
@@ -17,12 +17,12 @@ export function EventCard({ event }: { event: Event }) {
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") setSelectedEventId(event.id);
       }}
-      ref={tilt.ref}
-      style={tilt.style}
-      onMouseMove={tilt.onMouseMove}
-      onMouseLeave={tilt.onMouseLeave}
-      onTouchStart={tilt.onTouchStart}
-      onTouchEnd={tilt.onTouchEnd}
+      ref={tiltRef}
+      style={tiltStyle}
+      onMouseMove={onMouseMove}
+      onMouseLeave={onMouseLeave}
+      onTouchStart={onTouchStart}
+      onTouchEnd={onTouchEnd}
       className="flex cursor-pointer flex-col overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-border-glow"
     >
       {event.image ? (
