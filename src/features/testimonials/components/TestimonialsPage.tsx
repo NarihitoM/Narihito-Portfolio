@@ -13,6 +13,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { Pagination } from "@/shared/components/ui/Pagination";
+import { scrollToTarget } from "@/shared/lib/lenis";
 import { useTestimonials } from "../hooks/useTestimonials";
 import { TestimonialDialog } from "./TestimonialDialog";
 import { StatBlock } from "./StatBlock";
@@ -28,16 +30,21 @@ export function TestimonialsPage() {
   const leadRef = useRef<HTMLParagraphElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { stats, testimonials, isLoading, isError, refetch } = useTestimonials();
+  const [page, setPage] = useState(1);
+  const { stats, testimonials, total, totalPages, isLoading, isError, refetch } = useTestimonials(page);
   const [selected, setSelected] = useState<Testimonial | null>(null);
-  const testimonialCount = testimonials.length;
   const clientsRepresented = stats.find((stat) => stat.label === "CLIENTS REPRESENTED")?.value ?? "0";
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
-    { key: "VOICES", value: String(testimonialCount) },
+    { key: "VOICES", value: String(total) },
     { key: "CLIENTS", value: clientsRepresented },
   ];
-  const feedbackLabel = `ALL FEEDBACK - ${pluralize(testimonialCount, "VOICE", "VOICES")}`;
+  const feedbackLabel = `ALL FEEDBACK - ${pluralize(total, "VOICE", "VOICES")}`;
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    scrollToTarget("#testimonials-grid", -100);
+  };
 
   useGSAP(
     () => {
@@ -167,18 +174,23 @@ export function TestimonialsPage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
-          <div
-            ref={cardsRef}
-            className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-          >
-            {testimonials.map((testimonial) => (
-              <QuoteCard
-                key={testimonial.name}
-                testimonial={testimonial}
-                onClick={() => setSelected(testimonial)}
-              />
-            ))}
-          </div>
+          <>
+            <div
+              id="testimonials-grid"
+              ref={cardsRef}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+            >
+              {testimonials.map((testimonial) => (
+                <QuoteCard
+                  key={testimonial.name}
+                  testimonial={testimonial}
+                  onClick={() => setSelected(testimonial)}
+                />
+              ))}
+            </div>
+
+            <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
+          </>
         )}
       </div>
 

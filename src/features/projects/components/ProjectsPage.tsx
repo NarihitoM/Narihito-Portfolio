@@ -13,6 +13,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { Pagination } from "@/shared/components/ui/Pagination";
+import { scrollToTarget } from "@/shared/lib/lenis";
 import { useProjects } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
 import { FeaturedBlock } from "./FeaturedBlock";
@@ -43,21 +45,28 @@ export function ProjectsPage() {
   const featuredRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<ProjectCard | null>(null);
-  const { filters: FILTERS, featured: FEATURED, projects: allProjects, isLoading, isError, refetch } = useProjects();
-  const { filter, setFilter } = useProjectsUI();
-  const newestYear = allProjects
-    .map((project) => project.year)
-    .sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
-  const inBuildCount = allProjects.filter((project) => project.status.toLowerCase().includes("build")).length;
+  const { filter, page, setFilter, setPage } = useProjectsUI();
+  const {
+    filters: FILTERS,
+    featured: FEATURED,
+    projects: PROJECTS,
+    total,
+    totalPages,
+    isLoading,
+    isError,
+    refetch,
+  } = useProjects({ page, category: filter });
   const pageMeta = [
-    { key: "INDEX", value: `${allProjects.length} PROJECTS` },
+    { key: "INDEX", value: `${total} PROJECTS` },
     { key: "FILTERS", value: `${Math.max(FILTERS.length - 1, 0)} TAGS` },
-    { key: "NEWEST", value: newestYear },
-    { key: "IN BUILD", value: String(inBuildCount) },
+    { key: "SHOWING", value: `PAGE ${page} / ${totalPages}` },
   ];
-  const projectCountWord = NUMBER_WORDS[allProjects.length] ?? String(allProjects.length);
+  const projectCountWord = NUMBER_WORDS[total] ?? String(total);
 
-  const PROJECTS = filter === "All" ? allProjects : allProjects.filter((p) => p.category === filter);
+  const goToPage = (next: number) => {
+    setPage(next);
+    scrollToTarget("#projects-grid", -100);
+  };
 
   useGSAP(
     () => {
@@ -188,6 +197,7 @@ export function ProjectsPage() {
         </p>
 
         <div
+          id="projects-grid"
           ref={filtersRef}
           className="flex flex-wrap gap-3"
         >
@@ -225,18 +235,26 @@ export function ProjectsPage() {
               </div>
             )}
 
-            <div
-              ref={gridRef}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-            >
-              {PROJECTS.map((project) => (
-                <ProjectCardBlock
-                  key={project.title}
-                  project={project}
-                  onView={() => setSelected(project)}
-                />
-              ))}
-            </div>
+            {PROJECTS.length === 0 ? (
+              <p className="font-body text-[15px] text-text-muted">
+                No projects in this category yet.
+              </p>
+            ) : (
+              <div
+                ref={gridRef}
+                className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+              >
+                {PROJECTS.map((project) => (
+                  <ProjectCardBlock
+                    key={project.title}
+                    project={project}
+                    onView={() => setSelected(project)}
+                  />
+                ))}
+              </div>
+            )}
+
+            <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
           </>
         )}
       </div>

@@ -13,3 +13,16 @@ export interface Stat {
   value: string;
   label: string;
 }
+
+export interface PageMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PagedTestimonialsResponse {
+  data: Testimonial[];
+  clientsRepresented: number;
+  meta: PageMeta;
+}

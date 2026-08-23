@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -13,7 +13,9 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { useEvents } from "../hooks/useEvents";
+import { Pagination } from "@/shared/components/ui/Pagination";
+import { scrollToTarget } from "@/shared/lib/lenis";
+import { useEventsPaged } from "../hooks/useEvents";
 import { useEventsUI } from "../store/eventsUIStore";
 import { EventCard } from "./EventCard";
 import { EventDialog } from "./EventDialog";
@@ -22,14 +24,20 @@ export function EventsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { events, isLoading, isError, refetch } = useEvents();
+  const [page, setPage] = useState(1);
+  const { events, total, totalPages, isLoading, isError, refetch } = useEventsPaged(page);
   const { selectedEventId, setSelectedEventId } = useEventsUI();
   const selected = events.find((event) => event.id === selectedEventId) ?? null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
-    { key: "EVENTS", value: String(events.length) },
-    { key: "LATEST", value: events[0]?.duration.toUpperCase() ?? "-" },
+    { key: "EVENTS", value: String(total) },
+    { key: "SHOWING", value: `PAGE ${page} / ${totalPages}` },
   ];
+
+  const goToPage = (next: number) => {
+    setPage(next);
+    scrollToTarget("#events-grid", -100);
+  };
 
   useGSAP(
     () => {
@@ -114,14 +122,19 @@ export function EventsPage() {
         ) : events.length === 0 ? (
           <p className="font-body text-[15px] text-text-muted">No events listed yet.</p>
         ) : (
-          <div
-            ref={cardsRef}
-            className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-          >
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </div>
+          <>
+            <div
+              id="events-grid"
+              ref={cardsRef}
+              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+            >
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} />
+              ))}
+            </div>
+
+            <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
+          </>
         )}
       </div>
 
