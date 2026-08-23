@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap } from "@/shared/lib/gsap";
 import { scrollToTarget } from "@/shared/lib/lenis";
@@ -16,6 +16,28 @@ export function HeaderNav() {
   const headerRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState(NAV_LINKS[0]);
+
+  useEffect(() => {
+    const sections = NAV_LINKS.map((link) => document.getElementById(link.toLowerCase())).filter(
+      (el): el is HTMLElement => el !== null,
+    );
+    if (!sections.length) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting);
+        if (!visible.length) return;
+        const topMost = visible.reduce((a, b) => (a.boundingClientRect.top < b.boundingClientRect.top ? a : b));
+        const link = NAV_LINKS.find((l) => l.toLowerCase() === topMost.target.id);
+        if (link) setActiveLink(link);
+      },
+      { rootMargin: "-40% 0px -55% 0px", threshold: 0 },
+    );
+
+    sections.forEach((section) => observer.observe(section));
+    return () => observer.disconnect();
+  }, []);
 
   useGSAP(() => {
     registerGsap();
@@ -102,10 +124,16 @@ export function HeaderNav() {
                   event.preventDefault();
                   scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
                 }}
-                className="group relative font-body text-[14px] font-medium text-text-secondary"
+                className={`group relative font-body text-[14px] font-medium transition-colors ${
+                  activeLink === link ? "text-text-primary" : "text-text-secondary"
+                }`}
               >
                 {link}
-                <span className="absolute -bottom-1 left-0 h-px w-0 bg-text-primary transition-all duration-300 ease-out group-hover:w-full" />
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-text-primary transition-all duration-300 ease-out ${
+                    activeLink === link ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </a>
             </li>
           ))}
@@ -131,16 +159,18 @@ export function HeaderNav() {
         </button>
       </div>
     </header>
-    <MobileDrawer drawerRef={drawerRef} onClose={() => setMenuOpen(false)} />
+    <MobileDrawer drawerRef={drawerRef} activeLink={activeLink} onClose={() => setMenuOpen(false)} />
     </>
   );
 }
 
 function MobileDrawer({
   drawerRef,
+  activeLink,
   onClose,
 }: {
   drawerRef: React.RefObject<HTMLDivElement | null>;
+  activeLink: string;
   onClose: () => void;
 }) {
   return (
@@ -171,7 +201,9 @@ function MobileDrawer({
               onClose();
               scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
             }}
-            className="wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em]"
+            className={`wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em] ${
+              activeLink === link ? "is-active" : ""
+            }`}
           >
             {link.split("").map((char, i) => (
               <span key={i} className="wave-char" style={{ transitionDelay: `${i * 35}ms` }}>
