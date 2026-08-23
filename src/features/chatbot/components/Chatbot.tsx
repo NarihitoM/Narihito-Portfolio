@@ -16,6 +16,7 @@ import {
 import { chatbotApi } from "../api/chatbotApi";
 import { useChatbot } from "../hooks/useChatbot";
 import { useVoiceInput } from "../hooks/useVoiceInput";
+import { useTypewriterInput } from "../hooks/useTypewriterInput";
 import type { ChatFeedbackType } from "../types/types";
 
 function ChatMarkdown({ content }: { content: string }) {
@@ -122,24 +123,17 @@ function MessageActions({
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
-  const [input, setInput] = useState("");
+  const { input, justHeard, setFromUser: setInput, appendTyped } = useTypewriterInput();
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const { messages, isSending, error, send } = useChatbot();
   const [feedbackByMessage, setFeedbackByMessage] = useState<Record<string, ChatFeedbackType>>({});
-  const [justHeard, setJustHeard] = useState(false);
-  const flashTimeoutRef = useRef<number | undefined>(undefined);
 
   const handleFeedback = (messageId: string, type: ChatFeedbackType) => {
     setFeedbackByMessage((prev) => ({ ...prev, [messageId]: type }));
   };
 
-  const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput((text) => {
-    setInput((prev) => (prev ? `${prev} ${text}` : text));
-    setJustHeard(true);
-    window.clearTimeout(flashTimeoutRef.current);
-    flashTimeoutRef.current = window.setTimeout(() => setJustHeard(false), 500);
-  });
+  const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput(appendTyped);
 
   useGSAP(
     () => {
