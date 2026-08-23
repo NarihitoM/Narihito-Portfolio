@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
+import { Home } from "lucide-react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
@@ -253,14 +254,19 @@ export function PageLayout({
         </div>
       </div>
 
-      <div className="flex items-center gap-3 px-5 md:px-10 lg:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
+      <div className="flex items-center justify-between gap-3 px-5 md:px-10 lg:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
         <Link
           href={backHref}
           className="group font-mono text-[12px] text-text-secondary hover:text-text-primary transition-colors"
         >
           <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1">←</span> {backLink}
         </Link>
-        <span className="font-mono text-[11px] text-text-muted">{breadcrumb}</span>
+        <span className="flex items-center gap-1.5 font-mono text-[11px] text-text-muted">
+          <Link href="/" aria-label="Home" className="text-text-secondary transition-colors hover:text-text-primary">
+            <Home size={12} />
+          </Link>
+          {breadcrumb.replace(/^HOME\s*\/\s*/i, "/ ")}
+        </span>
       </div>
 
       <div className="flex flex-col gap-6 md:gap-7 px-5 md:px-10 lg:px-[120px] pt-6 md:pt-12">
