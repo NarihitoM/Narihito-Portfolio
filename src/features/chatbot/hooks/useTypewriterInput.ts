@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 
-const GHOST_HOLD_MS = 450;
-const GHOST_FADE_MS = 200;
+const GHOST_HOLD_MS = 200;
+const GHOST_FADE_MS = 100;
 
 interface Ghost {
   text: string;

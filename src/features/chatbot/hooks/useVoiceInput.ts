@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { chatbotApi } from "../api/chatbotApi";
 
-const SEGMENT_MS = 2500;
+const SEGMENT_MS = 1200;
 const MIN_BLOB_BYTES = 1000;
 
 export function useVoiceInput(onText: (text: string) => void) {
