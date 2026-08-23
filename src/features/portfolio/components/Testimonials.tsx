@@ -31,7 +31,7 @@ function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void
       onMouseLeave={onMouseLeave}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
-      className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40"
+      className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40 active:bg-chip/60"
     >
       <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">
         &ldquo;

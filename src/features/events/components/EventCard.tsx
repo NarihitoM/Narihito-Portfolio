@@ -23,7 +23,7 @@ export function EventCard({ event }: { event: Event }) {
       onMouseLeave={onMouseLeave}
       onTouchStart={onTouchStart}
       onTouchEnd={onTouchEnd}
-      className="flex cursor-pointer flex-col overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-border-glow"
+      className="flex cursor-pointer flex-col overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-border-glow active:border-violet active:bg-chip/40"
     >
       {event.image ? (
         <img

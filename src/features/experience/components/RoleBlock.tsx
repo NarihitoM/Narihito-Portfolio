@@ -26,7 +26,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
           <button
             type="button"
             onClick={onToggle}
-            className="shrink-0 font-mono text-[11px] tracking-[1px] text-text-muted transition-colors hover:text-text-primary"
+            className="shrink-0 font-mono text-[11px] tracking-[1px] text-text-muted transition-[color,transform] hover:text-text-primary active:scale-95"
           >
             {collapsed ? "SHOW DETAILS" : "HIDE DETAILS"}
           </button>

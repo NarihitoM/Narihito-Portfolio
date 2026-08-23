@@ -34,7 +34,7 @@ export function InAppBrowserBanner() {
         <button
           type="button"
           onClick={copyLink}
-          className="rounded-[4px] bg-wire px-3 py-1.5 font-semibold text-violet"
+          className="rounded-[4px] bg-wire px-3 py-1.5 font-semibold text-violet transition-transform active:scale-95"
         >
           {copied ? "Copied" : "Copy link"}
         </button>
@@ -42,7 +42,7 @@ export function InAppBrowserBanner() {
           type="button"
           aria-label="Dismiss"
           onClick={() => setShow(false)}
-          className="px-1 text-wire"
+          className="px-1 text-wire transition-transform active:scale-90"
         >
           ✕
         </button>

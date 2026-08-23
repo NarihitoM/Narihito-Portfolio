@@ -11,7 +11,7 @@ export function ModeToggle() {
       onClick={toggleTheme}
       aria-label="Toggle color theme"
       suppressHydrationWarning
-      className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-full bg-bg-panel-solid text-text-primary transition-colors duration-300"
+      className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-full bg-bg-panel-solid text-text-primary transition-[color,transform] duration-300 active:scale-90"
     >
       {theme === "dark" ? (
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

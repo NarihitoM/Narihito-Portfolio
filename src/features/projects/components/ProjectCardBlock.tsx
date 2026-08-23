@@ -17,7 +17,7 @@ export function ProjectCardBlock({ project, onView }: { project: ProjectCard; on
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") onView();
       }}
-      className="group flex cursor-pointer flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow"
+      className="group flex cursor-pointer flex-col rounded-[6px] border border-border-glow-soft bg-surface overflow-hidden transition-colors hover:border-border-glow active:border-violet active:bg-chip/40"
     >
       {project.projectimg ? (
         <div className="h-[200px] md:h-[230px] w-full overflow-hidden bg-bg-panel">

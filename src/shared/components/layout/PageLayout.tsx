@@ -254,12 +254,14 @@ export function PageLayout({
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-3 px-5 md:px-10 lg:px-[120px] pt-[84px] md:pt-[100px] pb-6 md:pb-[26px]">
+      <div className="h-[84px] md:h-[100px]" />
+
+      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 bg-bg px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
         <Link
           href={backHref}
-          className="group font-mono text-[12px] text-text-secondary hover:text-text-primary transition-colors"
+          className="group font-mono text-[12px] text-text-secondary transition-[color,transform] duration-150 ease-out hover:text-text-primary active:scale-95 active:text-violet"
         >
-          <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1">←</span> {backLink}
+          <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1 group-active:-translate-x-1.5">←</span> {backLink}
         </Link>
         <span className="flex items-center gap-1.5 font-mono text-[11px] text-text-muted">
           <Link href="/" aria-label="Home" className="text-text-secondary transition-colors hover:text-text-primary">

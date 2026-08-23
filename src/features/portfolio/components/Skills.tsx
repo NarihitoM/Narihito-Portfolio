@@ -160,7 +160,7 @@ function SkillCard({ skill, onClick }: { skill: Tool; onClick: () => void }) {
       {...tilt}
       data-skill-card
       onClick={onClick}
-      className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px] cursor-pointer border border-transparent hover:border-border-glow-soft transition-colors"
+      className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px] cursor-pointer border border-transparent transition-colors hover:border-border-glow-soft active:border-violet"
     >
       <TechIcon name={skill.name} className="h-[22px] w-[22px] md:h-6 md:w-6 text-text-primary" />
       <span className="font-mono text-[13px] md:text-[14px] text-text-secondary">{skill.name}</span>

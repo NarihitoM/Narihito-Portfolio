@@ -39,7 +39,7 @@ export function ScrollToTop() {
       type="button"
       aria-label="Scroll back to top"
       onClick={() => scrollToTarget(0)}
-      className="fixed bottom-6 left-5 md:bottom-8 md:left-8 z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-chip border border-border-glow-soft text-text-primary"
+      className="fixed bottom-6 left-5 md:bottom-8 md:left-8 z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-chip border border-border-glow-soft text-text-primary transition-transform active:scale-90"
     >
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
         <path d="M12 19V5M5 12l7-7 7 7" />

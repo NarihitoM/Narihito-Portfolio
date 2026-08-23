@@ -238,7 +238,7 @@ export function AboutPage() {
             type="button"
             onClick={() => setLightboxOpen(true)}
             aria-label="View profile photo"
-            className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait cursor-pointer"
+            className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait cursor-pointer transition-transform active:scale-[0.98]"
           >
             <Image
               src="/HeinHtetAung.jpg"
