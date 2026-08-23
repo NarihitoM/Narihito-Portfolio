@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { PagedProjectsResponse, RawProject } from "../types/types";
+import type { CursorProjectsResponse, RawProject } from "../types/types";
 
 export const projectsApi = {
   list: (limit?: number) =>
@@ -7,12 +7,12 @@ export const projectsApi = {
       .get<{ data: RawProject[] }>("/public/projects", { params: limit ? { limit } : undefined })
       .then((r) => r.data.data),
 
-  listPaged: ({ page, pageSize, category }: { page: number; pageSize: number; category?: string }) =>
+  listCursor: ({ cursor, limit = 6, category }: { cursor?: string; limit?: number; category?: string }) =>
     api
-      .get<PagedProjectsResponse>("/public/projects", {
+      .get<CursorProjectsResponse>("/public/projects/paged", {
         params: {
-          page,
-          pageSize,
+          cursor,
+          limit,
           ...(category && category !== "All" ? { category } : {}),
         },
       })

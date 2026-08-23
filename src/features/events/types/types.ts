@@ -6,14 +6,8 @@ export interface Event {
   description: string;
 }
 
-export interface PageMeta {
-  page: number;
-  pageSize: number;
-  total: number;
-  totalPages: number;
-}
-
-export interface PagedEventsResponse {
+export interface CursorEventsResponse {
   data: Event[];
-  meta: PageMeta;
+  nextCursor: string | null;
+  total: number;
 }

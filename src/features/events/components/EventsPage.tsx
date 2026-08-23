@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -13,9 +13,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { Pagination } from "@/shared/components/ui/Pagination";
-import { scrollToTarget } from "@/shared/lib/lenis";
-import { useEventsPaged } from "../hooks/useEvents";
+import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
+import { useEventsInfinite } from "../hooks/useEvents";
 import { useEventsUI } from "../store/eventsUIStore";
 import { EventCard } from "./EventCard";
 import { EventDialog } from "./EventDialog";
@@ -24,20 +23,15 @@ export function EventsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const [page, setPage] = useState(1);
-  const { events, total, totalPages, isLoading, isError, refetch } = useEventsPaged(page);
+  const { events, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useEventsInfinite();
   const { selectedEventId, setSelectedEventId } = useEventsUI();
   const selected = events.find((event) => event.id === selectedEventId) ?? null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
     { key: "EVENTS", value: String(total) },
-    { key: "SHOWING", value: `PAGE ${page} / ${totalPages}` },
+    { key: "SHOWING", value: `${events.length} / ${total}` },
   ];
-
-  const goToPage = (next: number) => {
-    setPage(next);
-    scrollToTarget("#events-grid", -100);
-  };
 
   useGSAP(
     () => {
@@ -133,7 +127,13 @@ export function EventsPage() {
               ))}
             </div>
 
-            <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
+            {hasNextPage && (
+              <LoadMoreButton
+                onClick={() => fetchNextPage()}
+                loading={isFetchingNextPage}
+                label="LOAD MORE EVENTS"
+              />
+            )}
           </>
         )}
       </div>

@@ -1,5 +1,5 @@
 import api from "@/shared/lib/api";
-import type { Event, PagedEventsResponse } from "../types/types";
+import type { CursorEventsResponse, Event } from "../types/types";
 
 export const eventsApi = {
   list: (limit?: number) =>
@@ -7,8 +7,8 @@ export const eventsApi = {
       .get<{ data: Event[] }>("/public/events", { params: limit ? { limit } : undefined })
       .then((r) => r.data.data),
 
-  listPaged: ({ page, pageSize }: { page: number; pageSize: number }) =>
+  listCursor: (cursor?: string, limit = 6) =>
     api
-      .get<PagedEventsResponse>("/public/events", { params: { page, pageSize } })
+      .get<CursorEventsResponse>("/public/events/paged", { params: { cursor, limit } })
       .then((r) => r.data),
 };

@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { projectsApi } from "../api/projectsApi";
 import type { FeaturedProject, FilterTag, ProjectCard, RawProject } from "../types/types";
-
-export const PROJECTS_PAGE_SIZE = 6;
 
 function toCard(p: RawProject): ProjectCard {
   return {
@@ -21,21 +19,23 @@ function toCard(p: RawProject): ProjectCard {
   };
 }
 
-export function useProjects({ page, category }: { page: number; category: string }) {
-  const query = useQuery({
-    queryKey: ["projects", "paged", page, category],
-    queryFn: () => projectsApi.listPaged({ page, pageSize: PROJECTS_PAGE_SIZE, category }),
-    placeholderData: keepPreviousData,
+export function useProjectsInfinite(category: string) {
+  const query = useInfiniteQuery({
+    queryKey: ["projects", "infinite", category],
+    queryFn: ({ pageParam }) => projectsApi.listCursor({ cursor: pageParam, category }),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
   const data = query.data;
 
-  const { projects, featured, filters, totalPages, total } = useMemo(() => {
-    const projects: ProjectCard[] = (data?.data ?? []).map(toCard);
+  const { projects, featured, filters, total } = useMemo(() => {
+    const firstPage = data?.pages[0];
+    const projects: ProjectCard[] = (data?.pages ?? []).flatMap((page) => page.data.map(toCard));
 
-    const featuredRaw = data?.featured ?? null;
+    const featuredRaw = firstPage?.featured ?? null;
     const featured: FeaturedProject | null = featuredRaw
       ? {
           projectimg: featuredRaw.projectimg,
@@ -54,20 +54,14 @@ export function useProjects({ page, category }: { page: number; category: string
         }
       : null;
 
-    const categories = data?.categories ?? [];
+    const categories = firstPage?.categories ?? [];
     const filters: FilterTag[] = [
       { label: "All", count: categories.reduce((sum, c) => sum + c.count, 0) },
       ...categories,
     ];
 
-    return {
-      projects,
-      featured,
-      filters,
-      totalPages: data?.meta.totalPages ?? 1,
-      total: data?.meta.total ?? 0,
-    };
+    return { projects, featured, filters, total: firstPage?.total ?? 0 };
   }, [data]);
 
-  return { ...query, projects, featured, filters, totalPages, total };
+  return { ...query, projects, featured, filters, total };
 }

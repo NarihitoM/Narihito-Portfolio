@@ -13,9 +13,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { Pagination } from "@/shared/components/ui/Pagination";
-import { scrollToTarget } from "@/shared/lib/lenis";
-import { useProjects } from "../hooks/useProjects";
+import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
+import { useProjectsInfinite } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
 import { FeaturedBlock } from "./FeaturedBlock";
 import { ProjectCardBlock } from "./ProjectCardBlock";
@@ -45,28 +44,25 @@ export function ProjectsPage() {
   const featuredRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<ProjectCard | null>(null);
-  const { filter, page, setFilter, setPage } = useProjectsUI();
+  const { filter, setFilter } = useProjectsUI();
   const {
     filters: FILTERS,
     featured: FEATURED,
     projects: PROJECTS,
     total,
-    totalPages,
     isLoading,
     isError,
     refetch,
-  } = useProjects({ page, category: filter });
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useProjectsInfinite(filter);
   const pageMeta = [
     { key: "INDEX", value: `${total} PROJECTS` },
     { key: "FILTERS", value: `${Math.max(FILTERS.length - 1, 0)} TAGS` },
-    { key: "SHOWING", value: `PAGE ${page} / ${totalPages}` },
+    { key: "SHOWING", value: `${PROJECTS.length} / ${total}` },
   ];
   const projectCountWord = NUMBER_WORDS[total] ?? String(total);
-
-  const goToPage = (next: number) => {
-    setPage(next);
-    scrollToTarget("#projects-grid", -100);
-  };
 
   useGSAP(
     () => {
@@ -254,7 +250,13 @@ export function ProjectsPage() {
               </div>
             )}
 
-            <Pagination page={page} totalPages={totalPages} onChange={goToPage} />
+            {hasNextPage && (
+              <LoadMoreButton
+                onClick={() => fetchNextPage()}
+                loading={isFetchingNextPage}
+                label="LOAD MORE PROJECTS"
+              />
+            )}
           </>
         )}
       </div>

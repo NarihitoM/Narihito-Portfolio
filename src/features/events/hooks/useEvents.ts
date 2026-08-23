@@ -1,7 +1,6 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useMemo } from "react";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { eventsApi } from "../api/eventsApi";
-
-export const EVENTS_PAGE_SIZE = 6;
 
 export function useEvents(limit?: number) {
   const query = useQuery({
@@ -14,19 +13,18 @@ export function useEvents(limit?: number) {
   return { ...query, events: query.data ?? [] };
 }
 
-export function useEventsPaged(page: number) {
-  const query = useQuery({
-    queryKey: ["events", "paged", page],
-    queryFn: () => eventsApi.listPaged({ page, pageSize: EVENTS_PAGE_SIZE }),
-    placeholderData: keepPreviousData,
+export function useEventsInfinite() {
+  const query = useInfiniteQuery({
+    queryKey: ["events", "infinite"],
+    queryFn: ({ pageParam }) => eventsApi.listCursor(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
-  return {
-    ...query,
-    events: query.data?.data ?? [],
-    total: query.data?.meta.total ?? 0,
-    totalPages: query.data?.meta.totalPages ?? 1,
-  };
+  const events = useMemo(() => (query.data?.pages ?? []).flatMap((page) => page.data), [query.data]);
+  const total = query.data?.pages[0]?.total ?? 0;
+
+  return { ...query, events, total };
 }
