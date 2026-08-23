@@ -32,6 +32,7 @@ import {
   siN8n,
   siVuedotjs,
   siSwagger,
+  siPostman,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -93,6 +94,7 @@ const ICONS: Record<string, IconRef> = {
   restapi: siSwagger,
   rest: siSwagger,
   swagger: siSwagger,
+  postman: siPostman,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
