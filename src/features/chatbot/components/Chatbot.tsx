@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
-import { Bot, Check, Copy, Send, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { Bot, Check, Copy, Mic, Send, Square, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -15,6 +15,7 @@ import {
 } from "@/shared/lib/gsap";
 import { chatbotApi } from "../api/chatbotApi";
 import { useChatbot } from "../hooks/useChatbot";
+import { useVoiceInput } from "../hooks/useVoiceInput";
 import type { ChatFeedbackType } from "../types/types";
 
 function ChatMarkdown({ content }: { content: string }) {
@@ -126,10 +127,19 @@ export function Chatbot() {
   const listRef = useRef<HTMLDivElement>(null);
   const { messages, isSending, error, send } = useChatbot();
   const [feedbackByMessage, setFeedbackByMessage] = useState<Record<string, ChatFeedbackType>>({});
+  const [justHeard, setJustHeard] = useState(false);
+  const flashTimeoutRef = useRef<number | undefined>(undefined);
 
   const handleFeedback = (messageId: string, type: ChatFeedbackType) => {
     setFeedbackByMessage((prev) => ({ ...prev, [messageId]: type }));
   };
+
+  const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput((text) => {
+    setInput((prev) => (prev ? `${prev} ${text}` : text));
+    setJustHeard(true);
+    window.clearTimeout(flashTimeoutRef.current);
+    flashTimeoutRef.current = window.setTimeout(() => setJustHeard(false), 500);
+  });
 
   useGSAP(
     () => {
@@ -251,6 +261,10 @@ export function Chatbot() {
                 Something went wrong. Try sending that again.
               </span>
             )}
+
+            {voiceError && (
+              <span className="font-mono text-[11px] text-text-muted">{voiceError}</span>
+            )}
           </div>
 
           <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t border-border-glow-soft p-3">
@@ -258,9 +272,25 @@ export function Chatbot() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask a question..."
-              className="flex-1 rounded-[4px] border border-border-glow-soft bg-surface px-3 py-2 font-body text-[13px] text-text-primary outline-none placeholder:text-text-muted focus:border-violet"
+              placeholder={recording ? "Listening..." : "Ask a question..."}
+              className={`flex-1 rounded-[4px] border bg-surface px-3 py-2 font-body text-[13px] text-text-primary outline-none placeholder:text-text-muted transition-shadow duration-300 ${
+                recording ? "border-violet animate-pulse" : "border-border-glow-soft focus:border-violet"
+              } ${justHeard ? "ring-2 ring-violet/60" : ""}`}
             />
+            <button
+              type="button"
+              onClick={toggleVoice}
+              disabled={transcribing && !recording}
+              aria-label={recording ? "Stop voice input" : "Start voice input"}
+              aria-pressed={recording}
+              className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[4px] border transition-colors disabled:opacity-40 ${
+                recording
+                  ? "border-violet bg-violet/10 text-violet animate-pulse"
+                  : "border-border-glow-soft text-text-secondary hover:border-violet hover:text-violet"
+              }`}
+            >
+              {recording ? <Square size={13} /> : <Mic size={15} />}
+            </button>
             <button
               type="submit"
               disabled={isSending || !input.trim()}
