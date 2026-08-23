@@ -140,7 +140,7 @@ export function HeaderNav() {
         </ul>
         <ModeToggle />
         <Button href="/Narihito CV.pdf" variant="primary" className="!px-5 !py-2.5 !text-[13px]">
-          CV
+          Download CV
         </Button>
       </nav>
 
@@ -215,7 +215,7 @@ function MobileDrawer({
 
         <div data-drawer-item className="shrink-0 pt-4">
           <Button href="/Narihito CV.pdf" variant="primary">
-            CV
+            Download CV
           </Button>
         </div>
       </div>

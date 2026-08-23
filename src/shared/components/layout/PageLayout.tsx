@@ -180,7 +180,7 @@ export function PageLayout({
             href="/Narihito CV.pdf"
             className="flex items-center justify-center rounded-[4px] bg-violet px-5 py-2.5 font-body text-[13px] font-semibold text-wire"
           >
-            CV
+            Download CV
           </Link>
         </nav>
 
