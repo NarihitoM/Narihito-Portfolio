@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useEffect } from "react";
+import { useGSAP } from "@gsap/react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
@@ -10,24 +11,76 @@ import { useSkills } from "@/features/skills/hooks/useSkills";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import {
+  ease,
+  gsap,
+  registerGsap,
+  REDUCED_MOTION_QUERY,
+  NO_REDUCED_MOTION_QUERY,
+} from "@/shared/lib/gsap";
 import type { Tool } from "@/features/skills/types/types";
 
 function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void }) {
   const [progress, setProgress] = useState(0);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setProgress(tool.proficiency), 100);
     return () => clearTimeout(timer);
   }, [tool.proficiency]);
 
+  useGSAP(
+    () => {
+      registerGsap();
+      const overlay = overlayRef.current;
+      const panel = panelRef.current;
+      if (!overlay || !panel) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(overlay, { opacity: 1 });
+        gsap.set(panel, { opacity: 1, scale: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" });
+        gsap.fromTo(panel, { opacity: 0, scale: 0.92, y: 30 }, {
+          opacity: 1, scale: 1, y: 0, duration: 0.4, ease: ease.entrance,
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: panelRef },
+  );
+
+  const handleClose = () => {
+    const overlay = overlayRef.current;
+    const panel = panelRef.current;
+    if (!overlay || !panel) { onClose(); return; }
+
+    const mm = gsap.matchMedia();
+    mm.add(REDUCED_MOTION_QUERY, () => { onClose(); });
+
+    mm.add(NO_REDUCED_MOTION_QUERY, () => {
+      gsap.to(panel, { opacity: 0, scale: 0.9, y: 24, duration: 0.35, ease: "power2.in" });
+      gsap.to(overlay, { opacity: 0, duration: 0.35, delay: 0.05, ease: "power2.in", onComplete: onClose });
+    });
+
+    setTimeout(() => mm.revert(), 500);
+  };
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+    <div ref={overlayRef} className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleClose}>
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div
-        className="relative flex flex-col gap-6 w-full max-w-[400px] rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8 animate-in zoom-in-95 slide-in-from-bottom-4"
+        ref={panelRef}
+        className="relative flex flex-col gap-6 w-full max-w-[400px] rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <DialogCloseButton onClick={onClose} />
+        <DialogCloseButton onClick={handleClose} />
 
         <div className="flex items-center gap-4">
           <TechIcon name={tool.name} className="h-8 w-8 text-text-primary" />

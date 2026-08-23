@@ -1,15 +1,17 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
 
   useGSAP(
     () => {
@@ -47,7 +49,12 @@ export function About() {
       <div className="mx-5 md:mx-10 lg:mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full lg:max-w-[1400px] lg:justify-center">
         <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
-          <div className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] overflow-hidden bg-portrait">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="View profile photo"
+            className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] overflow-hidden bg-portrait cursor-pointer"
+          >
             <Image
               src="/HeinHtetAung.jpg"
               alt="Hein Htet Aung"
@@ -56,7 +63,7 @@ export function About() {
               sizes="(min-width: 1024px) 360px, (min-width: 768px) 220px, 100vw"
               priority
             />
-          </div>
+          </button>
         </div>
 
         <div className="flex flex-col gap-3.5 md:gap-6 min-w-0 flex-1 lg:max-w-[600px]">
@@ -74,6 +81,14 @@ export function About() {
           <DetailCta href="/about" route="/about" />
         </div>
       </div>
+
+      {lightboxOpen && (
+        <ImageLightbox
+          src="/HeinHtetAung.jpg"
+          alt="Hein Htet Aung"
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </section>
   );
 }
