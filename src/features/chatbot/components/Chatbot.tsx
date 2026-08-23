@@ -179,6 +179,27 @@ export function Chatbot() {
     setInput("");
   };
 
+  const handleClose = () => {
+    const panel = panelRef.current;
+    if (!panel) { setOpen(false); return; }
+
+    const mm = gsap.matchMedia();
+    mm.add(REDUCED_MOTION_QUERY, () => { setOpen(false); });
+
+    mm.add(NO_REDUCED_MOTION_QUERY, () => {
+      gsap.to(panel, {
+        opacity: 0,
+        scale: 0.85,
+        y: 30,
+        duration: 0.35,
+        ease: "power2.in",
+        onComplete: () => setOpen(false),
+      });
+    });
+
+    setTimeout(() => mm.revert(), 500);
+  };
+
   return (
     <>
       {!open && (
@@ -209,7 +230,7 @@ export function Chatbot() {
             <button
               type="button"
               aria-label="Close chat"
-              onClick={() => setOpen(false)}
+              onClick={handleClose}
               className="ml-auto flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-text-muted transition-colors hover:text-text-primary"
             >
               <X size={16} />

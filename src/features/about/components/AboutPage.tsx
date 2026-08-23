@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import {
@@ -16,10 +16,12 @@ import { Chip } from "@/shared/components/ui/Chip";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { usePrinciples, useRoutes, useInterests } from "@/features/about/hooks/useAbout";
 import { yearsOfExperience } from "@/shared/lib/experience";
 
 export function AboutPage() {
+  const [lightboxOpen, setLightboxOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
   const bioRef = useRef<HTMLDivElement>(null);
@@ -232,7 +234,12 @@ export function AboutPage() {
         </div>
 
         <div className="flex flex-col md:flex-row gap-6 md:gap-16">
-          <div className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait">
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(true)}
+            aria-label="View profile photo"
+            className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait cursor-pointer"
+          >
             <Image
               src="/HeinHtetAung.jpg"
               alt="Hein Htet Aung"
@@ -240,7 +247,7 @@ export function AboutPage() {
               className="object-cover"
               sizes="(min-width: 768px) 460px, 100vw"
             />
-          </div>
+          </button>
 
           <div ref={principlesRef} className="flex flex-col gap-0 flex-1">
             <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet mb-6">
@@ -366,6 +373,14 @@ export function AboutPage() {
           </cite>
         </blockquote>
       </div>
+
+      {lightboxOpen && (
+        <ImageLightbox
+          src="/HeinHtetAung.jpg"
+          alt="Hein Htet Aung"
+          onClose={() => setLightboxOpen(false)}
+        />
+      )}
     </PageLayout>
   );
 }

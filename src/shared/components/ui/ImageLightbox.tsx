@@ -2,7 +2,8 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import Image from "next/image";
+import { DialogCloseButton } from "./DialogCloseButton";
 import {
   ease,
   gsap,
@@ -10,9 +11,8 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
-import type { Event } from "../types/types";
 
-export function EventDialog({ event, onClose }: { event: Event; onClose: () => void }) {
+export function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
@@ -32,7 +32,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
         gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "power2.out" });
-        gsap.fromTo(panel, { opacity: 0, scale: 0.92, y: 30 }, {
+        gsap.fromTo(panel, { opacity: 0, scale: 0.9, y: 30 }, {
           opacity: 1, scale: 1, y: 0, duration: 0.4, ease: ease.entrance,
         });
       });
@@ -64,32 +64,14 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
       onClick={handleClose}
     >
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
       <div
         ref={panelRef}
-        className="relative flex flex-col gap-6 w-full max-w-[640px] max-h-[85vh] overflow-y-auto rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
+        className="relative w-full max-w-[560px] max-h-[85vh] aspect-[3/4] overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt"
         onClick={(e) => e.stopPropagation()}
       >
         <DialogCloseButton onClick={handleClose} />
-
-        {event.image && (
-          <div className="w-full h-[240px] md:h-[320px] overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
-            <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
-          </div>
-        )}
-
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet">
-            {event.duration}
-          </span>
-          <h2 className="font-display text-[26px] md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
-            {event.title}
-          </h2>
-        </div>
-
-        <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-secondary">
-          {event.description}
-        </p>
+        <Image src={src} alt={alt} fill className="object-cover" sizes="560px" />
       </div>
     </div>
   );

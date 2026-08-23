@@ -54,11 +54,11 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
     mm.add(REDUCED_MOTION_QUERY, () => { onClose(); });
 
     mm.add(NO_REDUCED_MOTION_QUERY, () => {
-      gsap.to(panel, { opacity: 0, scale: 0.95, y: 16, duration: 0.2, ease: "power2.in" });
-      gsap.to(overlay, { opacity: 0, duration: 0.2, ease: "power2.in", onComplete: onClose });
+      gsap.to(panel, { opacity: 0, scale: 0.9, y: 24, duration: 0.35, ease: "power2.in" });
+      gsap.to(overlay, { opacity: 0, duration: 0.35, delay: 0.05, ease: "power2.in", onComplete: onClose });
     });
 
-    setTimeout(() => mm.revert(), 300);
+    setTimeout(() => mm.revert(), 500);
   };
 
   return (
