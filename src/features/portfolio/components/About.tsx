@@ -53,7 +53,7 @@ export function About() {
             type="button"
             onClick={() => setLightboxOpen(true)}
             aria-label="View profile photo"
-            className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] overflow-hidden bg-portrait cursor-pointer"
+            className="relative h-full w-full md:h-[280px] md:w-[220px] lg:h-[440px] lg:w-[360px] overflow-hidden bg-portrait cursor-pointer transition-transform active:scale-[0.98]"
           >
             <Image
               src="/HeinHtetAung.jpg"

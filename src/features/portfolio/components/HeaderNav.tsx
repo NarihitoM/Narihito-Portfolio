@@ -157,7 +157,7 @@ export function HeaderNav() {
           aria-label="Open menu"
           aria-expanded={menuOpen}
           onClick={() => setMenuOpen(true)}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-transform active:scale-90"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 6h18M3 12h18M3 18h18" />

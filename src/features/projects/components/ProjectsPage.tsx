@@ -202,7 +202,7 @@ export function ProjectsPage() {
               key={tag.label}
               type="button"
               onClick={() => setFilter(tag.label)}
-              className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-colors hover:border-violet hover:text-text-primary ${
+              className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,border-color,transform] hover:border-violet hover:text-text-primary active:scale-95 ${
                 filter === tag.label
                   ? "border-violet bg-surface text-text-primary"
                   : "border-border-glow-soft bg-surface text-text-secondary"

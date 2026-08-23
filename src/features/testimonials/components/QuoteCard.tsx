@@ -6,7 +6,7 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
       type="button"
       onClick={onClick}
       data-quote-card
-      className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow"
+      className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow active:border-violet active:bg-chip/30"
     >
       <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-primary italic line-clamp-3">
         &ldquo;{testimonial.quote}&rdquo;

@@ -10,7 +10,7 @@ export function ErrorState({ onRetry }: { onRetry: () => void }) {
       <button
         type="button"
         onClick={() => onRetry()}
-        className="rounded-full border border-border-glow-soft px-5 py-2 font-mono text-[11px] tracking-[1px] text-text-primary transition-colors hover:border-violet"
+        className="rounded-full border border-border-glow-soft px-5 py-2 font-mono text-[11px] tracking-[1px] text-text-primary transition-[border-color,transform] hover:border-violet active:scale-95"
       >
         RETRY
       </button>

@@ -119,7 +119,7 @@ export function Contact() {
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
-                className="mt-2 font-mono text-[12px] tracking-[1px] text-text-muted hover:text-text-primary transition-colors"
+                className="mt-2 font-mono text-[12px] tracking-[1px] text-text-muted hover:text-text-primary transition-[color,transform] active:scale-95"
               >
                 Send Another
               </button>
