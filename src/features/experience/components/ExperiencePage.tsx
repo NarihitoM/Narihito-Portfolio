@@ -14,7 +14,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { useExperience } from "@/features/experience/hooks/useExperience";
+import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
+import { useExperienceRoles, useEducation } from "@/features/experience/hooks/useExperience";
 import { useExperienceUI } from "@/features/experience/store/experienceUIStore";
 import { yearsOfExperience } from "@/shared/lib/experience";
 import { RoleBlock } from "./RoleBlock";
@@ -25,13 +26,34 @@ export function ExperiencePage() {
   const leadRef = useRef<HTMLParagraphElement>(null);
   const rolesRef = useRef<HTMLDivElement>(null);
   const eduRef = useRef<HTMLDivElement>(null);
-  const { roles: ROLES, education: EDUCATION, isLoading, isError, refetch } = useExperience();
+  const {
+    roles: ROLES,
+    total: rolesTotal,
+    isLoading: rolesLoading,
+    isError: rolesError,
+    refetch: refetchRoles,
+    hasNextPage: hasMoreRoles,
+    isFetchingNextPage: loadingMoreRoles,
+    fetchNextPage: loadMoreRoles,
+  } = useExperienceRoles();
+  const {
+    education: EDUCATION,
+    total: eduTotal,
+    isLoading: eduLoading,
+    isError: eduError,
+    refetch: refetchEducation,
+    hasNextPage: hasMoreEducation,
+    isFetchingNextPage: loadingMoreEducation,
+    fetchNextPage: loadMoreEducation,
+  } = useEducation();
   const { collapsedRoles, toggleRole } = useExperienceUI();
+  const isLoading = rolesLoading || eduLoading;
+  const isError = rolesError || eduError;
   const currentRole = ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
   const pageMeta = [
-    { key: "ROLES", value: String(ROLES.length) },
+    { key: "ROLES", value: String(rolesTotal) },
     { key: "CURRENT", value: currentRole?.title.toUpperCase() ?? "Loading" },
-    { key: "EDUCATION", value: String(EDUCATION.length) },
+    { key: "EDUCATION", value: String(eduTotal) },
   ];
 
   useGSAP(
@@ -135,33 +157,53 @@ export function ExperiencePage() {
           worked inside, and the results I can still point at.
         </p>
 
-        {isLoading ? (
+        {rolesLoading ? (
           <div className="flex flex-col gap-6">
             <Skeleton className="h-[240px] w-full" />
             <Skeleton className="h-[240px] w-full" />
           </div>
-        ) : isError ? (
-          <ErrorState onRetry={refetch} />
+        ) : rolesError ? (
+          <ErrorState onRetry={refetchRoles} />
         ) : (
-          <div ref={rolesRef}>
-            {ROLES.map((role) => (
-              <RoleBlock
-                key={role.title}
-                role={role}
-                collapsed={collapsedRoles.has(role.title)}
-                onToggle={() => toggleRole(role.title)}
-              />
-            ))}
-          </div>
+          <>
+            <div ref={rolesRef}>
+              {ROLES.map((role) => (
+                <RoleBlock
+                  key={role.id}
+                  role={role}
+                  collapsed={collapsedRoles.has(role.title)}
+                  onToggle={() => toggleRole(role.title)}
+                />
+              ))}
+            </div>
+            {hasMoreRoles && (
+              <LoadMoreButton onClick={() => loadMoreRoles()} loading={loadingMoreRoles} label="LOAD MORE ROLES" />
+            )}
+          </>
         )}
 
         <div ref={eduRef} className="flex flex-col gap-5 border-t border-border-glow pt-9">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
             EDUCATION & CERTIFICATIONS
           </span>
-          {isLoading ? (
+          {eduLoading ? (
             <Skeleton className="h-[140px] w-full" />
-          ) : EDUCATION.map((edu) => <EducationRow key={edu.name} edu={edu} />)}
+          ) : eduError ? (
+            <ErrorState onRetry={refetchEducation} />
+          ) : (
+            <>
+              {EDUCATION.map((edu) => (
+                <EducationRow key={edu.id} edu={edu} />
+              ))}
+              {hasMoreEducation && (
+                <LoadMoreButton
+                  onClick={() => loadMoreEducation()}
+                  loading={loadingMoreEducation}
+                  label="LOAD MORE EDUCATION"
+                />
+              )}
+            </>
+          )}
         </div>
       </div>
     </PageLayout>

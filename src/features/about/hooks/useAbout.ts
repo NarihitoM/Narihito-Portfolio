@@ -1,40 +1,64 @@
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { aboutApi } from "../api/aboutApi";
 import type { Interest, Principle, Route } from "../types/types";
 
-export function useAbout() {
-  const query = useQuery({
-    queryKey: ["about"],
-    queryFn: aboutApi.get,
+export function usePrinciples() {
+  const query = useInfiniteQuery({
+    queryKey: ["about", "principles"],
+    queryFn: ({ pageParam }) => aboutApi.getPrinciples(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
-  const data = query.data;
-
   const principles: Principle[] = useMemo(
     () =>
-      (data?.principles ?? []).map((p) => ({
-        key: p.num,
-        title: p.title,
-        desc: p.desc,
-      })),
-    [data],
+      (query.data?.pages ?? []).flatMap((page) =>
+        page.data.map((p) => ({ id: p.id, key: p.num, title: p.title, desc: p.desc })),
+      ),
+    [query.data],
   );
+
+  return { ...query, principles, total: query.data?.pages[0]?.total ?? 0 };
+}
+
+export function useRoutes() {
+  const query = useInfiniteQuery({
+    queryKey: ["about", "routes"],
+    queryFn: ({ pageParam }) => aboutApi.getRoutes(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
 
   const routes: Route[] = useMemo(
     () =>
-      (data?.routes ?? []).map((r) => ({
-        id: r.id,
-        year: r.year,
-        title: r.title,
-        desc: r.desc ?? "",
-      })),
-    [data],
+      (query.data?.pages ?? []).flatMap((page) =>
+        page.data.map((r) => ({ id: r.id, year: r.year, title: r.title, desc: r.desc ?? "" })),
+      ),
+    [query.data],
   );
 
-  const interests: Interest[] = useMemo(() => (data?.interests ?? []).map((i) => i.label), [data]);
+  return { ...query, routes, total: query.data?.pages[0]?.total ?? 0 };
+}
 
-  return { ...query, principles, routes, interests };
+export function useInterests() {
+  const query = useInfiniteQuery({
+    queryKey: ["about", "interests"],
+    queryFn: ({ pageParam }) => aboutApi.getInterests(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
+
+  const interests: Interest[] = useMemo(
+    () => (query.data?.pages ?? []).flatMap((page) => page.data),
+    [query.data],
+  );
+
+  return { ...query, interests, total: query.data?.pages[0]?.total ?? 0 };
 }

@@ -1,34 +1,53 @@
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { experienceApi } from "../api/experienceApi";
 import type { Role } from "../types/types";
 
-export function useExperience() {
-  const query = useQuery({
-    queryKey: ["experience"],
-    queryFn: () => experienceApi.get(),
+export function useExperienceRoles() {
+  const query = useInfiniteQuery({
+    queryKey: ["experience", "roles"],
+    queryFn: ({ pageParam }) => experienceApi.getRoles(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
-  const data = query.data;
-
   const roles: Role[] = useMemo(
     () =>
-      (data?.roles ?? []).map((r) => ({
-        period: r.period,
-        type: r.type,
-        title: r.title,
-        org: r.org,
-        desc: r.desc,
-        duties: r.duties,
-        impact: r.metrics,
-        chips: r.chips.map((c) => c.name),
-      })),
-    [data],
+      (query.data?.pages ?? []).flatMap((page) =>
+        page.data.map((r) => ({
+          id: r.id,
+          period: r.period,
+          type: r.type,
+          title: r.title,
+          org: r.org,
+          desc: r.desc,
+          duties: r.duties,
+          impact: r.metrics,
+          chips: r.chips.map((c) => c.name),
+        })),
+      ),
+    [query.data],
   );
 
-  const education = useMemo(() => data?.education ?? [], [data]);
+  const total = query.data?.pages[0]?.total ?? 0;
 
-  return { ...query, roles, education };
+  return { ...query, roles, total };
+}
+
+export function useEducation() {
+  const query = useInfiniteQuery({
+    queryKey: ["experience", "education"],
+    queryFn: ({ pageParam }) => experienceApi.getEducation(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
+
+  const education = useMemo(() => (query.data?.pages ?? []).flatMap((page) => page.data), [query.data]);
+  const total = query.data?.pages[0]?.total ?? 0;
+
+  return { ...query, education, total };
 }

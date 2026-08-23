@@ -1,4 +1,5 @@
 export interface Principle {
+  id: string;
   key: string;
   title: string;
   desc: string;
@@ -11,9 +12,13 @@ export interface Route {
   desc: string;
 }
 
-export type Interest = string;
+export interface Interest {
+  id: string;
+  label: string;
+}
 
 export interface RawPrinciple {
+  id: string;
   num: string;
   title: string;
   desc: string;
@@ -35,4 +40,10 @@ export interface AboutResponse {
   principles: RawPrinciple[];
   routes: RawRoute[];
   interests: RawInterest[];
+}
+
+export interface CursorPage<T> {
+  data: T[];
+  nextCursor: string | null;
+  total: number;
 }
