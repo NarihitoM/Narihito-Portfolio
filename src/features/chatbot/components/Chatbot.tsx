@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
-import { Check, Copy, MessageCircle, Send, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { Bot, Check, Copy, Send, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -177,7 +177,7 @@ export function Chatbot() {
           onClick={() => setOpen(true)}
           className="fixed bottom-6 right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
         >
-          <MessageCircle size={18} />
+          <Bot size={20} />
         </button>
       )}
 
@@ -189,7 +189,7 @@ export function Chatbot() {
         >
           <div className="flex items-center gap-3 border-b border-border-glow-soft px-4 py-3.5">
             <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-chip text-text-primary">
-              <MessageCircle size={16} />
+              <Bot size={18} />
             </div>
             <div className="flex flex-col">
               <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
