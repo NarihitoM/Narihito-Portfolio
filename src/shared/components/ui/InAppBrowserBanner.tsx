@@ -11,6 +11,8 @@ export function InAppBrowserBanner() {
   const [copied, setCopied] = useState(false);
 
   useEffect(() => {
+    // navigator is unavailable during SSR, so this can only be detected after mount.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isInAppBrowser(navigator.userAgent)) setShow(true);
   }, []);
 
