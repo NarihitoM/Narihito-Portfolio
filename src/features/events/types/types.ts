@@ -5,3 +5,15 @@ export interface Event {
   duration: string;
   description: string;
 }
+
+export interface PageMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PagedEventsResponse {
+  data: Event[];
+  meta: PageMeta;
+}

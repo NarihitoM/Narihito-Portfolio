@@ -33,6 +33,20 @@ export interface FilterTag {
   count: number;
 }
 
+export interface PageMeta {
+  page: number;
+  pageSize: number;
+  total: number;
+  totalPages: number;
+}
+
+export interface PagedProjectsResponse {
+  data: RawProject[];
+  featured: RawProject | null;
+  categories: { label: string; count: number }[];
+  meta: PageMeta;
+}
+
 export interface RawProject {
   projectimg: string;
   title: string;

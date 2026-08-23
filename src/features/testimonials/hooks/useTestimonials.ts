@@ -1,30 +1,36 @@
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import { testimonialsApi } from "../api/testimonialsApi";
 import type { Stat } from "../types/types";
 
-export function useTestimonials() {
+export const TESTIMONIALS_PAGE_SIZE = 6;
+
+export function useTestimonials(page: number) {
   const query = useQuery({
-    queryKey: ["testimonials"],
-    queryFn: () => testimonialsApi.list(),
+    queryKey: ["testimonials", "paged", page],
+    queryFn: () => testimonialsApi.listPaged({ page, pageSize: TESTIMONIALS_PAGE_SIZE }),
+    placeholderData: keepPreviousData,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
-  const testimonials = query.data ?? [];
+  const data = query.data;
+  const total = data?.meta.total ?? 0;
+  const clientsRepresented = data?.clientsRepresented ?? 0;
 
-  const stats: Stat[] = useMemo(() => {
-    const clientsRepresented = new Set(
-      testimonials
-        .filter((t) => t.type === "client")
-        .map((t) => t.name.trim())
-        .filter(Boolean),
-    ).size;
-    return [
-      { value: String(testimonials.length), label: "TESTIMONIALS COLLECTED" },
+  const stats: Stat[] = useMemo(
+    () => [
+      { value: String(total), label: "TESTIMONIALS COLLECTED" },
       { value: String(clientsRepresented), label: "CLIENTS REPRESENTED" },
-    ];
-  }, [testimonials]);
+    ],
+    [total, clientsRepresented],
+  );
 
-  return { ...query, testimonials, stats };
+  return {
+    ...query,
+    testimonials: data?.data ?? [],
+    stats,
+    total,
+    totalPages: data?.meta.totalPages ?? 1,
+  };
 }
