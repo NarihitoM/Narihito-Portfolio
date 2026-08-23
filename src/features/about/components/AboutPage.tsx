@@ -15,7 +15,8 @@ import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
-import { useAbout } from "@/features/about/hooks/useAbout";
+import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
+import { usePrinciples, useRoutes, useInterests } from "@/features/about/hooks/useAbout";
 import { yearsOfExperience } from "@/shared/lib/experience";
 
 export function AboutPage() {
@@ -26,12 +27,42 @@ export function AboutPage() {
   const routeRef = useRef<HTMLDivElement>(null);
   const interestsRef = useRef<HTMLDivElement>(null);
   const quoteRef = useRef<HTMLQuoteElement>(null);
-  const { principles: PRINCIPLES, routes: ROUTE, interests: INTERESTS, isLoading, isError, refetch } = useAbout();
+  const {
+    principles: PRINCIPLES,
+    total: principlesTotal,
+    isLoading: principlesLoading,
+    isError: principlesError,
+    refetch: refetchPrinciples,
+    hasNextPage: hasMorePrinciples,
+    isFetchingNextPage: loadingMorePrinciples,
+    fetchNextPage: loadMorePrinciples,
+  } = usePrinciples();
+  const {
+    routes: ROUTE,
+    total: routeTotal,
+    isLoading: routeLoading,
+    isError: routeError,
+    refetch: refetchRoutes,
+    hasNextPage: hasMoreRoutes,
+    isFetchingNextPage: loadingMoreRoutes,
+    fetchNextPage: loadMoreRoutes,
+  } = useRoutes();
+  const {
+    interests: INTERESTS,
+    isLoading: interestsLoading,
+    isError: interestsError,
+    refetch: refetchInterests,
+    hasNextPage: hasMoreInterests,
+    isFetchingNextPage: loadingMoreInterests,
+    fetchNextPage: loadMoreInterests,
+  } = useInterests();
+  const isLoading = principlesLoading || routeLoading || interestsLoading;
+  const isError = principlesError || routeError || interestsError;
   const latestRouteYear = ROUTE.map((route) => route.year).sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
-    { key: "PRINCIPLES", value: String(PRINCIPLES.length) },
-    { key: "ROUTE", value: String(ROUTE.length) },
+    { key: "PRINCIPLES", value: String(principlesTotal) },
+    { key: "ROUTE", value: String(routeTotal) },
     { key: "LATEST", value: latestRouteYear },
   ];
 
@@ -215,33 +246,42 @@ export function AboutPage() {
             <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet mb-6">
               HOW I WORK
             </p>
-            {isLoading ? (
+            {principlesLoading ? (
               <div className="flex flex-col gap-4 py-5">
                 <Skeleton className="h-16 w-full" />
                 <Skeleton className="h-16 w-full" />
                 <Skeleton className="h-16 w-full" />
               </div>
-            ) : isError ? (
-              <ErrorState onRetry={refetch} />
+            ) : principlesError ? (
+              <ErrorState onRetry={refetchPrinciples} />
             ) : (
-              PRINCIPLES.map((p) => (
-                <div
-                  key={p.key}
-                  className="flex gap-5 py-5 border-t border-border-glow-soft"
-                >
-                  <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
-                    {p.key}
-                  </span>
-                  <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-[17px] font-semibold text-text-primary">
-                      {p.title}
-                    </h3>
-                    <p className="font-body text-[14px] leading-[1.55] text-text-secondary">
-                      {p.desc}
-                    </p>
+              <>
+                {PRINCIPLES.map((p) => (
+                  <div
+                    key={p.id}
+                    className="flex gap-5 py-5 border-t border-border-glow-soft"
+                  >
+                    <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
+                      {p.key}
+                    </span>
+                    <div className="flex flex-col gap-1">
+                      <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                        {p.title}
+                      </h3>
+                      <p className="font-body text-[14px] leading-[1.55] text-text-secondary">
+                        {p.desc}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))
+                ))}
+                {hasMorePrinciples && (
+                  <LoadMoreButton
+                    onClick={() => loadMorePrinciples()}
+                    loading={loadingMorePrinciples}
+                    label="LOAD MORE"
+                  />
+                )}
+              </>
             )}
           </div>
         </div>
@@ -250,32 +290,37 @@ export function AboutPage() {
           <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
             THE ROUTE HERE
           </p>
-          {isLoading ? (
+          {routeLoading ? (
             <div className="flex flex-col gap-4 py-5">
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-12 w-full" />
             </div>
-          ) : isError ? (
-            <ErrorState onRetry={refetch} />
+          ) : routeError ? (
+            <ErrorState onRetry={refetchRoutes} />
           ) : (
-            ROUTE.map((r) => (
-              <div
-                key={r.id}
-                className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
-              >
-                <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
-                  {r.year}
-                </span>
-                <div className="flex flex-col gap-1">
-                  <h3 className="font-display text-[17px] font-semibold text-text-primary">
-                    {r.title}
-                  </h3>
-                  <p className="font-body text-[14px] leading-[1.55] text-text-secondary max-w-[640px]">
-                    {r.desc}
-                  </p>
+            <>
+              {ROUTE.map((r) => (
+                <div
+                  key={r.id}
+                  className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
+                >
+                  <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
+                    {r.year}
+                  </span>
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                      {r.title}
+                    </h3>
+                    <p className="font-body text-[14px] leading-[1.55] text-text-secondary max-w-[640px]">
+                      {r.desc}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))
+              ))}
+              {hasMoreRoutes && (
+                <LoadMoreButton onClick={() => loadMoreRoutes()} loading={loadingMoreRoutes} label="LOAD MORE" />
+              )}
+            </>
           )}
         </div>
 
@@ -286,13 +331,26 @@ export function AboutPage() {
           <p className="font-body text-[15px] text-text-secondary">
             Things that keep the work honest, and occasionally end up in it.
           </p>
-          <div className="flex flex-wrap gap-2">
-            {INTERESTS.map((interest) => (
-              <span key={interest} data-chip>
-                <Chip>{interest}</Chip>
-              </span>
-            ))}
-          </div>
+          {interestsError ? (
+            <ErrorState onRetry={refetchInterests} />
+          ) : (
+            <>
+              <div className="flex flex-wrap gap-2">
+                {INTERESTS.map((interest) => (
+                  <span key={interest.id} data-chip>
+                    <Chip>{interest.label}</Chip>
+                  </span>
+                ))}
+              </div>
+              {hasMoreInterests && (
+                <LoadMoreButton
+                  onClick={() => loadMoreInterests()}
+                  loading={loadingMoreInterests}
+                  label="LOAD MORE"
+                />
+              )}
+            </>
+          )}
         </div>
 
         <blockquote

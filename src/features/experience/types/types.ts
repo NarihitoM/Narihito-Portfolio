@@ -9,6 +9,7 @@ export interface Metric {
 }
 
 export interface Role {
+  id: string;
   period: string;
   type: string;
   title: string;
@@ -20,12 +21,14 @@ export interface Role {
 }
 
 export interface Education {
+  id: string;
   year: string;
   name: string;
   org: string;
 }
 
 export interface RawRole {
+  id: string;
   period: string;
   type: string;
   title: string;
@@ -39,6 +42,12 @@ export interface RawRole {
 export interface ExperienceResponse {
   roles: RawRole[];
   education: Education[];
+}
+
+export interface CursorPage<T> {
+  data: T[];
+  nextCursor: string | null;
+  total: number;
 }
 
 export interface ExperienceEntry {
