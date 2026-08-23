@@ -40,4 +40,15 @@ export const chatbotApi = {
 
     return nav;
   },
+
+  async transcribe(blob: Blob): Promise<string> {
+    const form = new FormData();
+    form.append("audio", blob, "audio.webm");
+
+    const res = await fetch(`${BASE_URL}/chatbot/transcribe`, { method: "POST", body: form });
+    if (!res.ok) throw new Error("Transcription failed");
+
+    const data = (await res.json()) as { text: string };
+    return data.text;
+  },
 };
