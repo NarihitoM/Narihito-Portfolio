@@ -65,15 +65,19 @@ export function HeaderNav() {
       const drawer = drawerRef.current;
       if (!drawer) return;
 
+      const items = drawer.querySelectorAll("[data-drawer-item]");
+      gsap.killTweensOf(drawer);
+      gsap.killTweensOf(items);
+
       if (menuOpen) {
         gsap.set(drawer, { display: "flex" });
         gsap.fromTo(
           drawer,
           { xPercent: 100 },
-          { xPercent: 0, duration: 0.5, ease: ease.wipe },
+          { xPercent: 0, duration: 0.5, ease: ease.wipe, overwrite: true },
         );
         gsap.fromTo(
-          drawer.querySelectorAll("[data-drawer-item]"),
+          items,
           { opacity: 0, xPercent: 8, y: 28 },
           {
             opacity: 1,
@@ -83,6 +87,7 @@ export function HeaderNav() {
             stagger: 0.06,
             delay: 0.2,
             ease: ease.entrance,
+            overwrite: true,
           },
         );
       } else {
@@ -90,6 +95,7 @@ export function HeaderNav() {
           xPercent: 100,
           duration: 0.4,
           ease: ease.wipe,
+          overwrite: true,
           onComplete: () => gsap.set(drawer, { display: "none" }),
         });
       }
