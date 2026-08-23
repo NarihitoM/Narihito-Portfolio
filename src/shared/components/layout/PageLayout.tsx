@@ -11,8 +11,8 @@ import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import type { PageLayoutProps } from "@/shared/types/types";
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials", "Contact"];
-const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Testimonials"];
+const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Testimonials", "Contact"];
+const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Testimonials"];
 
 export function PageLayout({
   children,
