@@ -28,10 +28,10 @@ export function useVoiceInput(onText: (text: string) => void) {
         if (blob.size > MIN_BLOB_BYTES) {
           setTranscribing(true);
           try {
-            const text = await chatbotApi.transcribe(blob);
+            const text = await chatbotApi.transcribe(blob).catch(() => chatbotApi.transcribe(blob));
             if (text.trim()) onText(text.trim());
           } catch {
-            // one segment failing shouldn't kill the session, just skip it
+            // segment failed twice, skip it
           } finally {
             setTranscribing(false);
           }
