@@ -1,7 +1,9 @@
 import { useCallback, useRef, useState } from "react";
 import { chatbotApi } from "../api/chatbotApi";
 
-const SEGMENT_MS = 1200;
+const SILENCE_THRESHOLD = 0.02;
+const SILENCE_MS = 600;
+const MAX_SEGMENT_MS = 8000;
 const MIN_BLOB_BYTES = 1000;
 
 export function useVoiceInput(onText: (text: string) => void) {
@@ -11,6 +13,11 @@ export function useVoiceInput(onText: (text: string) => void) {
   const streamRef = useRef<MediaStream | null>(null);
   const recorderRef = useRef<MediaRecorder | null>(null);
   const stoppedRef = useRef(true);
+  const audioCtxRef = useRef<AudioContext | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const silenceStartRef = useRef<number | null>(null);
+  const segmentStartRef = useRef(0);
+  const hasSpeechRef = useRef(false);
 
   const startSegment = useCallback(
     (stream: MediaStream) => {
@@ -46,12 +53,55 @@ export function useVoiceInput(onText: (text: string) => void) {
 
       recorderRef.current = recorder;
       recorder.start();
-      window.setTimeout(() => {
-        if (recorder.state === "recording") recorder.stop();
-      }, SEGMENT_MS);
+      segmentStartRef.current = performance.now();
+      silenceStartRef.current = null;
+      hasSpeechRef.current = false;
     },
     [onText],
   );
+
+  const watchSilence = useCallback((stream: MediaStream) => {
+    const audioCtx = new AudioContext();
+    audioCtxRef.current = audioCtx;
+    const source = audioCtx.createMediaStreamSource(stream);
+    const analyser = audioCtx.createAnalyser();
+    analyser.fftSize = 512;
+    source.connect(analyser);
+    const data = new Uint8Array(analyser.fftSize);
+
+    const tick = () => {
+      if (stoppedRef.current) return;
+      analyser.getByteTimeDomainData(data);
+
+      let sumSquares = 0;
+      for (let i = 0; i < data.length; i++) {
+        const norm = (data[i] - 128) / 128;
+        sumSquares += norm * norm;
+      }
+      const rms = Math.sqrt(sumSquares / data.length);
+      const now = performance.now();
+
+      if (rms > SILENCE_THRESHOLD) {
+        hasSpeechRef.current = true;
+        silenceStartRef.current = null;
+      } else if (hasSpeechRef.current) {
+        if (silenceStartRef.current === null) {
+          silenceStartRef.current = now;
+        } else if (now - silenceStartRef.current > SILENCE_MS) {
+          const recorder = recorderRef.current;
+          if (recorder && recorder.state === "recording") recorder.stop();
+        }
+      }
+
+      if (now - segmentStartRef.current > MAX_SEGMENT_MS) {
+        const recorder = recorderRef.current;
+        if (recorder && recorder.state === "recording") recorder.stop();
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+    rafRef.current = requestAnimationFrame(tick);
+  }, []);
 
   const start = useCallback(async () => {
     setError(null);
@@ -61,14 +111,19 @@ export function useVoiceInput(onText: (text: string) => void) {
       stoppedRef.current = false;
       setRecording(true);
       startSegment(stream);
+      watchSilence(stream);
     } catch {
       setError("Microphone access was denied.");
     }
-  }, [startSegment]);
+  }, [startSegment, watchSilence]);
 
   const stop = useCallback(() => {
     stoppedRef.current = true;
     setRecording(false);
+    if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    rafRef.current = null;
+    audioCtxRef.current?.close();
+    audioCtxRef.current = null;
     const recorder = recorderRef.current;
     if (recorder && recorder.state === "recording") {
       recorder.stop();
