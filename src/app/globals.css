@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+
 @keyframes scroll-dot {
   0% {
     transform: translateY(0);
