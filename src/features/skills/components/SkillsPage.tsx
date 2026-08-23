@@ -14,6 +14,7 @@ import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useSkills, useLearning } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
 import { ToolRow } from "./ToolRow";
@@ -24,7 +25,16 @@ export function SkillsPage() {
   const categoriesRef = useRef<HTMLDivElement>(null);
   const learningRef = useRef<HTMLDivElement>(null);
   const { categories: allCategories, isLoading, isError, refetch } = useSkills();
-  const { items: learningItems, isLoading: learningLoading, isError: learningError, refetch: refetchLearning } = useLearning();
+  const {
+    items: learningItems,
+    total: learningTotal,
+    isLoading: learningLoading,
+    isError: learningError,
+    refetch: refetchLearning,
+    hasNextPage: hasMoreLearning,
+    isFetchingNextPage: loadingMoreLearning,
+    fetchNextPage: loadMoreLearning,
+  } = useLearning();
   const { activeCategory, setActiveCategory } = useSkillsUI();
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
   const primaryStack = allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
@@ -216,7 +226,7 @@ export function SkillsPage() {
           <Skeleton className="h-[140px] w-full" />
         ) : learningError ? (
           <ErrorState onRetry={refetchLearning} />
-        ) : learningItems.length > 0 ? (
+        ) : learningTotal > 0 ? (
           <div
             ref={learningRef}
             className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
@@ -226,7 +236,7 @@ export function SkillsPage() {
                 CURRENTLY LEARNING
               </span>
               <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                {learningItems.length} thing{learningItems.length === 1 ? "" : "s"} on the bench
+                {learningTotal} thing{learningTotal === 1 ? "" : "s"} on the bench
                 this quarter. Listed here so the stack above stays honest.
               </p>
             </div>
@@ -252,6 +262,13 @@ export function SkillsPage() {
                   </span>
                 </div>
               ))}
+              {hasMoreLearning && (
+                <LoadMoreButton
+                  onClick={() => loadMoreLearning()}
+                  loading={loadingMoreLearning}
+                  label="LOAD MORE"
+                />
+              )}
             </div>
           </div>
         ) : null}

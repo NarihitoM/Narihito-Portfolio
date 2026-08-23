@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { skillsApi } from "../api/skillsApi";
 import type { Category } from "../types/types";
 
@@ -33,12 +33,16 @@ export function useSkills() {
 }
 
 export function useLearning() {
-  const query = useQuery({
-    queryKey: ["learning"],
-    queryFn: skillsApi.listLearning,
+  const query = useInfiniteQuery({
+    queryKey: ["learning", "paged"],
+    queryFn: ({ pageParam }) => skillsApi.listLearningPaged(pageParam),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
 
-  return { ...query, items: query.data ?? [] };
+  const items = useMemo(() => (query.data?.pages ?? []).flatMap((page) => page.data), [query.data]);
+
+  return { ...query, items, total: query.data?.pages[0]?.total ?? 0 };
 }
