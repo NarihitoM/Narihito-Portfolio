@@ -100,7 +100,7 @@ export function Hero() {
       <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-3 gap-4">
         <MetaItem label="AVAILABLE" value="EVERY TIME" />
         <MetaItem label="BASED IN" value="MYANMAR" />
-        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AI DEVELOPMENT" />
+        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AGENTIC AI DEVELOPMENT" />
       </div>
 
       <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[860px] flex-col items-center gap-3">
