@@ -24,3 +24,9 @@ export interface LearningItem {
   name: string;
   desc: string;
 }
+
+export interface CursorPage<T> {
+  data: T[];
+  nextCursor: string | null;
+  total: number;
+}
