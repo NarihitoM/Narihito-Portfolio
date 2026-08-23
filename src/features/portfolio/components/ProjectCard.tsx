@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { Globe, X, ExternalLink } from "lucide-react";
+import { Globe, ExternalLink } from "lucide-react";
+import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import type { Project } from "@/features/portfolio/types/types";
 
 function Dialog({ project, onClose }: { project: Project; onClose: () => void }) {
@@ -18,13 +19,7 @@ function Dialog({ project, onClose }: { project: Project; onClose: () => void })
         className="relative flex flex-col gap-6 w-full max-w-[720px] max-h-[85vh] overflow-y-auto rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8 animate-in zoom-in-95 slide-in-from-bottom-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft text-text-muted transition-colors hover:text-text-primary"
-        >
-          <X size={16} />
-        </button>
+        <DialogCloseButton onClick={onClose} />
 
         {project.projectimg && (
           <div className="w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">

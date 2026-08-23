@@ -9,6 +9,7 @@ import { useTilt } from "@/shared/hooks/useTilt";
 import { useSkills } from "@/features/skills/hooks/useSkills";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import type { Tool } from "@/features/skills/types/types";
 
 function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void }) {
@@ -26,13 +27,7 @@ function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void 
         className="relative flex flex-col gap-6 w-full max-w-[400px] rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8 animate-in zoom-in-95 slide-in-from-bottom-4"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={onClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft text-text-muted transition-colors hover:text-text-primary"
-        >
-          &times;
-        </button>
+        <DialogCloseButton onClick={onClose} />
 
         <div className="flex items-center gap-4">
           <TechIcon name={tool.name} className="h-8 w-8 text-text-primary" />

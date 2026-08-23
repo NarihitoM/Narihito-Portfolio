@@ -14,7 +14,8 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { X, ExternalLink, Globe } from "lucide-react";
+import { ExternalLink, Globe } from "lucide-react";
+import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
@@ -244,13 +245,7 @@ function Dialog({ project, onClose }: { project: ProjectCard; onClose: () => voi
         className="relative flex flex-col gap-6 w-full max-w-[720px] max-h-[85vh] overflow-y-auto rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={handleClose}
-          className="absolute top-4 right-4 flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft text-text-muted transition-colors hover:text-text-primary"
-        >
-          <X size={16} />
-        </button>
+        <DialogCloseButton onClick={handleClose} />
 
         {project.projectimg && (
           <div className="w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">

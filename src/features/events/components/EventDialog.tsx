@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import { X } from "lucide-react";
+import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import {
   ease,
   gsap,
@@ -70,13 +70,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
         className="relative flex flex-col gap-6 w-full max-w-[640px] max-h-[85vh] overflow-y-auto rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          type="button"
-          onClick={handleClose}
-          className="absolute top-4 right-4 z-10 flex h-8 w-8 items-center justify-center rounded border border-border-glow-soft bg-bg-alt text-text-muted transition-colors hover:text-text-primary"
-        >
-          <X size={16} />
-        </button>
+        <DialogCloseButton onClick={handleClose} />
 
         {event.image && (
           <div className="w-full h-[240px] md:h-[320px] overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
