@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { gsap, ease, registerGsap } from "@/shared/lib/gsap";
 import { useTheme } from "@/shared/hooks/useTheme";
 
 type ViewTransitionDocument = Document & {
@@ -10,13 +11,38 @@ type ViewTransitionDocument = Document & {
 export function ModeToggle() {
   const { theme, toggleTheme } = useTheme();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const rippleRef = useRef<HTMLDivElement | null>(null);
+
+  const runRippleFallback = (x: number, y: number) => {
+    registerGsap();
+    rippleRef.current?.remove();
+
+    const size = 220;
+    const ripple = document.createElement("div");
+    ripple.style.cssText = `position:fixed;left:${x - size / 2}px;top:${y - size / 2}px;width:${size}px;height:${size}px;border-radius:50%;z-index:200;pointer-events:none;background:currentColor;color:var(--color-text-primary);opacity:0.35;transform:scale(0);will-change:transform,opacity;`;
+    document.body.appendChild(ripple);
+    rippleRef.current = ripple;
+
+    toggleTheme();
+
+    gsap.to(ripple, {
+      scale: 1,
+      opacity: 0,
+      duration: 0.6,
+      ease: ease.wipe,
+      onComplete: () => {
+        ripple.remove();
+        if (rippleRef.current === ripple) rippleRef.current = null;
+      },
+    });
+  };
 
   const handleClick = () => {
     const button = buttonRef.current;
     const doc = document as ViewTransitionDocument;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (!button || !doc.startViewTransition || reducedMotion) {
+    if (!button || reducedMotion) {
       toggleTheme();
       return;
     }
@@ -24,6 +50,12 @@ export function ModeToggle() {
     const rect = button.getBoundingClientRect();
     const x = rect.left + rect.width / 2;
     const y = rect.top + rect.height / 2;
+
+    if (!doc.startViewTransition) {
+      runRippleFallback(x, y);
+      return;
+    }
+
     const endRadius = Math.hypot(
       Math.max(x, window.innerWidth - x),
       Math.max(y, window.innerHeight - y),
