@@ -79,15 +79,16 @@ function ChatMarkdown({ content }: { content: string }) {
   );
 }
 
-function NavPill({ nav }: { nav: NavDirective }) {
+function NavPill({ nav, onGo }: { nav: NavDirective; onGo: (path: string) => void }) {
   return (
-    <Link
-      href={nav.path}
+    <button
+      type="button"
+      onClick={() => onGo(nav.path)}
       className="mt-1.5 flex w-fit items-center gap-1.5 rounded-full border border-border-glow-soft bg-surface px-3 py-1.5 font-mono text-[11px] text-text-secondary transition-colors hover:border-violet hover:text-violet active:scale-95"
     >
       {nav.label}
       <ArrowRight size={12} />
-    </Link>
+    </button>
   );
 }
 
@@ -156,7 +157,7 @@ export function Chatbot() {
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { messages, isSending, error, send } = useChatbot();
+  const { messages, isSending, error, send, goTo } = useChatbot();
   const [feedbackByMessage, setFeedbackByMessage] = useState<Record<string, ChatFeedbackType>>({});
 
   const handleFeedback = (messageId: string, type: ChatFeedbackType) => {
@@ -295,7 +296,9 @@ export function Chatbot() {
                       {m.role === "assistant" ? <ChatMarkdown content={m.content} /> : m.content}
                     </div>
                   )}
-                  {m.role === "assistant" && !isPendingReply && m.content && m.nav && <NavPill nav={m.nav} />}
+                  {m.role === "assistant" && !isPendingReply && m.content && m.nav && (
+                    <NavPill nav={m.nav} onGo={goTo} />
+                  )}
                   {m.role === "assistant" && !isPendingReply && m.content && (
                     <MessageActions
                       messageId={m.id}

@@ -48,7 +48,7 @@ export function useChatbot() {
         });
       });
 
-      const showNavPill = nav && NAV_ALLOWLIST.has(nav.path) && nav.mode !== "auto";
+      const showNavPill = nav && NAV_ALLOWLIST.has(nav.path);
       if (showNavPill || suggestions.length) {
         setMessages((prev) => {
           const next = [...prev];
@@ -60,14 +60,6 @@ export function useChatbot() {
           return next;
         });
       }
-
-      if (nav && NAV_ALLOWLIST.has(nav.path) && nav.mode === "auto") {
-        if (pathname === "/") {
-          scrollToTarget(nav.path === "/" ? 0 : nav.path.replace(/^\/#?/, "#"), HEADER_OFFSET);
-        } else {
-          router.push(nav.path);
-        }
-      }
     } catch {
       setError(true);
       setMessages((prev) => prev.slice(0, -1));
@@ -76,5 +68,13 @@ export function useChatbot() {
     }
   };
 
-  return { messages, isSending, error, send };
+  const goTo = (path: string) => {
+    if (pathname === "/") {
+      scrollToTarget(path === "/" ? 0 : path.replace(/^\/#?/, "#"), HEADER_OFFSET);
+    } else {
+      router.push(path);
+    }
+  };
+
+  return { messages, isSending, error, send, goTo };
 }
