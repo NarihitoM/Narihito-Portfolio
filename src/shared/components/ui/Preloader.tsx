@@ -6,14 +6,13 @@ import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 const TAGLINE = "Full-Stack & Agentic AI Developer";
 const TYPE_MS = 50;
-const TYPE_DELAY_MS = TAGLINE.length * TYPE_MS;
-const FALLBACK_MS = TYPE_DELAY_MS + 2300;
+const BAR_MS = 2000;
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
-  const counterRef = useRef<HTMLSpanElement>(null);
   const [done, setDone] = useState(false);
   const [typed, setTyped] = useState(TAGLINE.slice(0, 1));
+  const typingDone = typed.length === TAGLINE.length;
 
   useEffect(() => {
     let i = 1;
@@ -28,8 +27,7 @@ export function Preloader() {
 
   useEffect(() => {
     const root = rootRef.current;
-    const counter = counterRef.current;
-    if (!root || !counter) return;
+    if (!root || !typingDone) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       requestAnimationFrame(() => setDone(true));
@@ -38,12 +36,7 @@ export function Preloader() {
 
     document.body.style.overflow = "hidden";
 
-    let cancelled = false;
-
     const finish = () => {
-      if (cancelled) return;
-      cancelled = true;
-
       registerGsap();
       gsap.to(root, {
         yPercent: -100,
@@ -57,21 +50,13 @@ export function Preloader() {
       });
     };
 
-    const running = counter.getAnimations();
-    if (running.length) {
-      Promise.all(running.map((animation) => animation.finished))
-        .then(finish)
-        .catch(() => {});
-    }
-
-    const fallback = window.setTimeout(finish, FALLBACK_MS);
+    const fallback = window.setTimeout(finish, BAR_MS + 300);
 
     return () => {
-      cancelled = true;
       window.clearTimeout(fallback);
       document.body.style.overflow = "";
     };
-  }, []);
+  }, [typingDone]);
 
   if (done) return null;
 
@@ -100,20 +85,17 @@ export function Preloader() {
         </span>
       </div>
 
-      <div className="flex w-70 flex-col gap-4">
-        <div className="h-px w-full overflow-hidden bg-border-glow-soft">
-          <span
-            className="preload-bar block h-full w-full origin-left bg-text-primary"
-            style={{ animationDelay: `${TYPE_DELAY_MS}ms` }}
-          />
-        </div>
-        <div className="relative h-4 w-full">
-          <span
-            ref={counterRef}
-            className="preload-counter absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-text-secondary"
-            style={{ animationDelay: `${TYPE_DELAY_MS}ms, ${TYPE_DELAY_MS}ms` }}
-          />
-        </div>
+      <div className="flex h-[36px] w-70 flex-col gap-4">
+        {typed.length === TAGLINE.length && (
+          <>
+            <div className="h-px w-full overflow-hidden bg-border-glow-soft">
+              <span className="preload-bar block h-full w-full origin-left bg-text-primary" />
+            </div>
+            <div className="relative h-4 w-full">
+              <span className="preload-counter absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-text-secondary" />
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
