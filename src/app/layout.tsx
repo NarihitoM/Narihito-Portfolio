@@ -32,7 +32,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Narihito",
   description:
-    "I design and build performant, motion-rich web products end to end — from data models to the pixel that reacts to your cursor.",
+    "Hi! I'm Narihito (A.K.A Hein Htet Aung). Welcome to my portfolio!.",
   icons: {
     icon: "/Narihito.jpg",
     apple: "/Narihito.jpg",
