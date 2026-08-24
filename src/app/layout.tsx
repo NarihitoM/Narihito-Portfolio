@@ -32,7 +32,7 @@ const jetBrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Narihito",
   description:
-    "Hi! I'm Narihito (A.K.A Hein Htet Aung). Welcome to my portfolio!.",
+    "Hi! I'm Narihito (A.K.A Hein Htet Aung). Welcome to my portfolio!",
   icons: {
     icon: "/Narihito.jpg",
     apple: "/Narihito.jpg",
