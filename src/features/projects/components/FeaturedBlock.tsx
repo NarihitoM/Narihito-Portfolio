@@ -1,4 +1,6 @@
 import { Chip } from "@/shared/components/ui/Chip";
+import { TechIcon } from "@/shared/components/ui/TechIcon";
+import { ExternalLink, Globe } from "lucide-react";
 import type { FeaturedProject } from "../types/types";
 
 export function FeaturedBlock({ project }: { project: FeaturedProject }) {
@@ -53,6 +55,31 @@ export function FeaturedBlock({ project }: { project: FeaturedProject }) {
                 </span>
               </div>
             ))}
+          </div>
+
+          <div className="flex items-center gap-3 pt-2">
+            {project.github && (
+              <a
+                href={project.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
+              >
+                <TechIcon name="github" className="h-4 w-4" />
+                GitHub
+              </a>
+            )}
+            {project.url && (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
+              >
+                <Globe size={14} />
+                Live Demo
+              </a>
+            )}
           </div>
         </div>
       </div>
