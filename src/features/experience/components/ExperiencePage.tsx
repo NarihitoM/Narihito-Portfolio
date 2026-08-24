@@ -183,7 +183,7 @@ export function ExperiencePage() {
 
         <div ref={eduRef} className="flex flex-col gap-5 border-t border-border-glow pt-9">
           <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            EDUCATION & CERTIFICATIONS
+            EDUCATION
           </span>
           {eduLoading ? (
             <Skeleton className="h-[140px] w-full" />
