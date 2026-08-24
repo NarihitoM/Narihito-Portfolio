@@ -132,12 +132,6 @@ html {
   }
 }
 
-*,
-*::before,
-*::after {
-  transition: background-color 0.4s ease, border-color 0.4s ease, color 0.4s ease, fill 0.4s ease, stroke 0.4s ease;
-}
-
 @keyframes theme-icon-in {
   from {
     opacity: 0;
@@ -153,27 +147,7 @@ html {
   animation: theme-icon-in 0.4s ease;
 }
 
-::view-transition-old(root),
-::view-transition-new(root) {
-  animation: none;
-  mix-blend-mode: normal;
-}
-
-::view-transition-old(root) {
-  z-index: 1;
-}
-
-::view-transition-new(root) {
-  z-index: 2;
-}
-
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-  }
-
   .theme-icon {
     animation: none;
   }
