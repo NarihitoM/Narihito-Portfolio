@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
 import { projectsApi } from "../api/projectsApi";
 import type { FeaturedProject, FilterTag, ProjectCard, RawProject } from "../types/types";
 
@@ -25,6 +25,7 @@ export function useProjectsInfinite(category: string) {
     queryFn: ({ pageParam }) => projectsApi.listCursor({ cursor: pageParam, category }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    placeholderData: keepPreviousData,
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
