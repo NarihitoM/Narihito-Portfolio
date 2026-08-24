@@ -15,8 +15,18 @@ const GREETING: ChatMessage = {
 };
 
 const HISTORY_LIMIT = 10;
+const MAX_ATTEMPTS = 3;
 
-const NAV_ALLOWLIST = new Set(["/", "/about", "/skills", "/experience", "/projects", "/events", "/testimonials", "/#contact"]);
+const NAV_ALLOWLIST = new Set([
+  "/",
+  "/#about", "/about",
+  "/#skills", "/skills",
+  "/#experience", "/experience",
+  "/#projects", "/projects",
+  "/#testimonials", "/testimonials",
+  "/#events", "/events",
+  "/#contact",
+]);
 
 export function useChatbot() {
   const [messages, setMessages] = useState<ChatMessage[]>([GREETING]);
@@ -38,34 +48,48 @@ export function useChatbot() {
     setError(false);
     setIsSending(true);
 
-    try {
-      const { nav, suggestions } = await chatbotApi.stream(trimmed, history, (chunk) => {
-        setMessages((prev) => {
-          const next = [...prev];
-          const last = next[next.length - 1];
-          next[next.length - 1] = { ...last, content: last.content + chunk };
-          return next;
+    for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+      try {
+        const { nav, suggestions } = await chatbotApi.stream(trimmed, history, (chunk) => {
+          setMessages((prev) => {
+            const next = [...prev];
+            const last = next[next.length - 1];
+            next[next.length - 1] = { ...last, content: last.content + chunk };
+            return next;
+          });
         });
-      });
 
-      const showNavPill = nav && NAV_ALLOWLIST.has(nav.path);
-      if (showNavPill || suggestions.length) {
+        const showNavPill = nav && NAV_ALLOWLIST.has(nav.path);
+        if (showNavPill || suggestions.length) {
+          setMessages((prev) => {
+            const next = [...prev];
+            next[next.length - 1] = {
+              ...next[next.length - 1],
+              nav: showNavPill ? nav! : undefined,
+              suggestions,
+            };
+            return next;
+          });
+        }
+        break;
+      } catch (err) {
+        const isConnectionError = err instanceof TypeError;
+        if (isConnectionError || attempt === MAX_ATTEMPTS) {
+          setError(true);
+          setMessages((prev) => prev.slice(0, -1));
+          break;
+        }
+        // backend responded but something went wrong mid-reply — retry silently instead
+        // of surfacing a scary error for what's usually a transient model/stream hiccup.
         setMessages((prev) => {
           const next = [...prev];
-          next[next.length - 1] = {
-            ...next[next.length - 1],
-            nav: showNavPill ? nav! : undefined,
-            suggestions,
-          };
+          next[next.length - 1] = { ...next[next.length - 1], content: "" };
           return next;
         });
       }
-    } catch {
-      setError(true);
-      setMessages((prev) => prev.slice(0, -1));
-    } finally {
-      setIsSending(false);
     }
+
+    setIsSending(false);
   };
 
   const goTo = (path: string) => {
