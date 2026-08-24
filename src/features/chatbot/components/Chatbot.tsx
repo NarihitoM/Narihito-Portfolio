@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
-import { Bot, Check, Copy, Mic, Send, Square, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { ArrowRight, Bot, Check, Copy, Mic, Send, Square, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import {
@@ -17,7 +17,24 @@ import { chatbotApi } from "../api/chatbotApi";
 import { useChatbot } from "../hooks/useChatbot";
 import { useVoiceInput } from "../hooks/useVoiceInput";
 import { useTypewriterInput } from "../hooks/useTypewriterInput";
-import type { ChatFeedbackType } from "../types/types";
+import type { ChatFeedbackType, NavDirective } from "../types/types";
+
+function SuggestionChips({ suggestions, onPick }: { suggestions: string[]; onPick: (text: string) => void }) {
+  return (
+    <div className="mt-1.5 flex flex-wrap gap-2">
+      {suggestions.map((question) => (
+        <button
+          key={question}
+          type="button"
+          onClick={() => onPick(question)}
+          className="rounded-full border border-border-glow-soft bg-surface px-3 py-1.5 font-mono text-[11px] text-text-secondary transition-colors hover:border-violet hover:text-violet active:scale-95"
+        >
+          {question}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 function ChatMarkdown({ content }: { content: string }) {
   return (
@@ -59,6 +76,18 @@ function ChatMarkdown({ content }: { content: string }) {
     >
       {content}
     </ReactMarkdown>
+  );
+}
+
+function NavPill({ nav }: { nav: NavDirective }) {
+  return (
+    <Link
+      href={nav.path}
+      className="mt-1.5 flex w-fit items-center gap-1.5 rounded-full border border-border-glow-soft bg-surface px-3 py-1.5 font-mono text-[11px] text-text-secondary transition-colors hover:border-violet hover:text-violet active:scale-95"
+    >
+      {nav.label}
+      <ArrowRight size={12} />
+    </Link>
   );
 }
 
@@ -266,6 +295,7 @@ export function Chatbot() {
                       {m.role === "assistant" ? <ChatMarkdown content={m.content} /> : m.content}
                     </div>
                   )}
+                  {m.role === "assistant" && !isPendingReply && m.content && m.nav && <NavPill nav={m.nav} />}
                   {m.role === "assistant" && !isPendingReply && m.content && (
                     <MessageActions
                       messageId={m.id}
@@ -273,6 +303,9 @@ export function Chatbot() {
                       feedback={feedbackByMessage[m.id] ?? null}
                       onFeedback={handleFeedback}
                     />
+                  )}
+                  {m.role === "assistant" && !isSending && i === messages.length - 1 && !!m.suggestions?.length && (
+                    <SuggestionChips suggestions={m.suggestions} onPick={send} />
                   )}
                 </div>
               );

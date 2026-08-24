@@ -8,7 +8,11 @@ export const chatbotApi = {
     await api.post("/public/chat-feedback", { messageId, message, type });
   },
 
-  async stream(message: string, history: ChatMessage[], onChunk: (text: string) => void): Promise<NavDirective | null> {
+  async stream(
+    message: string,
+    history: ChatMessage[],
+    onChunk: (text: string) => void,
+  ): Promise<{ nav: NavDirective | null; suggestions: string[] }> {
     const res = await fetch(`${BASE_URL}/chatbot`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,6 +33,16 @@ export const chatbotApi = {
       }
     }
 
+    let suggestions: string[] = [];
+    const suggestionsHeader = res.headers.get("X-Suggestions");
+    if (suggestionsHeader) {
+      try {
+        suggestions = JSON.parse(suggestionsHeader) as string[];
+      } catch {
+        suggestions = [];
+      }
+    }
+
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
 
@@ -38,7 +52,7 @@ export const chatbotApi = {
       onChunk(decoder.decode(value, { stream: true }));
     }
 
-    return nav;
+    return { nav, suggestions };
   },
 
   async transcribe(blob: Blob): Promise<string> {

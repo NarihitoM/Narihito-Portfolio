@@ -39,7 +39,7 @@ export function useChatbot() {
     setIsSending(true);
 
     try {
-      const nav = await chatbotApi.stream(trimmed, history, (chunk) => {
+      const { nav, suggestions } = await chatbotApi.stream(trimmed, history, (chunk) => {
         setMessages((prev) => {
           const next = [...prev];
           const last = next[next.length - 1];
@@ -48,7 +48,20 @@ export function useChatbot() {
         });
       });
 
-      if (nav?.mode === "auto" && NAV_ALLOWLIST.has(nav.path)) {
+      const showNavPill = nav && NAV_ALLOWLIST.has(nav.path) && nav.mode !== "auto";
+      if (showNavPill || suggestions.length) {
+        setMessages((prev) => {
+          const next = [...prev];
+          next[next.length - 1] = {
+            ...next[next.length - 1],
+            nav: showNavPill ? nav! : undefined,
+            suggestions,
+          };
+          return next;
+        });
+      }
+
+      if (nav && NAV_ALLOWLIST.has(nav.path) && nav.mode === "auto") {
         if (pathname === "/") {
           scrollToTarget(nav.path === "/" ? 0 : nav.path.replace(/^\/#?/, "#"), HEADER_OFFSET);
         } else {
