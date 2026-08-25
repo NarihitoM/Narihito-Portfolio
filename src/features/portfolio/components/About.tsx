@@ -81,7 +81,6 @@ export function About() {
             Postgres underneath, and wire in AI integrations that actually hold up in production,
             not just a demo.
           </p>
-          <DetailCta href="/about" route="/about" />
 
           {stats && (
             <div className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
@@ -90,6 +89,8 @@ export function About() {
               <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
             </div>
           )}
+
+          <DetailCta href="/about" route="/about" />
         </div>
       </div>
 
