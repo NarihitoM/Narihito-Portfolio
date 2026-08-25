@@ -34,6 +34,8 @@ import {
   siSwagger,
   siPostman,
   siFramer,
+  siGooglegemini,
+  siSupabase,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string };
@@ -100,6 +102,10 @@ const ICONS: Record<string, IconRef> = {
   "framer motion": siFramer,
   framermotion: siFramer,
   motion: siFramer,
+  gemini: siGooglegemini,
+  "google gemini": siGooglegemini,
+  googlegemini: siGooglegemini,
+  supabase: siSupabase,
 };
 
 export function TechIcon({ name, className }: { name: string; className?: string }) {
