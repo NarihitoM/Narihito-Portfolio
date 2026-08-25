@@ -26,15 +26,31 @@ export function Preloader() {
   }, []);
 
   useEffect(() => {
+    if (done) return;
+    const scrollY = window.scrollY;
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      window.scrollTo(0, scrollY);
+    };
+  }, [done]);
+
+  useEffect(() => {
     const root = rootRef.current;
     if (!root || !typingDone) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      requestAnimationFrame(() => setDone(true));
+      requestAnimationFrame(() => {
+        setDone(true);
+      });
       return;
     }
-
-    document.body.style.overflow = "hidden";
 
     const finish = () => {
       registerGsap();
@@ -43,7 +59,6 @@ export function Preloader() {
         duration: 0.7,
         ease: ease.entrance,
         onComplete: () => {
-          document.body.style.overflow = "";
           setDone(true);
           ScrollTrigger.refresh();
         },
@@ -54,7 +69,6 @@ export function Preloader() {
 
     return () => {
       window.clearTimeout(fallback);
-      document.body.style.overflow = "";
     };
   }, [typingDone]);
 
