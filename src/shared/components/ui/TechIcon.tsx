@@ -82,7 +82,6 @@ const ICONS: Record<string, IconRef> = {
   go: siGo,
   golang: siGo,
   n8n: siN8n,
-  java: siOpenjdk,
   springboot: siSpringboot,
   "spring boot": siSpringboot,
   spring: siSpringboot,
