@@ -1,6 +1,6 @@
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { ExternalLink, Globe } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import type { FeaturedProject } from "../types/types";
 
 export function FeaturedBlock({ project }: { project: FeaturedProject }) {
@@ -76,7 +76,7 @@ export function FeaturedBlock({ project }: { project: FeaturedProject }) {
                 rel="noopener noreferrer"
                 className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
               >
-                <Globe size={14} />
+                <ExternalLink size={14} />
                 Live Demo
               </a>
             )}
