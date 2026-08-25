@@ -251,7 +251,7 @@ export function AboutPage() {
             className="relative w-full md:w-[460px] shrink-0 h-[420px] md:h-[580px] overflow-hidden rounded bg-portrait cursor-pointer transition-transform active:scale-[0.98]"
           >
             <Image
-              src="/HeinHtetAung.jpg"
+              src="/img/HeinHtetAung.jpg"
               alt="Hein Htet Aung"
               fill
               className="object-cover"
@@ -386,7 +386,7 @@ export function AboutPage() {
 
       {lightboxOpen && (
         <ImageLightbox
-          src="/HeinHtetAung.jpg"
+          src="/img/HeinHtetAung.jpg"
           alt="Hein Htet Aung"
           onClose={() => setLightboxOpen(false)}
         />

@@ -151,7 +151,7 @@ export function PageLayout({
       <header className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12">
         <Link href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
           <Image
-            src="/Narihito.jpg"
+            src="/img/Narihito.jpg"
             alt="Narihito"
             width={36}
             height={36}
@@ -184,7 +184,7 @@ export function PageLayout({
           </ul>
           <ModeToggle />
           <Link
-            href="/Narihito CV.pdf"
+            href="/resume/Narihito CV.pdf"
             className="flex items-center justify-center rounded-[4px] bg-violet px-5 py-2.5 font-body text-[13px] font-semibold text-wire"
           >
             Download CV
@@ -245,7 +245,7 @@ export function PageLayout({
 
           <div data-drawer-item className="shrink-0 pt-4">
             <Link
-              href="/Narihito CV.pdf"
+              href="/resume/Narihito CV.pdf"
               className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body text-[15px] font-semibold text-wire"
             >
               Download CV

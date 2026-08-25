@@ -111,7 +111,7 @@ export function HeaderNav() {
     >
       <Link href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
         <Image
-          src="/Narihito.jpg"
+          src="/img/Narihito.jpg"
           alt="Narihito"
           width={36}
           height={36}
@@ -145,7 +145,7 @@ export function HeaderNav() {
           ))}
         </ul>
         <ModeToggle />
-        <Button href="/Narihito CV.pdf" variant="primary" className="!px-5 !py-2.5 !text-[13px]">
+        <Button href="/resume/Narihito CV.pdf" variant="primary" className="!px-5 !py-2.5 !text-[13px]">
           Download CV
         </Button>
       </nav>
@@ -220,7 +220,7 @@ function MobileDrawer({
         ))}
 
         <div data-drawer-item className="shrink-0 pt-4">
-          <Button href="/Narihito CV.pdf" variant="primary">
+          <Button href="/resume/Narihito CV.pdf" variant="primary">
             Download CV
           </Button>
         </div>

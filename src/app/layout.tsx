@@ -34,8 +34,8 @@ export const metadata: Metadata = {
   description:
     "Hi! I'm Narihito (A.K.A Hein Htet Aung). Welcome to my portfolio!",
   icons: {
-    icon: "/Narihito.jpg",
-    apple: "/Narihito.jpg",
+    icon: "/img/Narihito.jpg",
+    apple: "/img/Narihito.jpg",
   },
 };
 

@@ -69,7 +69,7 @@ export function Preloader() {
       <div className="flex flex-col items-center gap-5">
         <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
           <Image
-            src="/Narihito.jpg"
+            src="/img/Narihito.jpg"
             alt="Narihito"
             width={64}
             height={64}
