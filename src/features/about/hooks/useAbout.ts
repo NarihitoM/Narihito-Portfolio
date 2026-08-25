@@ -1,7 +1,16 @@
 import { useMemo } from "react";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { aboutApi } from "../api/aboutApi";
 import type { Interest, Principle, Route } from "../types/types";
+
+export function useStats() {
+  return useQuery({
+    queryKey: ["about", "stats"],
+    queryFn: aboutApi.getStats,
+    staleTime: 30 * 60 * 1000,
+    gcTime: 60 * 60 * 1000,
+  });
+}
 
 export function usePrinciples() {
   const query = useInfiniteQuery({

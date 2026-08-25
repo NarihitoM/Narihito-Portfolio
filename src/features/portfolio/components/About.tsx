@@ -7,11 +7,14 @@ import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { StatItem } from "@/shared/components/ui/StatItem";
+import { useStats } from "@/features/about/hooks/useAbout";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
+  const { data: stats } = useStats();
 
   useGSAP(
     () => {
@@ -79,6 +82,14 @@ export function About() {
             not just a demo.
           </p>
           <DetailCta href="/about" route="/about" />
+
+          {stats && (
+            <div className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
+              <StatItem value={stats.yearsExperience} suffix="+" label="Years Experience" />
+              <StatItem value={stats.projectsCount} suffix="+" label="Projects" />
+              <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
+            </div>
+          )}
         </div>
       </div>
 

@@ -47,3 +47,9 @@ export interface CursorPage<T> {
   nextCursor: string | null;
   total: number;
 }
+
+export interface Stats {
+  yearsExperience: number;
+  projectsCount: number;
+  satisfiedRate: number;
+}
