@@ -155,8 +155,8 @@ export function SkillsPage() {
       backHref="/"
       breadcrumb="HOME / SKILLS"
       eyebrow="[ 02 - SKILLS & TECH STACK ]"
-      title="The tools I reach for, and the ones I reach for first."
-      deck="A working inventory rather than a badge wall, what each tool is actually used for, how often, and where I am still learning."
+      title="The stack behind my projects, category by category."
+      deck="Each tool lists where it fits in my workflow and how confident I am with it, plus everything still on the learning list."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -168,9 +168,9 @@ export function SkillsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          I keep the stack small on purpose. Four or five tools I know deeply
-          beat a dozen I have only skimmed the docs for, and the bar for adding
-          a dependency is that it saves more than the few lines it replaces.
+          Depth beats breadth. Five tools I know inside out are worth more
+          than fifty logos I recognize, so anything new has to earn its
+          place on this page.
         </p>
 
         {!isLoading && !isError && allCategories.length > 0 && (
@@ -221,8 +221,8 @@ export function SkillsPage() {
                 CURRENTLY LEARNING
               </span>
               <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                {learningTotal} thing{learningTotal === 1 ? "" : "s"} on the bench
-                this quarter. Listed here so the stack above stays honest.
+                {learningTotal} thing{learningTotal === 1 ? "" : "s"} in
+                progress right now. Kept public so the stack above never oversells itself.
               </p>
             </div>
             <div className="flex flex-1 flex-col gap-4">

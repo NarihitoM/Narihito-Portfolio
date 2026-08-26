@@ -174,8 +174,8 @@ export function ProjectsPage() {
       backHref="/"
       breadcrumb="HOME / PROJECTS"
       eyebrow="[ 04 - PROJECTS ]"
-      title={`${projectCountWord} builds, and what each one was actually solving.`}
-      deck="The full index, client works and the things I made because nobody asked me to. Filter by discipline or read straight through."
+      title={`${projectCountWord} builds, from client briefs to weekend experiments.`}
+      deck="The complete index. Filter by tag to find the slice you care about, or scroll through all of them in order."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -187,9 +187,9 @@ export function ProjectsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          I keep a running index of every project that shipped or got close enough
-          to teach me something. The ones that did not work are here too, usually
-          the lessons were bigger on those.
+          Everything here either shipped or taught me something while trying
+          to. The failures stay listed too, those lessons were usually
+          the bigger ones.
         </p>
 
         <div

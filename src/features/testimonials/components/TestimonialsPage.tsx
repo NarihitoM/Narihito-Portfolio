@@ -129,8 +129,8 @@ export function TestimonialsPage() {
       backHref="/"
       breadcrumb="HOME / TESTIMONIALS"
       eyebrow="[ 06 - TESTIMONIALS ]"
-      title="What the people who paid the invoice said afterwards."
-      deck="Unedited feedback from clients and colleagues, with the project each one came from, including the parts that were not entirely flattering."
+      title="Feedback from the people I have worked with."
+      deck="Quotes from clients and teammates, kept unedited, each tied to the project it came from."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -142,9 +142,9 @@ export function TestimonialsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          I collect feedback the way some people collect stamps, regularly and
-          with a critical eye. What follows is every review that shaped how I
-          work, including the ones that made me change a process.
+          Feedback changed how I work more than any tutorial ever did. These
+          are the reviews I keep coming back to, the flattering ones and the
+          ones that made me fix a process.
         </p>
 
         <div

@@ -196,8 +196,8 @@ export function AboutPage() {
       backHref="/"
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 - ABOUT ]"
-      title="A developer who treats motion as structure, not decoration."
-      deck={`${yearsOfExperience()} of building interfaces in Myanmar, how I got here, how I work, and what I care about when the deadline is close.`}
+      title="The person behind the projects, and how I like to work."
+      deck={`${yearsOfExperience()} of building for the web apps from Yangon. My principles, the road that got me here, and what I do off the clock.`}
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -209,10 +209,9 @@ export function AboutPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
-          I am Narihito, a full stack developer and Agentic Ai developer from Yangon. I build product
-          interfaces where the animation carries meaning: a transition that explains where a
-          panel came from, a stagger that tells you the list has order, a scroll cue that
-          makes the page feel alive.
+          I&apos;m Narihito, a full-stack and agentic AI developer based in Yangon. I obsess
+          over the parts users never see: fast queries, sensible state, and interfaces that
+          stay clear even when the data underneath gets messy.
         </p>
 
         {stats && (
@@ -225,21 +224,20 @@ export function AboutPage() {
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            My first year was HTML and CSS, and I regretted it, static pages felt like a
-            ceiling, not a craft. By the final semester I turned toward backend development
-            instead, databases and server logic for a logistics firm, and learned that a
-            fast query means nothing if the screen it feeds is confusing. So I climbed back
-            toward the browser, first with vanilla JS, then React, and eventually Next.js,
-            where the server and the client feel like parts of the same system instead of
-            two teams that email each other. Later I forcus on the Agentic Ai Development.
+            My first year was HTML and CSS, and static pages quickly felt like a
+            ceiling rather than a craft. So I turned toward backend work instead,
+            databases and server logic for a logistics firm, and learned that a
+            fast query means nothing if the screen it feeds is confusing. That
+            pulled me back to the browser: vanilla JS first, then React, then
+            Next.js, where server and client finally felt like one system.
+            Lately my focus has shifted toward agentic AI development.
           </p>
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            These days the stack I&apos;m most curious about isn&apos;t visual at all. I am
-            working through machine learning fundamentals and the software engineering ideas
-            that only matter past a certain scale, system design, testing discipline, the
-            kind of architecture that survives a team growing around it. It is a slower kind
-            of craft than shipping a hero animation, but it is the one I want under
-            everything else I build next.
+            These days I&apos;m working through machine learning fundamentals and the
+            engineering habits that only matter at scale: system design, testing
+            discipline, architecture that survives a team growing around it. It is
+            a slower kind of progress than shipping a feature, but it is the
+            foundation I want under everything I build next.
           </p>
         </div>
 
@@ -346,7 +344,7 @@ export function AboutPage() {
             OFF THE CLOCK
           </p>
           <p className="font-body text-[15px] text-text-secondary">
-            Things that keep the work honest, and occasionally end up in it.
+            Hobbies that recharge me, and occasionally sneak their way into the work.
           </p>
           {interestsError ? (
             <ErrorState onRetry={refetchInterests} />
@@ -379,7 +377,7 @@ export function AboutPage() {
             kind no one thanks you for, because they never noticed it was hard.&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">
-            A quote I always believe in.
+            A rule I try to build by.
           </cite>
         </blockquote>
       </div>
