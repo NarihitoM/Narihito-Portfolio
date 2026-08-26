@@ -88,8 +88,8 @@ export function EventsPage() {
       backHref="/"
       breadcrumb="HOME / EVENTS"
       eyebrow="[ 05 - EVENTS ]"
-      title="The rooms I showed up in, and what I took away."
-      deck="Hackathons, meetups, and programs I joined, with how long each ran and what it actually taught me."
+      title="The gatherings that shaped how I build."
+      deck="Hackathons, meetups and programs I joined, how long each one ran, and what I took away from it."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -101,9 +101,8 @@ export function EventsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Most of what I know came from building alone, but the parts that stuck
-          came from rooms full of people building at the same time. These are the
-          ones worth listing.
+          Building alone teaches speed. Building beside other people teaches
+          everything else. These are the rooms worth listing.
         </p>
 
         {isLoading ? (

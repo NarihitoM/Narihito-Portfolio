@@ -92,18 +92,9 @@ export function Contact() {
         <SectionEyebrow>07 - CONTACT</SectionEyebrow>
 
         <h2 className="font-display text-[34px] md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
-          <span className="md:hidden">
-            Let&apos;s build
-            <br />
-            something that
-            <br />
-            feels considered.
-          </span>
-          <span className="hidden md:inline">
-            Let&apos;s build something
-            <br />
-            that feels considered.
-          </span>
+          Need a developer?
+          <br />
+          You found one.
         </h2>
 
         <div className="w-full max-w-[600px]">
@@ -114,8 +105,8 @@ export function Contact() {
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
               </div>
-              <p className="font-body text-[16px] text-text-primary">Message sent successfully.</p>
-              <p className="font-body text-[14px] text-text-muted">I will get back to you soon.</p>
+              <p className="font-body text-[16px] text-text-primary">Message sent.</p>
+              <p className="font-body text-[14px] text-text-muted">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
@@ -189,10 +180,10 @@ export function Contact() {
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-1.5 pt-5">
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
-            © 2026 Narihito. Built with love.
+            © 2026 Narihito. All rights reserved.
           </span>
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
-            Designed &amp; Developed By Narihito.
+            Designed &amp; developed by Narihito.
           </span>
         </div>
       </div>

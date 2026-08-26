@@ -30,6 +30,7 @@ export function Hero() {
           duration: 0.9,
           ease: ease.splitReveal,
           stagger: 0.09,
+          onComplete: () => split.revert(),
         });
 
         gsap.from("[data-hero-fade]", {
@@ -57,25 +58,21 @@ export function Hero() {
 
       <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
-          <span className="lg:hidden">
-            HEIN HTET AUNG - FULL-STACK & AGENTIC AI DEVELOPER
-          </span>
-          <span className="hidden lg:inline">HEIN HTET AUNG - FULL-STACK DEVELOPER, AI INTEGRATIONS</span>
+          HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
 
         <h1
           ref={headlineRef}
           data-hero-fade
-          className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[660px]"
+          className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
         >
-          Building interfaces
-          <br />
-          that feel alive.
+          A Developer who turn rough ideas
+          into shipped products.
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Shipping faster, writing cleaner code, with the trust, security,
-          and performance clients can build on.
+          Full-stack web apps built front to back with React, Next.js and Node,
+          plus AI features that pull their weight in production.
         </p>
 
         <div data-hero-fade className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
@@ -92,15 +89,15 @@ export function Hero() {
       <div className="lg:hidden mx-5 md:mx-10 mt-8 h-px w-full bg-border-glow-soft" />
 
       <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 top-[860px] w-[920px] grid-cols-3 gap-8">
-        <MetaItem label="AVAILABLE" value="EVERY TIME" />
+        <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
-        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AI DEVELOPMENT" />
+        <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
       </div>
 
       <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-3 gap-4">
-        <MetaItem label="AVAILABLE" value="EVERY TIME" />
+        <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
-        <MetaItem label="FOCUS" value="FULL STACK DEVELOPMENT · AGENTIC AI DEVELOPMENT" />
+        <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
       </div>
 
       <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[860px] flex-col items-center gap-3">

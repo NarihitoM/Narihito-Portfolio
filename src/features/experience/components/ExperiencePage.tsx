@@ -138,8 +138,8 @@ export function ExperiencePage() {
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
-      title={`${yearsOfExperience()} in the industry of working with full stack development.`}
-      deck="Full role histories with what I owned, what shipped, and the numbers that moved, plus where the formal training came from."
+      title={`${yearsOfExperience()} of building for the web apps and products, role by role.`}
+      deck="Every role with its responsibilities and outcomes spelled out, plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -151,9 +151,9 @@ export function ExperiencePage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          I have never had a job title that matched what I actually did. What
-          follows is the honest version: the work I owned, the constraints I
-          worked inside, and the results I can still point at.
+          Job titles always undersold what I ended up doing, so each entry
+          below describes the work itself: what I owned, what constrained
+          it, and what came out the other side.
         </p>
 
         {rolesLoading ? (
