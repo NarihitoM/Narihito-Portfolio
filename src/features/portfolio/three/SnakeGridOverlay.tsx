@@ -31,9 +31,6 @@ const TRAIL_BANDS = 6;
 const PULSE_DURATION = 1600;
 const PULSE_INTERVAL = 520;
 
-const JOG_CHANCE = 0.28;
-const RESUME_CHANCE = 0.7;
-
 export function SnakeGridOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { theme } = useTheme();
@@ -205,22 +202,6 @@ export function SnakeGridOverlay() {
         runner.distSinceTurn = 0;
         runner.x = Math.round(runner.x / CELL) * CELL;
         runner.y = Math.round(runner.y / CELL) * CELL;
-
-        if (runner.dy === 1) {
-          if (Math.random() < JOG_CHANCE) {
-            runner.dx = Math.random() < 0.5 ? -1 : 1;
-            runner.dy = 0;
-          }
-        } else if (Math.random() < RESUME_CHANCE) {
-          runner.dx = 0;
-          runner.dy = 1;
-        }
-
-        const maxX = cols * CELL;
-        if ((runner.x <= 0 && runner.dx === -1) || (runner.x >= maxX && runner.dx === 1)) {
-          runner.dx = 0;
-          runner.dy = 1;
-        }
       }
 
       runner.trail.push({ x: runner.x, y: runner.y });
