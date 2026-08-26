@@ -74,7 +74,7 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Building faster, writing cleaner code, and shipping sooner, with the trust, security,
+          Shipping faster, writing cleaner code, with the trust, security,
           and performance clients can build on.
         </p>
 
