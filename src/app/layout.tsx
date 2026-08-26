@@ -6,6 +6,7 @@ import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/shared/components/layout/Providers";
 import { ClickRipple } from "@/shared/components/ui/ClickRipple";
 import { CursorFollower } from "@/shared/components/ui/CursorFollower";
+import { ScrollProgressLine } from "@/shared/components/ui/ScrollProgressLine";
 import { Preloader } from "@/shared/components/ui/Preloader";
 import { InAppBrowserBanner } from "@/shared/components/ui/InAppBrowserBanner";
 import { Chatbot } from "@/features/chatbot/components/Chatbot";
@@ -67,6 +68,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Preloader />
         <ClickRipple />
         <CursorFollower />
+        <ScrollProgressLine />
         <Providers>{children}</Providers>
         <Chatbot />
       </body>
