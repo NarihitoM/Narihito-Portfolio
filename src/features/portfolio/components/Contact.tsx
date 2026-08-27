@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { Mail } from "lucide-react";
-import { siGithub, siFacebook, siDiscord } from "simple-icons";
+import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
@@ -15,6 +15,7 @@ const SOCIALS = [
   { label: "linkedin", href: "https://www.linkedin.com/in/hein-htet-aung-3b3b15375" },
   { label: "facebook", href: "https://www.facebook.com/hein.htet.aung.703001/" },
   { label: "discord", href: "https://discord.com/users/860793734324682782" },
+  { label: "telegram", href: "https://t.me/not_nari" },
   { label: "mail", href: "mailto:heinboss234@gmail.com" },
 ];
 
@@ -162,13 +163,13 @@ export function Contact() {
           )}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3">
           {SOCIALS.map((social) => (
             <a
               key={social.label}
               href={social.href}
               aria-label={social.label}
-              className="flex h-[52px] w-[52px] md:h-[42px] md:w-[42px] items-center justify-center rounded-xl bg-chip text-text-secondary transition-all duration-200 hover:-translate-y-1 hover:bg-violet/15 hover:text-violet"
+              className="flex h-11 w-11 md:h-[42px] md:w-[42px] items-center justify-center rounded-xl bg-chip text-text-secondary transition-all duration-200 hover:-translate-y-1 hover:bg-violet/15 hover:text-violet"
             >
               <SocialIcon name={social.label} />
             </a>
@@ -216,6 +217,12 @@ function SocialIcon({ name }: { name: string }) {
       return (
         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
           <path d={siDiscord.path} />
+        </svg>
+      );
+    case "telegram":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d={siTelegram.path} />
         </svg>
       );
     default:
