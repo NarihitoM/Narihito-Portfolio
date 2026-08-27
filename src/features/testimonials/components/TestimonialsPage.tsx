@@ -158,8 +158,8 @@ export function TestimonialsPage() {
         >
           {isLoading ? (
             <>
-              <Skeleton className="h-[80px] flex-1" />
-              <Skeleton className="h-[80px] flex-1" />
+              <Skeleton className="h-[80px] w-full sm:w-auto sm:flex-1" />
+              <Skeleton className="h-[80px] w-full sm:w-auto sm:flex-1" />
             </>
           ) : (
             stats.map((stat) => (
