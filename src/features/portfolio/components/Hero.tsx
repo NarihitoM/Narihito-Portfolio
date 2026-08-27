@@ -71,7 +71,7 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Full-stack web apps built front to back with React, Next.js and Node,
+          Full-stack web apps builder who built front to back with React, Next.js and Node,
           plus AI features that pull their weight in production.
         </p>
 
