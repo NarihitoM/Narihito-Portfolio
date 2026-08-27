@@ -86,6 +86,11 @@ export function TestimonialsPage() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        if (!stats.length) {
+          gsap.set(container.children, { opacity: 1, y: 0 });
+          return;
+        }
+
         gsap.fromTo(container.children, { opacity: 0, y: 20 }, {
           opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.08,
           scrollTrigger: { trigger: container, start: "top 80%", once: true },
