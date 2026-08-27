@@ -57,12 +57,13 @@ export function ProjectsPage() {
     isFetchingNextPage,
     fetchNextPage,
   } = useProjectsInfinite(filter);
+  const globalTotal = FILTERS[0]?.count ?? total;
   const pageMeta = [
-    { key: "INDEX", value: `${total} PROJECTS` },
+    { key: "INDEX", value: `${globalTotal} PROJECTS` },
     { key: "FILTERS", value: `${Math.max(FILTERS.length - 1, 0)} TAGS` },
-    { key: "SHOWING", value: `${PROJECTS.length} / ${total}` },
+    { key: "SHOWING", value: `${PROJECTS.length} / ${globalTotal}` },
   ];
-  const projectCountWord = NUMBER_WORDS[total] ?? String(total);
+  const projectCountWord = NUMBER_WORDS[globalTotal] ?? String(globalTotal);
 
   useGSAP(
     () => {
@@ -234,7 +235,7 @@ export function ProjectsPage() {
           <ErrorState onRetry={refetch} />
         ) : (
           <>
-            {FEATURED && (
+            {filter === "All" && FEATURED && (
               <div ref={featuredRef}>
                 <FeaturedBlock project={FEATURED} />
               </div>
