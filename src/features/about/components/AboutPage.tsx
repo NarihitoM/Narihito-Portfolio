@@ -125,6 +125,11 @@ export function AboutPage() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        if (!PRINCIPLES.length) {
+          gsap.set(container.children, { opacity: 1, y: 0 });
+          return;
+        }
+
         gsap.fromTo(container.children, { opacity: 0, y: 20 }, {
           opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.08,
           scrollTrigger: { trigger: container, start: "top 78%", once: true },
@@ -150,6 +155,11 @@ export function AboutPage() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        if (!ROUTE.length) {
+          gsap.set(container.children, { opacity: 1, y: 0 });
+          return;
+        }
+
         gsap.fromTo(container.children, { opacity: 0, y: 16 }, {
           opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.1,
           scrollTrigger: { trigger: container, start: "top 75%", once: true },
