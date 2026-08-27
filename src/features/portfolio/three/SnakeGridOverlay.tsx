@@ -131,11 +131,12 @@ export function SnakeGridOverlay() {
     }
 
     resize();
-    window.addEventListener("resize", resize);
+    const observer = new ResizeObserver(resize);
+    observer.observe(parent);
 
     if (reduced) {
       ctx.drawImage(gridCanvas, 0, 0, width, height);
-      return () => window.removeEventListener("resize", resize);
+      return () => observer.disconnect();
     }
 
     let raf = 0;
@@ -244,7 +245,7 @@ export function SnakeGridOverlay() {
 
     return () => {
       cancelAnimationFrame(raf);
-      window.removeEventListener("resize", resize);
+      observer.disconnect();
     };
   }, [theme]);
 

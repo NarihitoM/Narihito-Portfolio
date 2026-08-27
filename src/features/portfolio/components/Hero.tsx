@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
@@ -85,24 +85,28 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-[838px] h-px w-[1200px] bg-border-glow-soft" />
+      <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-[758px] h-px w-[1200px] bg-border-glow-soft" />
       <div className="lg:hidden mx-5 md:mx-10 mt-8 h-px w-full bg-border-glow-soft" />
 
-      <div className="hidden lg:grid absolute left-1/2 -translate-x-1/2 top-[860px] w-[920px] grid-cols-3 gap-8">
+      <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[780px] w-[920px] flex-col items-center gap-8">
+        <div className="grid w-full grid-cols-4 gap-8">
+          <MetaItem label="STATUS" value="OPEN FOR WORK" />
+          <MetaItem label="BASED IN" value="MYANMAR" />
+          <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
+          <LocalTimeMetaItem />
+        </div>
+
+        <div className="flex flex-col items-center gap-3">
+          <span className="font-mono text-[11px] text-text-muted">SCROLL</span>
+          <ScrollMouseIcon className="h-9 w-5" dotClassName="h-1.5 w-1.5" />
+        </div>
+      </div>
+
+      <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-2 gap-4">
         <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
         <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
-      </div>
-
-      <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-3 gap-4">
-        <MetaItem label="STATUS" value="OPEN FOR WORK" />
-        <MetaItem label="BASED IN" value="MYANMAR" />
-        <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
-      </div>
-
-      <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[860px] flex-col items-center gap-3">
-        <span className="font-mono text-[11px] text-text-muted">SCROLL</span>
-        <ScrollMouseIcon className="h-9 w-5" dotClassName="h-1.5 w-1.5" />
+        <LocalTimeMetaItem />
       </div>
 
       <div className="flex lg:hidden flex-col items-center gap-2 py-8">
@@ -119,6 +123,38 @@ function MetaItem({ label, value }: { label: string; value: string }) {
       <span className="font-mono text-[10px] text-text-muted">{label}</span>
       <span className="font-mono text-[12px] text-text-secondary">{value}</span>
     </div>
+  );
+}
+
+const visitorTimeFormatter = new Intl.DateTimeFormat(undefined, {
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
+const myanmarTimeFormatter = new Intl.DateTimeFormat(undefined, {
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "Asia/Yangon",
+});
+
+function LocalTimeMetaItem() {
+  const [times, setTimes] = useState<{ yours: string; mine: string } | null>(null);
+
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      setTimes({ yours: visitorTimeFormatter.format(now), mine: myanmarTimeFormatter.format(now) });
+    };
+    update();
+    const id = window.setInterval(update, 30_000);
+    return () => window.clearInterval(id);
+  }, []);
+
+  return (
+    <MetaItem
+      label="TIME · YOU / ME"
+      value={times ? `${times.yours} / ${times.mine}` : "—"}
+    />
   );
 }
 
