@@ -192,27 +192,36 @@ export function ProjectsPage() {
           the bigger ones.
         </p>
 
-        <div
-          id="projects-grid"
-          ref={filtersRef}
-          className="flex flex-wrap gap-3"
-        >
-          {FILTERS.map((tag) => (
-            <button
-              key={tag.label}
-              type="button"
-              onClick={() => setFilter(tag.label)}
-              className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,border-color,transform] hover:border-violet hover:text-text-primary active:scale-95 ${
-                filter === tag.label
-                  ? "border-violet bg-surface text-text-primary"
-                  : "border-border-glow-soft bg-surface text-text-secondary"
-              }`}
-            >
-              <span>{tag.label}</span>
-              <span className="text-text-muted">({tag.count})</span>
-            </button>
-          ))}
-        </div>
+        {isLoading ? (
+          <div className="flex flex-wrap gap-3">
+            <Skeleton className="h-9 w-[72px] rounded-full" />
+            <Skeleton className="h-9 w-[172px] rounded-full" />
+            <Skeleton className="h-9 w-[136px] rounded-full" />
+            <Skeleton className="h-9 w-[188px] rounded-full" />
+          </div>
+        ) : (
+          <div
+            id="projects-grid"
+            ref={filtersRef}
+            className="flex flex-wrap gap-3"
+          >
+            {FILTERS.map((tag) => (
+              <button
+                key={tag.label}
+                type="button"
+                onClick={() => setFilter(tag.label)}
+                className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,border-color,transform] hover:border-violet hover:text-text-primary active:scale-95 ${
+                  filter === tag.label
+                    ? "border-violet bg-surface text-text-primary"
+                    : "border-border-glow-soft bg-surface text-text-secondary"
+                }`}
+              >
+                <span>{tag.label}</span>
+                <span className="text-text-muted">({tag.count})</span>
+              </button>
+            ))}
+          </div>
+        )}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
