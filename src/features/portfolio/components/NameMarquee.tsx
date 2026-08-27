@@ -5,12 +5,12 @@ import { useGSAP } from "@gsap/react";
 import { gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 
 const WORD = "NARIHITO";
-const COPIES_PER_HALF = 10;
+const COPIES_PER_HALF = 20;
 
 const rows = [
-  { outline: true, from: -50, to: 0, duration: 32 },
-  { outline: false, from: 0, to: -50, duration: 32 },
-  { outline: true, from: -50, to: 0, duration: 32 },
+  { outline: true, from: -50, to: -20 },
+  { outline: false, from: -20, to: -50 },
+  { outline: true, from: -50, to: -20 },
 ];
 
 function Track({ outline }: { outline: boolean }) {
@@ -55,9 +55,13 @@ export function NameMarquee() {
             { xPercent: rows[i].from },
             {
               xPercent: rows[i].to,
-              duration: rows[i].duration,
               ease: "none",
-              repeat: -1,
+              scrollTrigger: {
+                trigger: section,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 0.6,
+              },
             },
           );
         });
