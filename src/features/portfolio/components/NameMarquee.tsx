@@ -8,9 +8,9 @@ const WORD = "NARIHITO";
 const COPIES_PER_HALF = 10;
 
 const rows = [
-  { outline: true, from: -50, to: -20 },
-  { outline: false, from: -20, to: -50 },
-  { outline: true, from: -50, to: -20 },
+  { outline: true, from: -50, to: 0, duration: 32 },
+  { outline: false, from: 0, to: -50, duration: 32 },
+  { outline: true, from: -50, to: 0, duration: 32 },
 ];
 
 function Track({ outline }: { outline: boolean }) {
@@ -55,13 +55,9 @@ export function NameMarquee() {
             { xPercent: rows[i].from },
             {
               xPercent: rows[i].to,
+              duration: rows[i].duration,
               ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.6,
-              },
+              repeat: -1,
             },
           );
         });
