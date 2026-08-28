@@ -1,9 +1,10 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ExternalLink } from "lucide-react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import {
   ease,
   gsap,
@@ -16,6 +17,7 @@ import type { Testimonial } from "../types/types";
 export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testimonial; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const [zoomed, setZoomed] = useState(false);
 
   useGSAP(
     () => {
@@ -60,6 +62,7 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
   };
 
   return (
+    <>
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -79,7 +82,14 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
 
         <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
           {testimonial.profilePic ? (
-            <img src={testimonial.profilePic} alt={testimonial.name} className="h-10 w-10 shrink-0 rounded-full object-cover" />
+            <button
+              type="button"
+              aria-label={`View ${testimonial.name} photo`}
+              onClick={() => setZoomed(true)}
+              className="h-10 w-10 shrink-0 cursor-zoom-in overflow-hidden rounded-full"
+            >
+              <img src={testimonial.profilePic} alt={testimonial.name} className="h-full w-full object-cover" />
+            </button>
           ) : (
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
               {testimonial.initials}
@@ -112,5 +122,14 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
         )}
       </div>
     </div>
+
+    {zoomed && testimonial.profilePic && (
+      <ImageLightbox
+        src={testimonial.profilePic}
+        alt={testimonial.name}
+        onClose={() => setZoomed(false)}
+      />
+    )}
+    </>
   );
 }
