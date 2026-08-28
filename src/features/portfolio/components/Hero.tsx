@@ -92,7 +92,7 @@ export function Hero() {
         <div className="grid w-full grid-cols-4 gap-8">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
-          <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
+          <MetaItem label="FOCUS" value="WEB APPS & AI FEATURES" />
           <LocalTimeMetaItem />
         </div>
 
@@ -119,7 +119,7 @@ export function Hero() {
 
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col gap-1.5">
+    <div className="flex flex-col items-center gap-1.5 text-center">
       <span className="font-mono text-[10px] text-text-muted">{label}</span>
       <span className="font-mono text-[12px] text-text-secondary">{value}</span>
     </div>
@@ -129,11 +129,13 @@ function MetaItem({ label, value }: { label: string; value: string }) {
 const visitorTimeFormatter = new Intl.DateTimeFormat(undefined, {
   hour: "2-digit",
   minute: "2-digit",
+  hour12: true,
 });
 
 const myanmarTimeFormatter = new Intl.DateTimeFormat(undefined, {
   hour: "2-digit",
   minute: "2-digit",
+  hour12: true,
   timeZone: "Asia/Yangon",
 });
 
