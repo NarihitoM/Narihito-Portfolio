@@ -1,8 +1,9 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import {
   ease,
   gsap,
@@ -15,6 +16,7 @@ import type { Event } from "../types/types";
 export function EventDialog({ event, onClose }: { event: Event; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const [zoomed, setZoomed] = useState(false);
 
   useGSAP(
     () => {
@@ -59,6 +61,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
   };
 
   return (
+    <>
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -73,9 +76,14 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
         <DialogCloseButton onClick={handleClose} />
 
         {event.image && (
-          <div className="w-full h-[240px] md:h-[320px] overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
+          <button
+            type="button"
+            aria-label={`View ${event.title} image`}
+            onClick={() => setZoomed(true)}
+            className="w-full h-[240px] md:h-[320px] cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
+          >
             <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
-          </div>
+          </button>
         )}
 
         <div className="flex flex-col gap-3">
@@ -92,5 +100,14 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
         </p>
       </div>
     </div>
+
+    {zoomed && event.image && (
+      <ImageLightbox
+        src={event.image}
+        alt={event.title}
+        onClose={() => setZoomed(false)}
+      />
+    )}
+    </>
   );
 }
