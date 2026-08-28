@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
+import { AuraBackground } from "@/shared/components/ui/AuraBackground";
 import { SnakeGridOverlay } from "@/features/portfolio/three/SnakeGridOverlay";
 
 export function Hero() {
@@ -52,11 +53,13 @@ export function Hero() {
 
   return (
     <section ref={sectionRef} className="relative w-full bg-bg-alt pt-[76px] lg:pt-0 lg:h-[940px] overflow-hidden">
+      <AuraBackground />
+
       <div className="pointer-events-none absolute inset-0">
         <SnakeGridOverlay />
       </div>
 
-      <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[110px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:mt-[110px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
@@ -85,7 +88,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[740px] w-[920px] flex-col items-center gap-8">
+      <div className="hidden lg:flex absolute z-10 left-1/2 -translate-x-1/2 top-[740px] w-[920px] flex-col items-center gap-8">
         <div className="grid w-full grid-cols-4 gap-8">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
@@ -99,14 +102,14 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-2 gap-4">
+      <div className="relative z-10 grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-2 gap-4">
         <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
         <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
         <LocalTimeMetaItem />
       </div>
 
-      <div className="flex lg:hidden flex-col items-center gap-2 pt-4 pb-8">
+      <div className="relative z-10 flex lg:hidden flex-col items-center gap-2 pt-4 pb-8">
         <span className="font-mono text-[10px] text-text-muted">SCROLL</span>
         <ScrollMouseIcon className="h-7 w-4" dotClassName="h-1 w-1" />
       </div>
