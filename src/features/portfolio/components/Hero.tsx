@@ -56,7 +56,7 @@ export function Hero() {
         <SnakeGridOverlay />
       </div>
 
-      <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[200px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <div className="mx-5 md:mx-10 lg:mx-auto lg:mt-[110px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
           HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
@@ -85,10 +85,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:block absolute left-1/2 -translate-x-1/2 top-[758px] h-px w-[1200px] bg-border-glow-soft" />
-      <div className="lg:hidden mx-5 md:mx-10 mt-8 h-px w-full bg-border-glow-soft" />
-
-      <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[780px] w-[920px] flex-col items-center gap-8">
+      <div className="hidden lg:flex absolute left-1/2 -translate-x-1/2 top-[740px] w-[920px] flex-col items-center gap-8">
         <div className="grid w-full grid-cols-4 gap-8">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
@@ -109,7 +106,7 @@ export function Hero() {
         <LocalTimeMetaItem />
       </div>
 
-      <div className="flex lg:hidden flex-col items-center gap-2 py-8">
+      <div className="flex lg:hidden flex-col items-center gap-2 pt-4 pb-8">
         <span className="font-mono text-[10px] text-text-muted">SCROLL</span>
         <ScrollMouseIcon className="h-7 w-4" dotClassName="h-1 w-1" />
       </div>
