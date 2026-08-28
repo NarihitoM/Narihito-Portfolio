@@ -114,6 +114,7 @@ export function Testimonials() {
           <div className="flex gap-3.5 md:gap-6">
             <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
             <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
+            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />

@@ -7,14 +7,14 @@ import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
-import { StatItem } from "@/shared/components/ui/StatItem";
+import { StatItem, StatItemSkeleton } from "@/shared/components/ui/StatItem";
 import { useStats } from "@/features/about/hooks/useAbout";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const { data: stats } = useStats();
+  const { data: stats, isLoading: statsLoading } = useStats();
 
   useGSAP(
     () => {
@@ -82,13 +82,19 @@ export function About() {
             with AI layered in where it holds up under real traffic, not just in a demo.
           </p>
 
-          {stats && (
+          {statsLoading ? (
+            <div className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
+              <StatItemSkeleton />
+              <StatItemSkeleton />
+              <StatItemSkeleton />
+            </div>
+          ) : stats ? (
             <div className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
               <StatItem value={stats.yearsExperience} suffix="+" label="Years Experience" />
               <StatItem value={stats.projectsCount} suffix="+" label="Projects" />
               <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
             </div>
-          )}
+          ) : null}
 
           <DetailCta href="/about" route="/about" />
         </div>

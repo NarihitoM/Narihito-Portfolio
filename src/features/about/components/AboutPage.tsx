@@ -19,7 +19,7 @@ import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { usePrinciples, useRoutes, useInterests, useStats } from "@/features/about/hooks/useAbout";
 import { yearsOfExperience } from "@/shared/lib/experience";
-import { StatItem } from "@/shared/components/ui/StatItem";
+import { StatItem, StatItemSkeleton } from "@/shared/components/ui/StatItem";
 
 export function AboutPage() {
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -59,7 +59,7 @@ export function AboutPage() {
     isFetchingNextPage: loadingMoreInterests,
     fetchNextPage: loadMoreInterests,
   } = useInterests();
-  const { data: stats } = useStats();
+  const { data: stats, isLoading: statsLoading } = useStats();
   const isLoading = principlesLoading || routeLoading || interestsLoading;
   const isError = principlesError || routeError || interestsError;
   const latestRouteYear = ROUTE.map((route) => route.year).sort((a, b) => b.localeCompare(a))[0] ?? "Loading";
@@ -224,13 +224,19 @@ export function AboutPage() {
           stay clear even when the data underneath gets messy.
         </p>
 
-        {stats && (
+        {statsLoading ? (
+          <div className="flex items-center gap-10 md:gap-16">
+            <StatItemSkeleton />
+            <StatItemSkeleton />
+            <StatItemSkeleton />
+          </div>
+        ) : stats ? (
           <div className="flex items-center gap-10 md:gap-16">
             <StatItem value={stats.yearsExperience} suffix="+" label="Years Experience" />
             <StatItem value={stats.projectsCount} suffix="+" label="Projects" />
             <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
           </div>
-        )}
+        ) : null}
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
