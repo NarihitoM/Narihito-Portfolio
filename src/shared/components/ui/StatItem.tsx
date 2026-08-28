@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { duration, ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 
 export function StatItem({ value, suffix, label }: { value: number; suffix: string; label: string }) {
   const numRef = useRef<HTMLSpanElement>(null);
@@ -43,6 +44,15 @@ export function StatItem({ value, suffix, label }: { value: number; suffix: stri
         0{suffix}
       </span>
       <span className="font-body text-[12px] md:text-[13px] text-text-secondary">{label}</span>
+    </div>
+  );
+}
+
+export function StatItemSkeleton() {
+  return (
+    <div className="flex flex-col gap-1">
+      <Skeleton className="h-[34px] md:h-[41px] w-[58px] md:w-[68px]" />
+      <Skeleton className="h-[18px] md:h-[20px] w-[92px] md:w-[104px]" />
     </div>
   );
 }
