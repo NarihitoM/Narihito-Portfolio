@@ -1,3 +1,4 @@
+import { SocialIcon } from "@/shared/components/ui/SocialIcon";
 import type { Testimonial } from "../types/types";
 
 export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) {
@@ -27,6 +28,14 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
             {testimonial.role}
           </span>
         </div>
+
+        {testimonial.socials?.length > 0 && (
+          <div className="ml-auto flex items-center gap-2 text-text-muted">
+            {testimonial.socials.map((social) => (
+              <SocialIcon key={social.type + social.url} type={social.type} />
+            ))}
+          </div>
+        )}
       </div>
       <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
         {testimonial.context}

@@ -2,9 +2,9 @@
 
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
-import { ExternalLink } from "lucide-react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import {
   ease,
   gsap,
@@ -18,6 +18,12 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  const socialLinks =
+    testimonial.socials?.length
+      ? testimonial.socials
+      : testimonial.url
+        ? [{ type: "website", url: testimonial.url }]
+        : [];
 
   useGSAP(
     () => {
@@ -109,16 +115,22 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
           {testimonial.context}
         </p>
 
-        {testimonial.url && (
-          <a
-            href={testimonial.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="self-start flex items-center gap-2 rounded-[4px] border border-border-glow-soft px-4 py-2.5 font-mono text-[11px] tracking-[1px] text-text-secondary hover:border-violet hover:text-violet transition-colors"
-          >
-            <ExternalLink size={14} />
-            VIEW PROFILE
-          </a>
+        {socialLinks.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2.5">
+            {socialLinks.map((social) => (
+              <a
+                key={social.type + social.url}
+                href={social.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={socialLabel(social.type)}
+                className="flex items-center gap-2 rounded-[4px] border border-border-glow-soft px-4 py-2.5 font-mono text-[11px] tracking-[1px] text-text-secondary hover:border-violet hover:text-violet transition-colors"
+              >
+                <SocialIcon type={social.type} />
+                {socialLabel(social.type).toUpperCase()}
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </div>

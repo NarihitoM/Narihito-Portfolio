@@ -1,3 +1,8 @@
+export interface TestimonialSocial {
+  type: string;
+  url: string;
+}
+
 export interface Testimonial {
   initials: string;
   name: string;
@@ -6,6 +11,7 @@ export interface Testimonial {
   context: string;
   profilePic: string | null;
   url: string | null;
+  socials: TestimonialSocial[];
   type: string;
 }
 
