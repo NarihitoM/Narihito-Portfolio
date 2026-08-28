@@ -48,6 +48,73 @@ html {
   cursor: none;
 }
 
+@keyframes aura-drift-a {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-7%, 5%, 0) scale(1.18);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes aura-drift-b {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(5%, -4%, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+}
+
+.aura-layer-1,
+.aura-layer-2,
+.aura-layer-3,
+.aura-grain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+.aura-layer-1 {
+  background: var(--aura-layer-1);
+}
+
+.aura-layer-2,
+.aura-layer-3 {
+  inset: -40%;
+}
+
+.aura-layer-2 {
+  background: var(--aura-layer-2);
+  mix-blend-mode: var(--aura-layer-2-blend);
+  animation: aura-drift-a 26s ease-in-out infinite;
+}
+
+.aura-layer-3 {
+  background: var(--aura-layer-3);
+  mix-blend-mode: var(--aura-layer-3-blend);
+  animation: aura-drift-b 34s ease-in-out infinite;
+}
+
+.aura-grain {
+  mix-blend-mode: overlay;
+  opacity: var(--aura-grain-opacity);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aura-layer-2,
+  .aura-layer-3 {
+    animation: none;
+  }
+}
+
 .no-scrollbar {
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -171,6 +238,12 @@ html {
   --color-annot-bg: #7c7c7c1a;
   --color-media: #7c7c7c1c;
   --color-portrait: #1c1c1c;
+  --aura-layer-1: linear-gradient(135deg, #030303 0%, #111111 42%, #1c1c1c 72%, #090909 100%);
+  --aura-layer-2: radial-gradient(ellipse 25% 31% at 60% 43%, rgba(161, 161, 170, 0.16) 0%, rgba(161, 161, 170, 0) 72%);
+  --aura-layer-2-blend: multiply;
+  --aura-layer-3: radial-gradient(ellipse 39% 36% at 38% 62%, rgba(190, 190, 205, 0.05) 0%, rgba(190, 190, 205, 0.02) 40%, rgba(190, 190, 205, 0) 82%);
+  --aura-layer-3-blend: screen;
+  --aura-grain-opacity: 0.85;
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -223,6 +296,12 @@ html {
   --color-annot-bg: #5e5e5e1a;
   --color-media: #8383831c;
   --color-portrait: #e3e3e3;
+  --aura-layer-1: linear-gradient(135deg, #fcfbf7 0%, #f4f2ec 42%, #e9e7df 72%, #faf8f2 100%);
+  --aura-layer-2: radial-gradient(ellipse 25% 31% at 60% 43%, rgba(120, 116, 104, 0.14) 0%, rgba(120, 116, 104, 0) 72%);
+  --aura-layer-2-blend: multiply;
+  --aura-layer-3: radial-gradient(ellipse 39% 36% at 38% 62%, rgba(255, 252, 244, 0.22) 0%, rgba(255, 252, 244, 0.08) 40%, rgba(255, 252, 244, 0) 82%);
+  --aura-layer-3-blend: screen;
+  --aura-grain-opacity: 0.3;
 }
 
 @theme inline {
