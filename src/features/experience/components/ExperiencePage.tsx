@@ -145,7 +145,7 @@ export function ExperiencePage() {
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← HOME", title: "Skills & tech stack", href: "/skills" }}
+      prev={{ direction: "← PREV", title: "Skills & tech stack", href: "/skills" }}
       next={{ direction: "NEXT →", title: "Projects", href: "/projects" }}
     >
       <div ref={contentRef} className="flex flex-col gap-20">

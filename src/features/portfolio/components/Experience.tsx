@@ -75,7 +75,7 @@ export function Experience() {
   );
 
   return (
-    <section id="experience" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
+    <section id="experience" ref={sectionRef} className="w-full bg-bg py-14 md:py-[100px]">
       <div className="mx-5 flex flex-col gap-6 md:mx-10 lg:mx-[120px] md:gap-24">
         <div className="flex flex-col gap-2 md:max-w-[599px] md:gap-3">
           <SectionEyebrow>03 - EXPERIENCE</SectionEyebrow>
