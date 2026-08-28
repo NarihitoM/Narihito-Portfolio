@@ -140,7 +140,7 @@ export function ExperiencePage() {
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
-      title={`${yearsOfExperience(stats?.yearsExperience ?? 1)} of building for the web apps and products, role by role.`}
+      title={`${yearsOfExperience(stats?.yearsExperience ?? 0)} of building for the web apps and products, role by role.`}
       deck="Every role with its responsibilities and outcomes spelled out, plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}
