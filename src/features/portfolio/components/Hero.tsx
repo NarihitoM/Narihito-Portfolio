@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
@@ -89,11 +89,9 @@ export function Hero() {
       </div>
 
       <div className="hidden lg:flex absolute z-10 left-1/2 -translate-x-1/2 top-[740px] w-[920px] flex-col items-center gap-8">
-        <div className="grid w-full grid-cols-4 gap-8">
+        <div className="grid w-full grid-cols-2 gap-8">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
-          <MetaItem label="FOCUS" value="WEB APPS & AI FEATURES" />
-          <LocalTimeMetaItem />
         </div>
 
         <div className="flex flex-col items-center gap-3">
@@ -105,8 +103,6 @@ export function Hero() {
       <div className="relative z-10 grid lg:hidden mx-5 md:mx-10 mt-6 grid-cols-2 gap-4">
         <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
-        <MetaItem label="FOCUS" value="WEB APPS · AI FEATURES" />
-        <LocalTimeMetaItem />
       </div>
 
       <div className="relative z-10 flex lg:hidden flex-col items-center gap-2 pt-4 pb-8">
@@ -123,40 +119,6 @@ function MetaItem({ label, value }: { label: string; value: string }) {
       <span className="font-mono text-[10px] text-text-muted">{label}</span>
       <span className="font-mono text-[12px] text-text-secondary">{value}</span>
     </div>
-  );
-}
-
-const visitorTimeFormatter = new Intl.DateTimeFormat(undefined, {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: true,
-});
-
-const myanmarTimeFormatter = new Intl.DateTimeFormat(undefined, {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: true,
-  timeZone: "Asia/Yangon",
-});
-
-function LocalTimeMetaItem() {
-  const [times, setTimes] = useState<{ yours: string; mine: string } | null>(null);
-
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      setTimes({ yours: visitorTimeFormatter.format(now), mine: myanmarTimeFormatter.format(now) });
-    };
-    update();
-    const id = window.setInterval(update, 30_000);
-    return () => window.clearInterval(id);
-  }, []);
-
-  return (
-    <MetaItem
-      label="TIME · YOU / ME"
-      value={times ? `${times.yours} / ${times.mine}` : "—"}
-    />
   );
 }
 
