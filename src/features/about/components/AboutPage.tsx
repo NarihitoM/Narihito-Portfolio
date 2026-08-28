@@ -211,7 +211,7 @@ export function AboutPage() {
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "HOME", title: "Portfolio index", href: "/" }}
+      prev={{ direction: "PORTFOLIO", title: "Portfolio index", href: "/" }}
       next={{ direction: "NEXT →", title: "Skills & tech stack", href: "/skills" }}
     >
       <div ref={contentRef} className="flex flex-col gap-12 md:gap-20">
