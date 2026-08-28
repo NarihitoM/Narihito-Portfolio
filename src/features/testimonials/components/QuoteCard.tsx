@@ -1,13 +1,17 @@
-import { SocialIcon } from "@/shared/components/ui/SocialIcon";
+import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import type { Testimonial } from "../types/types";
 
 export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) {
   return (
-    <button
-      type="button"
+    <div
+      role="button"
+      tabIndex={0}
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") onClick();
+      }}
       data-quote-card
-      className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow active:border-violet active:bg-chip/30"
+      className="flex cursor-pointer flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow active:border-violet active:bg-chip/30"
     >
       <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-primary italic line-clamp-3">
         &ldquo;{testimonial.quote}&rdquo;
@@ -28,18 +32,28 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
             {testimonial.role}
           </span>
         </div>
-
-        {testimonial.socials?.length > 0 && (
-          <div className="ml-auto flex items-center gap-2 text-text-muted">
-            {testimonial.socials.map((social) => (
-              <SocialIcon key={social.type + social.url} type={social.type} />
-            ))}
-          </div>
-        )}
       </div>
       <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
         {testimonial.context}
       </p>
-    </button>
+
+      {testimonial.socials?.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-2">
+          {testimonial.socials.map((social) => (
+            <a
+              key={social.type + social.url}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label={`${testimonial.name} on ${socialLabel(social.type)}`}
+              className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <SocialIcon type={social.type} />
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
