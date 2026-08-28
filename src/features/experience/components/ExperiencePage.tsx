@@ -16,6 +16,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useExperienceRoles, useEducation } from "@/features/experience/hooks/useExperience";
 import { useExperienceUI } from "@/features/experience/store/experienceUIStore";
+import { useStats } from "@/features/about/hooks/useAbout";
 import { yearsOfExperience } from "@/shared/lib/experience";
 import { RoleBlock } from "./RoleBlock";
 import { EducationRow } from "./EducationRow";
@@ -46,6 +47,7 @@ export function ExperiencePage() {
     fetchNextPage: loadMoreEducation,
   } = useEducation();
   const { collapsedRoles, toggleRole } = useExperienceUI();
+  const { data: stats } = useStats();
   const isLoading = rolesLoading || eduLoading;
   const isError = rolesError || eduError;
   const currentRole = ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
@@ -138,7 +140,7 @@ export function ExperiencePage() {
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
-      title={`${yearsOfExperience()} of building for the web apps and products, role by role.`}
+      title={`${yearsOfExperience(stats?.yearsExperience ?? 1)} of building for the web apps and products, role by role.`}
       deck="Every role with its responsibilities and outcomes spelled out, plus where the formal training came from."
       meta={pageMeta}
       metaLoading={isLoading}

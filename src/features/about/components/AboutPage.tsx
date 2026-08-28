@@ -207,7 +207,7 @@ export function AboutPage() {
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 - ABOUT ]"
       title="The person behind the projects, and how I like to work."
-      deck={`${yearsOfExperience()} of building for the web apps from Yangon. My principles, the road that got me here, and what I do off the clock.`}
+      deck={`${yearsOfExperience(stats?.yearsExperience ?? 1)} of building for the web apps from Yangon. My principles, the road that got me here, and what I do off the clock.`}
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
