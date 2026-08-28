@@ -332,7 +332,7 @@ export function PageLayout({
           className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft md:text-right"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
-            NEXT <span className="inline-block transition-transform duration-300 ease-out group-hover:translate-x-1">→</span>
+            {next.direction}
           </span>
           <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
             {next.title}
