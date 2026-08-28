@@ -8,6 +8,7 @@ import { Projects } from "@/features/portfolio/components/Projects";
 import { Testimonials } from "@/features/portfolio/components/Testimonials";
 import { Events } from "@/features/portfolio/components/Events";
 import { Contact } from "@/features/portfolio/components/Contact";
+import { SectionBridge } from "@/shared/components/ui/SectionBridge";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 
@@ -18,11 +19,16 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <About />
+        <SectionBridge from="01 - ABOUT" to="02 - STACK" />
         <NameMarquee />
         <Skills />
+        <SectionBridge from="02 - STACK" to="03 - EXPERIENCE" />
         <Experience />
+        <SectionBridge from="03 - EXPERIENCE" to="04 - PROJECTS" />
         <Projects />
+        <SectionBridge from="04 - PROJECTS" to="05 - EVENTS" />
         <Events />
+        <SectionBridge from="05 - EVENTS" to="06 - WORDS" />
         <Testimonials />
         <Contact />
       </main>

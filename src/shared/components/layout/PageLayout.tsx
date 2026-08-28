@@ -169,7 +169,10 @@ export function PageLayout({
                 <li key={link}>
                   <Link
                     href={href}
-                    className="group relative font-body text-[14px] font-medium text-text-secondary"
+                    aria-current={isActive ? "page" : undefined}
+                    className={`group relative font-body text-[14px] font-medium transition-colors ${
+                      isActive ? "text-text-primary" : "text-text-secondary"
+                    }`}
                   >
                     {link}
                     {isActive ? (
