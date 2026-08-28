@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { Draggable, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
-import { SocialIcon } from "@/shared/components/ui/SocialIcon";
+import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import { useTestimonialsPreview } from "@/features/testimonials/hooks/useTestimonialsPreview";
 import { useTestimonialsUI } from "@/features/testimonials/store/testimonialsUIStore";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
@@ -50,18 +50,28 @@ function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void
           <span className="font-mono text-[13px] text-cyan">{t.name}</span>
           <span className="font-body text-[12px] text-text-muted">{t.role}</span>
         </div>
-
-        {t.socials?.length > 0 && (
-          <div className="ml-auto flex items-center gap-2 text-text-muted">
-            {t.socials.map((social) => (
-              <SocialIcon key={social.type + social.url} type={social.type} className="h-3.5 w-3.5" />
-            ))}
-          </div>
-        )}
       </div>
       <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
         {t.context}
       </p>
+
+      {t.socials?.length > 0 && (
+        <div className="flex flex-wrap items-center gap-2 pt-1">
+          {t.socials.map((social) => (
+            <a
+              key={social.type + social.url}
+              href={social.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              aria-label={`${t.name} on ${socialLabel(social.type)}`}
+              className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <SocialIcon type={social.type} />
+            </a>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
