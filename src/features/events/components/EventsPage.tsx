@@ -93,7 +93,7 @@ export function EventsPage() {
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← HOME", title: "Projects", href: "/projects" }}
+      prev={{ direction: "← PREV", title: "Projects", href: "/projects" }}
       next={{ direction: "NEXT →", title: "Testimonials", href: "/testimonials" }}
     >
       <div ref={contentRef} className="flex flex-col gap-16">

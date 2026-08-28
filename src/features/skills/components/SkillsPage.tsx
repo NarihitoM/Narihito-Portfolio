@@ -160,7 +160,7 @@ export function SkillsPage() {
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← HOME", title: "About", href: "/about" }}
+      prev={{ direction: "← PREV", title: "About", href: "/about" }}
       next={{ direction: "NEXT →", title: "Experience", href: "/experience" }}
     >
       <div ref={contentRef} className="flex flex-col gap-20">

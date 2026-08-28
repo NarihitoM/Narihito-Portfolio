@@ -122,7 +122,7 @@ export function Testimonials() {
   );
 
   return (
-    <section id="testimonials" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px] overflow-hidden">
+    <section id="testimonials" ref={sectionRef} className="w-full bg-bg py-14 md:py-[100px] overflow-hidden">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
         <SectionEyebrow>06 - WORDS</SectionEyebrow>
         <SectionHeading>What people say</SectionHeading>

@@ -120,7 +120,7 @@ export function Projects() {
   useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS, isLoading] });
 
   return (
-    <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[140px]">
+    <section id="projects" ref={sectionRef} className="w-full bg-bg py-14 md:py-[100px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>04 - PROJECTS</SectionEyebrow>

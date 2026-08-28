@@ -139,7 +139,7 @@ export function TestimonialsPage() {
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← HOME", title: "Events", href: "/events" }}
+      prev={{ direction: "← PREV", title: "Events", href: "/events" }}
       next={{ direction: "NEXT →", title: "About", href: "/about" }}
     >
       <div ref={contentRef} className="flex flex-col gap-16">
