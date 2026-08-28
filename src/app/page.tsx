@@ -19,8 +19,8 @@ export default function Home() {
       <main className="flex-1">
         <Hero />
         <About />
-        <SectionBridge from="01 - ABOUT" to="02 - STACK" />
         <NameMarquee />
+        <SectionBridge from="01 - ABOUT" to="02 - STACK" />
         <Skills />
         <SectionBridge from="02 - STACK" to="03 - EXPERIENCE" />
         <Experience />
