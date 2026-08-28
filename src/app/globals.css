@@ -372,6 +372,7 @@ html,
 body {
   background: var(--color-bg);
   color: var(--color-text-primary);
+  overscroll-behavior-y: none;
 }
 
 * {
