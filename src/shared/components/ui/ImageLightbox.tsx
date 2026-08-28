@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
-import Image from "next/image";
 import { DialogCloseButton } from "./DialogCloseButton";
 import {
   ease,
@@ -61,17 +60,21 @@ export function ImageLightbox({ src, alt, onClose }: { src: string; alt: string;
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4"
       onClick={handleClose}
     >
       <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
       <div
         ref={panelRef}
-        className="relative w-full max-w-[560px] max-h-[85vh] aspect-[3/4] overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt"
+        className="relative overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt"
         onClick={(e) => e.stopPropagation()}
       >
         <DialogCloseButton onClick={handleClose} />
-        <Image src={src} alt={alt} fill className="object-cover" sizes="560px" />
+        <img
+          src={src}
+          alt={alt}
+          className="block h-auto max-h-[85vh] w-auto max-w-[90vw] object-contain"
+        />
       </div>
     </div>
   );

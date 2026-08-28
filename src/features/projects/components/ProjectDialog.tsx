@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -13,11 +13,13 @@ import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { ExternalLink } from "lucide-react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import type { ProjectCard } from "../types/types";
 
 export function ProjectDialog({ project, onClose }: { project: ProjectCard; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const [zoomed, setZoomed] = useState(false);
 
   useGSAP(
     () => {
@@ -62,6 +64,7 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
   };
 
   return (
+    <>
     <div
       ref={overlayRef}
       className="fixed inset-0 z-50 flex items-center justify-center p-4"
@@ -76,13 +79,18 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
         <DialogCloseButton onClick={handleClose} />
 
         {project.projectimg && (
-          <div className="w-full h-[240px] md:h-[320px] rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft">
+          <button
+            type="button"
+            aria-label={`View ${project.title} image`}
+            onClick={() => setZoomed(true)}
+            className="w-full h-[240px] md:h-[320px] cursor-zoom-in rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft transition-colors hover:border-violet"
+          >
             <img
               src={project.projectimg}
               alt={project.title}
               className="h-full w-full object-cover"
             />
-          </div>
+          </button>
         )}
 
         <div className="flex flex-col gap-3">
@@ -141,5 +149,14 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
         </div>
       </div>
     </div>
+
+    {zoomed && project.projectimg && (
+      <ImageLightbox
+        src={project.projectimg}
+        alt={project.title}
+        onClose={() => setZoomed(false)}
+      />
+    )}
+    </>
   );
 }
