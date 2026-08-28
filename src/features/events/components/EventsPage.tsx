@@ -84,7 +84,7 @@ export function EventsPage() {
 
   return (
     <PageLayout
-      backLink="Back to Home"
+      backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / EVENTS"
       eyebrow="[ 05 - EVENTS ]"
