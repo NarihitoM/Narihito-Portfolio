@@ -202,7 +202,7 @@ export function AboutPage() {
 
   return (
     <PageLayout
-      backLink="Back to Home"
+      backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 - ABOUT ]"

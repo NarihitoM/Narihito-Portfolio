@@ -171,7 +171,7 @@ export function ProjectsPage() {
 
   return (
     <PageLayout
-      backLink="Back to Home"
+      backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / PROJECTS"
       eyebrow="[ 04 - PROJECTS ]"
