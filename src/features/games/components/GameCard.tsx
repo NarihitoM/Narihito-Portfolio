@@ -2,6 +2,7 @@
 
 import { useTilt } from "@/shared/hooks/useTilt";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
+import { Chip } from "@/shared/components/ui/Chip";
 import { useGamesUI } from "../store/gamesUIStore";
 import type { Game } from "../types/types";
 
@@ -46,6 +47,13 @@ export function GameCard({ game }: { game: Game }) {
         <p className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {game.description}
         </p>
+        {game.chips?.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {game.chips.map((chip) => (
+              <Chip key={chip.name}>{chip.name}</Chip>
+            ))}
+          </div>
+        )}
         {game.links?.length > 0 && (
           <div className="flex flex-wrap items-center gap-2 pt-1">
             {game.links.map((link) => (

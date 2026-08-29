@@ -10,6 +10,7 @@ export interface Game {
   description: string;
   type: string;
   links: GameLink[];
+  chips: { name: string }[];
 }
 
 export interface CursorGamesResponse {
