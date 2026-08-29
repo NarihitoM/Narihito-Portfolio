@@ -4,8 +4,8 @@ import type { ChatFeedbackType, ChatMessage, NavDirective } from "../types/types
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 export const chatbotApi = {
-  async sendFeedback(messageId: string, message: string, type: ChatFeedbackType) {
-    await api.post("/public/chat-feedback", { messageId, message, type });
+  async sendFeedback(messageId: string, message: string, type: ChatFeedbackType, userMessage?: string) {
+    await api.post("/public/chat-feedback", { messageId, message, type, userMessage });
   },
 
   async stream(

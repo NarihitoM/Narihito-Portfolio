@@ -95,11 +95,13 @@ function NavPill({ nav, onGo }: { nav: NavDirective; onGo: (path: string) => voi
 function MessageActions({
   messageId,
   content,
+  userMessage,
   feedback,
   onFeedback,
 }: {
   messageId: string;
   content: string;
+  userMessage?: string;
   feedback: ChatFeedbackType | null;
   onFeedback: (messageId: string, type: ChatFeedbackType) => void;
 }) {
@@ -114,7 +116,7 @@ function MessageActions({
   const handleFeedback = (type: ChatFeedbackType) => {
     if (feedback === type) return;
     onFeedback(messageId, type);
-    chatbotApi.sendFeedback(messageId, content, type).catch(() => {});
+    chatbotApi.sendFeedback(messageId, content, type, userMessage).catch(() => {});
   };
 
   return (
@@ -303,6 +305,7 @@ export function Chatbot() {
                     <MessageActions
                       messageId={m.id}
                       content={m.content}
+                      userMessage={[...messages].slice(0, i).reverse().find((x) => x.role === "user")?.content}
                       feedback={feedbackByMessage[m.id] ?? null}
                       onFeedback={handleFeedback}
                     />
