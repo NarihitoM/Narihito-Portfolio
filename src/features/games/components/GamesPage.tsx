@@ -139,9 +139,7 @@ export function GamesPage() {
           <div ref={favouritesRef} className="flex flex-col gap-12">
             {favouriteGames.map((game) => (
               <div key={`fav-${game.id}`} data-favourite className="flex flex-col gap-8 border-t border-border-glow pt-9">
-                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                  FAVOURITE — {new Date().getFullYear()}
-                </span>
+                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">FAVOURITE</span>
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
                   <div className="flex-1">
                     {game.pic ? (
