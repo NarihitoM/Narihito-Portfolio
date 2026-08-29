@@ -133,13 +133,13 @@ export function TestimonialsPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / TESTIMONIALS"
-      eyebrow="[ 06 - TESTIMONIALS ]"
+      eyebrow="[ 07 - TESTIMONIALS ]"
       title="Feedback from the people I have worked with."
       deck="Quotes from clients and teammates, kept unedited, each tied to the project it came from."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← PREV", title: "Events", href: "/events" }}
+      prev={{ direction: "← PREV", title: "Games", href: "/games" }}
       next={{ direction: "NEXT →", title: "About", href: "/about" }}
     >
       <div ref={contentRef} className="flex flex-col gap-16">
