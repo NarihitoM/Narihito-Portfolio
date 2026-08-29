@@ -19,6 +19,7 @@ export interface RawSkillItem {
   id: string;
   name: string;
   proficiency: number;
+  pinned?: boolean;
 }
 
 export interface RawSkillGroup {

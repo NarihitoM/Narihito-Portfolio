@@ -24,7 +24,7 @@ export function SkillsPage() {
   const leadRef = useRef<HTMLParagraphElement>(null);
   const categoriesRef = useRef<HTMLDivElement>(null);
   const learningRef = useRef<HTMLDivElement>(null);
-  const { categories: allCategories, isLoading, isError, refetch } = useSkills();
+  const { categories: allCategories, pinned, isLoading, isError, refetch } = useSkills();
   const {
     items: learningItems,
     total: learningTotal,
@@ -37,7 +37,10 @@ export function SkillsPage() {
   } = useLearning();
   const { activeCategory, setActiveCategory } = useSkillsUI();
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
-  const primaryStack = allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
+  const primaryStack =
+    pinned.length > 0
+      ? pinned.map((p) => p.name).join(" + ")
+      : allCategories[0]?.tools.slice(0, 2).map((tool) => tool.name).join(" + ") || "Loading";
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
     { key: "CATEGORIES", value: String(allCategories.length) },
