@@ -15,6 +15,7 @@ export interface Role {
   title: string;
   org: string;
   desc: string;
+  pinned?: boolean;
   duties: Duty[];
   impact: Metric[];
   chips: string[];
