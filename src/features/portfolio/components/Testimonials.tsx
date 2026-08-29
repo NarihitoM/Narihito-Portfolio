@@ -108,8 +108,8 @@ export function Testimonials() {
       if (cards.length === 0) return;
 
       const gap = parseFloat(getComputedStyle(track).columnGap || "24");
-      const cardWidth = cards[0].offsetWidth + gap;
-      const singleWidth = TESTIMONIALS.length * cardWidth;
+      let cardWidth = cards[0].offsetWidth + gap;
+      let singleWidth = TESTIMONIALS.length * cardWidth;
 
       gsap.set(track, { x: 0 });
 
@@ -232,16 +232,21 @@ export function Testimonials() {
         clearTimeout(resizeTimer);
         resizeTimer = setTimeout(() => {
           const newGap = parseFloat(getComputedStyle(track).columnGap || "24");
-          const newCardW = (track.querySelector("[data-testimonial-card]") as HTMLElement)?.offsetWidth + newGap;
+          const newCardEl = track.querySelector("[data-testimonial-card]") as HTMLElement | null;
+          if (!newCardEl) return;
+          const newCardW = newCardEl.offsetWidth + newGap;
           if (!newCardW) return;
           const newSingle = TESTIMONIALS.length * newCardW;
-          if (Math.abs(newSingle - singleWidth) > 4) {
-            gsap.ticker.remove(ticker);
-            draggable?.kill();
-            gsap.set(track, { x: 0 });
-            gsap.ticker.add(ticker);
+          if (Math.abs(newSingle - singleWidth) > 2 || Math.abs(newCardW - cardWidth) > 2) {
+            cardWidth = newCardW;
+            singleWidth = newSingle;
+            const cur = gsap.getProperty(track, "x") as number;
+            const wrapped = wrapX(cur);
+            gsap.set(track, { x: wrapped });
+            draggable?.update();
+            updateActive(wrapped, cardWidth);
           }
-        }, 250);
+        }, 120);
       };
       window.addEventListener("resize", onResize);
 
