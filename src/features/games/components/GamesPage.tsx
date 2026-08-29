@@ -171,6 +171,10 @@ export function GamesPage() {
                         <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">TYPE</span>
                         <span className="font-mono text-[12px] text-text-secondary uppercase">{game.type}</span>
                       </div>
+                      <div className="flex items-center gap-4">
+                        <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">GENRE</span>
+                        <span className="font-mono text-[12px] text-text-secondary">{game.chips?.length ? game.chips.map((c) => c.name).join(", ") : "—"}</span>
+                      </div>
                       {game.links?.length ? (
                         <div className="flex items-center gap-4">
                           <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">LINKS</span>
