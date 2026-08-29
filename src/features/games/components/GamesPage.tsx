@@ -14,23 +14,23 @@ import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
-import { useEventsInfinite } from "../hooks/useEvents";
-import { useEventsUI } from "../store/eventsUIStore";
-import { EventCard } from "./EventCard";
-import { EventDialog } from "./EventDialog";
+import { useGamesInfinite } from "../hooks/useGames";
+import { useGamesUI } from "../store/gamesUIStore";
+import { GameCard } from "./GameCard";
+import { GameDialog } from "./GameDialog";
 
-export function EventsPage() {
+export function GamesPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { events, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useEventsInfinite();
-  const { selectedEventId, setSelectedEventId } = useEventsUI();
-  const selected = events.find((event) => event.id === selectedEventId) ?? null;
+  const { games, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
+    useGamesInfinite();
+  const { selectedGameId, setSelectedGameId } = useGamesUI();
+  const selected = games.find((game) => game.id === selectedGameId) ?? null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
-    { key: "EVENTS", value: String(total) },
-    { key: "SHOWING", value: `${events.length} / ${total}` },
+    { key: "GAMES", value: String(total) },
+    { key: "SHOWING", value: `${games.length} / ${total}` },
   ];
 
   useGSAP(
@@ -79,30 +79,31 @@ export function EventsPage() {
       const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
       return () => { window.clearTimeout(t); mm.revert(); };
     },
-    { scope: contentRef, dependencies: [events] },
+    { scope: contentRef, dependencies: [games] },
   );
 
   return (
     <PageLayout
       backLink="Back To Portfolio"
       backHref="/"
-      breadcrumb="HOME / EVENTS"
-      eyebrow="[ 05 - EVENTS ]"
-      title="The gatherings that shaped how I build."
-      deck="Hackathons, meetups and programs I joined, how long each one ran, and what I took away from it."
+      breadcrumb="HOME / GAMES"
+      eyebrow="[ 06 - GAMES ]"
+      title="Side quests that shipped anyway."
+      deck="Small games I built for the fun of it, jams, and a few for clients. Play them, don't just read about them."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← PREV", title: "Projects", href: "/projects" }}
-      next={{ direction: "NEXT →", title: "Games", href: "/games" }}
+      prev={{ direction: "← PREV", title: "Events", href: "/events" }}
+      next={{ direction: "NEXT →", title: "Testimonials", href: "/testimonials" }}
     >
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Building alone teaches speed. Building beside other people teaches
-          everything else. These are the rooms worth listing.
+          Code doesn&apos;t have to solve a problem to be worth writing. Some of
+          these came out of a weekend jam, some out of just wanting to see
+          if an idea would actually be fun. All of them are playable.
         </p>
 
         {isLoading ? (
@@ -112,17 +113,17 @@ export function EventsPage() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
-        ) : events.length === 0 ? (
-          <p className="font-body text-[15px] text-text-muted">No events listed yet.</p>
+        ) : games.length === 0 ? (
+          <p className="font-body text-[15px] text-text-muted">No games listed yet.</p>
         ) : (
           <>
             <div
-              id="events-grid"
+              id="games-grid"
               ref={cardsRef}
               className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
             >
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
+              {games.map((game) => (
+                <GameCard key={game.id} game={game} />
               ))}
             </div>
 
@@ -130,14 +131,14 @@ export function EventsPage() {
               <LoadMoreButton
                 onClick={() => fetchNextPage()}
                 loading={isFetchingNextPage}
-                label="LOAD MORE EVENTS"
+                label="LOAD MORE GAMES"
               />
             )}
           </>
         )}
       </div>
 
-      {selected && <EventDialog event={selected} onClose={() => setSelectedEventId(null)} />}
+      {selected && <GameDialog game={selected} onClose={() => setSelectedGameId(null)} />}
     </PageLayout>
   );
 }
