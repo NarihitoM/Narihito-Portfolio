@@ -1,6 +1,7 @@
 "use client";
 
 import { useTilt } from "@/shared/hooks/useTilt";
+import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import { useGamesUI } from "../store/gamesUIStore";
 import type { Game } from "../types/types";
 
@@ -45,6 +46,23 @@ export function GameCard({ game }: { game: Game }) {
         <p className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {game.description}
         </p>
+        {game.links?.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2 pt-1">
+            {game.links.map((link) => (
+              <a
+                key={link.type + link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label={`${game.name} on ${socialLabel(link.type)}`}
+                className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+              >
+                <SocialIcon type={link.type} />
+              </a>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

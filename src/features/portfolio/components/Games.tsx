@@ -30,7 +30,7 @@ export function Games() {
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>06 - GAMES</SectionEyebrow>
-          <SectionHeading>Games I&apos;ve built</SectionHeading>
+          <SectionHeading>Games I&apos;m into</SectionHeading>
         </div>
 
         {isLoading ? (

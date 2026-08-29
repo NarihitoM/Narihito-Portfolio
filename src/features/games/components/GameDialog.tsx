@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import {
   ease,
   gsap,
@@ -99,16 +100,22 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
           {game.description}
         </p>
 
-        {game.url && (
-          <a
-            href={game.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            className="self-start rounded-[4px] border border-border-glow-soft px-5 py-2.5 font-mono text-[12px] tracking-[1px] text-text-primary transition-colors hover:border-violet hover:text-violet"
-          >
-            PLAY →
-          </a>
+        {game.links?.length > 0 && (
+          <div className="flex flex-wrap items-center gap-2">
+            {game.links.map((link) => (
+              <a
+                key={link.type + link.url}
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-2 rounded-[4px] border border-border-glow-soft px-4 py-2.5 font-mono text-[12px] tracking-[1px] text-text-primary transition-colors hover:border-violet hover:text-violet"
+              >
+                <SocialIcon type={link.type} className="h-3.5 w-3.5" />
+                {socialLabel(link.type)}
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </div>
