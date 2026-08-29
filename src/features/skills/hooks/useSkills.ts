@@ -11,10 +11,10 @@ export function useSkills() {
     gcTime: 30 * 60 * 1000,
   });
 
-  const data = query.data;
+  const raw = query.data;
   const categories: Category[] = useMemo(
     () =>
-      (data ?? []).map((g) => ({
+      (raw?.groups ?? []).map((g) => ({
         id: g.id,
         eyebrow: g.label.toUpperCase(),
         note: "",
@@ -28,10 +28,12 @@ export function useSkills() {
           proficiency: item.proficiency ?? 0,
         })),
       })),
-    [data],
+    [raw],
   );
 
-  return { ...query, categories };
+  const pinned = useMemo(() => raw?.pinned ?? [], [raw]);
+
+  return { ...query, categories, pinned };
 }
 
 export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTotal: number) {

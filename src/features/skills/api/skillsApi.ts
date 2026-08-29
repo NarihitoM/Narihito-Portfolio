@@ -2,7 +2,10 @@ import api from "@/shared/lib/api";
 import type { CursorPage, CursorSlice, LearningItem, RawSkillGroup, RawSkillItem } from "../types/types";
 
 export const skillsApi = {
-  listGroups: () => api.get<{ data: RawSkillGroup[] }>("/public/skills").then((r) => r.data.data),
+  listGroups: () =>
+    api
+      .get<{ data: RawSkillGroup[]; pinned: RawSkillItem[] }>("/public/skills")
+      .then((r) => ({ groups: r.data.data as RawSkillGroup[], pinned: (r.data.pinned ?? []) as RawSkillItem[] })),
   listGroupItemsPaged: (groupId: string, cursor?: string, limit = 6) =>
     api
       .get<CursorSlice<RawSkillItem>>(`/public/skills/${groupId}/items`, { params: { cursor, limit } })
