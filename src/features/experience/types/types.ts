@@ -34,6 +34,7 @@ export interface RawRole {
   title: string;
   org: string;
   desc: string;
+  pinned?: boolean;
   duties: Duty[];
   metrics: Metric[];
   chips: { name: string }[];
