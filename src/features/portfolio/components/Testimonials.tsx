@@ -116,7 +116,7 @@ export function Testimonials() {
       let isHovered = false;
       let isDragging = false;
       let resumeTimeout: ReturnType<typeof setTimeout> | null = null;
-      const speed = 0.65;
+      const speed = 1.35;
 
       const wrapX = (x: number) => {
         let w = x % singleWidth;
