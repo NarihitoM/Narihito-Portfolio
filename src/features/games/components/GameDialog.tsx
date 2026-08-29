@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
+import { Chip } from "@/shared/components/ui/Chip";
 import {
   ease,
   gsap,
@@ -99,6 +100,14 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
         <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-secondary">
           {game.description}
         </p>
+
+        {game.chips?.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {game.chips.map((chip) => (
+              <Chip key={chip.name}>{chip.name}</Chip>
+            ))}
+          </div>
+        )}
 
         {game.links?.length > 0 && (
           <div className="flex flex-wrap items-center gap-2">
