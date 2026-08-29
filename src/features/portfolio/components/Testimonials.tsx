@@ -80,7 +80,7 @@ export function Testimonials() {
 
   const loopItems = useMemo(() => {
     if (!TESTIMONIALS.length) return [];
-    return Array.from({ length: 4 }, () => TESTIMONIALS).flat();
+    return Array.from({ length: 8 }, () => TESTIMONIALS).flat();
   }, [TESTIMONIALS]);
 
   const updateActive = useCallback(
@@ -116,45 +116,29 @@ export function Testimonials() {
       let isHovered = false;
       let isDragging = false;
       let resumeTimeout: ReturnType<typeof setTimeout> | null = null;
-      let autoTween: gsap.core.Tween | null = null;
+      const speed = 0.65;
 
-      const createTween = (fromX: number) => {
-        if (autoTween) autoTween.kill();
-        let normalized = fromX % singleWidth;
-        if (normalized > 0) normalized -= singleWidth;
-        gsap.set(track, { x: normalized });
-        const remaining = singleWidth + normalized;
-        const dist = remaining <= 1 ? singleWidth : remaining;
-        const duration = (dist / singleWidth) * 28;
-        autoTween = gsap.to(track, {
-          x: normalized - dist,
-          duration,
-          ease: "none",
-          onUpdate: () => {
-            const cur = gsap.getProperty(track, "x") as number;
-            updateActive(cur, cardWidth);
-          },
-          onComplete: () => {
-            gsap.set(track, { x: 0 });
-            updateActive(0, cardWidth);
-            createTween(0);
-          },
-        });
-        if (isHovered || isDragging) autoTween.pause();
+      const wrapX = (x: number) => {
+        let w = x % singleWidth;
+        if (w > 0) w -= singleWidth;
+        return w;
       };
 
-      createTween(0);
+      const ticker = () => {
+        if (isHovered || isDragging) return;
+        let x = gsap.getProperty(track, "x") as number;
+        x -= speed;
+        if (x <= -singleWidth) x += singleWidth;
+        gsap.set(track, { x });
+        updateActive(x, cardWidth);
+      };
+      gsap.ticker.add(ticker);
 
       const handleEnter = () => {
         isHovered = true;
-        autoTween?.pause();
       };
       const handleLeave = () => {
         isHovered = false;
-        if (!isDragging) {
-          const cur = gsap.getProperty(track, "x") as number;
-          createTween(cur);
-        }
       };
 
       viewport.addEventListener("mouseenter", handleEnter);
@@ -163,6 +147,14 @@ export function Testimonials() {
       track.addEventListener("mouseleave", handleLeave);
 
       let draggable: Draggable | null = null;
+
+      const scheduleResume = () => {
+        if (resumeTimeout) clearTimeout(resumeTimeout);
+        resumeTimeout = setTimeout(() => {
+          isDragging = false;
+        }, 900);
+      };
+
       const initDraggable = () => {
         const [d] = Draggable.create(track, {
           type: "x",
@@ -172,50 +164,48 @@ export function Testimonials() {
           minimumMovement: 6,
           onPress: () => {
             isDragging = true;
-            autoTween?.pause();
             if (resumeTimeout) clearTimeout(resumeTimeout);
           },
           onDrag: function () {
-            const raw = this.x;
-            let wrapped = raw % singleWidth;
-            if (wrapped > 0) wrapped -= singleWidth;
-            gsap.set(track, { x: wrapped });
-            updateActive(wrapped, cardWidth);
+            let x = this.x;
+            const wrapped = wrapX(x);
+            if (Math.abs(x - wrapped) > singleWidth * 0.5) {
+              gsap.set(track, { x: wrapped });
+              this.update();
+              x = wrapped;
+            }
+            updateActive(x, cardWidth);
           },
           onThrowUpdate: function () {
-            const raw = this.x;
-            let wrapped = raw % singleWidth;
-            if (wrapped > 0) wrapped -= singleWidth;
-            gsap.set(track, { x: wrapped });
-            updateActive(wrapped, cardWidth);
+            let x = this.x;
+            const wrapped = wrapX(x);
+            if (Math.abs(x - wrapped) > 1) {
+              gsap.set(track, { x: wrapped });
+              this.update();
+              x = wrapped;
+            }
+            updateActive(x, cardWidth);
           },
           onRelease: function () {
             const x = gsap.getProperty(track, "x") as number;
             updateActive(x, cardWidth);
           },
           onThrowComplete: function () {
-            isDragging = false;
-            let x = gsap.getProperty(track, "x") as number;
-            let normalized = x % singleWidth;
-            if (normalized > 0) normalized -= singleWidth;
-            gsap.set(track, { x: normalized });
+            const x = gsap.getProperty(track, "x") as number;
+            const wrapped = wrapX(x);
+            gsap.set(track, { x: wrapped });
             this.update();
-            updateActive(normalized, cardWidth);
-            if (!isHovered) {
-              resumeTimeout = setTimeout(() => createTween(normalized), 900);
-            }
+            updateActive(wrapped, cardWidth);
+            scheduleResume();
           },
           onDragEnd: function () {
             if (!this.isThrowing) {
-              isDragging = false;
               const x = gsap.getProperty(track, "x") as number;
-              let normalized = x % singleWidth;
-              if (normalized > 0) normalized -= singleWidth;
-              gsap.set(track, { x: normalized });
+              const wrapped = wrapX(x);
+              gsap.set(track, { x: wrapped });
               this.update();
-              if (!isHovered) {
-                resumeTimeout = setTimeout(() => createTween(normalized), 900);
-              }
+              updateActive(wrapped, cardWidth);
+              scheduleResume();
             }
           },
         });
@@ -226,41 +216,16 @@ export function Testimonials() {
 
       const onTouchStart = () => {
         isDragging = true;
-        autoTween?.pause();
         if (resumeTimeout) clearTimeout(resumeTimeout);
       };
       const onTouchEnd = () => {
         if (!draggable?.isDragging && !draggable?.isThrowing) {
-          isDragging = false;
-          if (!isHovered) {
-            const x = gsap.getProperty(track, "x") as number;
-            resumeTimeout = setTimeout(() => createTween(x), 900);
-          }
+          scheduleResume();
         }
       };
       viewport.addEventListener("touchstart", onTouchStart, { passive: true });
       viewport.addEventListener("touchend", onTouchEnd);
       viewport.addEventListener("touchcancel", onTouchEnd);
-
-      const onWheel = (e: WheelEvent) => {
-        if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && Math.abs(e.deltaY) > 2) return;
-        if (Math.abs(e.deltaX) < 2) return;
-        autoTween?.pause();
-        isDragging = true;
-        if (resumeTimeout) clearTimeout(resumeTimeout);
-        let x = (gsap.getProperty(track, "x") as number) - e.deltaX * 0.9;
-        let normalized = x % singleWidth;
-        if (normalized > 0) normalized -= singleWidth;
-        gsap.set(track, { x: normalized });
-        draggable?.update();
-        updateActive(normalized, cardWidth);
-        e.preventDefault();
-        resumeTimeout = setTimeout(() => {
-          isDragging = false;
-          if (!isHovered) createTween(normalized);
-        }, 900);
-      };
-      viewport.addEventListener("wheel", onWheel, { passive: false });
 
       let resizeTimer: ReturnType<typeof setTimeout>;
       const onResize = () => {
@@ -271,10 +236,10 @@ export function Testimonials() {
           if (!newCardW) return;
           const newSingle = TESTIMONIALS.length * newCardW;
           if (Math.abs(newSingle - singleWidth) > 4) {
-            autoTween?.kill();
+            gsap.ticker.remove(ticker);
             draggable?.kill();
             gsap.set(track, { x: 0 });
-            createTween(0);
+            gsap.ticker.add(ticker);
           }
         }, 250);
       };
@@ -288,11 +253,10 @@ export function Testimonials() {
         viewport.removeEventListener("touchstart", onTouchStart);
         viewport.removeEventListener("touchend", onTouchEnd);
         viewport.removeEventListener("touchcancel", onTouchEnd);
-        viewport.removeEventListener("wheel", onWheel);
         window.removeEventListener("resize", onResize);
         if (resumeTimeout) clearTimeout(resumeTimeout);
         clearTimeout(resizeTimer);
-        autoTween?.kill();
+        gsap.ticker.remove(ticker);
         draggable?.kill();
       };
     },
