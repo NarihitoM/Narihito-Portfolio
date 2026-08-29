@@ -13,7 +13,7 @@ export function useExperienceRoles() {
     gcTime: 30 * 60 * 1000,
   });
 
-  const roles: Role[] = useMemo(
+  const roles: (Role & { pinned?: boolean })[] = useMemo(
     () =>
       (query.data?.pages ?? []).flatMap((page) =>
         page.data.map((r) => ({
@@ -23,6 +23,7 @@ export function useExperienceRoles() {
           title: r.title,
           org: r.org,
           desc: r.desc,
+          pinned: (r as any).pinned ?? false,
           duties: r.duties,
           impact: r.metrics,
           chips: r.chips.map((c) => c.name),

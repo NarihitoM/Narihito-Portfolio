@@ -50,7 +50,7 @@ export function ExperiencePage() {
   const { data: stats } = useStats();
   const isLoading = rolesLoading || eduLoading;
   const isError = rolesError || eduError;
-  const currentRole = ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
+  const currentRole = ROLES.find((role) => (role as any).pinned) ?? ROLES.find((role) => role.period.toLowerCase().includes("present")) ?? ROLES[0];
   const pageMeta = [
     { key: "ROLES", value: String(rolesTotal) },
     { key: "CURRENT", value: currentRole?.title.toUpperCase() ?? "Loading" },
