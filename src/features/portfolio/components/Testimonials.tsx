@@ -176,17 +176,18 @@ export function Testimonials() {
             if (resumeTimeout) clearTimeout(resumeTimeout);
           },
           onDrag: function () {
-            let x = this.x;
-            if (x <= -singleWidth) {
-              x += singleWidth;
-              gsap.set(track, { x });
-              this.update();
-            } else if (x > 0) {
-              x -= singleWidth;
-              gsap.set(track, { x });
-              this.update();
-            }
-            updateActive(x, cardWidth);
+            const raw = this.x;
+            let wrapped = raw % singleWidth;
+            if (wrapped > 0) wrapped -= singleWidth;
+            gsap.set(track, { x: wrapped });
+            updateActive(wrapped, cardWidth);
+          },
+          onThrowUpdate: function () {
+            const raw = this.x;
+            let wrapped = raw % singleWidth;
+            if (wrapped > 0) wrapped -= singleWidth;
+            gsap.set(track, { x: wrapped });
+            updateActive(wrapped, cardWidth);
           },
           onRelease: function () {
             const x = gsap.getProperty(track, "x") as number;
