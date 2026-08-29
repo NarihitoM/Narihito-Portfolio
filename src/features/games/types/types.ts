@@ -1,10 +1,15 @@
+export interface GameLink {
+  type: string;
+  url: string;
+}
+
 export interface Game {
   id: string;
   name: string;
   pic: string;
   description: string;
-  url: string | null;
   type: string;
+  links: GameLink[];
 }
 
 export interface CursorGamesResponse {

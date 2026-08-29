@@ -88,8 +88,8 @@ export function GamesPage() {
       backHref="/"
       breadcrumb="HOME / GAMES"
       eyebrow="[ 06 - GAMES ]"
-      title="Side quests that shipped anyway."
-      deck="Small games I built for the fun of it, jams, and a few for clients. Play them, don't just read about them."
+      title="What I'm playing when I'm not shipping code."
+      deck="The games that actually hold my attention outside of work — favorites, current obsessions, and the ones I keep coming back to."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -101,9 +101,9 @@ export function GamesPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Code doesn&apos;t have to solve a problem to be worth writing. Some of
-          these came out of a weekend jam, some out of just wanting to see
-          if an idea would actually be fun. All of them are playable.
+          Building software all day doesn&apos;t leave much room for playing it,
+          but I make room anyway. This is the other side of the screen —
+          what I load up when the work is done for the day.
         </p>
 
         {isLoading ? (
