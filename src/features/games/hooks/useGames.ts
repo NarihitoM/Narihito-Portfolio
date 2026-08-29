@@ -25,6 +25,7 @@ export function useGamesInfinite() {
 
   const games = useMemo(() => (query.data?.pages ?? []).flatMap((page) => page.data), [query.data]);
   const total = query.data?.pages[0]?.total ?? 0;
+  const favourites = query.data?.pages[0]?.favourites ?? games.filter((g) => g.type.toLowerCase() === "favorite").length;
 
-  return { ...query, games, total };
+  return { ...query, games, total, favourites };
 }

@@ -17,4 +17,5 @@ export interface CursorGamesResponse {
   data: Game[];
   nextCursor: string | null;
   total: number;
+  favourites?: number;
 }

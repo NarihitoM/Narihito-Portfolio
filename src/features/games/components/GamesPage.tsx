@@ -22,13 +22,16 @@ import { GameDialog } from "./GameDialog";
 export function GamesPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
+  const favouritesRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { games, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
+  const { games, total, favourites, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useGamesInfinite();
   const { selectedGameId, setSelectedGameId } = useGamesUI();
   const selected = games.find((game) => game.id === selectedGameId) ?? null;
+  const favouriteGames = games.filter((g) => g.type.toLowerCase() === "favorite");
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
+    { key: "FAVOURITES", value: String(favourites) },
     { key: "GAMES", value: String(total) },
     { key: "SHOWING", value: `${games.length} / ${total}` },
   ];
@@ -55,6 +58,30 @@ export function GamesPage() {
       return () => mm.revert();
     },
     { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = favouritesRef.current;
+      if (!container || !container.children.length) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container.children, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 20 }, {
+          opacity: 1, y: 0, duration: 0.5, ease: ease.entrance, stagger: 0.08,
+          scrollTrigger: { trigger: container, start: "top 85%", once: true },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef, dependencies: [favouriteGames] },
   );
 
   useGSAP(
@@ -105,6 +132,20 @@ export function GamesPage() {
           but I make room anyway. This is the other side of the screen,
           what I load up when the work is done for the day.
         </p>
+
+        {favouriteGames.length > 0 && !isLoading && !isError && (
+          <div ref={favouritesRef} className="flex flex-col gap-4 rounded-[8px] border border-violet/20 bg-violet/[0.04] p-4 md:p-6">
+            <div className="flex items-center gap-2">
+              <span className="h-1.5 w-1.5 rounded-full bg-violet" />
+              <span className="font-mono text-[11px] tracking-[3px] text-violet">FAVOURITES — {favouriteGames.length}</span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              {favouriteGames.map((game) => (
+                <GameCard key={`fav-${game.id}`} game={game} />
+              ))}
+            </div>
+          </div>
+        )}
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
