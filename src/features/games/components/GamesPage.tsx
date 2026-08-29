@@ -89,7 +89,7 @@ export function GamesPage() {
       breadcrumb="HOME / GAMES"
       eyebrow="[ 06 - GAMES ]"
       title="What I'm playing when I'm not shipping code."
-      deck="The games that actually hold my attention outside of work — favorites, current obsessions, and the ones I keep coming back to."
+      deck="The games that actually hold my attention outside of work. Favorites, current obsessions and the ones I keep coming back to."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -101,8 +101,8 @@ export function GamesPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Building software all day doesn&apos;t leave much room for playing it,
-          but I make room anyway. This is the other side of the screen —
+          Building software all day does not leave much room for playing it,
+          but I make room anyway. This is the other side of the screen,
           what I load up when the work is done for the day.
         </p>
 
