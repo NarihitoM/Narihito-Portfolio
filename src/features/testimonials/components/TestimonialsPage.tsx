@@ -188,10 +188,24 @@ export function TestimonialsPage() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            <Skeleton className="h-[220px] w-full" />
-            <Skeleton className="h-[220px] w-full" />
-          </div>
+          <>
+            <div className="border-t border-border-glow-soft pt-8">
+              <Skeleton className="h-3 w-32" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              <Skeleton className="h-[220px] w-full" />
+              <Skeleton className="h-[220px] w-full" />
+            </div>
+            <div className="border-t border-border-glow-soft pt-8">
+              <Skeleton className="h-3 w-44" />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              <Skeleton className="h-[220px] w-full" />
+              <Skeleton className="h-[220px] w-full" />
+              <Skeleton className="h-[220px] w-full" />
+              <Skeleton className="h-[220px] w-full" />
+            </div>
+          </>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : clients.length === 0 && others.length === 0 ? (
