@@ -17,7 +17,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useSkills, useLearning, useActiveCategoryItems } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
-import { CategorySection, CategorySectionActive } from "./CategorySection";
+import { CategorySection, CategorySectionActive, CategorySectionSkeleton } from "./CategorySection";
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -201,9 +201,9 @@ export function SkillsPage() {
         )}
 
         {isLoading ? (
-          <div className="flex flex-col gap-4">
-            <Skeleton className="h-[200px] w-full" />
-            <Skeleton className="h-[200px] w-full" />
+          <div className="flex flex-col gap-20">
+            <CategorySectionSkeleton />
+            <CategorySectionSkeleton />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
@@ -214,8 +214,8 @@ export function SkillsPage() {
             ))}
           </div>
         ) : activeLoading ? (
-          <div className="flex flex-col gap-4">
-            <Skeleton className="h-[200px] w-full" />
+          <div className="flex flex-col gap-20">
+            <CategorySectionSkeleton />
           </div>
         ) : activeError ? (
           <ErrorState onRetry={refetchActive} />

@@ -18,6 +18,7 @@ import { useProjectsInfinite } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
 import { FeaturedBlock } from "./FeaturedBlock";
 import { ProjectCardBlock } from "./ProjectCardBlock";
+import { ProjectCardSkeleton } from "./ProjectCardSkeleton";
 import { ProjectDialog } from "./ProjectDialog";
 import type { ProjectCard } from "../types/types";
 
@@ -228,10 +229,10 @@ export function ProjectsPage() {
 
         {isLoading || isSwitchingTab ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
+            <ProjectCardSkeleton />
+            <ProjectCardSkeleton />
+            <ProjectCardSkeleton />
+            <ProjectCardSkeleton />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
