@@ -3,10 +3,10 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { testimonialsApi } from "../api/testimonialsApi";
 import type { Stat } from "../types/types";
 
-export function useTestimonialsInfinite() {
+export function useTestimonialsInfinite(type?: string) {
   const query = useInfiniteQuery({
-    queryKey: ["testimonials", "infinite"],
-    queryFn: ({ pageParam }) => testimonialsApi.listCursor(pageParam),
+    queryKey: ["testimonials", "infinite", type ?? "all"],
+    queryFn: ({ pageParam }) => testimonialsApi.listCursor(pageParam, 6, type),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,
@@ -27,5 +27,5 @@ export function useTestimonialsInfinite() {
 
   const testimonials = useMemo(() => (data?.pages ?? []).flatMap((page) => page.data), [data]);
 
-  return { ...query, testimonials, stats, total };
+  return { ...query, testimonials, stats, total, clientsRepresented };
 }

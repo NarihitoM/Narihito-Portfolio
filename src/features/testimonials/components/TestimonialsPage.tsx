@@ -31,26 +31,29 @@ export function TestimonialsPage() {
   const cardsRef = useRef<HTMLDivElement>(null);
   const clientRef = useRef<HTMLDivElement>(null);
   const otherRef = useRef<HTMLDivElement>(null);
-  const {
-    stats,
-    testimonials,
-    total,
-    isLoading,
-    isError,
-    refetch,
-    hasNextPage,
-    isFetchingNextPage,
-    fetchNextPage,
-  } = useTestimonialsInfinite();
+  const clientQ = useTestimonialsInfinite("client");
+  const otherQ = useTestimonialsInfinite("other");
   const [selected, setSelected] = useState<Testimonial | null>(null);
-  const clientsRepresented = stats.find((stat) => stat.label === "CLIENTS REPRESENTED")?.value ?? "0";
+
+  const clients = clientQ.testimonials;
+  const others = otherQ.testimonials;
+  const total = (clientQ.total ?? 0) + (otherQ.total ?? 0);
+  const isLoading = clientQ.isLoading || otherQ.isLoading;
+  const isError = clientQ.isError || otherQ.isError;
+  const refetch = () => {
+    clientQ.refetch();
+    otherQ.refetch();
+  };
+  const clientsRepresented = clientQ.clientsRepresented ?? 0;
+  const stats = [
+    { value: String(total), label: "TESTIMONIALS COLLECTED" },
+    { value: String(clientsRepresented), label: "CLIENTS REPRESENTED" },
+  ];
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
     { key: "VOICES", value: String(total) },
-    { key: "CLIENTS", value: clientsRepresented },
+    { key: "CLIENTS", value: String(clientsRepresented) },
   ];
-  const clients = testimonials.filter((t) => (t.type || "client").toLowerCase() === "client");
-  const others = testimonials.filter((t) => (t.type || "client").toLowerCase() !== "client");
 
   useGSAP(
     () => {
@@ -191,7 +194,7 @@ export function TestimonialsPage() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
-        ) : testimonials.length === 0 ? (
+        ) : clients.length === 0 && others.length === 0 ? (
           <p className="font-body text-[15px] text-text-muted">No feedback yet.</p>
         ) : (
           <>
@@ -199,7 +202,7 @@ export function TestimonialsPage() {
               <>
                 <div className="border-t border-border-glow-soft pt-8">
                   <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                    CLIENTS — {pluralize(clients.length, "VOICE", "VOICES")}
+                    CLIENTS — {pluralize(clientQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>
                 <div ref={clientRef} id="testimonials-clients" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
@@ -211,6 +214,13 @@ export function TestimonialsPage() {
                     />
                   ))}
                 </div>
+                {clientQ.hasNextPage && (
+                  <LoadMoreButton
+                    onClick={() => clientQ.fetchNextPage()}
+                    loading={clientQ.isFetchingNextPage}
+                    label="LOAD MORE CLIENTS"
+                  />
+                )}
               </>
             )}
 
@@ -218,7 +228,7 @@ export function TestimonialsPage() {
               <>
                 <div className={`border-t border-border-glow-soft pt-8 ${clients.length > 0 ? "mt-4" : ""}`}>
                   <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                    COLLEAGUES & PEERS — {pluralize(others.length, "VOICE", "VOICES")}
+                    COLLEAGUES & PEERS — {pluralize(otherQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>
                 <div ref={otherRef} id="testimonials-others" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
@@ -230,15 +240,14 @@ export function TestimonialsPage() {
                     />
                   ))}
                 </div>
+                {otherQ.hasNextPage && (
+                  <LoadMoreButton
+                    onClick={() => otherQ.fetchNextPage()}
+                    loading={otherQ.isFetchingNextPage}
+                    label="LOAD MORE PEERS"
+                  />
+                )}
               </>
-            )}
-
-            {hasNextPage && (
-              <LoadMoreButton
-                onClick={() => fetchNextPage()}
-                loading={isFetchingNextPage}
-                label="LOAD MORE TESTIMONIALS"
-              />
             )}
           </>
         )}
