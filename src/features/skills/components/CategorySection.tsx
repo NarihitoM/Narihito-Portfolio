@@ -25,6 +25,7 @@ export function CategorySection({ category }: { category: Category }) {
     category.id,
     category.tools,
     category.toolsTotal,
+    category.eyebrow,
   );
 
   return (

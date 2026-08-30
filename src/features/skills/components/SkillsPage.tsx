@@ -45,7 +45,7 @@ export function SkillsPage() {
     isLoading: activeLoading,
     isError: activeError,
     refetch: refetchActive,
-  } = useActiveCategoryItems(activeGroup?.id);
+  } = useActiveCategoryItems(activeGroup?.id, activeCategory);
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
   const primaryStack =
     pinned.length > 0
