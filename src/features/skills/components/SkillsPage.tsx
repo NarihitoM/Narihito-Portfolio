@@ -181,7 +181,18 @@ export function SkillsPage() {
           place on this page.
         </p>
 
-        {!isLoading && !isError && allCategories.length > 0 && (
+        {isLoading ? (
+          <div className="flex flex-wrap gap-3">
+            <Skeleton className="h-9 w-[64px] rounded-full" />
+            <Skeleton className="h-9 w-[168px] rounded-full" />
+            <Skeleton className="h-9 w-[160px] rounded-full" />
+            <Skeleton className="h-9 w-[184px] rounded-full" />
+            <Skeleton className="h-9 w-[152px] rounded-full" />
+            <Skeleton className="h-9 w-[140px] rounded-full" />
+            <Skeleton className="h-9 w-[128px] rounded-full" />
+            <Skeleton className="h-9 w-[88px] rounded-full" />
+          </div>
+        ) : !isError && allCategories.length > 0 && (
           <div className="flex flex-wrap gap-3">
             {["All", ...allCategories.map((c) => c.eyebrow)].map((label) => (
               <button
