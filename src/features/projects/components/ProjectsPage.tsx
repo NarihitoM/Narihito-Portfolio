@@ -51,12 +51,14 @@ export function ProjectsPage() {
     projects: PROJECTS,
     total,
     isLoading,
+    isFetching,
     isError,
     refetch,
     hasNextPage,
     isFetchingNextPage,
     fetchNextPage,
   } = useProjectsInfinite(filter);
+  const isSwitchingTab = isFetching && !isFetchingNextPage;
   const globalTotal = FILTERS[0]?.count ?? total;
   const pageMeta = [
     { key: "INDEX", value: `${globalTotal} PROJECTS` },
@@ -224,7 +226,7 @@ export function ProjectsPage() {
           </div>
         )}
 
-        {isLoading ? (
+        {isLoading || isSwitchingTab ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
             <Skeleton className="h-[280px] w-full" />
             <Skeleton className="h-[280px] w-full" />

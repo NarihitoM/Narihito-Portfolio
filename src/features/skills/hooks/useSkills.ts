@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { skillsApi } from "../api/skillsApi";
-import type { Category, Tool } from "../types/types";
+import type { Category, RawSkillItem, Tool } from "../types/types";
 
 export function useSkills() {
   const query = useQuery({
@@ -65,6 +65,36 @@ export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTot
   };
 
   return { tools, hasMore, loading, loadMore };
+}
+
+function toTool(item: RawSkillItem): Tool {
+  return {
+    id: item.id,
+    name: item.name,
+    icon: item.name.toLowerCase().replace(/\s+/g, "-"),
+    note: "",
+    frequency: "",
+    proficiency: item.proficiency ?? 0,
+  };
+}
+
+export function useActiveCategoryItems(groupId: string | undefined) {
+  const query = useInfiniteQuery({
+    queryKey: ["skills", "category-items", groupId],
+    queryFn: ({ pageParam }) => skillsApi.listGroupItemsPaged(groupId as string, pageParam, 10),
+    initialPageParam: undefined as string | undefined,
+    getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
+    enabled: !!groupId,
+    staleTime: 5 * 60 * 1000,
+    gcTime: 30 * 60 * 1000,
+  });
+
+  const tools = useMemo(
+    () => (query.data?.pages ?? []).flatMap((page) => page.data.map(toTool)),
+    [query.data],
+  );
+
+  return { ...query, tools };
 }
 
 export function useLearning() {
