@@ -3,10 +3,10 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { skillsApi } from "../api/skillsApi";
 import type { Category, RawSkillItem, Tool } from "../types/types";
 
-export function useSkills() {
+export function useSkills(limit = 10, category?: string) {
   const query = useQuery({
-    queryKey: ["skills"],
-    queryFn: skillsApi.listGroups,
+    queryKey: ["skills", limit, category ?? "all"],
+    queryFn: () => skillsApi.listGroups(limit, category),
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
@@ -36,7 +36,7 @@ export function useSkills() {
   return { ...query, categories, pinned };
 }
 
-export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTotal: number) {
+export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTotal: number, category?: string) {
   const [extra, setExtra] = useState<Tool[]>([]);
   const [cursor, setCursor] = useState<string | undefined>(initialTools.at(-1)?.id);
   const [loading, setLoading] = useState(false);
@@ -48,7 +48,7 @@ export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTot
     if (!cursor || loading) return;
     setLoading(true);
     try {
-      const page = await skillsApi.listGroupItemsPaged(groupId, cursor);
+      const page = await skillsApi.listGroupItemsPaged(groupId, cursor, 10, category);
       const mapped: Tool[] = page.data.map((item) => ({
         id: item.id,
         name: item.name,
@@ -78,10 +78,10 @@ function toTool(item: RawSkillItem): Tool {
   };
 }
 
-export function useActiveCategoryItems(groupId: string | undefined) {
+export function useActiveCategoryItems(groupId: string | undefined, category?: string) {
   const query = useInfiniteQuery({
-    queryKey: ["skills", "category-items", groupId],
-    queryFn: ({ pageParam }) => skillsApi.listGroupItemsPaged(groupId as string, pageParam, 10),
+    queryKey: ["skills", "category-items", groupId, category ?? "all"],
+    queryFn: ({ pageParam }) => skillsApi.listGroupItemsPaged(groupId as string, pageParam, 10, category),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled: !!groupId,
