@@ -29,6 +29,8 @@ export function TestimonialsPage() {
   const leadRef = useRef<HTMLParagraphElement>(null);
   const statsRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const clientRef = useRef<HTMLDivElement>(null);
+  const otherRef = useRef<HTMLDivElement>(null);
   const {
     stats,
     testimonials,
@@ -47,7 +49,8 @@ export function TestimonialsPage() {
     { key: "VOICES", value: String(total) },
     { key: "CLIENTS", value: clientsRepresented },
   ];
-  const feedbackLabel = `ALL FEEDBACK - ${pluralize(total, "VOICE", "VOICES")}`;
+  const clients = testimonials.filter((t) => (t.type || "client").toLowerCase() === "client");
+  const others = testimonials.filter((t) => (t.type || "client").toLowerCase() !== "client");
 
   useGSAP(
     () => {
@@ -106,26 +109,39 @@ export function TestimonialsPage() {
   useGSAP(
     () => {
       registerGsap();
-      const container = cardsRef.current;
+      const container = clientRef.current;
       if (!container || !container.children.length) return;
-
       const mm = gsap.matchMedia();
-
-      mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set(container.children, { opacity: 1, y: 0 });
-      });
-
+      mm.add(REDUCED_MOTION_QUERY, () => gsap.set(container.children, { opacity: 1, y: 0 }));
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
         gsap.fromTo(container.children, { opacity: 0, y: 24 }, {
           opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.1,
           scrollTrigger: { trigger: container, start: "top 75%", once: true },
         });
       });
-
       const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
       return () => { window.clearTimeout(t); mm.revert(); };
     },
-    { scope: contentRef, dependencies: [testimonials] },
+    { scope: contentRef, dependencies: [clients] },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = otherRef.current;
+      if (!container || !container.children.length) return;
+      const mm = gsap.matchMedia();
+      mm.add(REDUCED_MOTION_QUERY, () => gsap.set(container.children, { opacity: 1, y: 0 }));
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container.children, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.6, ease: ease.entrance, stagger: 0.1,
+          scrollTrigger: { trigger: container, start: "top 75%", once: true },
+        });
+      });
+      const t = window.setTimeout(() => ScrollTrigger.refresh(), 100);
+      return () => { window.clearTimeout(t); mm.revert(); };
+    },
+    { scope: contentRef, dependencies: [others] },
   );
 
   return (
@@ -168,12 +184,6 @@ export function TestimonialsPage() {
           )}
         </div>
 
-        <div className="border-t border-border-glow-soft pt-8">
-          <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            {feedbackLabel}
-          </span>
-        </div>
-
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
             <Skeleton className="h-[220px] w-full" />
@@ -181,21 +191,47 @@ export function TestimonialsPage() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
+        ) : testimonials.length === 0 ? (
+          <p className="font-body text-[15px] text-text-muted">No feedback yet.</p>
         ) : (
           <>
-            <div
-              id="testimonials-grid"
-              ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
-            >
-              {testimonials.map((testimonial) => (
-                <QuoteCard
-                  key={testimonial.name}
-                  testimonial={testimonial}
-                  onClick={() => setSelected(testimonial)}
-                />
-              ))}
-            </div>
+            {clients.length > 0 && (
+              <>
+                <div className="border-t border-border-glow-soft pt-8">
+                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                    CLIENTS — {pluralize(clients.length, "VOICE", "VOICES")}
+                  </span>
+                </div>
+                <div ref={clientRef} id="testimonials-clients" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  {clients.map((testimonial) => (
+                    <QuoteCard
+                      key={`c-${testimonial.name}`}
+                      testimonial={testimonial}
+                      onClick={() => setSelected(testimonial)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+
+            {others.length > 0 && (
+              <>
+                <div className={`border-t border-border-glow-soft pt-8 ${clients.length > 0 ? "mt-4" : ""}`}>
+                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                    COLLEAGUES & PEERS — {pluralize(others.length, "VOICE", "VOICES")}
+                  </span>
+                </div>
+                <div ref={otherRef} id="testimonials-others" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                  {others.map((testimonial) => (
+                    <QuoteCard
+                      key={`o-${testimonial.name}`}
+                      testimonial={testimonial}
+                      onClick={() => setSelected(testimonial)}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
 
             {hasNextPage && (
               <LoadMoreButton
