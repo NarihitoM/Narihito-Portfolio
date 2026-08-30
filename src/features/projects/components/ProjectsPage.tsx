@@ -18,7 +18,6 @@ import { useProjectsInfinite } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
 import { FeaturedBlock } from "./FeaturedBlock";
 import { ProjectCardBlock } from "./ProjectCardBlock";
-import { ProjectCardSkeleton } from "./ProjectCardSkeleton";
 import { ProjectDialog } from "./ProjectDialog";
 import type { ProjectCard } from "../types/types";
 
