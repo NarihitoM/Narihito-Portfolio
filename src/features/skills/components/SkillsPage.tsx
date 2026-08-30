@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -15,9 +15,9 @@ import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
-import { useSkills, useLearning } from "../hooks/useSkills";
+import { useSkills, useLearning, useActiveCategoryItems } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
-import { CategorySection } from "./CategorySection";
+import { CategorySection, CategorySectionActive } from "./CategorySection";
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -36,6 +36,16 @@ export function SkillsPage() {
     fetchNextPage: loadMoreLearning,
   } = useLearning();
   const { activeCategory, setActiveCategory } = useSkillsUI();
+  const activeGroup = activeCategory === "All" ? null : allCategories.find((c) => c.eyebrow === activeCategory) ?? null;
+  const {
+    tools: activeTools,
+    hasNextPage: hasMoreActive,
+    isFetchingNextPage: loadingMoreActive,
+    fetchNextPage: loadMoreActive,
+    isLoading: activeLoading,
+    isError: activeError,
+    refetch: refetchActive,
+  } = useActiveCategoryItems(activeGroup?.id);
   const toolCount = allCategories.reduce((total, category) => total + category.tools.length, 0);
   const primaryStack =
     pinned.length > 0
@@ -47,11 +57,6 @@ export function SkillsPage() {
     { key: "TOOLS LISTED", value: String(toolCount) },
     { key: "PRIMARY", value: primaryStack.toUpperCase() },
   ];
-
-  const CATEGORIES = useMemo(
-    () => (activeCategory === "All" ? allCategories : allCategories.filter((c) => c.eyebrow === activeCategory)),
-    [allCategories, activeCategory],
-  );
 
   useGSAP(
     () => {
@@ -117,7 +122,7 @@ export function SkillsPage() {
         mm.revert();
       };
     },
-    { scope: categoriesRef, dependencies: [CATEGORIES] },
+    { scope: categoriesRef, dependencies: [activeCategory === "All" ? allCategories : activeTools] },
   );
 
   useGSAP(
@@ -202,13 +207,29 @@ export function SkillsPage() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
-        ) : (
+        ) : activeCategory === "All" ? (
           <div ref={categoriesRef} className="flex flex-col gap-20">
-            {CATEGORIES.map((cat) => (
+            {allCategories.map((cat) => (
               <CategorySection key={cat.id} category={cat} />
             ))}
           </div>
-        )}
+        ) : activeLoading ? (
+          <div className="flex flex-col gap-4">
+            <Skeleton className="h-[200px] w-full" />
+          </div>
+        ) : activeError ? (
+          <ErrorState onRetry={refetchActive} />
+        ) : activeGroup ? (
+          <div ref={categoriesRef} className="flex flex-col gap-20">
+            <CategorySectionActive
+              category={activeGroup}
+              tools={activeTools}
+              hasMore={hasMoreActive}
+              loading={loadingMoreActive}
+              onLoadMore={loadMoreActive}
+            />
+          </div>
+        ) : null}
 
         {learningLoading ? (
           <Skeleton className="h-[140px] w-full" />
