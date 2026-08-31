@@ -100,7 +100,7 @@ export function useActiveCategoryItems(groupId: string | undefined, category?: s
 export function useLearning() {
   const query = useInfiniteQuery({
     queryKey: ["learning", "paged"],
-    queryFn: ({ pageParam, signal }) => skillsApi.listLearningPaged(pageParam, signal),
+    queryFn: ({ pageParam }) => skillsApi.listLearningPaged(pageParam),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,

@@ -4,19 +4,21 @@ import type { ChatFeedbackType, ChatMessage, NavDirective } from "../types/types
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 export const chatbotApi = {
-  async sendFeedback(messageId: string, message: string, type: ChatFeedbackType, userMessage?: string) {
-    await api.post("/public/chat-feedback", { messageId, message, type, userMessage });
+  async sendFeedback(messageId: string, message: string, type: ChatFeedbackType, userMessage?: string, signal?: AbortSignal) {
+    await api.post("/public/chat-feedback", { messageId, message, type, userMessage }, { signal });
   },
 
   async stream(
     message: string,
     history: ChatMessage[],
     onChunk: (text: string) => void,
+    signal?: AbortSignal,
   ): Promise<{ nav: NavDirective | null; suggestions: string[] }> {
     const res = await fetch(`${BASE_URL}/chatbot`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ message, history }),
+      signal: signal ?? AbortSignal.timeout(15000),
     });
 
     if (!res.ok || !res.body) {
@@ -55,11 +57,11 @@ export const chatbotApi = {
     return { nav, suggestions };
   },
 
-  async transcribe(blob: Blob): Promise<string> {
+  async transcribe(blob: Blob, signal?: AbortSignal): Promise<string> {
     const form = new FormData();
     form.append("audio", blob, "audio.webm");
 
-    const res = await fetch(`${BASE_URL}/chatbot/transcribe`, { method: "POST", body: form });
+    const res = await fetch(`${BASE_URL}/chatbot/transcribe`, { method: "POST", body: form, signal: signal ?? AbortSignal.timeout(15000) });
     if (!res.ok) throw new Error("Transcription failed");
 
     const data = (await res.json()) as { text: string };
