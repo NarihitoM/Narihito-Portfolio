@@ -6,7 +6,7 @@ import type { Category, RawSkillItem, Tool } from "../types/types";
 export function useSkills(limit = 10, category?: string) {
   const query = useQuery({
     queryKey: ["skills", limit, category ?? "all"],
-    queryFn: () => skillsApi.listGroups(limit, category),
+    queryFn: ({ signal }) => skillsApi.listGroups(limit, category, signal),
     staleTime: 5 * 60 * 1000,
     gcTime: 30 * 60 * 1000,
   });
@@ -81,7 +81,7 @@ function toTool(item: RawSkillItem): Tool {
 export function useActiveCategoryItems(groupId: string | undefined, category?: string) {
   const query = useInfiniteQuery({
     queryKey: ["skills", "category-items", groupId, category ?? "all"],
-    queryFn: ({ pageParam }) => skillsApi.listGroupItemsPaged(groupId as string, pageParam, 10, category),
+    queryFn: ({ pageParam, signal }) => skillsApi.listGroupItemsPaged(groupId as string, pageParam, 10, category, signal),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     enabled: !!groupId,
@@ -100,7 +100,7 @@ export function useActiveCategoryItems(groupId: string | undefined, category?: s
 export function useLearning() {
   const query = useInfiniteQuery({
     queryKey: ["learning", "paged"],
-    queryFn: ({ pageParam }) => skillsApi.listLearningPaged(pageParam),
+    queryFn: ({ pageParam, signal }) => skillsApi.listLearningPaged(pageParam, signal),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,

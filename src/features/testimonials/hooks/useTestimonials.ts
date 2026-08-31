@@ -6,7 +6,7 @@ import type { Stat } from "../types/types";
 export function useTestimonialsInfinite(type?: string) {
   const query = useInfiniteQuery({
     queryKey: ["testimonials", "infinite", type ?? "all"],
-    queryFn: ({ pageParam }) => testimonialsApi.listCursor(pageParam, 6, type),
+    queryFn: ({ pageParam, signal }) => testimonialsApi.listCursor(pageParam, 6, type, signal),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     staleTime: 5 * 60 * 1000,

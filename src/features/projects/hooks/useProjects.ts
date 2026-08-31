@@ -22,7 +22,7 @@ function toCard(p: RawProject): ProjectCard {
 export function useProjectsInfinite(category: string) {
   const query = useInfiniteQuery({
     queryKey: ["projects", "infinite", category],
-    queryFn: ({ pageParam }) => projectsApi.listCursor({ cursor: pageParam, category }),
+    queryFn: ({ pageParam, signal }) => projectsApi.listCursor({ cursor: pageParam, category, signal }),
     initialPageParam: undefined as string | undefined,
     getNextPageParam: (lastPage) => lastPage.nextCursor ?? undefined,
     placeholderData: keepPreviousData,
