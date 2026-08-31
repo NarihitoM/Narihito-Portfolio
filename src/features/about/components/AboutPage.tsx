@@ -219,7 +219,7 @@ export function AboutPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
-          I&apos;m Narihito, a full-stack and agentic AI developer based in Yangon. I obsess
+          I&apos;m Hein Htet Aung, aka Narihito, a full-stack and agentic AI developer based in Yangon. I obsess
           over the parts users never see: fast queries, sensible state, and interfaces that
           stay clear even when the data underneath gets messy.
         </p>
