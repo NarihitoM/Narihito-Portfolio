@@ -389,8 +389,7 @@ export function AboutPage() {
           className="border-l-2 border-violet pl-6 md:pl-10 py-2 flex flex-col gap-3"
         >
           <p className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
-            &ldquo;Good code disappears. Good design does too. The best work is the
-            kind no one thanks you for, because they never noticed it was hard.&rdquo;
+            &ldquo;The best opportunity you can get is in your hands&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">
             A rule I try to build by.
