@@ -64,19 +64,7 @@ export function CategorySectionActive({
 }
 
 function ToolRowSkeleton() {
-  return (
-    <div className="flex flex-col gap-3 border-t border-border-glow-soft py-4 md:flex-row md:items-center md:gap-7">
-      <div className="flex items-center gap-3 md:w-[290px] md:shrink-0">
-        <Skeleton className="h-7 w-7 shrink-0 rounded-[4px]" />
-        <Skeleton className="h-[18px] w-32" />
-      </div>
-      <Skeleton className="h-[15px] w-full md:flex-1" />
-      <div className="flex items-center justify-between gap-4 md:contents">
-        <Skeleton className="h-[11px] w-[70px] md:w-[110px]" />
-        <Skeleton className="h-2 w-[110px] rounded-full" />
-      </div>
-    </div>
-  );
+  return <Skeleton className="h-[52px] w-full rounded-[6px]" />;
 }
 
 export function CategorySectionSkeleton({ rows = 4 }: { rows?: number }) {
