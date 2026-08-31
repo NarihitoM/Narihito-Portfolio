@@ -7,6 +7,10 @@ export function setLenisInstance(lenis: Lenis | null) {
   instance = lenis;
 }
 
+export function getLenisInstance() {
+  return instance;
+}
+
 export function scrollToTarget(target: string | number, offset = 0) {
   const reduced = typeof window !== "undefined" && window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
