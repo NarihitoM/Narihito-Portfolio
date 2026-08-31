@@ -23,10 +23,11 @@ export function useLenis() {
       lenis.raf(time * 1000);
     };
     gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+    gsap.ticker.lagSmoothing(500, 33);
 
     let lastHeight = document.body.scrollHeight;
     let pending = 0;
+    let refreshPending = 0;
 
     const syncScrollHeight = () => {
       if (pending) return;
@@ -36,7 +37,11 @@ export function useLenis() {
         if (height === lastHeight) return;
         lastHeight = height;
         lenis.resize();
-        ScrollTrigger.refresh();
+        if (refreshPending) return;
+        refreshPending = window.setTimeout(() => {
+          refreshPending = 0;
+          ScrollTrigger.refresh();
+        }, 150);
       });
     };
 
@@ -45,6 +50,7 @@ export function useLenis() {
 
     return () => {
       if (pending) cancelAnimationFrame(pending);
+      if (refreshPending) clearTimeout(refreshPending);
       observer.disconnect();
       gsap.ticker.remove(tick);
       setLenisInstance(null);

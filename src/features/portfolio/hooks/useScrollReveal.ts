@@ -9,7 +9,6 @@ import {
   stagger,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
-  ScrollTrigger,
 } from "@/shared/lib/gsap";
 
 type RevealOptions = {
@@ -51,11 +50,7 @@ export function useScrollReveal(
         });
       });
 
-      ScrollTrigger.refresh();
-      const refreshTimeout = window.setTimeout(() => ScrollTrigger.refresh(), 300);
-
       return () => {
-        window.clearTimeout(refreshTimeout);
         mm.revert();
       };
     },
