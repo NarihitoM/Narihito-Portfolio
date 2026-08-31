@@ -3,13 +3,14 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { Home } from "lucide-react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { getLenisInstance } from "@/shared/lib/lenis";
 import type { PageLayoutProps } from "@/shared/types/types";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
@@ -33,6 +34,14 @@ export function PageLayout({
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const lenis = getLenisInstance();
+    if (lenis) lenis.scrollTo(0, { immediate: true });
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  }, [pathname]);
 
   useGSAP(
     () => {
