@@ -140,9 +140,9 @@ export function GamesPage() {
             <Skeleton className="h-3 w-24" />
             <div className="flex flex-col gap-12">
               {Array.from({ length: 2 }, (_, i) => (
-                <div key={i} className="flex flex-col lg:flex-row gap-8 lg:gap-14">
-                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1" />
-                  <div className="flex-1 flex flex-col gap-6">
+                <div key={i} className="flex flex-col lg:flex-row gap-8 lg:gap-14 lg:items-stretch">
+                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1 shrink-0" />
+                  <div className="flex-1 flex flex-col gap-6 justify-center lg:min-h-[320px]">
                     <Skeleton className="h-8 w-48" />
                     <Skeleton className="h-20 w-full" />
                     <div className="flex gap-2.5">
