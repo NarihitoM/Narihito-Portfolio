@@ -26,7 +26,7 @@ export function Games() {
   if (!isLoading && !isError && games.length === 0) return null;
 
   return (
-    <section data-snap id="games" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
+    <section id="games" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>06 - GAMES</SectionEyebrow>

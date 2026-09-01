@@ -11,26 +11,23 @@ import { Games } from "@/features/portfolio/components/Games";
 import { Contact } from "@/features/portfolio/components/Contact";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
-import { SnapScrollRoot } from "@/features/portfolio/components/SnapScrollRoot";
 
 export default function Home() {
   return (
     <SmoothScrollProvider>
-      <SnapScrollRoot>
-        <HeaderNav />
-        <main className="flex-1">
-          <Hero />
-          <About />
-          <NameMarquee />
-          <Skills />
-          <Experience />
-          <Projects />
-          <Events />
-          <Games />
-          <Testimonials />
-          <Contact />
-        </main>
-      </SnapScrollRoot>
+      <HeaderNav />
+      <main className="flex-1">
+        <Hero />
+        <About />
+        <NameMarquee />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Events />
+        <Games />
+        <Testimonials />
+        <Contact />
+      </main>
       <ScrollToTop />
     </SmoothScrollProvider>
   );
