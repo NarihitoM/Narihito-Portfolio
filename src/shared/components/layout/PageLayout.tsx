@@ -321,7 +321,7 @@ export function PageLayout({
         <div className="h-px w-full bg-border-glow-soft" />
       </div>
 
-      <div className="px-5 md:px-10 lg:px-[120px] pt-8 md:pt-20 pb-16 md:pb-24">
+      <div className="flex-1 px-5 md:px-10 lg:px-[120px] pt-8 md:pt-20 pb-16 md:pb-24">
         {children}
       </div>
 
