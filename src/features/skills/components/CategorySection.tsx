@@ -72,9 +72,8 @@ export function CategorySectionSkeleton({ rows = 4 }: { rows?: number }) {
     <div className="flex flex-col gap-[18px]">
       <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
         <Skeleton className="h-[13px] w-32" />
-        <span className="ml-auto shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">
-          PROFICIENCY
-        </span>
+        <Skeleton className="h-[13px] w-48 hidden md:block" />
+        <Skeleton className="ml-auto h-[10px] w-20 shrink-0" />
       </div>
       {Array.from({ length: rows }).map((_, i) => (
         <ToolRowSkeleton key={i} />
