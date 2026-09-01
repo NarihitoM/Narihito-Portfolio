@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "./DialogCloseButton";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import {
   ease,
   gsap,
@@ -14,6 +15,7 @@ import {
 export function ImageLightbox({ src, alt, onClose }: { src: string; alt: string; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  useLenisLock(true);
 
   useGSAP(
     () => {
