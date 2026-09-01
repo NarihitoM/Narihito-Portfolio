@@ -101,13 +101,13 @@ export function Contact() {
         <div className="w-full max-w-[600px]">
           {submitted ? (
             <div className="flex flex-col items-center gap-4 py-12">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-violet/10">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-violet">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500/15">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-green-600">
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
               </div>
-              <p className="font-body text-[16px] text-text-primary">Message sent.</p>
-              <p className="font-body text-[14px] text-text-muted">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
+              <p className="font-body text-[16px] text-text-primary text-center">Message sent.</p>
+              <p className="font-body text-[14px] text-text-muted text-center">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
               <button
                 type="button"
                 onClick={() => setSubmitted(false)}
@@ -154,7 +154,14 @@ export function Contact() {
                 />
               </div>
               {sendMut.isError && (
-                <p className="font-body text-[13px] text-danger">Failed to send message. Please try again.</p>
+                <div className="flex items-center gap-2 font-body text-[13px] text-red-600">
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/15">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M6 6l12 12M18 6L6 18" />
+                    </svg>
+                  </span>
+                  Failed to send message. Please try again.
+                </div>
               )}
               <Button type="submit" disabled={sendMut.isPending} className="self-start mt-1">
                 {sendMut.isPending ? "Sending..." : "Send"}
