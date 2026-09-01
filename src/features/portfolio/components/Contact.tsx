@@ -108,13 +108,9 @@ export function Contact() {
               </div>
               <p className="font-body text-[16px] text-text-primary text-center">Message sent.</p>
               <p className="font-body text-[14px] text-text-muted text-center">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
-              <button
-                type="button"
-                onClick={() => setSubmitted(false)}
-                className="mt-2 font-mono text-[12px] tracking-[1px] text-text-muted hover:text-text-primary transition-[color,transform] active:scale-95"
-              >
+              <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-2">
                 Send Another
-              </button>
+              </Button>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-4 text-left">
