@@ -121,7 +121,7 @@ export function Skills() {
   useScrollReveal(sectionRef, { selector: "[data-skill-card]", staggerAmount: 0.04, y: 16, dependencies: [SKILLS, isLoading] });
 
   return (
-    <section id="skills" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
+    <section data-snap id="skills" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>02 - STACK</SectionEyebrow>
