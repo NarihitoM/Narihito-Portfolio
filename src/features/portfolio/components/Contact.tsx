@@ -108,7 +108,7 @@ export function Contact() {
               </div>
               <p className="font-body text-[16px] text-text-primary text-center">Message sent.</p>
               <p className="font-body text-[14px] text-text-muted text-center">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
-              <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-2">
+              <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-2 !rounded-full !px-5 !py-2.5 !text-[13px]">
                 Send Another
               </Button>
             </div>
