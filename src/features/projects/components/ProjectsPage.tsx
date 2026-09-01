@@ -227,12 +227,35 @@ export function ProjectsPage() {
         )}
 
         {isLoading || isSwitchingTab ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
-          </div>
+          <>
+            {(isLoading || filter === "All") && (
+              <div className="flex flex-col gap-8 border-t border-border-glow pt-9">
+                <Skeleton className="h-3 w-24" />
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
+                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1" />
+                  <div className="flex-1 flex flex-col gap-6">
+                    <Skeleton className="h-8 w-48" />
+                    <Skeleton className="h-20 w-full" />
+                    <div className="flex gap-2.5">
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-16 rounded-full" />
+                      <Skeleton className="h-6 w-20 rounded-full" />
+                    </div>
+                    <div className="flex flex-col gap-2 pt-4 border-t border-border-glow-soft">
+                      <Skeleton className="h-4 w-40" />
+                      <Skeleton className="h-4 w-52" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+              <Skeleton className="h-[280px] w-full" />
+              <Skeleton className="h-[280px] w-full" />
+              <Skeleton className="h-[280px] w-full" />
+              <Skeleton className="h-[280px] w-full" />
+            </div>
+          </>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
