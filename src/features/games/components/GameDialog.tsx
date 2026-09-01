@@ -6,6 +6,7 @@ import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import { Chip } from "@/shared/components/ui/Chip";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import {
   ease,
   gsap,
@@ -19,6 +20,7 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  useLenisLock(true);
 
   useGSAP(
     () => {

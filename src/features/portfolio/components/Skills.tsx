@@ -11,6 +11,7 @@ import { useSkills } from "@/features/skills/hooks/useSkills";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import {
   ease,
   gsap,
@@ -24,6 +25,7 @@ function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void 
   const [progress, setProgress] = useState(0);
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  useLenisLock(true);
 
   useEffect(() => {
     const timer = setTimeout(() => setProgress(tool.proficiency), 100);

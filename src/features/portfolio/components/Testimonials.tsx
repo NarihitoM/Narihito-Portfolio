@@ -115,8 +115,20 @@ export function Testimonials() {
 
       let isHovered = false;
       let isDragging = false;
+      let isVisible = true;
       let resumeTimeout: ReturnType<typeof setTimeout> | null = null;
       const speed = 1.35;
+
+      const sectionEl = sectionRef.current;
+      const visObserver = sectionEl
+        ? new IntersectionObserver(
+            ([entry]) => {
+              isVisible = entry.isIntersecting;
+            },
+            { threshold: 0.05 },
+          )
+        : null;
+      if (sectionEl && visObserver) visObserver.observe(sectionEl);
 
       const wrapX = (x: number) => {
         let w = x % singleWidth;
@@ -125,7 +137,7 @@ export function Testimonials() {
       };
 
       const ticker = () => {
-        if (isHovered || isDragging) return;
+        if (!isVisible || isHovered || isDragging) return;
         let x = gsap.getProperty(track, "x") as number;
         x -= speed;
         if (x <= -singleWidth) x += singleWidth;
@@ -263,6 +275,7 @@ export function Testimonials() {
         clearTimeout(resizeTimer);
         gsap.ticker.remove(ticker);
         draggable?.kill();
+        visObserver?.disconnect();
       };
     },
     { scope: sectionRef, dependencies: [TESTIMONIALS, loopItems.length] },

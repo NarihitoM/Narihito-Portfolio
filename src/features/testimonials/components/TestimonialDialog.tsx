@@ -12,12 +12,14 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import type { Testimonial } from "../types/types";
 
 export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testimonial; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  useLenisLock(true);
   const socialLinks =
     testimonial.socials?.length
       ? testimonial.socials

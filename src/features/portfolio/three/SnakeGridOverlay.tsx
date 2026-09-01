@@ -141,6 +141,23 @@ export function SnakeGridOverlay() {
 
     let raf = 0;
     let last = performance.now();
+    let isVisible = true;
+    const visObserver = new IntersectionObserver(
+      ([entry]) => {
+        const next = entry.isIntersecting;
+        if (next === isVisible) return;
+        isVisible = next;
+        if (isVisible && !raf) {
+          last = performance.now();
+          raf = requestAnimationFrame(frame);
+        } else if (!isVisible && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.05 },
+    );
+    visObserver.observe(parent);
 
     function drawTrail(runner: Runner) {
       const trail = runner.trail;
@@ -212,6 +229,10 @@ export function SnakeGridOverlay() {
     }
 
     function frame(now: number) {
+      if (!isVisible) {
+        raf = 0;
+        return;
+      }
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
@@ -241,11 +262,12 @@ export function SnakeGridOverlay() {
       raf = requestAnimationFrame(frame);
     }
 
-    raf = requestAnimationFrame(frame);
+    if (isVisible) raf = requestAnimationFrame(frame);
 
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
+      visObserver.disconnect();
     };
   }, [theme]);
 

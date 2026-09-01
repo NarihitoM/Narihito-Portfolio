@@ -11,12 +11,14 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import type { Event } from "../types/types";
 
 export function EventDialog({ event, onClose }: { event: Event; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  useLenisLock(true);
 
   useGSAP(
     () => {

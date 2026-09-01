@@ -14,12 +14,14 @@ import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { ExternalLink } from "lucide-react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import type { ProjectCard } from "../types/types";
 
 export function ProjectDialog({ project, onClose }: { project: ProjectCard; onClose: () => void }) {
   const overlayRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const [zoomed, setZoomed] = useState(false);
+  useLenisLock(true);
 
   useGSAP(
     () => {
