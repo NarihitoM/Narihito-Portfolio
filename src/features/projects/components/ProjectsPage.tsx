@@ -232,8 +232,8 @@ export function ProjectsPage() {
               <div className="flex flex-col gap-8 border-t border-border-glow pt-9">
                 <Skeleton className="h-3 w-24" />
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 lg:items-stretch">
-                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1 shrink-0" />
-                  <div className="flex-1 flex flex-col gap-6 justify-center min-h-[240px] lg:min-h-[320px]">
+                  <Skeleton className="h-[320px] lg:h-[380px] w-full flex-1 shrink-0 rounded-[6px]" />
+                  <div className="flex-1 flex flex-col gap-6 justify-center min-h-[320px] lg:min-h-[380px]">
                     <Skeleton className="h-8 w-48" />
                     <Skeleton className="h-20 w-full" />
                     <div className="flex gap-2.5">
@@ -250,10 +250,10 @@ export function ProjectsPage() {
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-              <Skeleton className="h-[280px] w-full" />
-              <Skeleton className="h-[280px] w-full" />
-              <Skeleton className="h-[280px] w-full" />
-              <Skeleton className="h-[280px] w-full" />
+              <Skeleton className="h-[380px] w-full rounded-[6px]" />
+              <Skeleton className="h-[380px] w-full rounded-[6px]" />
+              <Skeleton className="h-[380px] w-full rounded-[6px]" />
+              <Skeleton className="h-[380px] w-full rounded-[6px]" />
             </div>
           </>
         ) : isError ? (
