@@ -3,12 +3,13 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { SplitText } from "gsap/SplitText";
 import { Draggable } from "gsap/Draggable";
 import { InertiaPlugin } from "gsap/InertiaPlugin";
+import { Observer } from "gsap/Observer";
 
 let registered = false;
 
 export function registerGsap() {
   if (registered || typeof window === "undefined") return;
-  gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin);
+  gsap.registerPlugin(ScrollTrigger, SplitText, Draggable, InertiaPlugin, Observer);
 
   ScrollTrigger.defaults({
     start: "top 80%",
@@ -44,4 +45,4 @@ export const stagger = {
 export const REDUCED_MOTION_QUERY = "(prefers-reduced-motion: reduce)";
 export const NO_REDUCED_MOTION_QUERY = "(prefers-reduced-motion: no-preference)";
 
-export { gsap, ScrollTrigger, SplitText, Draggable, InertiaPlugin };
+export { gsap, ScrollTrigger, SplitText, Draggable, InertiaPlugin, Observer };

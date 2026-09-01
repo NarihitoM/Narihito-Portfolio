@@ -26,7 +26,7 @@ export function Events() {
   if (!isLoading && !isError && events.length === 0) return null;
 
   return (
-    <section id="events" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
+    <section data-snap id="events" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
         <div className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>05 - EVENTS</SectionEyebrow>

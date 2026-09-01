@@ -52,7 +52,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative flex flex-col justify-center w-full bg-bg-alt pt-[76px] min-h-[720px] lg:block lg:pt-0 lg:min-h-0 lg:h-[900px] overflow-hidden">
+    <section data-snap ref={sectionRef} className="relative flex flex-col justify-center w-full bg-bg-alt pt-[76px] min-h-[720px] lg:block lg:pt-0 lg:min-h-0 lg:h-[900px] overflow-hidden">
       <AuraBackground />
 
       <div className="pointer-events-none absolute inset-0">

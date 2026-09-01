@@ -88,7 +88,7 @@ export function Contact() {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="w-full bg-bg-alt py-16 md:pt-[160px] md:pb-16">
+    <section data-snap id="contact" ref={sectionRef} className="w-full bg-bg-alt py-16 md:pt-[160px] md:pb-16">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
         <SectionEyebrow>08 - CONTACT</SectionEyebrow>
 

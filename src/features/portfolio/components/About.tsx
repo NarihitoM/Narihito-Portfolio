@@ -49,7 +49,7 @@ export function About() {
   );
 
   return (
-    <section id="about" ref={sectionRef} className="w-full bg-bg py-14 md:py-16 lg:py-0 lg:h-[780px]">
+    <section data-snap id="about" ref={sectionRef} className="w-full bg-bg py-14 md:py-16 lg:py-0 lg:h-[780px]">
       <div className="mx-5 md:mx-10 lg:mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full lg:max-w-[1400px] lg:justify-center">
         <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
