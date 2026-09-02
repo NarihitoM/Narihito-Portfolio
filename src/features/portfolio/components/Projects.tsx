@@ -5,7 +5,7 @@ import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHe
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { Globe, Package } from "lucide-react";
+import { Globe } from "lucide-react";
 import { ProjectDialog } from "@/features/projects/components/ProjectDialog";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
@@ -96,7 +96,7 @@ function ProjectCard({ project }: { project: Project }) {
                 aria-label={`${project.title} package`}
                 className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
               >
-                <Package size={16} />
+                <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
               </a>
             )}
           </div>
