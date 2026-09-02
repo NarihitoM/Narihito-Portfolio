@@ -11,7 +11,7 @@ import {
 } from "@/shared/lib/gsap";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { ExternalLink, Package } from "lucide-react";
+import { ExternalLink } from "lucide-react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { useLenisLock } from "@/shared/hooks/useLenisLock";
@@ -155,8 +155,8 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
               rel="noopener noreferrer"
               className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
             >
-              <Package size={14} />
-              Package
+              <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
+              {project.pkg.includes("pypi.org") ? "PyPI" : "npm"}
             </a>
           )}
         </div>
