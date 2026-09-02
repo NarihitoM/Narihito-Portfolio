@@ -79,13 +79,15 @@ export function Experience() {
         </div>
 
         <div className="flex flex-row gap-6">
-          <div className="relative w-6 shrink-0">
-            <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
-            <div
-              ref={spineFillRef}
-              className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-violet"
-            />
-          </div>
+          {!isError && (
+            <div className="relative w-6 shrink-0">
+              <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
+              <div
+                ref={spineFillRef}
+                className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-violet"
+              />
+            </div>
+          )}
 
           <div className="flex flex-1 flex-col gap-10">
             {isLoading ? (
