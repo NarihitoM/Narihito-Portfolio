@@ -41,6 +41,7 @@ import {
   siNumpy,
   siOpencv,
   siNpm,
+  siMediapipe,
 } from "simple-icons";
 
 type IconRef = { path: string; title: string; viewBox?: string };
@@ -121,6 +122,8 @@ const ICONS: Record<string, IconRef> = {
   opencv: siOpencv,
   "open cv": siOpencv,
   "open-cv": siOpencv,
+  mediapipe: siMediapipe,
+  "media pipe": siMediapipe,
   npm: siNpm,
   pypi: siPython,
   pip: siPython,
