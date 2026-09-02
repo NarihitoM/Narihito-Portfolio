@@ -229,7 +229,7 @@ export function ProjectsPage() {
         {isLoading || isSwitchingTab ? (
           <>
             {(isLoading || filter === "All") && (
-              <div className="flex flex-col gap-8 border-t border-border-glow pt-9">
+              <div className="flex flex-col gap-8 border-y border-border-glow py-9">
                 <Skeleton className="h-3 w-24" />
                 <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 lg:items-stretch">
                   <Skeleton className="h-[320px] lg:h-[380px] w-full flex-1 shrink-0 rounded-[6px]" />
@@ -261,10 +261,13 @@ export function ProjectsPage() {
         ) : (
           <>
             {filter === "All" && FEATURED.length > 0 && (
-              <div ref={featuredRef} className="flex flex-col gap-12">
-                {FEATURED.map((project) => (
-                  <FeaturedBlock key={project.title} project={project} />
-                ))}
+              <div ref={featuredRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
+                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">FEATURED</span>
+                <div className="flex flex-col gap-12">
+                  {FEATURED.map((project) => (
+                    <FeaturedBlock key={project.title} project={project} hideEyebrow />
+                  ))}
+                </div>
               </div>
             )}
 

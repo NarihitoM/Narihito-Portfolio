@@ -3,12 +3,14 @@ import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { ExternalLink } from "lucide-react";
 import type { FeaturedProject } from "../types/types";
 
-export function FeaturedBlock({ project }: { project: FeaturedProject }) {
+export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProject; hideEyebrow?: boolean }) {
   return (
-    <div data-featured className="flex flex-col gap-8 border-t border-border-glow pt-9">
-      <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-        {project.eyebrow}
-      </span>
+    <div data-featured className={hideEyebrow ? "flex flex-col gap-8" : "flex flex-col gap-8 border-t border-border-glow pt-9"}>
+      {!hideEyebrow && (
+        <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+          {project.eyebrow}
+        </span>
+      )}
 
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
         <div className="flex-1 flex flex-col gap-6">
