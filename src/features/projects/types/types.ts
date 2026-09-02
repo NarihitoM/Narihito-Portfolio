@@ -8,6 +8,7 @@ export interface ProjectCard {
   description: string;
   url: string;
   github: string;
+  pkg: string;
   featured: boolean;
   chips: string[];
 }
@@ -19,6 +20,7 @@ export interface FeaturedProject {
   description: string;
   url: string;
   github: string;
+  pkg: string;
   chips: string[];
   meta: {
     year: string;
@@ -51,6 +53,7 @@ export interface RawProject {
   description: string;
   url: string;
   github: string;
+  pkg: string;
   featured: boolean;
   chips: { name: string }[];
 }

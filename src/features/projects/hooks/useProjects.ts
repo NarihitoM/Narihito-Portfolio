@@ -14,6 +14,7 @@ function toCard(p: RawProject): ProjectCard {
     description: p.description,
     url: p.url,
     github: p.github,
+    pkg: p.pkg,
     featured: p.featured,
     chips: p.chips.map((c) => c.name),
   };
@@ -45,6 +46,7 @@ export function useProjectsInfinite(category: string) {
       description: p.description,
       url: p.url,
       github: p.github,
+      pkg: p.pkg,
       chips: p.chips.map((c) => c.name),
       meta: {
         year: p.year,

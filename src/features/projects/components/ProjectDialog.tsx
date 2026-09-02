@@ -148,6 +148,17 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
               Live Demo
             </a>
           )}
+          {project.pkg && (
+            <a
+              href={project.pkg}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
+            >
+              <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
+              {project.pkg.includes("pypi.org") ? "PyPI" : "npm"}
+            </a>
+          )}
         </div>
       </div>
     </div>

@@ -87,6 +87,18 @@ function ProjectCard({ project }: { project: Project }) {
                 <Globe size={16} />
               </a>
             )}
+            {project.pkg && (
+              <a
+                href={project.pkg}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                aria-label={`${project.title} package`}
+                className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
+              >
+                <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
+              </a>
+            )}
           </div>
         </div>
       </div>
@@ -115,6 +127,7 @@ export function Projects() {
     description: p.description,
     url: p.url,
     github: p.github,
+    pkg: p.pkg,
     tags: p.chips,
   }));
   useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS, isLoading] });
