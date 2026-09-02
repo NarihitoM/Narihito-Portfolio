@@ -21,6 +21,7 @@ export function useProjectsPreview(limit: number) {
       description: p.description,
       url: p.url,
       github: p.github,
+      pkg: p.pkg,
       featured: p.featured,
       chips: p.chips.map((c) => c.name),
     }))
