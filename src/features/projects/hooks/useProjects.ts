@@ -40,7 +40,7 @@ export function useProjectsInfinite(category: string) {
     const featuredRaw: RawProject[] = Array.isArray(rawFeatured) ? rawFeatured : rawFeatured ? [rawFeatured] : [];
     const featured: FeaturedProject[] = featuredRaw.map((p) => ({
       projectimg: p.projectimg,
-      eyebrow: `FEATURED — ${p.year}`,
+      eyebrow: `FEATURED`,
       title: p.title,
       description: p.description,
       url: p.url,
