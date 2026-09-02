@@ -1,6 +1,6 @@
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Package } from "lucide-react";
 import type { FeaturedProject } from "../types/types";
 
 export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProject; hideEyebrow?: boolean }) {
@@ -89,8 +89,8 @@ export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProje
                 rel="noopener noreferrer"
                 className="flex h-10 items-center gap-2 rounded border border-border-glow-soft px-4 font-mono text-[12px] text-text-secondary transition-colors hover:border-violet hover:text-violet"
               >
-                <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
-                {project.pkg.includes("pypi.org") ? "PyPI" : "npm"}
+                <Package size={14} />
+                Package
               </a>
             )}
           </div>

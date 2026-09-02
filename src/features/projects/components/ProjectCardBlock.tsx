@@ -1,6 +1,6 @@
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
-import { Globe } from "lucide-react";
+import { Globe, Package } from "lucide-react";
 import { useTilt } from "@/shared/hooks/useTilt";
 import type { ProjectCard } from "../types/types";
 
@@ -96,7 +96,7 @@ export function ProjectCardBlock({ project, onView }: { project: ProjectCard; on
               aria-label={`${project.title} package`}
               className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
             >
-              <TechIcon name={project.pkg.includes("pypi.org") ? "pypi" : "npm"} className="h-4 w-4" />
+              <Package size={16} />
             </a>
           )}
         </div>
