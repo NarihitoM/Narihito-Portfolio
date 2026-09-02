@@ -37,7 +37,7 @@ export interface CursorProjectsResponse {
   data: RawProject[];
   nextCursor: string | null;
   total: number;
-  featured: RawProject | null;
+  featured: RawProject[];
   categories: { label: string; count: number }[];
 }
 

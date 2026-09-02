@@ -36,24 +36,23 @@ export function useProjectsInfinite(category: string) {
     const firstPage = data?.pages[0];
     const projects: ProjectCard[] = (data?.pages ?? []).flatMap((page) => page.data.map(toCard));
 
-    const featuredRaw = firstPage?.featured ?? null;
-    const featured: FeaturedProject | null = featuredRaw
-      ? {
-          projectimg: featuredRaw.projectimg,
-          eyebrow: `FEATURED — ${featuredRaw.year}`,
-          title: featuredRaw.title,
-          description: featuredRaw.description,
-          url: featuredRaw.url,
-          github: featuredRaw.github,
-          chips: featuredRaw.chips.map((c) => c.name),
-          meta: {
-            year: featuredRaw.year,
-            role: featuredRaw.role,
-            stack: featuredRaw.category,
-            status: featuredRaw.status,
-          },
-        }
-      : null;
+    const rawFeatured = firstPage?.featured;
+    const featuredRaw: RawProject[] = Array.isArray(rawFeatured) ? rawFeatured : rawFeatured ? [rawFeatured] : [];
+    const featured: FeaturedProject[] = featuredRaw.map((p) => ({
+      projectimg: p.projectimg,
+      eyebrow: `FEATURED — ${p.year}`,
+      title: p.title,
+      description: p.description,
+      url: p.url,
+      github: p.github,
+      chips: p.chips.map((c) => c.name),
+      meta: {
+        year: p.year,
+        role: p.role,
+        stack: p.category,
+        status: p.status,
+      },
+    }));
 
     const categories = firstPage?.categories ?? [];
     const filters: FilterTag[] = [

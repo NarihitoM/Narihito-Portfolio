@@ -260,9 +260,11 @@ export function ProjectsPage() {
           <ErrorState onRetry={refetch} />
         ) : (
           <>
-            {filter === "All" && FEATURED && (
-              <div ref={featuredRef}>
-                <FeaturedBlock project={FEATURED} />
+            {filter === "All" && FEATURED.length > 0 && (
+              <div ref={featuredRef} className="flex flex-col gap-12">
+                {FEATURED.map((project) => (
+                  <FeaturedBlock key={project.title} project={project} />
+                ))}
               </div>
             )}
 
