@@ -8,7 +8,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
   return (
     <div
       data-role
-      className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow pt-9"
+      className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9"
     >
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
         <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
@@ -69,7 +69,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
 
 export function RoleBlockSkeleton() {
   return (
-    <div className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow pt-9">
+    <div className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9">
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
         <Skeleton className="h-[13px] w-24" />
         <Skeleton className="h-[13px] w-20" />
@@ -85,7 +85,7 @@ export function RoleBlockSkeleton() {
 
         <div className="flex flex-col">
           {Array.from({ length: 3 }, (_, i) => (
-            <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-5">
+            <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-3">
               <Skeleton className="h-[17px] w-4 shrink-0" />
               <Skeleton className="h-[22px] md:h-[24px] w-full" />
             </div>
