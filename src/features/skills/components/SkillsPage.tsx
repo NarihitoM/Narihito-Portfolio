@@ -243,7 +243,26 @@ export function SkillsPage() {
         ) : null}
 
         {learningLoading ? (
-          <Skeleton className="h-[140px] w-full" />
+          <div className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10">
+            <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
+              <Skeleton className="h-[13px] w-44" />
+              <Skeleton className="h-[77px] w-full" />
+            </div>
+            <div className="flex flex-1 flex-col gap-4">
+              {Array.from({ length: 3 }, (_, i) => (
+                <div
+                  key={i}
+                  className="flex flex-col gap-1.5 border-b border-border-glow-soft pb-3.5 md:flex-row md:gap-5"
+                >
+                  <div className="flex items-center gap-2.5 md:w-[170px] md:shrink-0">
+                    <Skeleton className="h-6 w-6 shrink-0 rounded-[4px]" />
+                    <Skeleton className="h-[19px] w-28" />
+                  </div>
+                  <Skeleton className="h-[24px] w-full md:flex-1" />
+                </div>
+              ))}
+            </div>
+          </div>
         ) : learningError ? (
           <ErrorState onRetry={refetchLearning} />
         ) : learningTotal > 0 ? (

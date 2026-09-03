@@ -112,6 +112,15 @@ function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () => void 
   );
 }
 
+function SkillCardSkeleton() {
+  return (
+    <div className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px] border border-transparent">
+      <Skeleton className="h-[22px] w-[22px] md:h-6 md:w-6" />
+      <Skeleton className="h-[17px] md:h-[18px] w-20" />
+    </div>
+  );
+}
+
 export function Skills() {
   const sectionRef = useRef<HTMLElement>(null);
   const { categories, isLoading, isError, refetch } = useSkills();
@@ -133,7 +142,7 @@ export function Skills() {
         {isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
             {Array.from({ length: 10 }, (_, i) => (
-              <Skeleton key={i} className="h-[92px] md:h-[104px] w-full" />
+              <SkillCardSkeleton key={i} />
             ))}
           </div>
         ) : isError ? (

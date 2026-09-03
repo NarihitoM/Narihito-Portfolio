@@ -1,4 +1,5 @@
 import { Chip } from "@/shared/components/ui/Chip";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { DutyRow } from "./DutyRow";
 import { MetricBlock } from "./MetricBlock";
 import type { Role } from "@/features/experience/types/types";
@@ -60,6 +61,50 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
               ))}
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function RoleBlockSkeleton() {
+  return (
+    <div className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow pt-9">
+      <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
+        <Skeleton className="h-[13px] w-24" />
+        <Skeleton className="h-[13px] w-20" />
+      </div>
+
+      <div className="flex-1 flex flex-col gap-5 md:gap-[26px]">
+        <div className="flex items-start justify-between gap-4">
+          <Skeleton className="h-[30px] md:h-[39px] w-2/3" />
+          <Skeleton className="h-[13px] w-24 shrink-0" />
+        </div>
+        <Skeleton className="h-4 w-40" />
+        <Skeleton className="h-[51px] md:h-[54px] w-full max-w-[820px]" />
+
+        <div className="flex flex-col">
+          {Array.from({ length: 3 }, (_, i) => (
+            <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-3">
+              <Skeleton className="h-[17px] w-4 shrink-0" />
+              <Skeleton className="h-[22px] md:h-[24px] w-full" />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-col sm:flex-row gap-6 pt-2">
+          {Array.from({ length: 3 }, (_, i) => (
+            <div key={i} className="flex-1 flex flex-col gap-2 pt-6">
+              <Skeleton className="h-[34px] md:h-[41px] w-20" />
+              <Skeleton className="h-3 w-24" />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-2.5">
+          {["w-16", "w-[88px]", "w-[72px]", "w-24", "w-20"].map((w) => (
+            <Skeleton key={w} className={`h-[26px] rounded-[2px] ${w}`} />
+          ))}
         </div>
       </div>
     </div>

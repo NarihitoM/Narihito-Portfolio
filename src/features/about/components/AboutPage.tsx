@@ -278,11 +278,18 @@ export function AboutPage() {
               HOW I WORK
             </p>
             {principlesLoading ? (
-              <div className="flex flex-col gap-4 py-5">
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-                <Skeleton className="h-16 w-full" />
-              </div>
+              <>
+                {Array.from({ length: 3 }, (_, i) => (
+                  <div key={i} className="flex gap-5 py-5 border-t border-border-glow-soft">
+                    <Skeleton className="h-4 w-6 shrink-0 mt-0.5" />
+                    <div className="flex flex-col gap-1 flex-1">
+                      <Skeleton className="h-[22px] w-2/5" />
+                      <Skeleton className="h-[43px] w-full" />
+                    </div>
+                  </div>
+                ))}
+              </>
+
             ) : principlesError ? (
               <ErrorState onRetry={refetchPrinciples} />
             ) : (
@@ -322,10 +329,18 @@ export function AboutPage() {
             THE ROUTE HERE
           </p>
           {routeLoading ? (
-            <div className="flex flex-col gap-4 py-5">
-              <Skeleton className="h-12 w-full" />
-              <Skeleton className="h-12 w-full" />
-            </div>
+            <>
+              {Array.from({ length: 3 }, (_, i) => (
+                <div key={i} className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft">
+                  <Skeleton className="h-4 w-12 shrink-0" />
+                  <div className="flex flex-col gap-1 flex-1">
+                    <Skeleton className="h-[22px] w-1/3" />
+                    <Skeleton className="h-[43px] w-full max-w-[640px]" />
+                  </div>
+                </div>
+              ))}
+            </>
+
           ) : routeError ? (
             <ErrorState onRetry={refetchRoutes} />
           ) : (

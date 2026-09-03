@@ -1,4 +1,5 @@
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import type { Testimonial } from "../types/types";
 
 export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; onClick: () => void }) {
@@ -54,6 +55,26 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
           ))}
         </div>
       )}
+    </div>
+  );
+}
+
+export function QuoteCardSkeleton() {
+  return (
+    <div className="flex flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8">
+      <Skeleton className="h-[77px] md:h-[82px] w-full" />
+      <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
+        <Skeleton className="h-10 w-10 shrink-0 rounded-full" />
+        <div className="flex flex-col gap-1">
+          <Skeleton className="h-[18px] w-32" />
+          <Skeleton className="h-[13px] w-40" />
+        </div>
+      </div>
+      <Skeleton className="h-[42px] w-full" />
+      <div className="flex flex-wrap items-center gap-2 pt-2">
+        <Skeleton className="h-9 w-9" />
+        <Skeleton className="h-9 w-9" />
+      </div>
     </div>
   );
 }

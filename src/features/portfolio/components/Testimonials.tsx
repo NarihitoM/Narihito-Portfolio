@@ -14,6 +14,27 @@ import { TestimonialDialog } from "@/features/testimonials/components/Testimonia
 import { useTilt } from "@/shared/hooks/useTilt";
 import type { Testimonial } from "@/features/testimonials/types/types";
 
+function TestimonialCardSkeleton() {
+  return (
+    <div className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8">
+      <Skeleton className="h-9 md:h-10 w-6" />
+      <Skeleton className="h-[70px] w-full" />
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-9 w-9 shrink-0 rounded-full" />
+        <div className="flex flex-col gap-[3px]">
+          <Skeleton className="h-4 w-28" />
+          <Skeleton className="h-[15px] w-32" />
+        </div>
+      </div>
+      <Skeleton className="h-[42px] w-full" />
+      <div className="flex flex-wrap items-center gap-2 pt-1">
+        <Skeleton className="h-9 w-9" />
+        <Skeleton className="h-9 w-9" />
+      </div>
+    </div>
+  );
+}
+
 function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void }) {
   const { ref: tiltRef, style: tiltStyle, onMouseMove, onMouseLeave, onTouchStart, onTouchEnd } = useTilt<HTMLDivElement>();
   return (
@@ -291,9 +312,9 @@ export function Testimonials() {
       <div ref={viewportRef} className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing overflow-hidden select-none">
         {isLoading ? (
           <div className="flex gap-3.5 md:gap-6">
-            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
-            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
-            <Skeleton className="h-[220px] w-[306px] md:w-[384px] shrink-0" />
+            <TestimonialCardSkeleton />
+            <TestimonialCardSkeleton />
+            <TestimonialCardSkeleton />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />

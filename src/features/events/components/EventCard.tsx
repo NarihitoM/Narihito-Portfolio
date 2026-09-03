@@ -1,6 +1,7 @@
 "use client";
 
 import { useTilt } from "@/shared/hooks/useTilt";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useEventsUI } from "../store/eventsUIStore";
 import type { Event } from "../types/types";
 
@@ -45,6 +46,19 @@ export function EventCard({ event }: { event: Event }) {
         <p className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {event.description}
         </p>
+      </div>
+    </div>
+  );
+}
+
+export function EventCardSkeleton() {
+  return (
+    <div className="flex flex-col overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
+      <Skeleton className="h-[180px] md:h-[220px] w-full rounded-none border-0" />
+      <div className="flex flex-col gap-2.5 p-5 md:p-6">
+        <Skeleton className="h-[13px] w-28" />
+        <Skeleton className="h-6 md:h-7 w-4/5" />
+        <Skeleton className="h-[67px] md:h-[72px] w-full" />
       </div>
     </div>
   );
