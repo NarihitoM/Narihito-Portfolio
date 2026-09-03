@@ -10,7 +10,7 @@ import { ProjectDialog } from "@/features/projects/components/ProjectDialog";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { useProjectsPreview } from "@/features/projects/hooks/useProjectsPreview";
-import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import type { Project } from "@/features/portfolio/types/types";
 
@@ -142,8 +142,8 @@ export function Projects() {
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
-            <Skeleton className="h-[280px] w-full" />
-            <Skeleton className="h-[280px] w-full" />
+            <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
+            <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
