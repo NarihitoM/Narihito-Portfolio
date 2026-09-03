@@ -9,6 +9,17 @@ import { useExperiencePreview } from "@/features/experience/hooks/useExperienceP
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 
+function TimelineEntrySkeleton() {
+  return (
+    <div className="flex flex-col gap-2 md:gap-2.5">
+      <Skeleton className="h-[13px] w-28" />
+      <Skeleton className="h-[23px] md:h-[29px] w-3/4" />
+      <Skeleton className="h-[14px] w-32 md:hidden" />
+      <Skeleton className="h-[43px] md:h-[47px] w-full md:max-w-[640px]" />
+    </div>
+  );
+}
+
 export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
@@ -92,9 +103,9 @@ export function Experience() {
           <div className="flex flex-1 flex-col gap-10">
             {isLoading ? (
               <>
-                <Skeleton className="h-[110px] w-full" />
-                <Skeleton className="h-[110px] w-full" />
-                <Skeleton className="h-[110px] w-full" />
+                <TimelineEntrySkeleton />
+                <TimelineEntrySkeleton />
+                <TimelineEntrySkeleton />
               </>
             ) : isError ? (
               <ErrorState onRetry={refetch} />

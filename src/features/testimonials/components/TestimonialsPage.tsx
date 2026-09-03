@@ -16,8 +16,8 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useTestimonialsInfinite } from "../hooks/useTestimonials";
 import { TestimonialDialog } from "./TestimonialDialog";
-import { StatBlock } from "./StatBlock";
-import { QuoteCard } from "./QuoteCard";
+import { StatBlock, StatBlockSkeleton } from "./StatBlock";
+import { QuoteCard, QuoteCardSkeleton } from "./QuoteCard";
 import type { Testimonial } from "../types/types";
 
 function pluralize(count: number, singular: string, plural: string) {
@@ -177,8 +177,8 @@ export function TestimonialsPage() {
         >
           {isLoading ? (
             <>
-              <Skeleton className="h-[80px] w-full sm:w-auto sm:flex-1" />
-              <Skeleton className="h-[80px] w-full sm:w-auto sm:flex-1" />
+              <StatBlockSkeleton />
+              <StatBlockSkeleton />
             </>
           ) : (
             stats.map((stat) => (
@@ -193,17 +193,17 @@ export function TestimonialsPage() {
               <Skeleton className="h-3 w-32" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-              <Skeleton className="h-[220px] w-full" />
-              <Skeleton className="h-[220px] w-full" />
+              <QuoteCardSkeleton />
+              <QuoteCardSkeleton />
             </div>
             <div className="border-t border-border-glow-soft pt-8">
               <Skeleton className="h-3 w-44" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
-              <Skeleton className="h-[220px] w-full" />
-              <Skeleton className="h-[220px] w-full" />
-              <Skeleton className="h-[220px] w-full" />
-              <Skeleton className="h-[220px] w-full" />
+              <QuoteCardSkeleton />
+              <QuoteCardSkeleton />
+              <QuoteCardSkeleton />
+              <QuoteCardSkeleton />
             </div>
           </>
         ) : isError ? (

@@ -11,15 +11,14 @@ import {
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
-import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useExperienceRoles, useEducation } from "@/features/experience/hooks/useExperience";
 import { useExperienceUI } from "@/features/experience/store/experienceUIStore";
 import { useStats } from "@/features/about/hooks/useAbout";
 import { yearsOfExperience } from "@/shared/lib/experience";
-import { RoleBlock } from "./RoleBlock";
-import { EducationRow } from "./EducationRow";
+import { RoleBlock, RoleBlockSkeleton } from "./RoleBlock";
+import { EducationRow, EducationRowSkeleton } from "./EducationRow";
 
 export function ExperiencePage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -159,9 +158,9 @@ export function ExperiencePage() {
         </p>
 
         {rolesLoading ? (
-          <div className="flex flex-col gap-6">
-            <Skeleton className="h-[240px] w-full" />
-            <Skeleton className="h-[240px] w-full" />
+          <div>
+            <RoleBlockSkeleton />
+            <RoleBlockSkeleton />
           </div>
         ) : rolesError ? (
           <ErrorState onRetry={refetchRoles} />
@@ -188,7 +187,11 @@ export function ExperiencePage() {
             EDUCATION
           </span>
           {eduLoading ? (
-            <Skeleton className="h-[140px] w-full" />
+            <>
+              <EducationRowSkeleton />
+              <EducationRowSkeleton />
+              <EducationRowSkeleton />
+            </>
           ) : eduError ? (
             <ErrorState onRetry={refetchEducation} />
           ) : (

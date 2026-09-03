@@ -3,12 +3,11 @@
 import { useRef } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
-import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useEvents } from "@/features/events/hooks/useEvents";
 import { useEventsUI } from "@/features/events/store/eventsUIStore";
-import { EventCard } from "@/features/events/components/EventCard";
+import { EventCard, EventCardSkeleton } from "@/features/events/components/EventCard";
 import { EventDialog } from "@/features/events/components/EventDialog";
 
 export function Events() {
@@ -35,8 +34,8 @@ export function Events() {
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
-            <Skeleton className="h-[320px] w-full" />
-            <Skeleton className="h-[320px] w-full" />
+            <EventCardSkeleton />
+            <EventCardSkeleton />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
