@@ -85,7 +85,7 @@ export function RoleBlockSkeleton() {
 
         <div className="flex flex-col">
           {Array.from({ length: 3 }, (_, i) => (
-            <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-3">
+            <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-5">
               <Skeleton className="h-[17px] w-4 shrink-0" />
               <Skeleton className="h-[22px] md:h-[24px] w-full" />
             </div>
