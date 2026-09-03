@@ -233,6 +233,7 @@ html {
   --color-text-muted: #6b6b6b;
   --color-bg-alt: #171717;
   --color-surface: #191919;
+  --color-skeleton: #191919;
   --color-wire: #000000;
   --color-chip: #ffffff0a;
   --color-annot-bg: #7c7c7c1a;
@@ -291,6 +292,7 @@ html {
   --color-text-muted: #8a8a8a;
   --color-bg-alt: #e8e8e8;
   --color-surface: #e6e6e6;
+  --color-skeleton: #ededed;
   --color-wire: #ffffff;
   --color-chip: #0000000a;
   --color-annot-bg: #5e5e5e1a;
@@ -317,6 +319,7 @@ html {
   --color-text-muted: var(--color-text-muted);
   --color-bg-alt: var(--color-bg-alt);
   --color-surface: var(--color-surface);
+  --color-skeleton: var(--color-skeleton);
   --color-wire: var(--color-wire);
   --color-chip: var(--color-chip);
   --color-annot-bg: var(--color-annot-bg);
