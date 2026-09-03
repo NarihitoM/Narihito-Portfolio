@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
-import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useGames } from "@/features/games/hooks/useGames";
@@ -35,8 +35,8 @@ export function Games() {
 
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
-            <Skeleton className="h-[320px] w-full" />
-            <Skeleton className="h-[320px] w-full" />
+            <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
+            <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
