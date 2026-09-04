@@ -10,6 +10,7 @@ import {
   NO_REDUCED_MOTION_QUERY,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
+import Image from "next/image";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
@@ -170,8 +171,8 @@ export function GamesPage() {
                 <div key={`fav-${game.id}`} data-favourite className="flex flex-col lg:flex-row gap-8 lg:gap-14">
                   <div className="flex-1">
                     {game.pic ? (
-                      <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
-                        <img src={game.pic} alt={game.name} className="h-full w-full object-cover" />
+                      <div className="relative h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
+                        <Image src={game.pic} alt={game.name} fill unoptimized className="object-cover" />
                       </div>
                     ) : (
                       <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
@@ -218,7 +219,7 @@ export function GamesPage() {
                             onClick={(e) => e.stopPropagation()}
                             className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
                           >
-                            <SocialIcon type={link.type as any} />
+                            <SocialIcon type={link.type} />
                           </a>
                         ))}
                       </div>
