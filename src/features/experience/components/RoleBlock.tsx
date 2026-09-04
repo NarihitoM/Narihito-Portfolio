@@ -69,7 +69,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
 
 export function RoleBlockSkeleton() {
   return (
-    <div className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9">
+    <div className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9 pb-9">
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
         <Skeleton className="h-[13px] w-24" />
         <Skeleton className="h-[13px] w-20" />
