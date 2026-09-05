@@ -31,7 +31,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
             {collapsed ? "SHOW DETAILS" : "HIDE DETAILS"}
           </button>
         </div>
-        <span className="font-mono text-[13px] tracking-[0.6px] text-text-secondary">
+        <span className="font-mono text-[13px] tracking-[0.6px] text-text-primary">
           {role.org}
         </span>
         <p className="max-w-[820px] font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">
