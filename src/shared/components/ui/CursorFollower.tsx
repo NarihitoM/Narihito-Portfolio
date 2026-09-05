@@ -37,6 +37,7 @@ export function CursorFollower() {
       mouseY = event.clientY;
       dot!.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
       show();
+      if (!raf) raf = requestAnimationFrame(frame);
     }
 
     function onLeave() {
@@ -46,8 +47,14 @@ export function CursorFollower() {
     }
 
     function frame() {
-      ringX += (mouseX - ringX) * TRAIL_EASE;
-      ringY += (mouseY - ringY) * TRAIL_EASE;
+      const dx = mouseX - ringX;
+      const dy = mouseY - ringY;
+      if (Math.abs(dx) < 0.1 && Math.abs(dy) < 0.1) {
+        raf = 0;
+        return;
+      }
+      ringX += dx * TRAIL_EASE;
+      ringY += dy * TRAIL_EASE;
       ring!.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       raf = requestAnimationFrame(frame);
     }
