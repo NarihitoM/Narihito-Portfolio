@@ -181,17 +181,25 @@ export function SnakeGridOverlay() {
       }
     }
 
-    function drawHead(head: Point) {
-      const glow = ctx!.createRadialGradient(head.x, head.y, 0, head.x, head.y, 9);
+    const headSprite = document.createElement("canvas");
+    headSprite.width = 18 * dpr;
+    headSprite.height = 18 * dpr;
+    const headCtx = headSprite.getContext("2d");
+    if (headCtx) {
+      headCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const glow = headCtx.createRadialGradient(9, 9, 0, 9, 9, 9);
       glow.addColorStop(0, `rgba(${rgb},0.45)`);
       glow.addColorStop(1, `rgba(${rgb},0)`);
-      ctx!.fillStyle = glow;
-      ctx!.fillRect(head.x - 9, head.y - 9, 18, 18);
+      headCtx.fillStyle = glow;
+      headCtx.fillRect(0, 0, 18, 18);
+      headCtx.beginPath();
+      headCtx.arc(9, 9, 1.9, 0, Math.PI * 2);
+      headCtx.fillStyle = `rgba(${rgb},0.75)`;
+      headCtx.fill();
+    }
 
-      ctx!.beginPath();
-      ctx!.arc(head.x, head.y, 1.9, 0, Math.PI * 2);
-      ctx!.fillStyle = `rgba(${rgb},0.75)`;
-      ctx!.fill();
+    function drawHead(head: Point) {
+      ctx!.drawImage(headSprite, head.x - 9, head.y - 9, 18, 18);
     }
 
     function drawPulses(now: number) {
