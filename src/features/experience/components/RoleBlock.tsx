@@ -1,7 +1,6 @@
 import { Chip } from "@/shared/components/ui/Chip";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { DutyRow } from "./DutyRow";
-import { MetricBlock } from "./MetricBlock";
 import type { Role } from "@/features/experience/types/types";
 
 export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boolean; onToggle: () => void }) {
@@ -49,12 +48,6 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
               ))}
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 pt-2">
-              {role.impact.map((metric) => (
-                <MetricBlock key={metric.label} metric={metric} />
-              ))}
-            </div>
-
             <div className="flex flex-wrap gap-2.5">
               {role.chips.map((chip) => (
                 <Chip key={chip}>{chip}</Chip>
@@ -88,15 +81,6 @@ export function RoleBlockSkeleton() {
             <div key={i} className="flex items-start gap-4 md:gap-[18px] border-t border-border-glow-soft py-3">
               <Skeleton className="h-[17px] w-4 shrink-0" />
               <Skeleton className="h-[22px] md:h-[24px] w-full" />
-            </div>
-          ))}
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-6 pt-2">
-          {Array.from({ length: 3 }, (_, i) => (
-            <div key={i} className="flex-1 flex flex-col gap-2 pt-6">
-              <Skeleton className="h-[34px] md:h-[41px] w-20" />
-              <Skeleton className="h-3 w-24" />
             </div>
           ))}
         </div>
