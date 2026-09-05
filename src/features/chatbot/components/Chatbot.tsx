@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useGSAP } from "@gsap/react";
 import { ArrowRight, Bot, Check, Copy, Mic, Send, Square, ThumbsDown, ThumbsUp, X } from "lucide-react";
@@ -155,7 +155,7 @@ function MessageActions({
 
 export function Chatbot() {
   const [open, setOpen] = useState(false);
-  const { input, ghost, ghostVisible, setFromUser: setInput, setFont, appendTyped } = useTypewriterInput();
+  const { input, ghost, ghostVisible, setFromUser: setInput, setFont, appendTyped, getFullText } = useTypewriterInput();
   const panelRef = useRef<HTMLDivElement>(null);
   const listRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -166,7 +166,14 @@ export function Chatbot() {
     setFeedbackByMessage((prev) => ({ ...prev, [messageId]: type }));
   };
 
-  const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput(appendTyped);
+  const sendVoiceInput = useCallback(() => {
+    const text = getFullText().trim();
+    if (!text) return;
+    send(text);
+    setInput("");
+  }, [getFullText, send, setInput]);
+
+  const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput(appendTyped, sendVoiceInput);
 
   useGSAP(
     () => {
