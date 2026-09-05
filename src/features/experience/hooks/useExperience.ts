@@ -25,7 +25,6 @@ export function useExperienceRoles() {
           desc: r.desc,
           pinned: r.pinned ?? false,
           duties: r.duties,
-          impact: r.metrics,
           chips: r.chips.map((c) => c.name),
         })),
       ),

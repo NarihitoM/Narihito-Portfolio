@@ -3,11 +3,6 @@ export interface Duty {
   text: string;
 }
 
-export interface Metric {
-  value: string;
-  label: string;
-}
-
 export interface Role {
   id: string;
   period: string;
@@ -17,7 +12,6 @@ export interface Role {
   desc: string;
   pinned?: boolean;
   duties: Duty[];
-  impact: Metric[];
   chips: string[];
 }
 
@@ -37,7 +31,6 @@ export interface RawRole {
   desc: string;
   pinned?: boolean;
   duties: Duty[];
-  metrics: Metric[];
   chips: { name: string }[];
 }
 
