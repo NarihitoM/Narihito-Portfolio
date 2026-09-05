@@ -78,5 +78,7 @@ export function useTypewriterInput() {
     [processQueue],
   );
 
-  return { input, ghost, ghostVisible, setFromUser, setFont, appendTyped };
+  const getFullText = useCallback(() => fullRef.current + queueRef.current.join(""), []);
+
+  return { input, ghost, ghostVisible, setFromUser, setFont, appendTyped, getFullText };
 }
