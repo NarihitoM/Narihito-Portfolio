@@ -15,6 +15,7 @@ export function useTypewriterInput() {
   const fullRef = useRef("");
   const queueRef = useRef<string[]>([]);
   const processingRef = useRef(false);
+  const pendingChunkRef = useRef("");
   const timersRef = useRef<number[]>([]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fontRef = useRef("");
@@ -39,6 +40,7 @@ export function useTypewriterInput() {
     const next = queueRef.current.shift();
     if (next === undefined) return;
     processingRef.current = true;
+    pendingChunkRef.current = next;
 
     const base = fullRef.current;
     setGhost({ text: next, left: measure(base) });
@@ -47,6 +49,7 @@ export function useTypewriterInput() {
     timersRef.current.push(
       window.setTimeout(() => {
         fullRef.current = base + next;
+        pendingChunkRef.current = "";
         setInputState(fullRef.current);
         setGhostVisible(false);
         timersRef.current.push(
@@ -68,6 +71,7 @@ export function useTypewriterInput() {
     timersRef.current.forEach((id) => window.clearTimeout(id));
     timersRef.current = [];
     queueRef.current = [];
+    pendingChunkRef.current = "";
     processingRef.current = false;
     fullRef.current = value;
     setInputState(value);
@@ -77,7 +81,7 @@ export function useTypewriterInput() {
 
   const appendTyped = useCallback(
     (text: string) => {
-      const tailBase = fullRef.current + queueRef.current.join("");
+      const tailBase = fullRef.current + pendingChunkRef.current + queueRef.current.join("");
       const needsSpace = tailBase.length > 0 && !tailBase.endsWith(" ");
       queueRef.current.push((needsSpace ? " " : "") + text);
       processQueue();
@@ -85,7 +89,10 @@ export function useTypewriterInput() {
     [processQueue],
   );
 
-  const getFullText = useCallback(() => fullRef.current + queueRef.current.join(""), []);
+  const getFullText = useCallback(
+    () => fullRef.current + pendingChunkRef.current + queueRef.current.join(""),
+    [],
+  );
 
   return { input, ghost, ghostVisible, setFromUser, setFont, appendTyped, getFullText };
 }
