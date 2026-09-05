@@ -15,6 +15,7 @@ export function useTypewriterInput() {
   const fullRef = useRef("");
   const queueRef = useRef<string[]>([]);
   const processingRef = useRef(false);
+  const timersRef = useRef<number[]>([]);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const fontRef = useRef("");
 
@@ -43,16 +44,20 @@ export function useTypewriterInput() {
     setGhost({ text: next, left: measure(base) });
     requestAnimationFrame(() => setGhostVisible(true));
 
-    window.setTimeout(() => {
-      fullRef.current = base + next;
-      setInputState(fullRef.current);
-      setGhostVisible(false);
+    timersRef.current.push(
       window.setTimeout(() => {
-        setGhost(null);
-        processingRef.current = false;
-        processQueueRef.current();
-      }, GHOST_FADE_MS);
-    }, GHOST_HOLD_MS);
+        fullRef.current = base + next;
+        setInputState(fullRef.current);
+        setGhostVisible(false);
+        timersRef.current.push(
+          window.setTimeout(() => {
+            setGhost(null);
+            processingRef.current = false;
+            processQueueRef.current();
+          }, GHOST_FADE_MS),
+        );
+      }, GHOST_HOLD_MS),
+    );
   }, [measure]);
 
   useEffect(() => {
@@ -60,6 +65,8 @@ export function useTypewriterInput() {
   }, [processQueue]);
 
   const setFromUser = useCallback((value: string) => {
+    timersRef.current.forEach((id) => window.clearTimeout(id));
+    timersRef.current = [];
     queueRef.current = [];
     processingRef.current = false;
     fullRef.current = value;

@@ -367,11 +367,11 @@ export function Chatbot() {
               aria-pressed={recording}
               className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-[4px] border transition-colors disabled:opacity-40 ${
                 recording
-                  ? "border-violet bg-violet/10 text-violet animate-pulse"
+                  ? "border-red-500/60 bg-red-500/10 text-red-500"
                   : "border-border-glow-soft text-text-secondary hover:border-violet hover:text-violet"
               }`}
             >
-              {recording ? <Square size={13} /> : <Mic size={15} />}
+              {recording ? <Square size={13} className="animate-pulse fill-current" /> : <Mic size={15} />}
             </button>
             <button
               type="submit"

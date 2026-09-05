@@ -27,12 +27,14 @@ export function useVoiceInput(onText: (text: string) => void, onUtteranceEnd?: (
 
   const startSegmentRef = useRef<(stream: MediaStream) => void>(() => {});
   const onUtteranceEndRef = useRef(onUtteranceEnd);
+  const stopRef = useRef<() => void>(() => {});
 
   const flushUtteranceEnd = useCallback(() => {
     if (!endArmedRef.current || pendingRef.current > 0 || !producedRef.current) return;
     endArmedRef.current = false;
     producedRef.current = false;
     spokeRef.current = false;
+    stopRef.current();
     onUtteranceEndRef.current?.();
   }, []);
 
@@ -180,6 +182,10 @@ export function useVoiceInput(onText: (text: string) => void, onUtteranceEnd?: (
       streamRef.current?.getTracks().forEach((t) => t.stop());
     }
   }, []);
+
+  useEffect(() => {
+    stopRef.current = stop;
+  }, [stop]);
 
   const toggle = useCallback(() => {
     if (recording) stop();
