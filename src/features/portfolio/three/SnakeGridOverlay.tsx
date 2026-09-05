@@ -27,7 +27,7 @@ interface Pulse {
 const CELL = 56;
 const TRAIL_LENGTH = 52;
 const RUNNER_COUNT = 10;
-const TRAIL_BANDS = 6;
+const TRAIL_BANDS = 4;
 const PULSE_DURATION = 1600;
 const PULSE_INTERVAL = 520;
 
@@ -45,7 +45,7 @@ export function SnakeGridOverlay() {
 
     const rgb = theme === "light" ? "10,10,10" : "255,255,255";
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
     let width = 0;
     let height = 0;
