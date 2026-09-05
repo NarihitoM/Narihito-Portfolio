@@ -51,7 +51,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
             {role.chips.length > 0 && (
               <div className="flex flex-col gap-3.5">
                 <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-                  TECH STACK I WORK WITH
+                  TOOLS I WORK WITH
                 </span>
                 <div className="flex flex-wrap gap-2.5">
                   {role.chips.map((chip) => (
