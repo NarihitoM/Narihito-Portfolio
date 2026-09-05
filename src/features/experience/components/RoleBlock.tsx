@@ -7,7 +7,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
   return (
     <div
       data-role
-      className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9"
+      className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9 pb-9"
     >
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
         <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
@@ -48,10 +48,17 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2.5">
-              {role.chips.map((chip) => (
-                <Chip key={chip}>{chip}</Chip>
-              ))}
+            <div className="flex flex-col gap-3.5">
+              <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                TECH STACK
+              </span>
+              <div className="flex flex-wrap gap-2.5">
+                {role.chips.map((chip) => (
+                  <Chip key={chip} icon={chip}>
+                    {chip}
+                  </Chip>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -85,10 +92,13 @@ export function RoleBlockSkeleton() {
           ))}
         </div>
 
-        <div className="flex flex-wrap gap-2.5">
-          {["w-16", "w-[88px]", "w-[72px]", "w-24", "w-20"].map((w) => (
-            <Skeleton key={w} className={`h-[26px] rounded-[2px] ${w}`} />
-          ))}
+        <div className="flex flex-col gap-3.5">
+          <Skeleton className="h-[13px] w-24" />
+          <div className="flex flex-wrap gap-2.5">
+            {["w-[82px]", "w-[106px]", "w-[90px]", "w-[112px]", "w-24"].map((w) => (
+              <Skeleton key={w} className={`h-[26px] rounded-[2px] ${w}`} />
+            ))}
+          </div>
         </div>
       </div>
     </div>
