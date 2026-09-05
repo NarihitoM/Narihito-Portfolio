@@ -70,7 +70,13 @@ export function HeroSphere() {
     window.addEventListener("touchmove", onTouchMove, { passive: true });
     window.addEventListener("deviceorientation", onDeviceOrientation);
 
+    let isVisible = true;
+
     const animate = () => {
+      if (!isVisible) {
+        frameId = 0;
+        return;
+      }
       frameId = requestAnimationFrame(animate);
 
       if (!reduced) {
@@ -84,6 +90,20 @@ export function HeroSphere() {
     };
     animate();
 
+    const visObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting === isVisible) return;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !frameId) animate();
+        else if (!isVisible && frameId) {
+          cancelAnimationFrame(frameId);
+          frameId = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    visObserver.observe(parent);
+
     const onResize = () => {
       const w = parent.clientWidth;
       const h = parent.clientHeight;
@@ -95,6 +115,7 @@ export function HeroSphere() {
 
     return () => {
       cancelAnimationFrame(frameId);
+      visObserver.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("deviceorientation", onDeviceOrientation);
