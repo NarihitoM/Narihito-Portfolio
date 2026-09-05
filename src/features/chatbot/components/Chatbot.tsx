@@ -201,6 +201,8 @@ export function Chatbot() {
       const panel = panelRef.current;
       if (!panel || !open) return;
 
+      gsap.set(panel, { opacity: 0, scale: 0.9, y: 20 });
+
       const mm = gsap.matchMedia();
 
       mm.add(REDUCED_MOTION_QUERY, () => {
@@ -208,11 +210,7 @@ export function Chatbot() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        gsap.fromTo(
-          panel,
-          { opacity: 0, scale: 0.9, y: 20 },
-          { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: ease.entrance },
-        );
+        gsap.to(panel, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: ease.entrance });
       });
 
       return () => mm.revert();
@@ -270,7 +268,7 @@ export function Chatbot() {
         >
           <Bot size={20} />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-bg-alt bg-red-500 px-1 font-mono text-[10px] font-semibold leading-none text-wire">
+            <span className="absolute -top-0.5 -right-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-violet bg-wire px-1 font-mono text-[10px] font-semibold leading-none text-violet">
               {unreadCount > 9 ? "9+" : unreadCount}
             </span>
           )}
