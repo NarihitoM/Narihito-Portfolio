@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { chatbotApi } from "../api/chatbotApi";
 
-const SILENCE_THRESHOLD = 0.02;
+const SILENCE_THRESHOLD = 0.045;
+const SPEECH_FRAMES = 3;
 const SILENCE_MS = 600;
 const UTTERANCE_END_MS = 1200;
 const MAX_SEGMENT_MS = 8000;
@@ -20,6 +21,7 @@ export function useVoiceInput(onText: (text: string) => void, onUtteranceEnd?: (
   const segmentStartRef = useRef(0);
   const hasSpeechRef = useRef(false);
   const quietSinceRef = useRef<number | null>(null);
+  const loudFramesRef = useRef(0);
   const spokeRef = useRef(false);
   const endArmedRef = useRef(false);
   const pendingRef = useRef(0);
@@ -115,12 +117,16 @@ export function useVoiceInput(onText: (text: string) => void, onUtteranceEnd?: (
       const now = performance.now();
 
       if (rms > SILENCE_THRESHOLD) {
-        hasSpeechRef.current = true;
-        spokeRef.current = true;
-        silenceStartRef.current = null;
-        quietSinceRef.current = null;
-        endArmedRef.current = false;
+        loudFramesRef.current += 1;
+        if (loudFramesRef.current >= SPEECH_FRAMES) {
+          hasSpeechRef.current = true;
+          spokeRef.current = true;
+          silenceStartRef.current = null;
+          quietSinceRef.current = null;
+          endArmedRef.current = false;
+        }
       } else {
+        loudFramesRef.current = 0;
         if (quietSinceRef.current === null) quietSinceRef.current = now;
 
         if (hasSpeechRef.current) {
@@ -151,10 +157,13 @@ export function useVoiceInput(onText: (text: string) => void, onUtteranceEnd?: (
   const start = useCallback(async () => {
     setError(null);
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: { noiseSuppression: true, echoCancellation: true, autoGainControl: false },
+      });
       streamRef.current = stream;
       stoppedRef.current = false;
       quietSinceRef.current = null;
+      loudFramesRef.current = 0;
       spokeRef.current = false;
       endArmedRef.current = false;
       producedRef.current = false;
