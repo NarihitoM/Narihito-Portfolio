@@ -49,16 +49,18 @@ export function PageLayout({
       const headerEl = pageRef.current?.querySelector("header") as HTMLElement | null;
       if (!headerEl) return;
 
-      ScrollTrigger.create({
+      const trigger = ScrollTrigger.create({
         trigger: document.body,
         start: "top -80",
         onUpdate: (self) => {
+          gsap.killTweensOf(headerEl);
           if (self.direction === 1 && self.scroll() > 80) {
             gsap.to(headerEl, {
               backdropFilter: "blur(12px)",
               boxShadow: "0 1px 0 var(--color-border-glow-soft)",
               duration: 0.3,
               ease: ease.interaction,
+              overwrite: true,
             });
           } else if (self.scroll() <= 80) {
             gsap.to(headerEl, {
@@ -66,10 +68,16 @@ export function PageLayout({
               boxShadow: "none",
               duration: 0.3,
               ease: ease.interaction,
+              overwrite: true,
             });
           }
         },
       });
+
+      return () => {
+        trigger.kill();
+        gsap.killTweensOf(headerEl);
+      };
     },
     { scope: pageRef },
   );
@@ -357,8 +365,11 @@ export function PageLayout({
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
             © 2026 Narihito. All rights reserved.
           </span>
-          <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
+          <span className="flex items-center gap-4 font-mono text-[11px] md:text-[12px] text-text-muted">
             Designed &amp; developed by Narihito.
+            <Link href="/privacy" className="transition-colors hover:text-text-primary">
+              Privacy Policy
+            </Link>
           </span>
         </div>
       </footer>

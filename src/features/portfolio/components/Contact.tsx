@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Link from "next/link";
 import { Mail } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
@@ -186,8 +187,11 @@ export function Contact() {
           <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
             © 2026 Narihito. All rights reserved.
           </span>
-          <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
+          <span className="flex items-center gap-4 font-mono text-[11px] md:text-[12px] text-text-muted">
             Designed &amp; developed by Narihito.
+            <Link href="/privacy" className="transition-colors hover:text-text-primary">
+              Privacy Policy
+            </Link>
           </span>
         </div>
       </div>
