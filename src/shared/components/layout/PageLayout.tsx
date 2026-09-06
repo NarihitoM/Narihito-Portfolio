@@ -361,16 +361,11 @@ export function PageLayout({
 
       <footer className="mt-auto px-5 md:px-10 lg:px-[120px] pb-8 md:pb-14">
         <div className="h-px w-full bg-border-glow-soft" />
-        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between pt-5">
-          <span className="font-mono text-[11px] md:text-[12px] text-text-muted">
-            © 2026 Narihito. All rights reserved.
-          </span>
-          <span className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[11px] md:text-[12px] text-text-muted">
-            Designed &amp; developed by Narihito.
-            <Link href="/privacy" className="transition-colors hover:text-text-primary">
-              Privacy Policy
-            </Link>
-          </span>
+        <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between pt-5 font-mono text-[11px] md:text-[12px] text-text-muted">
+          <span>© 2026 Narihito. All rights reserved.</span>
+          <Link href="/privacy" className="transition-colors hover:text-text-primary">
+            Privacy Policy
+          </Link>
         </div>
       </footer>
 
