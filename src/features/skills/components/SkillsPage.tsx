@@ -271,7 +271,7 @@ export function SkillsPage() {
             className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
           >
             <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
-              <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+              <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
                 CURRENTLY LEARNING
               </span>
               <p className="font-body text-[15px] leading-[1.7] text-text-secondary">

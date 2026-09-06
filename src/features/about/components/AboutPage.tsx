@@ -274,7 +274,7 @@ export function AboutPage() {
           </button>
 
           <div ref={principlesRef} className="flex flex-col gap-0 flex-1">
-            <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet mb-6">
+            <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet mb-6">
               HOW I WORK
             </p>
             {principlesLoading ? (
@@ -325,7 +325,7 @@ export function AboutPage() {
         </div>
 
         <div ref={routeRef} className="flex flex-col gap-5">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
+          <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             THE ROUTE HERE
           </p>
           {routeLoading ? (
@@ -371,7 +371,7 @@ export function AboutPage() {
         </div>
 
         <div ref={interestsRef} className="flex flex-col gap-5">
-          <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
+          <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             OFF THE CLOCK
           </p>
           <p className="font-body text-[15px] text-text-secondary">

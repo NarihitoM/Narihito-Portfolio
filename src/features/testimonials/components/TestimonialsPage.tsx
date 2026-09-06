@@ -215,7 +215,7 @@ export function TestimonialsPage() {
             {clients.length > 0 && (
               <>
                 <div className="border-t border-border-glow-soft pt-8">
-                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                  <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
                     CLIENTS — {pluralize(clientQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>
@@ -241,7 +241,7 @@ export function TestimonialsPage() {
             {others.length > 0 && (
               <>
                 <div className={`border-t border-border-glow-soft pt-8 ${clients.length > 0 ? "mt-4" : ""}`}>
-                  <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+                  <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
                     COLLEAGUES & PEERS — {pluralize(otherQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>

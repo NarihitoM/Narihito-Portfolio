@@ -262,7 +262,7 @@ export function ProjectsPage() {
           <>
             {filter === "All" && FEATURED.length > 0 && (
               <div ref={featuredRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
-                <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">FEATURED</span>
+                <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">FEATURED</span>
                 <div className="flex flex-col gap-12">
                   {FEATURED.map((project) => (
                     <FeaturedBlock key={project.title} project={project} hideEyebrow />
