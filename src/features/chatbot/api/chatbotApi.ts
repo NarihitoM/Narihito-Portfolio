@@ -1,7 +1,7 @@
 import api from "@/shared/lib/api";
 import type { ChatFeedbackType, ChatMessage, NavDirective } from "../types/types";
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+const BASE_URL = api.defaults.baseURL || process.env.NEXT_PUBLIC_API_URL || "";
 
 export const chatbotApi = {
   async sendFeedback(messageId: string, message: string, type: ChatFeedbackType, userMessage?: string, signal?: AbortSignal) {

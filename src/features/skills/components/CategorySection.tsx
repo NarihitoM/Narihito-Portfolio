@@ -21,7 +21,7 @@ function CategoryHeader({ category }: { category: Category }) {
 }
 
 export function CategorySection({ category }: { category: Category }) {
-  const { tools, hasMore, loading, loadMore } = useCategoryTools(
+  const { tools, hasMore, loading, error, loadMore } = useCategoryTools(
     category.id,
     category.tools,
     category.toolsTotal,
@@ -34,6 +34,7 @@ export function CategorySection({ category }: { category: Category }) {
       {tools.map((tool) => (
         <ToolRow key={tool.id} tool={tool} />
       ))}
+      {error && <p className="font-body text-[13px] text-red-400">{error}</p>}
       {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} label="LOAD MORE" />}
     </div>
   );

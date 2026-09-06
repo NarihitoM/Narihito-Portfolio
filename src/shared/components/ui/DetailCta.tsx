@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export function DetailCta({ href }: { href: string; route: string }) {
+export function DetailCta({ href }: { href: string; route?: string }) {
   return (
     <div className="flex md:justify-end">
       <Link

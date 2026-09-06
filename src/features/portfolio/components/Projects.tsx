@@ -147,10 +147,12 @@ export function Projects() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
+        ) : PROJECTS.length === 0 ? (
+          <p className="font-body text-[14px] text-text-muted">No projects yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
             {PROJECTS.map((project) => (
-              <ProjectCard key={project.name} project={project} />
+              <ProjectCard key={`${project.title}-${project.year}`} project={project} />
             ))}
           </div>
         )}

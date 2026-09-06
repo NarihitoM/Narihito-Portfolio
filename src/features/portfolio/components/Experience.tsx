@@ -90,7 +90,7 @@ export function Experience() {
         </div>
 
         <div className="flex flex-row gap-6">
-          {!isError && (
+          {!isError && !isLoading && ENTRIES.length > 0 && (
             <div className="relative w-6 shrink-0">
               <div className="absolute left-1/2 top-0 h-full w-0.5 -translate-x-1/2 bg-border-glow" />
               <div
@@ -109,10 +109,12 @@ export function Experience() {
               </>
             ) : isError ? (
               <ErrorState onRetry={refetch} />
+            ) : ENTRIES.length === 0 ? (
+              <p className="font-body text-[14px] text-text-muted">No experience entries yet.</p>
             ) : (
               ENTRIES.map((entry) => (
                 <div
-                  key={entry.role}
+                  key={entry.id}
                   data-timeline-entry
                   className="relative flex flex-col gap-2 md:gap-2.5"
                 >

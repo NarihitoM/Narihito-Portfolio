@@ -147,6 +147,8 @@ export function Skills() {
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
+        ) : SKILLS.length === 0 ? (
+          <p className="font-body text-[14px] text-text-muted">No skills yet.</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
             {SKILLS.map((skill) => (

@@ -16,6 +16,7 @@ export function useExperiencePreview(limit: number) {
   const entries: ExperienceEntry[] = useMemo(
     () =>
       (data?.roles ?? []).map((r) => ({
+        id: r.id,
         dates: r.period,
         role: r.title,
         company: r.org,

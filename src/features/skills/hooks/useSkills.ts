@@ -36,17 +36,34 @@ export function useSkills(limit = 10, category?: string) {
   return { ...query, categories, pinned };
 }
 
-export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTotal: number, category?: string) {
+export function useCategoryTools(
+  groupId: string,
+  initialTools: Tool[],
+  toolsTotal: number,
+  category?: string,
+  initialCursor?: string,
+) {
   const [extra, setExtra] = useState<Tool[]>([]);
-  const [cursor, setCursor] = useState<string | undefined>(initialTools.at(-1)?.id);
+  const [cursor, setCursor] = useState<string | undefined>(initialCursor ?? initialTools.at(-1)?.id);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [resetKey, setResetKey] = useState(`${groupId}|${category ?? ""}|${initialCursor ?? initialTools.at(-1)?.id ?? ""}`);
+
+  const currentKey = `${groupId}|${category ?? ""}|${initialCursor ?? initialTools.at(-1)?.id ?? ""}`;
+  if (resetKey !== currentKey) {
+    setResetKey(currentKey);
+    setExtra([]);
+    setCursor(initialCursor ?? initialTools.at(-1)?.id);
+    setError(null);
+  }
 
   const tools = [...initialTools, ...extra];
   const hasMore = tools.length < toolsTotal;
 
   const loadMore = async () => {
-    if (!cursor || loading) return;
+    if (loading || !hasMore) return;
     setLoading(true);
+    setError(null);
     try {
       const page = await skillsApi.listGroupItemsPaged(groupId, cursor, 10, category);
       const mapped: Tool[] = page.data.map((item) => ({
@@ -58,13 +75,15 @@ export function useCategoryTools(groupId: string, initialTools: Tool[], toolsTot
         proficiency: item.proficiency ?? 0,
       }));
       setExtra((prev) => [...prev, ...mapped]);
-      setCursor(page.nextCursor ?? undefined);
+      setCursor(page.nextCursor ?? mapped.at(-1)?.id);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Failed to load more tools");
     } finally {
       setLoading(false);
     }
   };
 
-  return { tools, hasMore, loading, loadMore };
+  return { tools, hasMore, loading, error, loadMore };
 }
 
 function toTool(item: RawSkillItem): Tool {

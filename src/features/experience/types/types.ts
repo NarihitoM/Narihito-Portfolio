@@ -46,6 +46,7 @@ export interface CursorPage<T> {
 }
 
 export interface ExperienceEntry {
+  id: string;
   dates: string;
   role: string;
   company: string;

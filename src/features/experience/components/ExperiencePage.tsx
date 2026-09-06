@@ -171,8 +171,8 @@ export function ExperiencePage() {
                 <RoleBlock
                   key={role.id}
                   role={role}
-                  collapsed={collapsedRoles.has(role.title)}
-                  onToggle={() => toggleRole(role.title)}
+                  collapsed={collapsedRoles.has(role.id)}
+                  onToggle={() => toggleRole(role.id)}
                 />
               ))}
             </div>

@@ -32,7 +32,7 @@ export function GamesPage() {
     useGamesInfinite();
   const { selectedGameId, setSelectedGameId } = useGamesUI();
   const selected = games.find((game) => game.id === selectedGameId) ?? null;
-  const favouriteGames = games.filter((g) => g.type.toLowerCase() === "favorite");
+  const favouriteGames = games.filter((g) => (g.type ?? "").toLowerCase() === "favorite");
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
     { key: "FAVOURITES", value: String(favourites) },
