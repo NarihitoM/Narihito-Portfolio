@@ -293,7 +293,7 @@ export function PageLayout({
       </div>
 
       <div className="flex flex-col gap-6 md:gap-7 px-5 md:px-10 lg:px-[120px] pt-6 md:pt-12">
-        <p className="font-mono text-[11px] font-medium uppercase tracking-[3px] text-violet">
+        <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
           {eyebrow}
         </p>
         <h1

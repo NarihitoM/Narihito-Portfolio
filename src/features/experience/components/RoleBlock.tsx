@@ -10,7 +10,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
       className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9 pb-9"
     >
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
-        <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+        <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
           {role.period}
         </span>
         <span className="font-mono text-[11px] tracking-[2px] text-text-muted">

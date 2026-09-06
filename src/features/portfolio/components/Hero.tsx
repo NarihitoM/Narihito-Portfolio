@@ -60,7 +60,7 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:mt-[110px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
-        <p data-hero-fade className="font-mono text-[10px] md:text-[11px] font-medium uppercase tracking-[3px] text-cyan">
+        <p data-hero-fade className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-cyan">
           HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
 
