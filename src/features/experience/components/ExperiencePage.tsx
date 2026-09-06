@@ -157,35 +157,40 @@ export function ExperiencePage() {
           it, and what came out the other side.
         </p>
 
-        {rolesLoading ? (
-          <div>
-            <RoleBlockSkeleton />
-            <RoleBlockSkeleton />
-          </div>
-        ) : rolesError ? (
-          <ErrorState onRetry={refetchRoles} />
-        ) : (
-          <>
-            <div ref={rolesRef}>
-              {ROLES.map((role) => (
-                <RoleBlock
-                  key={role.id}
-                  role={role}
-                  collapsed={collapsedRoles.has(role.id)}
-                  onToggle={() => toggleRole(role.id)}
-                />
-              ))}
+        <div className="flex flex-col gap-6">
+          <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+            Experience
+          </h2>
+          {rolesLoading ? (
+            <div>
+              <RoleBlockSkeleton />
+              <RoleBlockSkeleton />
             </div>
-            {hasMoreRoles && (
-              <LoadMoreButton onClick={() => loadMoreRoles()} loading={loadingMoreRoles} label="LOAD MORE ROLES" />
-            )}
-          </>
-        )}
+          ) : rolesError ? (
+            <ErrorState onRetry={refetchRoles} />
+          ) : (
+            <>
+              <div ref={rolesRef}>
+                {ROLES.map((role) => (
+                  <RoleBlock
+                    key={role.id}
+                    role={role}
+                    collapsed={collapsedRoles.has(role.id)}
+                    onToggle={() => toggleRole(role.id)}
+                  />
+                ))}
+              </div>
+              {hasMoreRoles && (
+                <LoadMoreButton onClick={() => loadMoreRoles()} loading={loadingMoreRoles} label="LOAD MORE ROLES" />
+              )}
+            </>
+          )}
+        </div>
 
-        <div ref={eduRef} className="flex flex-col gap-5 border-t border-border-glow-soft pt-9">
-          <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
-            EDUCATION
-          </span>
+        <div ref={eduRef} className="flex flex-col gap-6">
+          <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+            Education
+          </h2>
           {eduLoading ? (
             <>
               <EducationRowSkeleton />
