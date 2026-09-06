@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
-import { Home } from "lucide-react";
+import { Home, ShieldCheck } from "lucide-react";
 import { ease, gsap, registerGsap, ScrollTrigger, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
@@ -366,7 +366,11 @@ export function PageLayout({
             <span>© 2026 Narihito. All rights reserved.</span>
             <span>Designed &amp; developed by Narihito.</span>
           </div>
-          <Link href="/privacy" className="transition-colors hover:text-text-primary">
+          <Link
+            href="/privacy"
+            className="flex w-fit items-center gap-2 rounded-xl bg-chip px-3.5 py-2.5 text-text-secondary transition-all duration-200 hover:-translate-y-1 hover:bg-violet/15 hover:text-violet"
+          >
+            <ShieldCheck size={14} />
             Privacy Policy
           </Link>
         </div>

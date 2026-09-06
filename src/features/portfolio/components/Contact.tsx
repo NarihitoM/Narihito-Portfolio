@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
@@ -188,7 +188,11 @@ export function Contact() {
             <span>© 2026 Narihito. All rights reserved.</span>
             <span>Designed &amp; developed by Narihito.</span>
           </div>
-          <Link href="/privacy" className="transition-colors hover:text-text-primary">
+          <Link
+            href="/privacy"
+            className="flex w-fit items-center gap-2 rounded-xl bg-chip px-3.5 py-2.5 text-text-secondary transition-all duration-200 hover:-translate-y-1 hover:bg-violet/15 hover:text-violet"
+          >
+            <ShieldCheck size={14} />
             Privacy Policy
           </Link>
         </div>
