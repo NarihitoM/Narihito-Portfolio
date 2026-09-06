@@ -7,7 +7,7 @@ import type { Category, Tool } from "../types/types";
 function CategoryHeader({ category }: { category: Category }) {
   return (
     <div className="flex items-center gap-5 border-b border-border-glow-soft pb-1">
-      <span className="font-mono text-[11px] font-medium tracking-[3px] text-violet">
+      <span className="font-mono text-[11px] md:text-[17px] font-medium tracking-[3px] text-violet">
         {category.eyebrow}
       </span>
       <span className="font-body text-[15px] text-text-muted">
