@@ -158,7 +158,7 @@ export function ExperiencePage() {
         </p>
 
         <div className="flex flex-col gap-6">
-          <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          <h2 className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             Experience
           </h2>
           {rolesLoading ? (
@@ -188,7 +188,7 @@ export function ExperiencePage() {
         </div>
 
         <div ref={eduRef} className="flex flex-col gap-6">
-          <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          <h2 className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             Education
           </h2>
           {eduLoading ? (
