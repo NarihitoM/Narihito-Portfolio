@@ -10,6 +10,7 @@ const BAR_MS = 2000;
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const scrollYRef = useRef(0);
   const [done, setDone] = useState(false);
   const [typed, setTyped] = useState(TAGLINE.slice(0, 1));
   const typingDone = typed.length === TAGLINE.length;
@@ -27,9 +28,9 @@ export function Preloader() {
 
   useEffect(() => {
     if (done) return;
-    const scrollY = window.scrollY;
+    scrollYRef.current = window.scrollY;
     document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollY}px`;
+    document.body.style.top = `-${scrollYRef.current}px`;
     document.body.style.left = "0";
     document.body.style.right = "0";
     return () => {
@@ -37,7 +38,7 @@ export function Preloader() {
       document.body.style.top = "";
       document.body.style.left = "";
       document.body.style.right = "";
-      window.scrollTo(0, scrollY);
+      window.scrollTo(0, scrollYRef.current);
     };
   }, [done]);
 
@@ -69,6 +70,7 @@ export function Preloader() {
 
     return () => {
       window.clearTimeout(fallback);
+      gsap.killTweensOf(root);
     };
   }, [typingDone]);
 
