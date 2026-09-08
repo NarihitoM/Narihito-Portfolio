@@ -39,7 +39,7 @@ export function ScrollProgressLine() {
   }, []);
 
   return (
-    <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px]">
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[2px]">
       <div ref={lineRef} className="h-full bg-violet" style={{ width: 0 }} />
     </div>
   );
