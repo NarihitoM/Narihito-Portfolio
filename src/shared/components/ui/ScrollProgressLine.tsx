@@ -13,8 +13,12 @@ export function ScrollProgressLine() {
     let last = -1;
 
     const tick = () => {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      const doc = document.documentElement;
+      const body = document.body;
+      const top = Math.max(window.scrollY, doc.scrollTop, body.scrollTop);
+      const max = Math.max(doc.scrollHeight - doc.clientHeight, body.scrollHeight - body.clientHeight);
+      const progress = max > 0 ? Math.min(top / max, 1) : 0;
+
       if (progress !== last) {
         last = progress;
         line.style.transform = `scaleX(${progress})`;
