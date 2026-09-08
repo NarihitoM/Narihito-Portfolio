@@ -28,7 +28,7 @@ export function ScrollProgressLine() {
 
       if (progress !== last) {
         last = progress;
-        line.style.transform = `scaleX(${progress})`;
+        line.style.width = `${progress * 100}%`;
       }
       frame = requestAnimationFrame(tick);
     };
@@ -40,7 +40,7 @@ export function ScrollProgressLine() {
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[3px]">
-      <div ref={lineRef} className="h-full w-full origin-left scale-x-0 bg-violet" />
+      <div ref={lineRef} className="h-full bg-violet" style={{ width: 0 }} />
     </div>
   );
 }
