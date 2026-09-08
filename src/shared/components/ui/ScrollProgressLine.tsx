@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 export function ScrollProgressLine() {
   const lineRef = useRef<HTMLDivElement>(null);
@@ -10,18 +9,24 @@ export function ScrollProgressLine() {
     const line = lineRef.current;
     if (!line) return;
 
-    registerGsap();
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
+      line.style.transform = `scaleX(${progress})`;
+    };
 
-    const st = ScrollTrigger.create({
-      trigger: document.body,
-      start: "top top",
-      end: "bottom bottom",
-      onUpdate: (self) => {
-        gsap.set(line, { scaleX: self.progress });
-      },
-    });
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
 
-    return () => st.kill();
+    const observer = new ResizeObserver(update);
+    observer.observe(document.body);
+
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("resize", update);
+      observer.disconnect();
+    };
   }, []);
 
   return (
