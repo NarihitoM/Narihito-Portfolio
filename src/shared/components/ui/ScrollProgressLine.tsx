@@ -9,24 +9,22 @@ export function ScrollProgressLine() {
     const line = lineRef.current;
     if (!line) return;
 
-    const update = () => {
+    let frame = 0;
+    let last = -1;
+
+    const tick = () => {
       const max = document.documentElement.scrollHeight - window.innerHeight;
       const progress = max > 0 ? Math.min(window.scrollY / max, 1) : 0;
-      line.style.transform = `scaleX(${progress})`;
+      if (progress !== last) {
+        last = progress;
+        line.style.transform = `scaleX(${progress})`;
+      }
+      frame = requestAnimationFrame(tick);
     };
 
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    window.addEventListener("resize", update);
+    tick();
 
-    const observer = new ResizeObserver(update);
-    observer.observe(document.body);
-
-    return () => {
-      window.removeEventListener("scroll", update);
-      window.removeEventListener("resize", update);
-      observer.disconnect();
-    };
+    return () => cancelAnimationFrame(frame);
   }, []);
 
   return (
