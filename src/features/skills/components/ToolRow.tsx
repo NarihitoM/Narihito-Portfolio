@@ -2,10 +2,21 @@ import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { ProficiencyBar } from "./ProficiencyBar";
 import type { Tool } from "../types/types";
 
-export function ToolRow({ tool }: { tool: Tool }) {
+export function ToolRow({ tool, onClick }: { tool: Tool; onClick?: () => void }) {
   return (
     <div
-      className="group flex flex-col gap-3 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30 md:flex-row md:items-center md:gap-7"
+      role={onClick ? "button" : undefined}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={
+        onClick
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " ") onClick();
+            }
+          : undefined
+      }
+      className="group flex flex-col gap-3 border-t border-border-glow-soft py-4 transition-colors hover:bg-chip/30 active:bg-chip/50 md:flex-row md:items-center md:gap-7 data-[clickable]:cursor-pointer"
+      data-clickable={onClick ? true : undefined}
     >
       <div className="flex items-center gap-3 md:w-[290px] md:shrink-0">
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[4px] bg-chip">

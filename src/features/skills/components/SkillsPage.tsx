@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -18,6 +18,8 @@ import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useSkills, useLearning, useActiveCategoryItems } from "../hooks/useSkills";
 import { useSkillsUI } from "../store/skillsUIStore";
 import { CategorySection, CategorySectionActive, CategorySectionSkeleton } from "./CategorySection";
+import { ProficiencyDialog } from "./ProficiencyDialog";
+import type { Tool } from "../types/types";
 
 export function SkillsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -36,6 +38,7 @@ export function SkillsPage() {
     fetchNextPage: loadMoreLearning,
   } = useLearning();
   const { activeCategory, setActiveCategory } = useSkillsUI();
+  const [selected, setSelected] = useState<Tool | null>(null);
   const activeGroup = activeCategory === "All" ? null : allCategories.find((c) => c.eyebrow === activeCategory) ?? null;
   const {
     tools: activeTools,
@@ -220,7 +223,7 @@ export function SkillsPage() {
         ) : activeCategory === "All" ? (
           <div ref={categoriesRef} className="flex flex-col gap-20">
             {allCategories.map((cat) => (
-              <CategorySection key={cat.id} category={cat} />
+              <CategorySection key={cat.id} category={cat} onSelect={setSelected} />
             ))}
           </div>
         ) : activeLoading ? (
@@ -237,6 +240,7 @@ export function SkillsPage() {
               hasMore={hasMoreActive}
               loading={loadingMoreActive}
               onLoadMore={loadMoreActive}
+              onSelect={setSelected}
             />
           </div>
         ) : null}
@@ -311,6 +315,8 @@ export function SkillsPage() {
           </div>
         ) : null}
       </div>
+
+      {selected && <ProficiencyDialog tool={selected} onClose={() => setSelected(null)} />}
     </PageLayout>
   );
 }
