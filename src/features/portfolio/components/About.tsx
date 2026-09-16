@@ -77,8 +77,8 @@ export function About() {
           </h2>
           <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
             I&apos;m 21, second-year Software Engineering at UIT. I spend most
-            days on web apps — React and Next.js up front, Node and Postgres
-            behind it — and I slip AI in only where it survives real users, not just demos.
+            days on web apps, React and Next.js up front with Node and Postgres
+            behind it. I slip AI in only where it survives real users, not just demos.
           </p>
 
           {statsLoading ? (

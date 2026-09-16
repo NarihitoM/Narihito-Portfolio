@@ -140,7 +140,7 @@ export function ExperiencePage() {
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
       title={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps and products, job by job.`}
-      deck="What I actually did in each role — what I owned, what got in the way, what came out of it — plus where I studied."
+      deck="What I actually did in each role. What I owned, what got in the way, what came out of it, plus where I studied."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}

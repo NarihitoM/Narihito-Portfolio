@@ -166,7 +166,7 @@ export function TestimonialsPage() {
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           Honest feedback changed how I work more than any course did.
-          These are the ones I re-read — the kind ones, and the ones that made me fix something.
+          These are the ones I re-read. The kind ones, and the ones that made me fix something.
         </p>
 
         <div

@@ -52,30 +52,29 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative flex flex-col justify-center w-full bg-bg-alt pt-[76px] min-h-[720px] lg:block lg:pt-0 lg:min-h-0 lg:h-[900px] overflow-hidden">
+    <section ref={sectionRef} className="relative flex flex-col w-full bg-bg-alt overflow-hidden pt-[130px] md:pt-[150px] lg:pt-[170px] pb-10 md:pb-12 min-h-[720px] lg:min-h-[900px]">
       <AuraBackground />
 
       <div className="pointer-events-none absolute inset-0">
         <SnakeGridOverlay />
       </div>
 
-      <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:mt-[110px] lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
+      <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
         <p data-hero-fade className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-cyan">
           HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
 
         <h1
           ref={headlineRef}
-          data-hero-fade
           className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
         >
           A Developer who turns rough ideas
-          into stuff people actually use.
+          into shipped products.
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          I build full-stack web apps with React, Next.js and Node —
-          front to back — and I add AI where it actually helps, not just for show.
+          Full-stack web apps builder who built front to back with React, Next.js and Node,
+          plus AI features that pull their weight in production.
         </p>
 
         <div data-hero-fade className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
@@ -88,7 +87,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:flex absolute z-10 left-1/2 -translate-x-1/2 top-[620px] flex-col items-center gap-10">
+      <div className="hidden lg:flex relative z-10 mx-auto mt-16 flex-col items-center gap-10 pb-8">
         <div className="flex items-center justify-center gap-14">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
