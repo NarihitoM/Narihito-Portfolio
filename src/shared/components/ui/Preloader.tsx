@@ -12,11 +12,27 @@ export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollYRef = useRef(0);
   const [done, setDone] = useState(false);
-  const [typed, setTyped] = useState(TAGLINE.slice(0, 1));
+  const [ready, setReady] = useState(false);
+  const [typed, setTyped] = useState("");
   const typingDone = typed.length === TAGLINE.length;
 
   useEffect(() => {
-    let i = 1;
+    if (document.readyState === "complete") {
+      setReady(true);
+      return;
+    }
+    const onLoad = () => setReady(true);
+    window.addEventListener("load", onLoad);
+    const fallback = window.setTimeout(() => setReady(true), 3000);
+    return () => {
+      window.removeEventListener("load", onLoad);
+      window.clearTimeout(fallback);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!ready) return;
+    let i = 0;
     const tick = () => {
       i += 1;
       setTyped(TAGLINE.slice(0, i));
@@ -24,7 +40,7 @@ export function Preloader() {
     };
     let id = window.setTimeout(tick, TYPE_MS);
     return () => window.clearTimeout(id);
-  }, []);
+  }, [ready]);
 
   useEffect(() => {
     if (done) return;
@@ -96,8 +112,8 @@ export function Preloader() {
         <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
           NARIHITO
         </span>
-        <span className="font-mono text-[10px] font-light tracking-[2px] text-violet uppercase after:ml-0.5 after:animate-pulse after:content-['|']">
-          {typed}
+        <span className={`font-mono text-[10px] font-light tracking-[2px] text-violet uppercase transition-opacity duration-300 after:ml-0.5 after:animate-pulse after:content-['|'] ${ready ? "opacity-100" : "opacity-0"}`}>
+          {typed || " "}
         </span>
       </div>
 

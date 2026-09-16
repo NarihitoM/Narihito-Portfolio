@@ -153,7 +153,7 @@ export function TestimonialsPage() {
       breadcrumb="HOME / TESTIMONIALS"
       eyebrow="[ 07 - TESTIMONIALS ]"
       title="Nice things people I've worked with said."
-      deck="Unedited quotes from clients and teammates, each linked to the project it came from."
+      deck="Real words from people I've worked with. Nothing edited, each one tied to the project behind it."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
