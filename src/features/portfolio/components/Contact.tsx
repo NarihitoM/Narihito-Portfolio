@@ -16,7 +16,7 @@ const SOCIALS = [
   { label: "linkedin", href: "https://www.linkedin.com/in/hein-htet-aung-3b3b15375" },
   { label: "facebook", href: "https://www.facebook.com/hein.htet.aung.703001/" },
   { label: "discord", href: "https://discord.com/users/860793734324682782" },
-  { label: "telegram", href: "https://t.me/not_nari" },
+  { label: "telegram", href: "https://t.me/not_narihito" },
   { label: "mail", href: "mailto:heinboss234@gmail.com" },
 ];
 
