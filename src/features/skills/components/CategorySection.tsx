@@ -20,7 +20,7 @@ function CategoryHeader({ category }: { category: Category }) {
   );
 }
 
-export function CategorySection({ category }: { category: Category }) {
+export function CategorySection({ category, onSelect }: { category: Category; onSelect?: (tool: Tool) => void }) {
   const { tools, hasMore, loading, error, loadMore } = useCategoryTools(
     category.id,
     category.tools,
@@ -32,7 +32,7 @@ export function CategorySection({ category }: { category: Category }) {
     <div className="flex flex-col gap-[18px]">
       <CategoryHeader category={category} />
       {tools.map((tool) => (
-        <ToolRow key={tool.id} tool={tool} />
+        <ToolRow key={tool.id} tool={tool} onClick={onSelect ? () => onSelect(tool) : undefined} />
       ))}
       {error && <p className="font-body text-[13px] text-red-400">{error}</p>}
       {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} label="LOAD MORE" />}
@@ -46,18 +46,20 @@ export function CategorySectionActive({
   hasMore,
   loading,
   onLoadMore,
+  onSelect,
 }: {
   category: Category;
   tools: Tool[];
   hasMore: boolean;
   loading: boolean;
   onLoadMore: () => void;
+  onSelect?: (tool: Tool) => void;
 }) {
   return (
     <div className="flex flex-col gap-[18px]">
       <CategoryHeader category={category} />
       {tools.map((tool) => (
-        <ToolRow key={tool.id} tool={tool} />
+        <ToolRow key={tool.id} tool={tool} onClick={onSelect ? () => onSelect(tool) : undefined} />
       ))}
       {hasMore && <LoadMoreButton onClick={onLoadMore} loading={loading} label="LOAD MORE" />}
     </div>
