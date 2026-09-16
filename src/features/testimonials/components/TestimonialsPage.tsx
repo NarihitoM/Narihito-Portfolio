@@ -152,8 +152,8 @@ export function TestimonialsPage() {
       backHref="/"
       breadcrumb="HOME / TESTIMONIALS"
       eyebrow="[ 07 - TESTIMONIALS ]"
-      title="Feedback from the people I have worked with."
-      deck="Quotes from clients and teammates, kept unedited, each tied to the project it came from."
+      title="Nice things people I've worked with said."
+      deck="Unedited quotes from clients and teammates, each linked to the project it came from."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -165,9 +165,8 @@ export function TestimonialsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Feedback changed how I work more than any tutorial ever did. These
-          are the reviews I keep coming back to, the flattering ones and the
-          ones that made me fix a process.
+          Honest feedback changed how I work more than any course did.
+          These are the ones I re-read — the kind ones, and the ones that made me fix something.
         </p>
 
         <div

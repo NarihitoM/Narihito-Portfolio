@@ -11,7 +11,7 @@ const HEADER_OFFSET = -72;
 const GREETING: ChatMessage = {
   id: "greeting",
   role: "assistant",
-  content: "Hey, I'm Narihito's assistant. Ask me anything about his skills, experience, or projects.",
+  content: "Hey, I'm Narihito's assistant. Ask me about his work, his stack, or what he's been up to.",
 };
 
 const HISTORY_LIMIT = 10;

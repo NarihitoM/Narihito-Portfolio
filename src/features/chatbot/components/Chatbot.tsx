@@ -287,7 +287,7 @@ export function Chatbot() {
             </div>
             <div className="flex flex-col">
               <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
-              <span className="font-body text-[12px] tracking-[1px] text-text-muted">Ask about skills, works or projects</span>
+              <span className="font-body text-[12px] tracking-[1px] text-text-muted">Ask me about his work</span>
             </div>
             <button
               type="button"

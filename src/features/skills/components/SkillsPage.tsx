@@ -163,8 +163,8 @@ export function SkillsPage() {
       backHref="/"
       breadcrumb="HOME / SKILLS"
       eyebrow="[ 02 - SKILLS & TECH STACK ]"
-      title="The stack behind my projects, category by category."
-      deck="Each tool lists where it fits in my workflow and how confident I am with it, plus everything still on the learning list."
+      title="What I actually use to build things."
+      deck="Where each tool fits in my day-to-day, how comfortable I am with it, and what I'm still figuring out."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -176,9 +176,8 @@ export function SkillsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Depth beats breadth. Five tools I know inside out are worth more
-          than fifty logos I recognize, so anything new has to earn its
-          place on this page.
+          I&apos;d rather know five tools really well than recognize fifty.
+          If something new shows up here, it earned its spot.
         </p>
 
         {isLoading ? (
@@ -275,8 +274,8 @@ export function SkillsPage() {
                 CURRENTLY LEARNING
               </span>
               <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
-                {learningTotal} thing{learningTotal === 1 ? "" : "s"} in
-                progress right now. Kept public so the stack above never oversells itself.
+                {learningTotal} thing{learningTotal === 1 ? "" : "s"} I&apos;m
+                learning right now. Listed here so I don&apos;t oversell the stack above.
               </p>
             </div>
             <div className="flex flex-1 flex-col gap-4">

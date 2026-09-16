@@ -139,8 +139,8 @@ export function ExperiencePage() {
       backHref="/"
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="[ 03 - EXPERIENCE ]"
-      title={`${yearsOfExperience(stats?.yearsExperience ?? 0)} of building for the web apps and products, role by role.`}
-      deck="Every role with its responsibilities and outcomes spelled out, plus where the formal training came from."
+      title={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps and products, job by job.`}
+      deck="What I actually did in each role — what I owned, what got in the way, what came out of it — plus where I studied."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -152,9 +152,8 @@ export function ExperiencePage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Job titles always undersold what I ended up doing, so each entry
-          below describes the work itself: what I owned, what constrained
-          it, and what came out the other side.
+          Titles never told the full story, so I wrote down the real work
+          instead: what I owned, what made it hard, and what shipped in the end.
         </p>
 
         <div className="flex flex-col gap-6">

@@ -206,8 +206,8 @@ export function AboutPage() {
       backHref="/"
       breadcrumb="HOME / ABOUT"
       eyebrow="[ 01 - ABOUT ]"
-      title="The person behind the projects, and how I like to work."
-      deck={`${yearsOfExperience(stats?.yearsExperience ?? 0)} of building for the web apps from Yangon. My principles, the road that got me here, and what I do off the clock.`}
+      title="Who I am, and how I like to build things."
+      deck={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps from Yangon. What I care about, how I got here, and what I'm up to off the clock.`}
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -219,9 +219,10 @@ export function AboutPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
-          I&apos;m Hein Htet Aung, aka Narihito, a full-stack and agentic AI developer based in Yangon. I obsess
-          over the parts users never see: fast queries, sensible state, and interfaces that
-          stay clear even when the data underneath gets messy.
+          I&apos;m Hein Htet Aung, most people call me Narihito. I&apos;m a full-stack
+          and AI developer in Yangon. I care a lot about the boring stuff that
+          makes apps feel good: fast queries, sane state, screens that still
+          make sense when the data gets messy.
         </p>
 
         {statsLoading ? (
@@ -240,20 +241,19 @@ export function AboutPage() {
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            My first year was HTML and CSS, and static pages quickly felt like a
-            ceiling rather than a craft. So I turned toward backend work instead,
-            databases and server logic for a logistics firm, and learned that a
-            fast query means nothing if the screen it feeds is confusing. That
-            pulled me back to the browser: vanilla JS first, then React, then
-            Next.js, where server and client finally felt like one system.
-            Lately my focus has shifted toward agentic AI development.
+            I started with HTML and CSS, but static pages got boring fast.
+            So I went backend for a while — databases and server logic for a
+            logistics company — and learned the hard way that a fast query
+            doesn&apos;t matter if the UI confuses everyone. That dragged me back
+            to the browser: plain JS first, then React, then Next.js, where
+            front and back finally clicked for me. These days I&apos;m deep into AI agents.
           </p>
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            These days I&apos;m working through machine learning fundamentals and the
-            engineering habits that only matter at scale: system design, testing
-            discipline, architecture that survives a team growing around it. It is
-            a slower kind of progress than shipping a feature, but it is the
-            foundation I want under everything I build next.
+            Right now I&apos;m grinding through ML basics and the unglamorous
+            stuff that matters at scale: system design, actually writing tests,
+            architecture that doesn&apos;t fall apart when more people touch it.
+            Slower than shipping a feature, but it&apos;s what I want everything
+            else to stand on.
           </p>
         </div>
 
@@ -375,7 +375,7 @@ export function AboutPage() {
             OFF THE CLOCK
           </p>
           <p className="font-body text-[15px] text-text-secondary">
-            Hobbies that recharge me, and occasionally sneak their way into the work.
+            Stuff I do when I&apos;m not coding — some of it sneaks into my work anyway.
           </p>
           {interestsError ? (
             <ErrorState onRetry={refetchInterests} />
@@ -404,10 +404,10 @@ export function AboutPage() {
           className="border-l-2 border-violet pl-6 md:pl-10 py-2 flex flex-col gap-3"
         >
           <p className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
-            &ldquo;The best opportunity you can get is in your hands&rdquo;
+            &ldquo;The best opportunity you can get is the one in your hands&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">
-            A rule I try to build by.
+            Trying to live by that.
           </cite>
         </blockquote>
       </div>
