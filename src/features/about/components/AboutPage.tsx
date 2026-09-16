@@ -242,8 +242,8 @@ export function AboutPage() {
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
             I started with HTML and CSS, but static pages got boring fast.
-            So I went backend for a while — databases and server logic for a
-            logistics company — and learned the hard way that a fast query
+            So I went backend for a while, databases and server logic for a
+            logistics company, and learned the hard way that a fast query
             doesn&apos;t matter if the UI confuses everyone. That dragged me back
             to the browser: plain JS first, then React, then Next.js, where
             front and back finally clicked for me. These days I&apos;m deep into AI agents.
@@ -375,7 +375,7 @@ export function AboutPage() {
             OFF THE CLOCK
           </p>
           <p className="font-body text-[15px] text-text-secondary">
-            Stuff I do when I&apos;m not coding — some of it sneaks into my work anyway.
+            Stuff I do when I&apos;m not coding. Some of it sneaks into my work anyway.
           </p>
           {interestsError ? (
             <ErrorState onRetry={refetchInterests} />

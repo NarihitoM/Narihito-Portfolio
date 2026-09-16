@@ -88,7 +88,7 @@ export function EventsPage() {
       breadcrumb="HOME / EVENTS"
       eyebrow="[ 05 - EVENTS ]"
       title="The rooms that made me better at this."
-      deck="Hackathons, meetups, programs I showed up to — how long they ran, and what stuck with me after."
+      deck="Hackathons, meetups, programs I showed up to. How long they ran, and what stuck with me after."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
