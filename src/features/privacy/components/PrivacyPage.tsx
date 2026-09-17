@@ -15,7 +15,7 @@ export function PrivacyPage() {
           <h1 className="font-display text-[32px] md:text-[44px] font-semibold text-text-primary">
             Privacy Policy
           </h1>
-          <p className="font-mono text-[12px] text-text-muted">Last updated: 2026</p>
+          <p className="font-mono text-[12px] text-text-muted">Last updated: {new Date().getFullYear()}</p>
         </div>
 
         <section className="flex flex-col gap-2">
