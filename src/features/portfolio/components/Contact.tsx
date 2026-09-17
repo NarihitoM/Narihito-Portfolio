@@ -185,7 +185,7 @@ export function Contact() {
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between pt-5 font-mono text-[11px] md:text-[12px] text-text-muted">
           <div className="flex flex-col gap-1.5">
-            <span>© 2026 Narihito. All rights reserved.</span>
+            <span>© {new Date().getFullYear()} Narihito. All rights reserved.</span>
             <span>Designed &amp; developed by Narihito.</span>
           </div>
           <Link
