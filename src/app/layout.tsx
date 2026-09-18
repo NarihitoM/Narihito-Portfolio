@@ -129,6 +129,17 @@ const personSchema = {
   sameAs: ["https://github.com/NarihitoM"],
 };
 
+const siteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Narihito",
+  alternateName: "Narihito - Hein Htet Aung Portfolio",
+  url: SITE_URL,
+  description: SITE_DESCRIPTION,
+  inLanguage: "en",
+  author: { "@type": "Person", name: "Hein Htet Aung" },
+};
+
 const themeInitScript = `
 try {
   var stored = window.localStorage.getItem('narihito-theme');
@@ -152,6 +163,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(siteSchema) }}
         />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
