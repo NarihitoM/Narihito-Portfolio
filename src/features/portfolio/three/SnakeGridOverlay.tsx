@@ -18,18 +18,10 @@ interface Runner {
   trail: Point[];
 }
 
-interface Pulse {
-  x: number;
-  y: number;
-  start: number;
-}
-
 const CELL = 56;
 const TRAIL_LENGTH = 52;
 const RUNNER_COUNT = 10;
 const TRAIL_BANDS = 4;
-const PULSE_DURATION = 1600;
-const PULSE_INTERVAL = 520;
 
 export function SnakeGridOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -52,41 +44,6 @@ export function SnakeGridOverlay() {
     let cols = 0;
     let rows = 0;
     let runners: Runner[] = [];
-    const pulses: Pulse[] = [];
-    let lastPulse = 0;
-
-    const gridCanvas = document.createElement("canvas");
-    const gridCtx = gridCanvas.getContext("2d");
-
-    function paintGrid() {
-      if (!gridCtx) return;
-      gridCanvas.width = width * dpr;
-      gridCanvas.height = height * dpr;
-      gridCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      gridCtx.clearRect(0, 0, width, height);
-
-      gridCtx.strokeStyle = `rgba(${rgb},0.035)`;
-      gridCtx.lineWidth = 1;
-      gridCtx.beginPath();
-      for (let c = 0; c <= cols; c++) {
-        const x = c * CELL + 0.5;
-        gridCtx.moveTo(x, 0);
-        gridCtx.lineTo(x, height);
-      }
-      for (let r = 0; r <= rows; r++) {
-        const y = r * CELL + 0.5;
-        gridCtx.moveTo(0, y);
-        gridCtx.lineTo(width, y);
-      }
-      gridCtx.stroke();
-
-      gridCtx.fillStyle = `rgba(${rgb},0.09)`;
-      for (let c = 0; c <= cols; c++) {
-        for (let r = 0; r <= rows; r++) {
-          gridCtx.fillRect(c * CELL - 0.75, r * CELL - 0.75, 1.5, 1.5);
-        }
-      }
-    }
 
     function resetRunner(runner: Runner, seeded: boolean) {
       runner.x = Math.floor(Math.random() * (cols + 1)) * CELL;
@@ -125,9 +82,7 @@ export function SnakeGridOverlay() {
       canvas!.style.width = `${width}px`;
       canvas!.style.height = `${height}px`;
       ctx!.setTransform(dpr, 0, 0, dpr, 0, 0);
-      paintGrid();
       runners = makeRunners();
-      pulses.length = 0;
     }
 
     resize();
@@ -135,7 +90,6 @@ export function SnakeGridOverlay() {
     observer.observe(parent);
 
     if (reduced) {
-      ctx.drawImage(gridCanvas, 0, 0, width, height);
       return () => observer.disconnect();
     }
 
@@ -202,23 +156,6 @@ export function SnakeGridOverlay() {
       ctx!.drawImage(headSprite, head.x - 9, head.y - 9, 18, 18);
     }
 
-    function drawPulses(now: number) {
-      ctx!.lineWidth = 1;
-      for (let i = pulses.length - 1; i >= 0; i--) {
-        const pulse = pulses[i];
-        const t = (now - pulse.start) / PULSE_DURATION;
-        if (t >= 1) {
-          pulses.splice(i, 1);
-          continue;
-        }
-        const eased = 1 - Math.pow(1 - t, 3);
-        ctx!.beginPath();
-        ctx!.arc(pulse.x, pulse.y, eased * 26, 0, Math.PI * 2);
-        ctx!.strokeStyle = `rgba(${rgb},${(1 - t) * 0.22})`;
-        ctx!.stroke();
-      }
-    }
-
     function step(runner: Runner, dt: number) {
       runner.x += runner.dx * runner.speed * dt;
       runner.y += runner.dy * runner.speed * dt;
@@ -245,20 +182,8 @@ export function SnakeGridOverlay() {
       last = now;
 
       ctx!.clearRect(0, 0, width, height);
-      ctx!.drawImage(gridCanvas, 0, 0, width, height);
       ctx!.lineJoin = "round";
       ctx!.lineCap = "round";
-
-      if (now - lastPulse > PULSE_INTERVAL) {
-        lastPulse = now;
-        pulses.push({
-          x: Math.floor(Math.random() * (cols + 1)) * CELL,
-          y: Math.floor(Math.random() * (rows + 1)) * CELL,
-          start: now,
-        });
-      }
-
-      drawPulses(now);
 
       for (const runner of runners) {
         step(runner, dt);

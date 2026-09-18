@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
-import { AuraBackground } from "@/shared/components/ui/AuraBackground";
 import { SnakeGridOverlay } from "@/features/portfolio/three/SnakeGridOverlay";
 
 export function Hero() {
@@ -52,9 +51,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative flex flex-col justify-center w-full bg-bg-alt overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-svh">
-      <AuraBackground />
-
+    <section ref={sectionRef} className="relative flex flex-col justify-center w-full overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-svh">
       <div className="pointer-events-none absolute inset-0">
         <SnakeGridOverlay />
       </div>
