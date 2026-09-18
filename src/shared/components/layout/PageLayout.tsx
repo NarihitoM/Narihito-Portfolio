@@ -229,7 +229,7 @@ export function PageLayout({
       <div
         ref={drawerRef}
         data-lenis-prevent
-        className="no-scrollbar fixed inset-0 z-[60] hidden flex-col overflow-y-auto bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
+        className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
       >
         <button
           type="button"
