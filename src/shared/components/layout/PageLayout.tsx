@@ -347,7 +347,7 @@ export function PageLayout({
         </Link>
         <Link
           href={next.href}
-          className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:border-t-0 md:border-l md:pl-6 md:text-right"
+          className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:border-t-0 md:text-right"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             {next.direction}
