@@ -213,14 +213,16 @@ export function ProjectsPage() {
                 key={tag.label}
                 type="button"
                 onClick={() => setFilter(tag.label)}
-                className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,border-color,transform] hover:border-violet hover:text-text-primary active:scale-95 ${
+                className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,background-color,border-color,transform] duration-200 active:scale-95 ${
                   filter === tag.label
-                    ? "border-violet bg-surface text-text-primary"
-                    : "border-border-glow-soft bg-surface text-text-secondary"
+                    ? "animate-chip-pop border-violet bg-violet font-medium text-wire"
+                    : "border-border-glow-soft bg-surface text-text-secondary hover:border-violet hover:text-text-primary"
                 }`}
               >
                 <span>{tag.label}</span>
-                <span className="text-text-muted">({tag.count})</span>
+                <span className={filter === tag.label ? "text-wire/60" : "text-text-muted"}>
+                  ({tag.count})
+                </span>
               </button>
             ))}
           </div>

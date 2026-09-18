@@ -333,7 +333,7 @@ export function PageLayout({
         {children}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-12 md:pt-28 pb-12">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-6 md:pt-10 pb-12">
         <Link
           href={prev.href}
           className="group flex-1 flex flex-col gap-3 py-6 md:border-t md:border-border-glow-soft"
