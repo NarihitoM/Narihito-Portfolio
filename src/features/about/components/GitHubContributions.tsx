@@ -175,55 +175,57 @@ export function GitHubContributions() {
         </a>
       ) : (
         <div className="rounded-[6px] border border-border-glow-soft bg-surface px-4 py-3 md:px-6 md:py-4">
-          <div className="themed-scrollbar overflow-x-auto">
-          <div className="flex w-full min-w-[780px] flex-col gap-[3px]">
-            <div className="flex items-center gap-[3px]">
-              <span className="sticky left-0 z-10 w-8 shrink-0 bg-surface" />
-              <div className="flex flex-1 gap-[3px]">
-                {monthLabels.map((label, i) => (
-                  <span key={i} className="relative h-3 min-w-[11px] flex-1">
-                    {label && (
-                      <span className="absolute left-0 top-0 font-mono text-[9px] leading-3 text-text-muted">
-                        {label}
-                      </span>
-                    )}
-                  </span>
+          <div className="flex gap-[3px]">
+            <div className="flex w-8 shrink-0 flex-col gap-[3px]">
+              <span className="h-3 shrink-0" />
+              {WEEKDAYS.map((weekday, rowIndex) => (
+                <span
+                  key={rowIndex}
+                  className="flex h-[11px] shrink-0 items-center font-mono text-[9px] leading-3 text-text-muted"
+                >
+                  {weekday}
+                </span>
+              ))}
+            </div>
+            <div className="themed-scrollbar min-w-0 flex-1 overflow-x-auto pb-1">
+              <div className="flex w-max flex-col gap-[3px]">
+                <div className="flex gap-[3px]">
+                  {monthLabels.map((label, i) => (
+                    <span key={i} className="relative h-3 w-[11px] shrink-0">
+                      {label && (
+                        <span className="absolute left-0 top-0 font-mono text-[9px] leading-3 text-text-muted">
+                          {label}
+                        </span>
+                      )}
+                    </span>
+                  ))}
+                </div>
+                {WEEKDAYS.map((_, rowIndex) => (
+                  <div key={rowIndex} className="flex gap-[3px]">
+                    {weeks.map((week, weekIndex) => {
+                      const day = week[rowIndex];
+                      return day === null ? (
+                        <span key={weekIndex} className="h-[11px] w-[11px] shrink-0" />
+                      ) : (
+                        <button
+                          key={weekIndex}
+                          type="button"
+                          onClick={() => setSelected(selected?.date === day.date ? null : day)}
+                          title={describeDay(day)}
+                          aria-label={describeDay(day)}
+                          style={{ backgroundColor: levels[day.level] ?? levels[0] }}
+                          className={`h-[11px] w-[11px] shrink-0 rounded-[2px] outline-offset-[1px] transition-[outline-color] ${
+                            selected?.date === day.date
+                              ? "outline outline-1 outline-text-primary"
+                              : "outline outline-1 outline-transparent hover:outline-text-muted"
+                          }`}
+                        />
+                      );
+                    })}
+                  </div>
                 ))}
               </div>
             </div>
-            {WEEKDAYS.map((weekday, rowIndex) => (
-              <div key={rowIndex} className="flex items-center gap-[3px]">
-                <span className="sticky left-0 z-10 w-8 shrink-0 bg-surface font-mono text-[9px] leading-3 text-text-muted">
-                  {weekday}
-                </span>
-                <div className="flex flex-1 gap-[3px]">
-                  {weeks.map((week, weekIndex) => {
-                    const day = week[rowIndex];
-                    return (
-                      <span key={weekIndex} className="min-w-[11px] flex-1">
-                        {day === null ? (
-                          <span className="block aspect-square w-full" />
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => setSelected(selected?.date === day.date ? null : day)}
-                            title={describeDay(day)}
-                            aria-label={describeDay(day)}
-                            style={{ backgroundColor: levels[day.level] ?? levels[0] }}
-                            className={`block aspect-square w-full rounded-[2px] outline-offset-[1px] transition-[outline-color] ${
-                              selected?.date === day.date
-                                ? "outline outline-1 outline-text-primary"
-                                : "outline outline-1 outline-transparent hover:outline-text-muted"
-                            }`}
-                          />
-                        )}
-                      </span>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
           </div>
           <div className="flex items-center justify-end gap-1.5 pt-3">
             <span className="font-mono text-[9px] text-text-muted">Less</span>
