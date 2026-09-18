@@ -1,5 +1,13 @@
 import api from "@/shared/lib/api";
-import type { AboutResponse, CursorPage, RawInterest, RawPrinciple, RawRoute, Stats } from "../types/types";
+import type {
+  AboutResponse,
+  ContributionsResponse,
+  CursorPage,
+  RawInterest,
+  RawPrinciple,
+  RawRoute,
+  Stats,
+} from "../types/types";
 
 export const aboutApi = {
   get: () => api.get<{ data: AboutResponse }>("/public/about").then((r) => r.data.data),
@@ -18,4 +26,9 @@ export const aboutApi = {
     api
       .get<CursorPage<RawInterest>>("/public/about/interests", { params: { cursor, limit } })
       .then((r) => r.data),
+
+  getContributions: (year: number, signal?: AbortSignal) =>
+    api
+      .get<{ data: ContributionsResponse }>("/public/github-contributions", { params: { year }, signal })
+      .then((r) => r.data.data),
 };

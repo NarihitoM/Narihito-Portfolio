@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useTheme } from "@/shared/hooks/useTheme";
+import { aboutApi } from "@/features/about/api/aboutApi";
+import type { ContributionDay } from "@/features/about/types/types";
 
 const USERNAME = "NarihitoM";
 const MIN_YEAR = 2022;
@@ -12,12 +14,6 @@ const GREENS = {
   light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
 } as const;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-interface ContributionDay {
-  date: string;
-  count: number;
-  level: number;
-}
 
 function toDateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -59,24 +55,23 @@ export function GitHubContributions() {
 
   useEffect(() => {
     let cancelled = false;
-    fetch(`/api/github-contributions?year=${year}`)
-      .then((res) => {
-        if (!res.ok) throw new Error("Request failed");
-        return res.json();
-      })
+    const controller = new AbortController();
+    aboutApi
+      .getContributions(year, controller.signal)
       .then((data) => {
         if (cancelled) return;
         setDays(data.days ?? []);
         setTotal(data.total ?? 0);
       })
       .catch(() => {
-        if (!cancelled) setFailed(true);
+        if (!cancelled && !controller.signal.aborted) setFailed(true);
       })
       .finally(() => {
         if (!cancelled) setLoading(false);
       });
     return () => {
       cancelled = true;
+      controller.abort();
     };
   }, [year]);
 

@@ -53,3 +53,15 @@ export interface Stats {
   projectsCount: number;
   satisfiedRate: number;
 }
+
+export interface ContributionDay {
+  date: string;
+  count: number;
+  level: number;
+}
+
+export interface ContributionsResponse {
+  year: number;
+  total: number;
+  days: ContributionDay[];
+}
