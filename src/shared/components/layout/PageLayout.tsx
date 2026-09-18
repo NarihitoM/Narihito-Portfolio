@@ -277,7 +277,7 @@ export function PageLayout({
       <div className="h-[84px] md:h-[100px]" />
 
       <div className="flex flex-1 flex-col">
-      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 backdrop-blur-md px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
+      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
         <Link
           href={backHref}
           className="group font-mono text-[12px] text-text-secondary transition-[color,transform] duration-150 ease-out hover:text-text-primary active:scale-95 active:text-violet"
@@ -333,10 +333,10 @@ export function PageLayout({
         {children}
       </div>
 
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 px-5 md:px-10 lg:px-[120px] pt-12 md:pt-28 pb-12">
+      <div className="flex flex-col md:flex-row gap-4 md:gap-6 bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-12 md:pt-28 pb-12">
         <Link
           href={prev.href}
-          className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft"
+          className="group flex-1 flex flex-col gap-3 py-6 md:border-t md:border-border-glow-soft"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             {prev.direction}
@@ -347,7 +347,7 @@ export function PageLayout({
         </Link>
         <Link
           href={next.href}
-          className="group flex-1 flex flex-col gap-3 py-6 border-t border-border-glow-soft md:text-right"
+          className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:text-right"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             {next.direction}
