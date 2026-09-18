@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Narihito",
-    title: "Narihito (Hein Htet Aung) - Full-Stack Developer Portfolio",
+    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
@@ -146,6 +146,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
