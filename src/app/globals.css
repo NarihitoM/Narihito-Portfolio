@@ -185,7 +185,7 @@ html {
 }
 
 :root {
-  color-scheme: dark;
+  color-scheme: only dark;
   --color-bg: #0a0a0a;
   --color-bg-panel: #161616b0;
   --color-bg-panel-solid: #161616;

@@ -43,13 +43,13 @@ const PALETTES: Record<Theme, SilkPalette> = {
     vignetteY: 0.3,
   },
   light: {
-    low: [252, 251, 248],
-    high: [214, 211, 204],
+    low: [238, 237, 234],
+    high: [218, 216, 212],
     foldGamma: 1.9,
     sheenGamma: 1.5,
-    sheenWeight: 0.2,
-    vignetteX: 0.16,
-    vignetteY: 0.18,
+    sheenWeight: 0.14,
+    vignetteX: 0.1,
+    vignetteY: 0.12,
   },
 };
 
