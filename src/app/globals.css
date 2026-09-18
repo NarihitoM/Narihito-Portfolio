@@ -344,6 +344,11 @@ body {
   color: var(--color-wire);
 }
 
+select option {
+  background-color: var(--color-surface);
+  color: var(--color-text-primary);
+}
+
 [data-theme="light"] {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
