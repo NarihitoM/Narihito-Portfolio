@@ -11,6 +11,7 @@ import { ModeToggle } from "@/features/portfolio/components/ModeToggle";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { getLenisInstance } from "@/shared/lib/lenis";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import type { PageLayoutProps } from "@/shared/types/types";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
@@ -34,6 +35,7 @@ export function PageLayout({
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
+  useLenisLock(menuOpen);
 
   useEffect(() => {
     const lenis = getLenisInstance();
