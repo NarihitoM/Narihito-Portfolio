@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Space_Grotesk, Inter, JetBrains_Mono, Geist } from "next/font/google";
+import { Space_Grotesk, Inter, IBM_Plex_Mono, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/shared/components/layout/Providers";
@@ -25,8 +25,8 @@ const inter = Inter({
   weight: ["400", "500", "600"],
 });
 
-const jetBrainsMono = JetBrains_Mono({
-  variable: "--font-jetbrains-mono",
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
 });
@@ -56,7 +56,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       data-theme="dark"
-      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, jetBrainsMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, ibmPlexMono.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <head>

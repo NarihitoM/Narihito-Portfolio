@@ -328,7 +328,7 @@ html {
 
   --font-display: var(--font-space-grotesk);
   --font-body: var(--font-inter);
-  --font-mono: var(--font-jetbrains-mono);
+  --font-mono: var(--font-ibm-plex-mono);
   --font-heading: var(--font-sans);
   --font-sans: var(--font-sans);
   --color-sidebar-ring: var(--sidebar-ring);
