@@ -14,7 +14,6 @@ export function About() {
   const sectionRef = useRef<HTMLElement>(null);
   const bodyRef = useRef<HTMLParagraphElement>(null);
   const [lightboxOpen, setLightboxOpen] = useState(false);
-  const [chartError, setChartError] = useState(false);
   const { data: stats, isLoading: statsLoading } = useStats();
 
   useGSAP(
@@ -50,8 +49,8 @@ export function About() {
   );
 
   return (
-    <section id="about" ref={sectionRef} className="w-full py-14 md:py-16 lg:py-20 lg:min-h-[780px]">
-      <div className="mx-5 md:mx-10 lg:mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] lg:max-w-[1400px] lg:justify-center">
+    <section id="about" ref={sectionRef} className="w-full border-t border-border-glow-soft py-14 md:py-16 lg:py-0 lg:h-[780px]">
+      <div className="mx-5 md:mx-10 lg:mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full lg:max-w-[1400px] lg:justify-center">
         <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
           <button
@@ -98,49 +97,6 @@ export function About() {
 
           <DetailCta href="/about" route="/about" />
         </div>
-      </div>
-
-      <div className="mx-5 md:mx-10 lg:mx-auto lg:w-full lg:max-w-[1400px] mt-10 md:mt-14 flex flex-col gap-4">
-        <div className="flex items-center justify-between gap-4">
-          <span className="font-mono text-[11px] tracking-[2px] text-text-muted">GITHUB CONTRIBUTIONS</span>
-          <a
-            href="https://github.com/NarihitoM"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[11px] text-violet transition-colors hover:text-text-primary"
-          >
-            @NarihitoM ↗
-          </a>
-        </div>
-        {chartError ? (
-          <a
-            href="https://github.com/NarihitoM"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center rounded-[6px] border border-border-glow-soft bg-surface px-4 py-8 font-body text-[14px] text-text-secondary transition-colors hover:border-violet hover:text-text-primary"
-          >
-            View contributions on GitHub →
-          </a>
-        ) : (
-          <a
-            href="https://github.com/NarihitoM"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="NarihitoM GitHub contributions"
-            className="block overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface p-3 md:p-4 transition-colors hover:border-violet"
-          >
-            <Image
-              src="https://ghchart.rshah.org/8b5cf6/NarihitoM"
-              alt="GitHub contributions graph for NarihitoM"
-              width={1200}
-              height={220}
-              unoptimized
-              loading="lazy"
-              onError={() => setChartError(true)}
-              className="h-auto w-full"
-            />
-          </a>
-        )}
       </div>
 
       {lightboxOpen && (
