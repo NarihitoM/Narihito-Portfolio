@@ -336,7 +336,7 @@ export function PageLayout({
       <div className="flex flex-col md:flex-row gap-4 md:gap-6 bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-6 md:pt-10 pb-12">
         <Link
           href={prev.href}
-          className="group flex-1 flex flex-col gap-3 py-6"
+          className="group flex-1 flex flex-col gap-3 py-6 md:border-l-2 md:border-violet md:pl-10 md:py-2"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             {prev.direction}
@@ -347,7 +347,7 @@ export function PageLayout({
         </Link>
         <Link
           href={next.href}
-          className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:border-t-0 md:text-right"
+          className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:border-t-0 md:border-r-2 md:border-r-violet md:pr-10 md:py-2 md:text-right md:items-end"
         >
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             {next.direction}
