@@ -167,7 +167,8 @@ export function GitHubContributions() {
           />
         </a>
       ) : (
-        <div className="themed-scrollbar overflow-x-auto rounded-[6px] border border-border-glow-soft bg-surface px-4 py-3 md:px-6 md:py-4">
+        <div className="rounded-[6px] border border-border-glow-soft bg-surface px-4 py-3 md:px-6 md:py-4">
+          <div className="themed-scrollbar overflow-x-auto">
           <div className="flex w-full min-w-[740px] flex-col gap-1.5">
             <div className="flex gap-[3px]">
               {monthLabels.map((label, i) => (
@@ -205,13 +206,14 @@ export function GitHubContributions() {
                 </div>
               ))}
             </div>
-            <div className="flex items-center justify-end gap-1.5 pt-1">
-              <span className="font-mono text-[9px] text-text-muted">Less</span>
-              {levels.map((color) => (
-                <span key={color} style={{ backgroundColor: color }} className="h-[11px] w-[11px] rounded-[2px]" />
-              ))}
-              <span className="font-mono text-[9px] text-text-muted">More</span>
-            </div>
+          </div>
+          </div>
+          <div className="flex items-center justify-end gap-1.5 pt-3">
+            <span className="font-mono text-[9px] text-text-muted">Less</span>
+            {levels.map((color) => (
+              <span key={color} style={{ backgroundColor: color }} className="h-[11px] w-[11px] rounded-[2px]" />
+            ))}
+            <span className="font-mono text-[9px] text-text-muted">More</span>
           </div>
         </div>
       )}
