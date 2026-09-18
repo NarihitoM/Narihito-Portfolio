@@ -83,7 +83,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
             type="button"
             aria-label={`View ${event.title} image`}
             onClick={() => setZoomed(true)}
-            className="w-full h-[240px] md:h-[320px] cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
+            className="w-full h-[240px] md:h-[320px] shrink-0 cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
           >
             <img src={event.image} alt={event.title} className="h-full w-full object-cover" />
           </button>
@@ -114,4 +114,5 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
     </>
   );
 }
+
 
