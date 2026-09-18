@@ -74,7 +74,7 @@ export const metadata: Metadata = {
         url: "/img/Narihito.jpg",
         width: 1200,
         height: 630,
-        alt: "Narihito - full-stack developer portfolio",
+        alt: "Narihito - full-stack & agentic ai developer portfolio",
       },
     ],
   },
@@ -96,6 +96,9 @@ export const metadata: Metadata = {
     },
   },
   category: "technology",
+  verification: {
+    google: "yiocS7kwAWSj_xpg9pFZTBGvnI6vm7iBs1spr86EMYs",
+  },
   icons: {
     icon: "/img/Narihito.jpg",
     apple: "/img/Narihito.jpg",
