@@ -277,7 +277,7 @@ export function PageLayout({
       <div className="h-[84px] md:h-[100px]" />
 
       <div className="flex flex-1 flex-col">
-      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 bg-bg-panel backdrop-blur-md px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
+      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 backdrop-blur-md px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
         <Link
           href={backHref}
           className="group font-mono text-[12px] text-text-secondary transition-[color,transform] duration-150 ease-out hover:text-text-primary active:scale-95 active:text-violet"
@@ -359,7 +359,7 @@ export function PageLayout({
       </div>
       </div>
 
-      <footer className="mt-auto px-5 md:px-10 lg:px-[120px] pb-8 md:pb-14">
+      <footer className="mt-auto bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-8 md:pt-12 pb-8 md:pb-14">
         <div className="h-px w-full bg-border-glow-soft" />
         <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between pt-5 font-mono text-[11px] md:text-[12px] text-text-muted">
           <div className="flex flex-col gap-1.5">

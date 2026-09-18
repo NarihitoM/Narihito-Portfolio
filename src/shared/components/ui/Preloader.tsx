@@ -1,33 +1,40 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 const TAGLINE = "Full-Stack & Agentic AI Developer";
 const TYPE_MS = 50;
 const BAR_MS = 2000;
+const READY_FALLBACK_MS = 3000;
+
+function subscribeLoad(onStoreChange: () => void) {
+  window.addEventListener("load", onStoreChange);
+  return () => window.removeEventListener("load", onStoreChange);
+}
+
+function getLoaded() {
+  return document.readyState === "complete";
+}
+
+function getServerLoaded() {
+  return false;
+}
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
   const scrollYRef = useRef(0);
   const [done, setDone] = useState(false);
-  const [ready, setReady] = useState(false);
+  const [timedOut, setTimedOut] = useState(false);
   const [typed, setTyped] = useState("");
+  const loaded = useSyncExternalStore(subscribeLoad, getLoaded, getServerLoaded);
+  const ready = loaded || timedOut;
   const typingDone = typed.length === TAGLINE.length;
 
   useEffect(() => {
-    if (document.readyState === "complete") {
-      setReady(true);
-      return;
-    }
-    const onLoad = () => setReady(true);
-    window.addEventListener("load", onLoad);
-    const fallback = window.setTimeout(() => setReady(true), 3000);
-    return () => {
-      window.removeEventListener("load", onLoad);
-      window.clearTimeout(fallback);
-    };
+    const fallback = window.setTimeout(() => setTimedOut(true), READY_FALLBACK_MS);
+    return () => window.clearTimeout(fallback);
   }, []);
 
   useEffect(() => {
