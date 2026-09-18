@@ -201,10 +201,10 @@ export function SkillsPage() {
                 key={label}
                 type="button"
                 onClick={() => setActiveCategory(label)}
-                className={`rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,border-color,transform] hover:border-violet hover:text-text-primary active:scale-95 ${
+                className={`rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,background-color,border-color,transform] duration-200 active:scale-95 ${
                   activeCategory === label
-                    ? "border-violet bg-surface text-text-primary"
-                    : "border-border-glow-soft bg-surface text-text-secondary"
+                    ? "animate-chip-pop border-violet bg-violet font-medium text-wire"
+                    : "border-border-glow-soft bg-surface text-text-secondary hover:border-violet hover:text-text-primary"
                 }`}
               >
                 {label}

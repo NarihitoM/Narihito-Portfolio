@@ -43,6 +43,28 @@ html {
   animation: feedback-pop 0.3s ease-out;
 }
 
+@keyframes chip-pop {
+  0% {
+    transform: scale(0.92);
+  }
+  55% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-chip-pop {
+  animation: chip-pop 0.34s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-chip-pop {
+    animation: none;
+  }
+}
+
 .cursor-none,
 .cursor-none * {
   cursor: none;
