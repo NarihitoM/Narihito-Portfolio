@@ -18,6 +18,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { usePrinciples, useRoutes, useInterests, useStats } from "@/features/about/hooks/useAbout";
+import { GitHubContributions } from "@/features/about/components/GitHubContributions";
 import { yearsOfExperience } from "@/shared/lib/experience";
 import { StatItem, StatItemSkeleton } from "@/shared/components/ui/StatItem";
 
@@ -238,6 +239,8 @@ export function AboutPage() {
             <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
           </div>
         ) : null}
+
+        <GitHubContributions />
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
