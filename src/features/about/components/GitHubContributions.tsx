@@ -1,12 +1,16 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { useTheme } from "@/shared/hooks/useTheme";
 
 const USERNAME = "NarihitoM";
 const MIN_YEAR = 2022;
-const GREENS = ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"];
+const GREENS = {
+  dark: ["#161b22", "#0e4429", "#006d32", "#26a641", "#39d353"],
+  light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
+} as const;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 interface ContributionDay {
@@ -29,6 +33,8 @@ function describeDay(day: ContributionDay) {
 }
 
 export function GitHubContributions() {
+  const { theme } = useTheme();
+  const levels = GREENS[theme];
   const currentYear = new Date().getFullYear();
   const years = useMemo(
     () => Array.from({ length: currentYear - MIN_YEAR + 1 }, (_, i) => currentYear - i),
@@ -196,7 +202,7 @@ export function GitHubContributions() {
                         onClick={() => setSelected(selected?.date === day.date ? null : day)}
                         title={describeDay(day)}
                         aria-label={describeDay(day)}
-                        style={{ backgroundColor: GREENS[day.level] ?? GREENS[0] }}
+                        style={{ backgroundColor: levels[day.level] ?? levels[0] }}
                         className={`aspect-square w-full rounded-[2px] outline-offset-[1px] transition-[outline-color] ${
                           selected?.date === day.date
                             ? "outline outline-1 outline-text-primary"
@@ -210,7 +216,7 @@ export function GitHubContributions() {
             </div>
             <div className="flex items-center justify-end gap-1.5 pt-1">
               <span className="font-mono text-[9px] text-text-muted">Less</span>
-              {GREENS.map((color) => (
+              {levels.map((color) => (
                 <span key={color} style={{ backgroundColor: color }} className="h-[11px] w-[11px] rounded-[2px]" />
               ))}
               <span className="font-mono text-[9px] text-text-muted">More</span>
@@ -221,3 +227,4 @@ export function GitHubContributions() {
     </div>
   );
 }
+
