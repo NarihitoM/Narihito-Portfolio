@@ -207,7 +207,7 @@ function MobileDrawer({
             onClick={(event) => {
               event.preventDefault();
               onClose();
-              scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
+              requestAnimationFrame(() => scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET));
             }}
             className={`wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em] ${
               activeLink === link ? "is-active" : ""
