@@ -9,6 +9,8 @@ export function useLenis() {
   useEffect(() => {
     registerGsap();
 
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) return;
 

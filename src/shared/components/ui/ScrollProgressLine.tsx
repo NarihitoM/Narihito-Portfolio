@@ -23,7 +23,8 @@ export function ScrollProgressLine() {
 
     const tick = () => {
       const lenis = getLenisInstance();
-      const value = lenis && Number.isFinite(lenis.progress) ? lenis.progress : nativeProgress();
+      const value =
+        lenis && lenis.limit > 0 && Number.isFinite(lenis.progress) ? lenis.progress : nativeProgress();
       const progress = Math.min(Math.max(value, 0), 1);
 
       if (progress !== last) {
