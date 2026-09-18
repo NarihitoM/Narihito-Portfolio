@@ -52,7 +52,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative flex flex-col w-full bg-bg-alt overflow-hidden pt-[130px] md:pt-[150px] lg:pt-[170px] pb-10 md:pb-12 min-h-[720px] lg:min-h-[900px]">
+    <section ref={sectionRef} className="relative flex flex-col justify-center w-full bg-bg-alt overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-svh">
       <AuraBackground />
 
       <div className="pointer-events-none absolute inset-0">
@@ -87,7 +87,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="hidden lg:flex relative z-10 mx-auto mt-16 flex-col items-center gap-10 pb-8">
+      <div className="hidden lg:flex relative z-10 mx-auto mt-10 xl:mt-14 flex-col items-center gap-6 xl:gap-8">
         <div className="flex items-center justify-center gap-14">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
