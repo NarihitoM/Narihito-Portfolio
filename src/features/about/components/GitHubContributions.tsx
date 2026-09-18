@@ -14,6 +14,7 @@ const GREENS = {
   light: ["#ebedf0", "#9be9a8", "#40c463", "#30a14e", "#216e39"],
 } as const;
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const WEEKDAYS = ["", "Mon", "", "Wed", "", "Fri", ""];
 
 function toDateKey(date: Date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
@@ -123,26 +124,32 @@ export function GitHubContributions() {
           )}
         </div>
         <div className="flex items-center gap-3">
-          <a
-            href={`https://github.com/${USERNAME}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="font-mono text-[11px] text-violet transition-colors hover:text-text-primary"
-          >
-            @{USERNAME}
-          </a>
-          <select
-            value={year}
-            onChange={(e) => setYear(Number(e.target.value))}
-            aria-label="Select contributions year"
-            className="cursor-pointer rounded-[4px] border border-border-glow-soft bg-surface px-2 py-1 font-mono text-[11px] text-text-primary outline-none transition-colors hover:border-violet focus:border-violet"
-          >
-            {years.map((option) => (
-              <option key={option} value={option}>
-                {option}
-              </option>
-            ))}
-          </select>
+          <div className="relative">
+            <select
+              value={year}
+              onChange={(e) => setYear(Number(e.target.value))}
+              aria-label="Select contributions year"
+              className="cursor-pointer appearance-none rounded-[4px] border border-border-glow-soft bg-chip py-1.5 pl-3 pr-8 font-mono text-[11px] font-medium uppercase tracking-[1.5px] text-text-primary outline-none transition-colors hover:border-violet hover:text-violet focus:border-violet"
+            >
+              {years.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+            <svg
+              aria-hidden="true"
+              width="12"
+              height="12"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.4"
+              className="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-text-muted"
+            >
+              <path d="M6 9l6 6 6-6" />
+            </svg>
+          </div>
         </div>
       </div>
 
@@ -169,43 +176,53 @@ export function GitHubContributions() {
       ) : (
         <div className="rounded-[6px] border border-border-glow-soft bg-surface px-4 py-3 md:px-6 md:py-4">
           <div className="themed-scrollbar overflow-x-auto">
-          <div className="flex w-full min-w-[740px] flex-col gap-1.5">
-            <div className="flex gap-[3px]">
-              {monthLabels.map((label, i) => (
-                <span key={i} className="relative h-3 min-w-[11px] flex-1">
-                  {label && (
-                    <span className="absolute left-0 top-0 font-mono text-[9px] leading-3 text-text-muted">
-                      {label}
-                    </span>
-                  )}
+          <div className="flex w-full min-w-[780px] flex-col gap-[3px]">
+            <div className="flex items-center gap-[3px]">
+              <span className="sticky left-0 z-10 w-8 shrink-0 bg-surface" />
+              <div className="flex flex-1 gap-[3px]">
+                {monthLabels.map((label, i) => (
+                  <span key={i} className="relative h-3 min-w-[11px] flex-1">
+                    {label && (
+                      <span className="absolute left-0 top-0 font-mono text-[9px] leading-3 text-text-muted">
+                        {label}
+                      </span>
+                    )}
+                  </span>
+                ))}
+              </div>
+            </div>
+            {WEEKDAYS.map((weekday, rowIndex) => (
+              <div key={rowIndex} className="flex items-center gap-[3px]">
+                <span className="sticky left-0 z-10 w-8 shrink-0 bg-surface font-mono text-[9px] leading-3 text-text-muted">
+                  {weekday}
                 </span>
-              ))}
-            </div>
-            <div className="flex gap-[3px]">
-              {weeks.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex min-w-[11px] flex-1 flex-col gap-[3px]">
-                  {week.map((day, dayIndex) =>
-                    day === null ? (
-                      <span key={dayIndex} className="aspect-square w-full" />
-                    ) : (
-                      <button
-                        key={dayIndex}
-                        type="button"
-                        onClick={() => setSelected(selected?.date === day.date ? null : day)}
-                        title={describeDay(day)}
-                        aria-label={describeDay(day)}
-                        style={{ backgroundColor: levels[day.level] ?? levels[0] }}
-                        className={`aspect-square w-full rounded-[2px] outline-offset-[1px] transition-[outline-color] ${
-                          selected?.date === day.date
-                            ? "outline outline-1 outline-text-primary"
-                            : "outline outline-1 outline-transparent hover:outline-text-muted"
-                        }`}
-                      />
-                    ),
-                  )}
+                <div className="flex flex-1 gap-[3px]">
+                  {weeks.map((week, weekIndex) => {
+                    const day = week[rowIndex];
+                    return (
+                      <span key={weekIndex} className="min-w-[11px] flex-1">
+                        {day === null ? (
+                          <span className="block aspect-square w-full" />
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setSelected(selected?.date === day.date ? null : day)}
+                            title={describeDay(day)}
+                            aria-label={describeDay(day)}
+                            style={{ backgroundColor: levels[day.level] ?? levels[0] }}
+                            className={`block aspect-square w-full rounded-[2px] outline-offset-[1px] transition-[outline-color] ${
+                              selected?.date === day.date
+                                ? "outline outline-1 outline-text-primary"
+                                : "outline outline-1 outline-transparent hover:outline-text-muted"
+                            }`}
+                          />
+                        )}
+                      </span>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
           </div>
           <div className="flex items-center justify-end gap-1.5 pt-3">
