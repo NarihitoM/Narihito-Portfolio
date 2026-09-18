@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
@@ -72,7 +72,8 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div
         ref={panelRef}
-        className="relative flex flex-col gap-6 w-full max-w-[640px] max-h-[85vh] overflow-y-auto rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
+        data-lenis-prevent
+        className="relative flex flex-col gap-6 w-full max-w-[640px] max-h-[85dvh] overflow-y-auto overscroll-contain rounded-[8px] border border-border-glow bg-bg-alt p-6 md:p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <DialogCloseButton onClick={handleClose} />
@@ -113,3 +114,4 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
     </>
   );
 }
+
