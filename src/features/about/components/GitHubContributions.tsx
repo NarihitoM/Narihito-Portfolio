@@ -83,25 +83,21 @@ export function GitHubContributions() {
   const weeks = useMemo(() => {
     if (!days.length) return [];
     const byDate = new Map(days.map((day) => [day.date, day]));
-    const first = new Date(`${days[0].date}T00:00:00`);
-    const last = new Date(`${days[days.length - 1].date}T00:00:00`);
-    const cursor = new Date(first);
+    const dataYear = days[0].date.slice(0, 4);
+    const cursor = new Date(`${dataYear}-01-01T00:00:00`);
     cursor.setDate(cursor.getDate() - cursor.getDay());
-    const todayKey = toDateKey(new Date());
+    const last = new Date(`${dataYear}-12-31T00:00:00`);
     const columns: (ContributionDay | null)[][] = [];
     while (cursor <= last) {
       const week: (ContributionDay | null)[] = [];
       for (let i = 0; i < 7; i++) {
-        week.push(byDate.get(toDateKey(cursor)) ?? null);
+        const key = toDateKey(cursor);
+        week.push(
+          key.startsWith(dataYear) ? byDate.get(key) ?? { date: key, count: 0, level: 0 } : null,
+        );
         cursor.setDate(cursor.getDate() + 1);
       }
       columns.push(week);
-    }
-    while (
-      columns.length > 0 &&
-      columns[columns.length - 1].every((day) => day === null || day.date > todayKey)
-    ) {
-      columns.pop();
     }
     return columns;
   }, [days]);
