@@ -63,7 +63,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body className="min-h-full flex flex-col overflow-x-hidden font-body bg-bg text-text-primary">
+      <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
         <SiteBackground />
         <InAppBrowserBanner />

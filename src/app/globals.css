@@ -371,9 +371,11 @@ html {
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-html,
-body {
+html {
   background: var(--color-bg);
+}
+
+body {
   color: var(--color-text-primary);
 }
 
