@@ -34,12 +34,12 @@ const ibmPlexMono = IBM_Plex_Mono({
 
 const SITE_URL = "https://narihito-portfolio.vercel.app";
 const SITE_DESCRIPTION =
-  "Narihito (Hein Htet Aung) is a full-stack developer building web apps with Next.js, React, TypeScript and Node.js, plus AI-powered tools that ship to real users. Browse projects, skills, experience and get in touch.";
+  "Narihito (Hein Htet Aung), A full-stack developer building web apps with Next.js, React, TypeScript and Node.js, plus AI-powered tools that ship to real users. Browse projects, skills, experience and get in touch.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Developer Portfolio",
+    default: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
     template: "%s | Narihito",
   },
   description: SITE_DESCRIPTION,
@@ -54,6 +54,7 @@ export const metadata: Metadata = {
     "Node.js developer",
     "AI web applications",
     "software engineer Myanmar",
+    "Agentic Ai Developer"
   ],
   authors: [{ name: "Hein Htet Aung", url: SITE_URL }],
   creator: "Hein Htet Aung",
@@ -79,7 +80,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Narihito (Hein Htet Aung) - Full-Stack Developer Portfolio",
+    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
     description: SITE_DESCRIPTION,
     images: ["/img/Narihito.jpg"],
   },
@@ -108,7 +109,7 @@ const personSchema = {
   alternateName: "Narihito",
   url: SITE_URL,
   image: `${SITE_URL}/img/Narihito.jpg`,
-  jobTitle: "Full-Stack Developer",
+  jobTitle: "Full-Stack Developer and Agentic AI Engineer",
   description: SITE_DESCRIPTION,
   knowsAbout: [
     "Next.js",
@@ -118,6 +119,9 @@ const personSchema = {
     "Tailwind CSS",
     "PostgreSQL",
     "AI application development",
+    "Agentic AI",
+    "AI agents",
+    "Large language models",
   ],
   sameAs: ["https://github.com/NarihitoM"],
 };
@@ -142,10 +146,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
-        />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
