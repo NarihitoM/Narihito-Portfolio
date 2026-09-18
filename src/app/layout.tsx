@@ -32,14 +32,94 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+const SITE_URL = "https://narihito-portfolio.vercel.app";
+const SITE_DESCRIPTION =
+  "Narihito (Hein Htet Aung) is a full-stack developer building web apps with Next.js, React, TypeScript and Node.js, plus AI-powered tools that ship to real users. Browse projects, skills, experience and get in touch.";
+
 export const metadata: Metadata = {
-  title: "Narihito",
-  description:
-    "I'm Narihito (Hein Htet Aung). I build full-stack web apps and AI stuff that actually works. Take a look around.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Developer Portfolio",
+    template: "%s | Narihito",
+  },
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "Narihito",
+    "Hein Htet Aung",
+    "full-stack developer",
+    "web developer portfolio",
+    "Next.js developer",
+    "React developer",
+    "TypeScript developer",
+    "Node.js developer",
+    "AI web applications",
+    "software engineer Myanmar",
+  ],
+  authors: [{ name: "Hein Htet Aung", url: SITE_URL }],
+  creator: "Hein Htet Aung",
+  publisher: "Hein Htet Aung",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "Narihito",
+    title: "Narihito (Hein Htet Aung) - Full-Stack Developer Portfolio",
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+    images: [
+      {
+        url: "/img/Narihito.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Narihito - full-stack developer portfolio",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Narihito (Hein Htet Aung) - Full-Stack Developer Portfolio",
+    description: SITE_DESCRIPTION,
+    images: ["/img/Narihito.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  category: "technology",
   icons: {
     icon: "/img/Narihito.jpg",
     apple: "/img/Narihito.jpg",
   },
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Hein Htet Aung",
+  alternateName: "Narihito",
+  url: SITE_URL,
+  image: `${SITE_URL}/img/Narihito.jpg`,
+  jobTitle: "Full-Stack Developer",
+  description: SITE_DESCRIPTION,
+  knowsAbout: [
+    "Next.js",
+    "React",
+    "TypeScript",
+    "Node.js",
+    "Tailwind CSS",
+    "PostgreSQL",
+    "AI application development",
+  ],
+  sameAs: ["https://github.com/NarihitoM"],
 };
 
 const themeInitScript = `
@@ -62,6 +142,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
+        />
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
