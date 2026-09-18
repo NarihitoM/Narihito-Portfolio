@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
@@ -76,7 +76,7 @@ export function NameMarquee() {
     <section
       ref={sectionRef}
       aria-hidden
-      className="w-full overflow-hidden bg-bg py-10 md:py-14 lg:py-20 select-none"
+      className="w-full overflow-hidden py-10 md:py-14 lg:py-20 select-none"
     >
       <div className="flex flex-col font-display text-[clamp(26px,5.5vw,72px)] font-semibold leading-[1.05] tracking-[-0.02em]">
         {rows.map((row, i) => (

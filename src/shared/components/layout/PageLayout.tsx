@@ -164,7 +164,7 @@ export function PageLayout({
   );
 
   return (
-    <div ref={pageRef} className="flex min-h-screen flex-col bg-bg">
+    <div ref={pageRef} className="flex min-h-screen flex-col">
       <header className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12">
         <Link href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
           <Image
@@ -277,7 +277,7 @@ export function PageLayout({
       <div className="h-[84px] md:h-[100px]" />
 
       <div className="flex flex-1 flex-col">
-      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 bg-bg px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
+      <div className="sticky top-[60px] md:top-[72px] z-40 flex items-center justify-between gap-3 bg-bg-panel backdrop-blur-md px-5 md:px-10 lg:px-[120px] py-4 md:py-[18px]">
         <Link
           href={backHref}
           className="group font-mono text-[12px] text-text-secondary transition-[color,transform] duration-150 ease-out hover:text-text-primary active:scale-95 active:text-violet"

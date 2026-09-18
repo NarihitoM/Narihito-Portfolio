@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
@@ -82,7 +82,7 @@ export function Experience() {
   );
 
   return (
-    <section id="experience" ref={sectionRef} className="w-full bg-bg py-12 md:py-[72px]">
+    <section id="experience" ref={sectionRef} className="w-full py-12 md:py-[72px]">
       <div className="mx-5 flex flex-col gap-6 md:mx-10 lg:mx-[120px] md:gap-24">
         <div className="flex flex-col gap-2 md:max-w-[599px] md:gap-3">
           <SectionEyebrow>03 - EXPERIENCE</SectionEyebrow>
@@ -127,7 +127,7 @@ export function Experience() {
                   <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
                     <span className="md:hidden block">{entry.role}</span>
                     <span className="hidden md:inline">
-                      {entry.role} · {entry.company}
+                      {entry.role} Â· {entry.company}
                     </span>
                   </h3>
                   <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
