@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useId, useRef } from "react";
 import { useTheme, type Theme } from "@/shared/hooks/useTheme";
@@ -35,19 +35,19 @@ const SHEEN_DRIFT = -0.062;
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
     low: [6, 5, 5],
-    high: [74, 72, 68],
+    high: [42, 41, 39],
     foldGamma: 3.8,
     sheenGamma: 2.0,
-    sheenWeight: 0.12,
+    sheenWeight: 0.085,
     vignetteX: 0.26,
     vignetteY: 0.3,
   },
   light: {
     low: [252, 251, 248],
-    high: [178, 172, 159],
+    high: [214, 211, 204],
     foldGamma: 1.9,
     sheenGamma: 1.5,
-    sheenWeight: 0.3,
+    sheenWeight: 0.2,
     vignetteX: 0.16,
     vignetteY: 0.18,
   },
@@ -278,3 +278,4 @@ export function SiteBackground() {
     </div>
   );
 }
+
