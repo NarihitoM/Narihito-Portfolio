@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap } from "@/shared/lib/gsap";
 import { scrollToTarget } from "@/shared/lib/lenis";
+import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "@/shared/components/ui/Button";
 
@@ -17,6 +18,7 @@ export function HeaderNav() {
   const drawerRef = useRef<HTMLDivElement>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(NAV_LINKS[0]);
+  useLenisLock(menuOpen);
 
   useEffect(() => {
     const sections = NAV_LINKS.map((link) => document.getElementById(link.toLowerCase())).filter(
@@ -183,7 +185,7 @@ function MobileDrawer({
     <div
       ref={drawerRef}
       data-lenis-prevent
-      className="no-scrollbar fixed inset-0 z-[60] hidden flex-col overflow-y-auto bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
+      className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
     >
       <button
         type="button"

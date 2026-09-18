@@ -15,7 +15,7 @@ export function scrollToTarget(target: string | number, offset = 0) {
   const reduced = typeof window !== "undefined" && window.matchMedia(REDUCED_MOTION_QUERY).matches;
 
   if (instance && !reduced) {
-    instance.scrollTo(target, { offset });
+    instance.scrollTo(target, { offset, force: true });
     return;
   }
 
