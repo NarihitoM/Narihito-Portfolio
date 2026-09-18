@@ -86,7 +86,7 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
             type="button"
             aria-label={`View ${project.title} image`}
             onClick={() => setZoomed(true)}
-            className="w-full h-[240px] md:h-[320px] cursor-zoom-in rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft transition-colors hover:border-violet"
+            className="w-full h-[240px] md:h-[320px] shrink-0 cursor-zoom-in rounded-[6px] overflow-hidden bg-surface border border-border-glow-soft transition-colors hover:border-violet"
           >
             <img
               src={project.projectimg}
@@ -174,4 +174,5 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
     </>
   );
 }
+
 

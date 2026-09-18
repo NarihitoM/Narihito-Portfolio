@@ -85,7 +85,7 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
             type="button"
             aria-label={`View ${game.name} image`}
             onClick={() => setZoomed(true)}
-            className="w-full h-[240px] md:h-[320px] cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
+            className="w-full h-[240px] md:h-[320px] shrink-0 cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
           >
             <img src={game.pic} alt={game.name} className="h-full w-full object-cover" />
           </button>
@@ -142,4 +142,5 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
     </>
   );
 }
+
 
