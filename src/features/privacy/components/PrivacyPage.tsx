@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export function PrivacyPage() {
   return (
-    <div className="flex min-h-screen flex-col bg-bg px-5 py-12 md:px-10 md:py-20 lg:px-[120px]">
+    <div className="flex min-h-screen flex-col px-5 py-12 md:px-10 md:py-20 lg:px-[120px]">
       <Link
         href="/"
         className="font-mono text-[12px] text-text-secondary transition-colors hover:text-text-primary"
