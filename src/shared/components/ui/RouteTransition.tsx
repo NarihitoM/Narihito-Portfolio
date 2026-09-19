@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
+const COVER_IN = 0.55;
 const COVER_TIMEOUT = 2600;
 const MIN_COVER_MS = 1100;
 
@@ -16,6 +17,7 @@ export function RouteTransition() {
   const covered = useRef(false);
   const coveredAt = useRef(0);
   const failsafe = useRef(0);
+  const revealRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
     const veil = veilRef.current;
@@ -31,13 +33,18 @@ export function RouteTransition() {
       if (!covered.current) return;
       covered.current = false;
       window.clearTimeout(failsafe.current);
-      gsap.killTweensOf([panel, brand]);
+
+      const held = performance.now() - coveredAt.current;
+      const wait = Math.max(0, MIN_COVER_MS - held) / 1000;
+
       gsap
-        .timeline()
+        .timeline({ delay: wait })
         .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
         .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
         .set(veil, { display: "none" });
     };
+
+    revealRef.current = reveal;
 
     const cover = () => {
       covered.current = true;
@@ -48,7 +55,7 @@ export function RouteTransition() {
         .set(veil, { display: "block" })
         .set(panel, { xPercent: 100 })
         .set(brand, { opacity: 0, scale: 0.94 })
-        .to(panel, { xPercent: 0, duration: 0.55, ease: ease.wipe })
+        .to(panel, { xPercent: 0, duration: COVER_IN, ease: ease.wipe })
         .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "-=0.2");
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(reveal, COVER_TIMEOUT);
@@ -75,6 +82,7 @@ export function RouteTransition() {
     return () => {
       document.removeEventListener("click", onClick, true);
       window.clearTimeout(failsafe.current);
+      revealRef.current = null;
     };
   }, []);
 
@@ -86,25 +94,22 @@ export function RouteTransition() {
     lastPath.current = pathname;
     if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
 
+    if (covered.current) {
+      revealRef.current?.();
+      return;
+    }
+
     const brand = panel.querySelector("[data-veil-brand]");
 
-    const held = covered.current ? performance.now() - coveredAt.current : MIN_COVER_MS;
-    const hold = Math.max(0, MIN_COVER_MS - held) / 1000;
-
-    covered.current = true;
-    window.clearTimeout(failsafe.current);
     gsap.killTweensOf([panel, brand]);
     gsap
-      .timeline({ delay: 0.05 + hold })
+      .timeline()
       .set(veil, { display: "block" })
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction, delay: 0.25 })
       .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
-      .set(veil, { display: "none" })
-      .call(() => {
-        covered.current = false;
-      });
+      .set(veil, { display: "none" });
   }, [pathname]);
 
   return <WipeVeil veilRef={veilRef} panelRef={panelRef} className="z-99" brand />;
