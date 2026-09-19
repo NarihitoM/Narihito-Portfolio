@@ -103,7 +103,7 @@ export function Preloader() {
     <div
       id="preloader"
       ref={rootRef}
-      className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-bg"
+      className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-veil"
     >
       <div className="flex flex-col items-center gap-5">
         <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
@@ -116,7 +116,7 @@ export function Preloader() {
             priority
           />
         </div>
-        <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
+        <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-veil-fg">
           NARIHITO
         </span>
         <span className={`font-mono text-[10px] font-light tracking-[2px] text-violet uppercase transition-opacity duration-300 after:ml-0.5 after:animate-pulse after:content-['|'] ${ready ? "opacity-100" : "opacity-0"}`}>
@@ -127,11 +127,11 @@ export function Preloader() {
       <div className="flex h-[36px] w-70 flex-col gap-4">
         {typed.length === TAGLINE.length && (
           <>
-            <div className="h-px w-full overflow-hidden bg-border-glow-soft">
-              <span className="preload-bar block h-full w-full origin-left bg-text-primary" />
+            <div className="h-px w-full overflow-hidden bg-veil-fg/20">
+              <span className="preload-bar block h-full w-full origin-left bg-veil-fg" />
             </div>
             <div className="relative h-4 w-full">
-              <span className="preload-counter absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-text-secondary" />
+              <span className="preload-counter absolute top-0 left-0 -translate-x-1/2 font-mono text-[11px] tracking-[2px] whitespace-nowrap text-veil-fg/70" />
             </div>
           </>
         )}
