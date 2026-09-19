@@ -2,7 +2,6 @@
 
 import { useEffect, useId, useRef } from "react";
 import * as THREE from "three";
-import { ease, gsap } from "@/shared/lib/gsap";
 import { useTheme, type Theme } from "@/shared/hooks/useTheme";
 
 interface SilkPalette {
@@ -247,46 +246,18 @@ export function SiteBackground() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const isFirstThemeRef = useRef(true);
   useEffect(() => {
     const uniforms = uniformsRef.current;
     if (!uniforms) return;
-    if (isFirstThemeRef.current) {
-      isFirstThemeRef.current = false;
-      return;
-    }
 
     const palette = PALETTES[theme];
-    const tweenTarget = { t: 0 };
-    const from = {
-      low: uniforms.uLow.value.clone(),
-      high: uniforms.uHigh.value.clone(),
-      foldGamma: uniforms.uFoldGamma.value,
-      sheenGamma: uniforms.uSheenGamma.value,
-      sheenWeight: uniforms.uSheenWeight.value,
-      vignetteX: uniforms.uVignetteX.value,
-      vignetteY: uniforms.uVignetteY.value,
-    };
-
-    const tween = gsap.to(tweenTarget, {
-      t: 1,
-      duration: 0.8,
-      ease: ease.interaction,
-      onUpdate: () => {
-        const t = tweenTarget.t;
-        uniforms.uLow.value.lerpVectors(from.low, new THREE.Vector3(...palette.low), t);
-        uniforms.uHigh.value.lerpVectors(from.high, new THREE.Vector3(...palette.high), t);
-        uniforms.uFoldGamma.value = gsap.utils.interpolate(from.foldGamma, palette.foldGamma, t);
-        uniforms.uSheenGamma.value = gsap.utils.interpolate(from.sheenGamma, palette.sheenGamma, t);
-        uniforms.uSheenWeight.value = gsap.utils.interpolate(from.sheenWeight, palette.sheenWeight, t);
-        uniforms.uVignetteX.value = gsap.utils.interpolate(from.vignetteX, palette.vignetteX, t);
-        uniforms.uVignetteY.value = gsap.utils.interpolate(from.vignetteY, palette.vignetteY, t);
-      },
-    });
-
-    return () => {
-      tween.kill();
-    };
+    uniforms.uLow.value.set(...palette.low);
+    uniforms.uHigh.value.set(...palette.high);
+    uniforms.uFoldGamma.value = palette.foldGamma;
+    uniforms.uSheenGamma.value = palette.sheenGamma;
+    uniforms.uSheenWeight.value = palette.sheenWeight;
+    uniforms.uVignetteX.value = palette.vignetteX;
+    uniforms.uVignetteY.value = palette.vignetteY;
   }, [theme]);
 
   return (

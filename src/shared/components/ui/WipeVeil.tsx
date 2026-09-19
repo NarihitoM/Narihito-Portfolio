@@ -25,9 +25,11 @@ export function WipeVeil({
       <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
         <Image src="/img/Narihito.jpg" alt="" width={64} height={64} className="h-full w-full object-cover" />
       </div>
-      <span data-veil-label className="font-display text-[28px] font-bold uppercase tracking-[4px] text-veil-fg">
-        NARIHITO
-      </span>
+      <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-veil-fg">NARIHITO</span>
+      <span
+        data-veil-label
+        className="font-mono text-[13px] font-medium uppercase tracking-[4px] text-veil-fg/70"
+      />
     </div>
   ) : null;
 
