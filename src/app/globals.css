@@ -290,7 +290,7 @@ html {
 
   --font-display: var(--font-space-grotesk), "Segoe UI", system-ui, sans-serif;
   --font-body: var(--font-inter), "Segoe UI", system-ui, sans-serif;
-  --font-mono: var(--font-ibm-plex-mono), ui-monospace, "Cascadia Mono", "Roboto Mono", Menlo, monospace;
+  --font-mono: var(--font-roboto), "Segoe UI", system-ui, sans-serif;
   --font-heading: var(--font-sans), "Segoe UI", system-ui, sans-serif;
   --font-sans: var(--font-sans), "Segoe UI", system-ui, sans-serif;
   --color-sidebar-ring: var(--sidebar-ring);
