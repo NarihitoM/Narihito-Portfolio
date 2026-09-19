@@ -229,13 +229,15 @@ export function PageLayout({
         <div className="m-auto flex w-full flex-col items-end gap-5 pr-1">
           {NAV_LINKS.map((link) => {
             const isActive = pathname === `/${link.toLowerCase()}`;
+            const href = `/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`;
+            const navigatesAway = href.split(/[?#]/)[0] !== pathname;
             return (
               <Link
                 key={link}
                 data-drawer-item
-                href={`/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
+                href={href}
                 onClick={() => {
-                  if (!ROUTED_LINKS.includes(link)) setMenuOpen(false);
+                  if (!navigatesAway) setMenuOpen(false);
                 }}
                 aria-current={isActive ? "page" : undefined}
                 className={`wave-link${isActive ? " is-active" : ""} shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em]`}
