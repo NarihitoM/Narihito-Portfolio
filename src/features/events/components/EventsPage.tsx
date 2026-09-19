@@ -105,7 +105,7 @@ export function EventsPage() {
         </p>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
             <EventCardSkeleton />
             <EventCardSkeleton />
           </div>
@@ -118,7 +118,7 @@ export function EventsPage() {
             <div
               id="events-grid"
               ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
             >
               {events.map((event) => (
                 <EventCard key={event.id} event={event} />

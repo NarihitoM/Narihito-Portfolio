@@ -231,7 +231,7 @@ export function GamesPage() {
         )}
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
             {Array.from({ length: 2 }, (_, i) => (
               <CardSkeleton key={i} imageClassName="h-[180px] md:h-[220px]" />
             ))}
@@ -245,7 +245,7 @@ export function GamesPage() {
             <div
               id="games-grid"
               ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6"
+              className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
             >
               {games.map((game) => (
                 <GameCard key={game.id} game={game} />

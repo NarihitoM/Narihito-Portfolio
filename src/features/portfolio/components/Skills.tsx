@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useMemo, useRef, useState } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -40,7 +40,7 @@ export function Skills() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 gap-3 md:gap-4">
             {Array.from({ length: 10 }, (_, i) => (
               <SkillCardSkeleton key={i} />
             ))}
@@ -50,7 +50,7 @@ export function Skills() {
         ) : SKILLS.length === 0 ? (
           <p className="font-body text-[14px] text-text-muted">No skills yet.</p>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 md:gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 gap-3 md:gap-4">
             {SKILLS.map((skill) => (
               <SkillCard key={skill.id} skill={skill} onClick={() => setSelected(skill)} />
             ))}
