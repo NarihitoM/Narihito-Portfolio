@@ -25,10 +25,10 @@ const DITHER_MASK = DITHER_SIZE - 1;
 const GRAIN_OPACITY = 0.3;
 const STATIC_FRAME_TIME = 7.2;
 
-const FOLD_FREQUENCY = 21;
+const FOLD_FREQUENCY = 13;
 const FOLD_TILT = 0.62;
 const FOLD_DRIFT = 0.1;
-const SHEEN_FREQUENCY = 9.5;
+const SHEEN_FREQUENCY = 6;
 const SHEEN_TILT = 1.05;
 const SHEEN_DRIFT = -0.062;
 
@@ -43,13 +43,13 @@ const PALETTES: Record<Theme, SilkPalette> = {
     vignetteY: 0.3,
   },
   light: {
-    low: [238, 237, 234],
-    high: [218, 216, 212],
-    foldGamma: 1.9,
+    low: [240, 239, 236],
+    high: [203, 201, 196],
+    foldGamma: 1.7,
     sheenGamma: 1.5,
-    sheenWeight: 0.14,
-    vignetteX: 0.1,
-    vignetteY: 0.12,
+    sheenWeight: 0.16,
+    vignetteX: 0.14,
+    vignetteY: 0.16,
   },
 };
 
