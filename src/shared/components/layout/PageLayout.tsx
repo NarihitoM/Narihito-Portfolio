@@ -12,6 +12,7 @@ import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { getLenisInstance } from "@/shared/lib/lenis";
 import { useLenisLock } from "@/shared/hooks/useLenisLock";
+import { WipeVeil, playDrawerVeil } from "@/shared/components/ui/WipeVeil";
 import type { PageLayoutProps } from "@/shared/types/types";
 
 const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
@@ -33,6 +34,9 @@ export function PageLayout({
 }: PageLayoutProps) {
   const pageRef = useRef<HTMLDivElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
+  const veilRef = useRef<HTMLDivElement>(null);
+  const veilPanelRef = useRef<HTMLDivElement>(null);
+  const openedOnce = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const pathname = usePathname();
   useLenisLock(menuOpen);
@@ -125,42 +129,18 @@ export function PageLayout({
   useGSAP(
     () => {
       const drawer = drawerRef.current;
-      if (!drawer) return;
+      const veil = veilRef.current;
+      const panel = veilPanelRef.current;
+      if (!drawer || !veil || !panel) return;
+      if (!menuOpen && !openedOnce.current) return;
+      openedOnce.current = true;
 
       const items = drawer.querySelectorAll("[data-drawer-item]");
-      gsap.killTweensOf(drawer);
-      gsap.killTweensOf(items);
+      const timeline = playDrawerVeil({ drawer, veil, panel, items, open: menuOpen });
 
-      if (menuOpen) {
-        gsap.set(drawer, { display: "flex" });
-        gsap.fromTo(
-          drawer,
-          { xPercent: 100 },
-          { xPercent: 0, duration: 0.5, ease: ease.wipe, overwrite: true },
-        );
-        gsap.fromTo(
-          items,
-          { opacity: 0, xPercent: 8, y: 28 },
-          {
-            opacity: 1,
-            xPercent: 0,
-            y: 0,
-            duration: 0.5,
-            stagger: 0.06,
-            delay: 0.2,
-            ease: ease.entrance,
-            overwrite: true,
-          },
-        );
-      } else {
-        gsap.to(drawer, {
-          xPercent: 100,
-          duration: 0.4,
-          ease: ease.wipe,
-          overwrite: true,
-          onComplete: () => gsap.set(drawer, { display: "none" }),
-        });
-      }
+      return () => {
+        timeline.kill();
+      };
     },
     { dependencies: [menuOpen] },
   );
@@ -227,6 +207,8 @@ export function PageLayout({
           </button>
         </div>
       </header>
+
+      <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} />
 
       <div
         ref={drawerRef}

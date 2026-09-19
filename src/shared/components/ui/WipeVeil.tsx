@@ -1,0 +1,92 @@
+"use client";
+
+import Image from "next/image";
+import type { RefObject } from "react";
+import { ease, gsap } from "@/shared/lib/gsap";
+
+export function WipeVeil({
+  veilRef,
+  panelRef,
+  className = "z-61 lg:hidden",
+  brand = false,
+}: {
+  veilRef: RefObject<HTMLDivElement | null>;
+  panelRef: RefObject<HTMLDivElement | null>;
+  className?: string;
+  brand?: boolean;
+}) {
+  return (
+    <div
+      ref={veilRef}
+      aria-hidden
+      className={`pointer-events-none fixed inset-0 hidden overflow-hidden ${className}`}
+    >
+      <div className="absolute left-1/2 top-1/2 h-[240vmax] w-[240vmax] -translate-x-1/2 -translate-y-1/2 rotate-45">
+        <div ref={panelRef} className="relative h-full w-full bg-veil">
+          {brand ? (
+            <div
+              data-veil-brand
+              className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 -rotate-45 flex-col items-center gap-5"
+            >
+              <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
+                <Image
+                  src="/img/Narihito.jpg"
+                  alt=""
+                  width={64}
+                  height={64}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+              <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-veil-fg">
+                NARIHITO
+              </span>
+            </div>
+          ) : null}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function playDrawerVeil({
+  drawer,
+  veil,
+  panel,
+  items,
+  open,
+}: {
+  drawer: HTMLElement;
+  veil: HTMLElement;
+  panel: HTMLElement;
+  items: NodeListOf<Element>;
+  open: boolean;
+}) {
+  gsap.killTweensOf([drawer, panel, items]);
+  const timeline = gsap.timeline();
+
+  if (open) {
+    timeline
+      .set(veil, { display: "block" })
+      .set(panel, { xPercent: 100 })
+      .to(panel, { xPercent: 0, duration: 0.3, ease: ease.wipe })
+      .set(drawer, { display: "flex", xPercent: 0 })
+      .set(items, { opacity: 0, xPercent: 8, y: 28 })
+      .to(panel, { xPercent: -100, duration: 0.34, ease: ease.wipe }, "+=0.02")
+      .set(veil, { display: "none" })
+      .to(
+        items,
+        { opacity: 1, xPercent: 0, y: 0, duration: 0.4, stagger: 0.045, ease: ease.entrance },
+        "-=0.24",
+      );
+  } else {
+    timeline
+      .set(veil, { display: "block" })
+      .set(panel, { xPercent: -100 })
+      .to(panel, { xPercent: 0, duration: 0.28, ease: ease.wipe })
+      .set(drawer, { display: "none" })
+      .to(panel, { xPercent: 100, duration: 0.32, ease: ease.wipe }, "+=0.02")
+      .set(veil, { display: "none" });
+  }
+
+  return timeline;
+}

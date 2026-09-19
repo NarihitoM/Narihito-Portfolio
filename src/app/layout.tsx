@@ -9,6 +9,7 @@ import { CursorFollower } from "@/shared/components/ui/CursorFollower";
 import { ScrollProgressLine } from "@/shared/components/ui/ScrollProgressLine";
 import { SiteBackground } from "@/shared/components/ui/SiteBackground";
 import { Preloader } from "@/shared/components/ui/Preloader";
+import { RouteTransition } from "@/shared/components/ui/RouteTransition";
 import { InAppBrowserBanner } from "@/shared/components/ui/InAppBrowserBanner";
 import { Chatbot } from "@/features/chatbot/components/Chatbot";
 
@@ -171,6 +172,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-full flex flex-col overflow-x-hidden font-body text-text-primary">
         <div id="transition-overlay" className="fixed inset-0 z-[100] pointer-events-none bg-bg-panel-solid opacity-0" />
+        <RouteTransition />
         <SiteBackground />
         <InAppBrowserBanner />
         <Preloader />
