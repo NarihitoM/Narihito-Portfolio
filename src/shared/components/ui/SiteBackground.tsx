@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 import * as THREE from "three";
+import { ease, gsap } from "@/shared/lib/gsap";
 import { useTheme, type Theme } from "@/shared/hooks/useTheme";
 
 interface SilkPalette {
@@ -111,10 +112,24 @@ const FRAGMENT_SHADER = /* glsl */ `
   }
 `;
 
+type SilkUniforms = {
+  uTime: { value: number };
+  uResolution: { value: THREE.Vector2 };
+  uLow: { value: THREE.Vector3 };
+  uHigh: { value: THREE.Vector3 };
+  uFoldGamma: { value: number };
+  uSheenGamma: { value: number };
+  uSheenWeight: { value: number };
+  uVignetteX: { value: number };
+  uVignetteY: { value: number };
+  uPointer: { value: THREE.Vector2 };
+};
+
 export function SiteBackground() {
   const grainId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const uniformsRef = useRef<SilkUniforms | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -143,6 +158,8 @@ export function SiteBackground() {
       uVignetteY: { value: palette.vignetteY },
       uPointer: { value: new THREE.Vector2(0.5, 0.5) },
     };
+
+    uniformsRef.current = uniforms;
 
     const material = new THREE.ShaderMaterial({
       vertexShader: VERTEX_SHADER,
@@ -225,6 +242,50 @@ export function SiteBackground() {
       material.dispose();
       quad.geometry.dispose();
       renderer.dispose();
+      uniformsRef.current = null;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const isFirstThemeRef = useRef(true);
+  useEffect(() => {
+    const uniforms = uniformsRef.current;
+    if (!uniforms) return;
+    if (isFirstThemeRef.current) {
+      isFirstThemeRef.current = false;
+      return;
+    }
+
+    const palette = PALETTES[theme];
+    const tweenTarget = { t: 0 };
+    const from = {
+      low: uniforms.uLow.value.clone(),
+      high: uniforms.uHigh.value.clone(),
+      foldGamma: uniforms.uFoldGamma.value,
+      sheenGamma: uniforms.uSheenGamma.value,
+      sheenWeight: uniforms.uSheenWeight.value,
+      vignetteX: uniforms.uVignetteX.value,
+      vignetteY: uniforms.uVignetteY.value,
+    };
+
+    const tween = gsap.to(tweenTarget, {
+      t: 1,
+      duration: 0.8,
+      ease: ease.interaction,
+      onUpdate: () => {
+        const t = tweenTarget.t;
+        uniforms.uLow.value.lerpVectors(from.low, new THREE.Vector3(...palette.low), t);
+        uniforms.uHigh.value.lerpVectors(from.high, new THREE.Vector3(...palette.high), t);
+        uniforms.uFoldGamma.value = gsap.utils.interpolate(from.foldGamma, palette.foldGamma, t);
+        uniforms.uSheenGamma.value = gsap.utils.interpolate(from.sheenGamma, palette.sheenGamma, t);
+        uniforms.uSheenWeight.value = gsap.utils.interpolate(from.sheenWeight, palette.sheenWeight, t);
+        uniforms.uVignetteX.value = gsap.utils.interpolate(from.vignetteX, palette.vignetteX, t);
+        uniforms.uVignetteY.value = gsap.utils.interpolate(from.vignetteY, palette.vignetteY, t);
+      },
+    });
+
+    return () => {
+      tween.kill();
     };
   }, [theme]);
 

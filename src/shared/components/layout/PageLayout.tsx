@@ -208,7 +208,7 @@ export function PageLayout({
         </div>
       </header>
 
-      <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} />
+      <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} diagonal={false} />
 
       <div
         ref={drawerRef}
