@@ -44,7 +44,7 @@ const PALETTES: Record<Theme, SilkPalette> = {
   },
   light: {
     low: [240, 239, 236],
-    high: [203, 201, 196],
+    high: [190, 188, 182],
     foldGamma: 1.7,
     sheenGamma: 1.5,
     sheenWeight: 0.16,
