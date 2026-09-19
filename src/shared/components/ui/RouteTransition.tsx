@@ -9,6 +9,12 @@ const COVER_IN = 0.55;
 const COVER_TIMEOUT = 2600;
 const MIN_COVER_MS = 400;
 
+function labelForPath(path: string) {
+  const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
+  if (!segment) return "NARIHITO";
+  return `[ ${segment.replace(/-/g, " ").toUpperCase()} ]`;
+}
+
 export function RouteTransition() {
   const veilRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -30,6 +36,7 @@ export function RouteTransition() {
     registerGsap();
 
     const brand = panel.querySelector("[data-veil-brand]");
+    const label = panel.querySelector("[data-veil-label]");
 
     const reveal = () => {
       if (!covered.current) return;
@@ -42,7 +49,7 @@ export function RouteTransition() {
       gsap
         .timeline({ delay: wait })
         .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
-        .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
+        .to(panel, { xPercent: 100, duration: 0.65, ease: ease.wipe }, "-=0.1")
         .set(veil, { display: "none" });
     };
 
@@ -59,11 +66,12 @@ export function RouteTransition() {
     const cover = (href: string) => {
       covered.current = true;
       pending.current = href;
+      if (label) label.textContent = labelForPath(href);
       gsap.killTweensOf([panel, brand]);
       gsap
         .timeline({ onComplete: go })
         .set(veil, { display: "block" })
-        .set(panel, { xPercent: 100 })
+        .set(panel, { xPercent: -100 })
         .set(brand, { opacity: 0, scale: 0.94 })
         .to(panel, { xPercent: 0, duration: COVER_IN, ease: ease.wipe })
         .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "-=0.2");
@@ -115,6 +123,8 @@ export function RouteTransition() {
     }
 
     const brand = panel.querySelector("[data-veil-brand]");
+    const label = panel.querySelector("[data-veil-label]");
+    if (label) label.textContent = labelForPath(pathname);
 
     gsap.killTweensOf([panel, brand]);
     gsap
@@ -123,7 +133,7 @@ export function RouteTransition() {
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
       .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction, delay: 0.25 })
-      .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
+      .to(panel, { xPercent: 100, duration: 0.65, ease: ease.wipe }, "-=0.1")
       .set(veil, { display: "none" });
   }, [pathname]);
 
