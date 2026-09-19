@@ -190,14 +190,14 @@ export function TestimonialsPage() {
             <div className="border-t border-border-glow-soft pt-8">
               <Skeleton className="h-3 w-32" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
               <QuoteCardSkeleton />
               <QuoteCardSkeleton />
             </div>
             <div className="border-t border-border-glow-soft pt-8">
               <Skeleton className="h-3 w-44" />
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
               <QuoteCardSkeleton />
               <QuoteCardSkeleton />
               <QuoteCardSkeleton />
@@ -217,7 +217,7 @@ export function TestimonialsPage() {
                     CLIENTS — {pluralize(clientQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>
-                <div ref={clientRef} id="testimonials-clients" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                <div ref={clientRef} id="testimonials-clients" className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
                   {clients.map((testimonial) => (
                     <QuoteCard
                       key={`c-${testimonial.name}`}
@@ -243,7 +243,7 @@ export function TestimonialsPage() {
                     COLLEAGUES & PEERS — {pluralize(otherQ.total, "VOICE", "VOICES")}
                   </span>
                 </div>
-                <div ref={otherRef} id="testimonials-others" className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+                <div ref={otherRef} id="testimonials-others" className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
                   {others.map((testimonial) => (
                     <QuoteCard
                       key={`o-${testimonial.name}`}
