@@ -1,22 +1,24 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
 const COVER_IN = 0.55;
 const COVER_TIMEOUT = 2600;
-const MIN_COVER_MS = 1100;
+const MIN_COVER_MS = 400;
 
 export function RouteTransition() {
   const veilRef = useRef<HTMLDivElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const pathname = usePathname();
   const lastPath = useRef(pathname);
   const covered = useRef(false);
   const coveredAt = useRef(0);
   const failsafe = useRef(0);
+  const pending = useRef<string | null>(null);
   const revealRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
@@ -46,19 +48,30 @@ export function RouteTransition() {
 
     revealRef.current = reveal;
 
-    const cover = () => {
-      covered.current = true;
+    const go = () => {
+      const href = pending.current;
+      if (!href) return;
+      pending.current = null;
       coveredAt.current = performance.now();
+      router.push(href);
+    };
+
+    const cover = (href: string) => {
+      covered.current = true;
+      pending.current = href;
       gsap.killTweensOf([panel, brand]);
       gsap
-        .timeline()
+        .timeline({ onComplete: go })
         .set(veil, { display: "block" })
         .set(panel, { xPercent: 100 })
         .set(brand, { opacity: 0, scale: 0.94 })
         .to(panel, { xPercent: 0, duration: COVER_IN, ease: ease.wipe })
         .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "-=0.2");
       window.clearTimeout(failsafe.current);
-      failsafe.current = window.setTimeout(reveal, COVER_TIMEOUT);
+      failsafe.current = window.setTimeout(() => {
+        go();
+        reveal();
+      }, COVER_TIMEOUT);
     };
 
     const onClick = (event: MouseEvent) => {
@@ -74,8 +87,10 @@ export function RouteTransition() {
       const path = href.split(/[?#]/)[0];
       if (path === window.location.pathname) return;
       if (/\.[a-z0-9]+$/i.test(path)) return;
+      if (covered.current) return;
 
-      cover();
+      event.preventDefault();
+      cover(href);
     };
 
     document.addEventListener("click", onClick, true);
@@ -84,7 +99,7 @@ export function RouteTransition() {
       window.clearTimeout(failsafe.current);
       revealRef.current = null;
     };
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     const veil = veilRef.current;
