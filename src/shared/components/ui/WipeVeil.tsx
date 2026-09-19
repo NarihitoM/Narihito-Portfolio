@@ -75,23 +75,23 @@ export function playDrawerVeil({
     timeline
       .set(veil, { display: "block" })
       .set(panel, { xPercent: 100 })
-      .to(panel, { xPercent: 0, duration: 0.3, ease: ease.wipe })
+      .to(panel, { xPercent: 0, duration: 0.22, ease: ease.wipe })
       .set(drawer, { display: "flex", xPercent: 0 })
       .set(items, { opacity: 0, xPercent: 8, y: 28 })
-      .to(panel, { xPercent: -100, duration: 0.34, ease: ease.wipe }, "+=0.02")
+      .to(panel, { xPercent: -100, duration: 0.24, ease: ease.wipe })
       .set(veil, { display: "none" })
       .to(
         items,
         { opacity: 1, xPercent: 0, y: 0, duration: 0.4, stagger: 0.045, ease: ease.entrance },
-        "-=0.24",
+        "-=0.05",
       );
   } else {
     timeline
       .set(veil, { display: "block" })
       .set(panel, { xPercent: -100 })
-      .to(panel, { xPercent: 0, duration: 0.28, ease: ease.wipe })
+      .to(panel, { xPercent: 0, duration: 0.2, ease: ease.wipe })
       .set(drawer, { display: "none" })
-      .to(panel, { xPercent: 100, duration: 0.32, ease: ease.wipe }, "+=0.02")
+      .to(panel, { xPercent: 100, duration: 0.22, ease: ease.wipe })
       .set(veil, { display: "none" });
   }
 
