@@ -1,6 +1,7 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useId, useRef } from "react";
+import * as THREE from "three";
 import { useTheme, type Theme } from "@/shared/hooks/useTheme";
 
 interface SilkPalette {
@@ -13,17 +14,7 @@ interface SilkPalette {
   vignetteY: number;
 }
 
-const RENDER_DIVISOR = 9;
-const RENDER_MIN_COLS = 120;
-const RENDER_MAX_COLS = 240;
-const RENDER_MAX_ROWS = 320;
-const FRAME_INTERVAL = 1000 / 30;
-const SHAPE_STEPS = 1024;
-const SHAPE_MAX = SHAPE_STEPS - 1;
-const DITHER_SIZE = 64;
-const DITHER_MASK = DITHER_SIZE - 1;
 const GRAIN_OPACITY = 0.3;
-const STATIC_FRAME_TIME = 7.2;
 
 const FOLD_FREQUENCY = 9;
 const FOLD_TILT = 0.62;
@@ -34,8 +25,8 @@ const SHEEN_DRIFT = -0.062;
 
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
-    low: [6, 5, 5],
-    high: [42, 41, 39],
+    low: [6 / 255, 5 / 255, 5 / 255],
+    high: [42 / 255, 41 / 255, 39 / 255],
     foldGamma: 3.8,
     sheenGamma: 2.0,
     sheenWeight: 0.085,
@@ -43,8 +34,8 @@ const PALETTES: Record<Theme, SilkPalette> = {
     vignetteY: 0.3,
   },
   light: {
-    low: [240, 239, 236],
-    high: [190, 188, 182],
+    low: [240 / 255, 239 / 255, 236 / 255],
+    high: [190 / 255, 188 / 255, 182 / 255],
     foldGamma: 1.7,
     sheenGamma: 1.5,
     sheenWeight: 0.16,
@@ -52,6 +43,73 @@ const PALETTES: Record<Theme, SilkPalette> = {
     vignetteY: 0.16,
   },
 };
+
+const VERTEX_SHADER = /* glsl */ `
+  varying vec2 vUv;
+  void main() {
+    vUv = uv;
+    gl_Position = vec4(position, 1.0);
+  }
+`;
+
+const FRAGMENT_SHADER = /* glsl */ `
+  precision highp float;
+  varying vec2 vUv;
+
+  uniform float uTime;
+  uniform vec2 uResolution;
+  uniform vec3 uLow;
+  uniform vec3 uHigh;
+  uniform float uFoldGamma;
+  uniform float uSheenGamma;
+  uniform float uSheenWeight;
+  uniform float uVignetteX;
+  uniform float uVignetteY;
+  uniform vec2 uPointer;
+
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+
+  void main() {
+    float diagonal = length(uResolution);
+    vec2 nCoord = (vUv * uResolution) / diagonal;
+    float nx = nCoord.x;
+    float ny = nCoord.y;
+
+    float foldWarpX = 0.055 * sin(nx * 3.8 + uTime * 0.19)
+      + 0.03 * sin(nx * 7.0 - uTime * 0.27)
+      + 0.016 * sin(nx * 11.2 + uTime * 0.13);
+    float foldWarpY = 0.04 * sin(ny * 5.3 - uTime * 0.16) + 0.022 * sin(ny * 9.1 + uTime * 0.23);
+    float foldAngle = ${FOLD_FREQUENCY.toFixed(1)} * ((foldWarpX - ${FOLD_TILT.toFixed(2)} * nx) + (ny + foldWarpY)) + ${FOLD_DRIFT.toFixed(2)} * uTime;
+    float fold = 0.5 + 0.5 * cos(foldAngle);
+
+    float sheenWarpX = 0.075 * sin(nx * 3.1 - uTime * 0.14);
+    float sheenWarpY = 0.048 * sin(ny * 4.7 + uTime * 0.21);
+    float sheenAngle = ${SHEEN_FREQUENCY.toFixed(1)} * ((sheenWarpX - ${SHEEN_TILT.toFixed(2)} * nx) + (ny + sheenWarpY)) + ${SHEEN_DRIFT.toFixed(3)} * uTime;
+    float sheen = 0.5 + 0.5 * cos(sheenAngle);
+
+    float envX = 0.8 + 0.2 * sin(nx * 2.6 + uTime * 0.11);
+    float envY = 0.88 + 0.12 * sin(ny * 4.3 - uTime * 0.09);
+
+    float crest = pow(fold, uFoldGamma) * envX * envY;
+    float glow = pow(sheen, uSheenGamma) * uSheenWeight;
+
+    float level = crest + glow - crest * glow;
+
+    float u = vUv.x * 2.0 - 1.0;
+    float v = vUv.y * 2.0 - 1.0;
+    level *= (1.0 - uVignetteX * u * u) * (1.0 - uVignetteY * v * v);
+
+    float pointerGlow = smoothstep(0.55, 0.0, distance(vUv, uPointer)) * 0.05;
+    level = clamp(level + pointerGlow, 0.0, 1.0);
+
+    float noise = (hash(vUv * uResolution + uTime) - 0.5) / 255.0;
+    vec3 color = mix(uLow, uHigh, level) + noise;
+
+    gl_FragColor = vec4(color, 1.0);
+  }
+`;
 
 export function SiteBackground() {
   const grainId = useId();
@@ -64,202 +122,115 @@ export function SiteBackground() {
     const canvas = canvasRef.current;
     if (!root || !canvas) return;
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
     const palette = PALETTES[theme];
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
-    const lowR = palette.low[0];
-    const lowG = palette.low[1];
-    const lowB = palette.low[2];
-    const spanR = palette.high[0] - lowR;
-    const spanG = palette.high[1] - lowG;
-    const spanB = palette.high[2] - lowB;
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
-    const foldShape = new Float32Array(SHAPE_STEPS);
-    const sheenShape = new Float32Array(SHAPE_STEPS);
-    for (let i = 0; i < SHAPE_STEPS; i++) {
-      const level = i / SHAPE_MAX;
-      foldShape[i] = Math.pow(level, palette.foldGamma);
-      sheenShape[i] = Math.pow(level, palette.sheenGamma) * palette.sheenWeight;
-    }
+    const scene = new THREE.Scene();
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    const dither = new Float32Array(DITHER_SIZE * DITHER_SIZE);
-    for (let i = 0; i < dither.length; i++) {
-      dither[i] = Math.random() - 0.5;
-    }
-
-    let cols = 0;
-    let rows = 0;
-    let stepX = 0;
-    let stepY = 0;
-    let elapsed = STATIC_FRAME_TIME;
-    let image: ImageData | null = null;
-    let foldCosX = new Float32Array(0);
-    let foldSinX = new Float32Array(0);
-    let sheenCosX = new Float32Array(0);
-    let sheenSinX = new Float32Array(0);
-    let envX = new Float32Array(0);
-    let vignetteX = new Float32Array(0);
-    let foldCosY = new Float32Array(0);
-    let foldSinY = new Float32Array(0);
-    let sheenCosY = new Float32Array(0);
-    let sheenSinY = new Float32Array(0);
-    let envY = new Float32Array(0);
-    let vignetteY = new Float32Array(0);
-
-    const render = (seconds: number) => {
-      if (!image) return;
-      const target = image;
-      const data = target.data;
-      const foldPhase = FOLD_DRIFT * seconds;
-      const sheenPhase = SHEEN_DRIFT * seconds;
-
-      for (let x = 0; x < cols; x++) {
-        const nx = (x + 0.5) * stepX;
-        const foldWarp =
-          0.055 * Math.sin(nx * 3.8 + seconds * 0.19) +
-          0.03 * Math.sin(nx * 7.0 - seconds * 0.27) +
-          0.016 * Math.sin(nx * 11.2 + seconds * 0.13);
-        const foldAngle = FOLD_FREQUENCY * (foldWarp - FOLD_TILT * nx);
-        foldCosX[x] = Math.cos(foldAngle);
-        foldSinX[x] = Math.sin(foldAngle);
-
-        const sheenWarp = 0.075 * Math.sin(nx * 3.1 - seconds * 0.14);
-        const sheenAngle = SHEEN_FREQUENCY * (sheenWarp - SHEEN_TILT * nx);
-        sheenCosX[x] = Math.cos(sheenAngle);
-        sheenSinX[x] = Math.sin(sheenAngle);
-
-        envX[x] = 0.8 + 0.2 * Math.sin(nx * 2.6 + seconds * 0.11);
-        const u = ((x + 0.5) / cols) * 2 - 1;
-        vignetteX[x] = 1 - palette.vignetteX * u * u;
-      }
-
-      for (let y = 0; y < rows; y++) {
-        const ny = (y + 0.5) * stepY;
-        const foldWarp =
-          0.04 * Math.sin(ny * 5.3 - seconds * 0.16) + 0.022 * Math.sin(ny * 9.1 + seconds * 0.23);
-        const foldAngle = FOLD_FREQUENCY * (ny + foldWarp) + foldPhase;
-        foldCosY[y] = Math.cos(foldAngle);
-        foldSinY[y] = Math.sin(foldAngle);
-
-        const sheenWarp = 0.048 * Math.sin(ny * 4.7 + seconds * 0.21);
-        const sheenAngle = SHEEN_FREQUENCY * (ny + sheenWarp) + sheenPhase;
-        sheenCosY[y] = Math.cos(sheenAngle);
-        sheenSinY[y] = Math.sin(sheenAngle);
-
-        envY[y] = 0.88 + 0.12 * Math.sin(ny * 4.3 - seconds * 0.09);
-        const v = ((y + 0.5) / rows) * 2 - 1;
-        vignetteY[y] = 1 - palette.vignetteY * v * v;
-      }
-
-      let i = 0;
-      for (let y = 0; y < rows; y++) {
-        const foldCy = foldCosY[y];
-        const foldSy = foldSinY[y];
-        const sheenCy = sheenCosY[y];
-        const sheenSy = sheenSinY[y];
-        const rowEnv = envY[y];
-        const rowVignette = vignetteY[y];
-        const noiseRow = (y & DITHER_MASK) * DITHER_SIZE;
-
-        for (let x = 0; x < cols; x++) {
-          const fold = 0.5 + 0.5 * (foldCosX[x] * foldCy - foldSinX[x] * foldSy);
-          const sheen = 0.5 + 0.5 * (sheenCosX[x] * sheenCy - sheenSinX[x] * sheenSy);
-          const crest = foldShape[(fold * SHAPE_MAX) | 0] * envX[x] * rowEnv;
-          const glow = sheenShape[(sheen * SHAPE_MAX) | 0];
-
-          let level = (crest + glow - crest * glow) * vignetteX[x] * rowVignette;
-          if (level < 0) level = 0;
-          else if (level > 1) level = 1;
-
-          const noise = dither[noiseRow + (x & DITHER_MASK)];
-          data[i] = lowR + spanR * level + noise;
-          data[i + 1] = lowG + spanG * level + noise;
-          data[i + 2] = lowB + spanB * level + noise;
-          data[i + 3] = 255;
-          i += 4;
-        }
-      }
-
-      ctx.putImageData(target, 0, 0);
+    const uniforms = {
+      uTime: { value: 7.2 },
+      uResolution: { value: new THREE.Vector2(1, 1) },
+      uLow: { value: new THREE.Vector3(...palette.low) },
+      uHigh: { value: new THREE.Vector3(...palette.high) },
+      uFoldGamma: { value: palette.foldGamma },
+      uSheenGamma: { value: palette.sheenGamma },
+      uSheenWeight: { value: palette.sheenWeight },
+      uVignetteX: { value: palette.vignetteX },
+      uVignetteY: { value: palette.vignetteY },
+      uPointer: { value: new THREE.Vector2(0.5, 0.5) },
     };
+
+    const material = new THREE.ShaderMaterial({
+      vertexShader: VERTEX_SHADER,
+      fragmentShader: FRAGMENT_SHADER,
+      uniforms,
+    });
+    const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
+    scene.add(quad);
 
     const resize = () => {
-      const rect = root.getBoundingClientRect();
-      const width = rect.width;
-      const height = rect.height;
+      const width = root.clientWidth;
+      const height = root.clientHeight;
       if (width < 2 || height < 2) return;
-
-      const nextCols = Math.min(
-        RENDER_MAX_COLS,
-        Math.max(RENDER_MIN_COLS, Math.round((width * dpr) / RENDER_DIVISOR)),
-      );
-      const nextRows = Math.min(RENDER_MAX_ROWS, Math.max(2, Math.round((nextCols * height) / width)));
-
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-
-      const diagonal = Math.sqrt(width * width + height * height);
-      stepX = width / nextCols / diagonal;
-      stepY = height / nextRows / diagonal;
-
-      if (nextCols !== cols || nextRows !== rows) {
-        cols = nextCols;
-        rows = nextRows;
-        canvas.width = cols;
-        canvas.height = rows;
-        image = ctx.createImageData(cols, rows);
-        foldCosX = new Float32Array(cols);
-        foldSinX = new Float32Array(cols);
-        sheenCosX = new Float32Array(cols);
-        sheenSinX = new Float32Array(cols);
-        envX = new Float32Array(cols);
-        vignetteX = new Float32Array(cols);
-        foldCosY = new Float32Array(rows);
-        foldSinY = new Float32Array(rows);
-        sheenCosY = new Float32Array(rows);
-        sheenSinY = new Float32Array(rows);
-        envY = new Float32Array(rows);
-        vignetteY = new Float32Array(rows);
-      }
-
-      render(elapsed);
+      renderer.setSize(width, height);
+      uniforms.uResolution.value.set(width, height);
     };
-
     resize();
     const observer = new ResizeObserver(resize);
     observer.observe(root);
 
+    const onPointerMove = (clientX: number, clientY: number) => {
+      const rect = root.getBoundingClientRect();
+      uniforms.uPointer.value.set(
+        (clientX - rect.left) / rect.width,
+        1 - (clientY - rect.top) / rect.height,
+      );
+    };
+    const onMouseMove = (event: MouseEvent) => onPointerMove(event.clientX, event.clientY);
+    const onTouchMove = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (touch) onPointerMove(touch.clientX, touch.clientY);
+    };
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+
+    renderer.render(scene, camera);
+
     if (reduced) {
-      return () => observer.disconnect();
+      return () => {
+        observer.disconnect();
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("touchmove", onTouchMove);
+        material.dispose();
+        quad.geometry.dispose();
+        renderer.dispose();
+      };
     }
 
     let raf = 0;
-    let lastFrame = 0;
+    let isVisible = true;
     const started = performance.now();
 
-    function frame(now: number) {
+    const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
-      if (now - lastFrame < FRAME_INTERVAL) return;
-      lastFrame = now;
-      elapsed = STATIC_FRAME_TIME + (now - started) / 1000;
-      render(elapsed);
-    }
-
+      uniforms.uTime.value = 7.2 + (now - started) / 1000;
+      renderer.render(scene, camera);
+    };
     raf = requestAnimationFrame(frame);
+
+    const visObserver = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting === isVisible) return;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !raf) raf = requestAnimationFrame(frame);
+        else if (!isVisible && raf) {
+          cancelAnimationFrame(raf);
+          raf = 0;
+        }
+      },
+      { threshold: 0.01 },
+    );
+    visObserver.observe(root);
 
     return () => {
       cancelAnimationFrame(raf);
       observer.disconnect();
+      visObserver.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
+      material.dispose();
+      quad.geometry.dispose();
+      renderer.dispose();
     };
   }, [theme]);
 
   return (
     <div ref={rootRef} aria-hidden className="pointer-events-none fixed inset-0 -z-10 isolate overflow-hidden">
-      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0" />
+      <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full" />
       <div className="aura-grain" style={{ opacity: GRAIN_OPACITY }}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
           <filter id={grainId}>
@@ -278,4 +249,3 @@ export function SiteBackground() {
     </div>
   );
 }
-
