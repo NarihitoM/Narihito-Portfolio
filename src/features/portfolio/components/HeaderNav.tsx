@@ -20,6 +20,7 @@ export function HeaderNav() {
   const veilRef = useRef<HTMLDivElement>(null);
   const veilPanelRef = useRef<HTMLDivElement>(null);
   const openedOnce = useRef(false);
+  const skipVeil = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(NAV_LINKS[0]);
   useLenisLock(menuOpen);
@@ -76,7 +77,15 @@ export function HeaderNav() {
       openedOnce.current = true;
 
       const items = drawer.querySelectorAll("[data-drawer-item]");
-      const timeline = playDrawerVeil({ drawer, veil, panel, items, open: menuOpen });
+      const timeline = playDrawerVeil({
+        drawer,
+        veil,
+        panel,
+        items,
+        open: menuOpen,
+        instant: skipVeil.current,
+      });
+      skipVeil.current = false;
 
       return () => {
         timeline.kill();
@@ -148,7 +157,14 @@ export function HeaderNav() {
       </div>
     </header>
     <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} />
-    <MobileDrawer drawerRef={drawerRef} activeLink={activeLink} onClose={() => setMenuOpen(false)} />
+    <MobileDrawer
+      drawerRef={drawerRef}
+      activeLink={activeLink}
+      onClose={(instant) => {
+        skipVeil.current = instant === true;
+        setMenuOpen(false);
+      }}
+    />
     </>
   );
 }
@@ -160,7 +176,7 @@ function MobileDrawer({
 }: {
   drawerRef: React.RefObject<HTMLDivElement | null>;
   activeLink: string;
-  onClose: () => void;
+  onClose: (instant?: boolean) => void;
 }) {
   return (
     <div
@@ -171,7 +187,7 @@ function MobileDrawer({
       <button
         type="button"
         aria-label="Close menu"
-        onClick={onClose}
+        onClick={() => onClose()}
         className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -187,7 +203,7 @@ function MobileDrawer({
             href={`#${link.toLowerCase()}`}
             onClick={(event) => {
               event.preventDefault();
-              onClose();
+              onClose(true);
               requestAnimationFrame(() => scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET));
             }}
             className={`wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em] ${

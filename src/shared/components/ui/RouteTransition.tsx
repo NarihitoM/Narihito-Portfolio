@@ -5,7 +5,8 @@ import { usePathname } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
-const COVER_TIMEOUT = 1600;
+const COVER_TIMEOUT = 2600;
+const MIN_COVER_MS = 1100;
 
 export function RouteTransition() {
   const veilRef = useRef<HTMLDivElement>(null);
@@ -13,6 +14,7 @@ export function RouteTransition() {
   const pathname = usePathname();
   const lastPath = useRef(pathname);
   const covered = useRef(false);
+  const coveredAt = useRef(0);
   const failsafe = useRef(0);
 
   useEffect(() => {
@@ -32,21 +34,22 @@ export function RouteTransition() {
       gsap.killTweensOf([panel, brand]);
       gsap
         .timeline()
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.22, ease: ease.interaction })
-        .to(panel, { xPercent: -100, duration: 0.55, ease: ease.wipe }, "-=0.08")
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
+        .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
         .set(veil, { display: "none" });
     };
 
     const cover = () => {
       covered.current = true;
+      coveredAt.current = performance.now();
       gsap.killTweensOf([panel, brand]);
       gsap
         .timeline()
         .set(veil, { display: "block" })
         .set(panel, { xPercent: 100 })
         .set(brand, { opacity: 0, scale: 0.94 })
-        .to(panel, { xPercent: 0, duration: 0.45, ease: ease.wipe })
-        .to(brand, { opacity: 1, scale: 1, duration: 0.32, ease: ease.entrance }, "-=0.18");
+        .to(panel, { xPercent: 0, duration: 0.55, ease: ease.wipe })
+        .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "-=0.2");
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(reveal, COVER_TIMEOUT);
     };
@@ -85,16 +88,19 @@ export function RouteTransition() {
 
     const brand = panel.querySelector("[data-veil-brand]");
 
+    const held = covered.current ? performance.now() - coveredAt.current : MIN_COVER_MS;
+    const hold = Math.max(0, MIN_COVER_MS - held) / 1000;
+
     covered.current = true;
     window.clearTimeout(failsafe.current);
     gsap.killTweensOf([panel, brand]);
     gsap
-      .timeline({ delay: 0.05 })
+      .timeline({ delay: 0.05 + hold })
       .set(veil, { display: "block" })
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.22, ease: ease.interaction })
-      .to(panel, { xPercent: -100, duration: 0.55, ease: ease.wipe }, "-=0.08")
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
+      .to(panel, { xPercent: -100, duration: 0.65, ease: ease.wipe }, "-=0.1")
       .set(veil, { display: "none" })
       .call(() => {
         covered.current = false;
