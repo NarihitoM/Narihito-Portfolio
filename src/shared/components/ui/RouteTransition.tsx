@@ -11,7 +11,7 @@ const MIN_COVER_MS = 400;
 
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
-  if (!segment) return "NARIHITO";
+  if (!segment) return "";
   return `[ ${segment.replace(/-/g, " ").toUpperCase()} ]`;
 }
 
