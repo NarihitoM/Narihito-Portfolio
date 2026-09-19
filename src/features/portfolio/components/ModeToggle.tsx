@@ -3,12 +3,37 @@
 import { useTheme } from "@/shared/hooks/useTheme";
 
 export function ModeToggle() {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    const next = theme === "dark" ? "light" : "dark";
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduced || !document.startViewTransition) {
+      setTheme(next);
+      return;
+    }
+
+    const x = event.clientX;
+    const y = event.clientY;
+    const transition = document.startViewTransition(() => setTheme(next));
+
+    transition.ready.then(() => {
+      const endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y),
+      );
+      document.documentElement.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
+        { duration: 550, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" },
+      );
+    });
+  };
 
   return (
     <button
       type="button"
-      onClick={toggleTheme}
+      onClick={handleClick}
       aria-label="Toggle color theme"
       suppressHydrationWarning
       className="flex h-8 w-8 md:h-8 md:w-8 items-center justify-center rounded-full bg-bg-panel-solid text-text-primary transition-[color,transform] duration-300 active:scale-90"
