@@ -127,7 +127,7 @@ export function Experience() {
                   <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
                     <span className="md:hidden block">{entry.role}</span>
                     <span className="hidden md:inline">
-                      {entry.role} Â· {entry.company}
+                      {entry.role} · {entry.company}
                     </span>
                   </h3>
                   <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
