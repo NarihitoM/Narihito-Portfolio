@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Space_Grotesk, Inter, IBM_Plex_Mono, Geist } from "next/font/google";
+import { Space_Grotesk, Inter, Roboto, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/shared/components/layout/Providers";
@@ -36,12 +36,12 @@ const inter = Inter({
   fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-plex-mono",
+const roboto = Roboto({
+  variable: "--font-roboto",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  weight: ["400", "500", "700"],
   display: "swap",
-  fallback: ["ui-monospace", "Cascadia Mono", "Roboto Mono", "Menlo", "monospace"],
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
 const SITE_URL = "https://narihito-portfolio.vercel.app";
@@ -167,7 +167,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       data-theme="dark"
-      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, ibmPlexMono.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, roboto.variable, "font-sans", geist.variable)}
       suppressHydrationWarning
     >
       <head>
