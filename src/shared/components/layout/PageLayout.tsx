@@ -234,7 +234,9 @@ export function PageLayout({
                 key={link}
                 data-drawer-item
                 href={`/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`}
-                onClick={() => setMenuOpen(false)}
+                onClick={() => {
+                  if (!ROUTED_LINKS.includes(link)) setMenuOpen(false);
+                }}
                 aria-current={isActive ? "page" : undefined}
                 className={`wave-link${isActive ? " is-active" : ""} shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em]`}
               >
