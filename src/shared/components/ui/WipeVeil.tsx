@@ -54,15 +54,22 @@ export function playDrawerVeil({
   panel,
   items,
   open,
+  instant = false,
 }: {
   drawer: HTMLElement;
   veil: HTMLElement;
   panel: HTMLElement;
   items: NodeListOf<Element>;
   open: boolean;
+  instant?: boolean;
 }) {
   gsap.killTweensOf([drawer, panel, items]);
   const timeline = gsap.timeline();
+
+  if (!open && instant) {
+    timeline.set(drawer, { display: "none" }).set(veil, { display: "none" });
+    return timeline;
+  }
 
   if (open) {
     timeline
