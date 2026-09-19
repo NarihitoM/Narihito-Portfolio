@@ -13,24 +13,35 @@ import { RouteTransition } from "@/shared/components/ui/RouteTransition";
 import { InAppBrowserBanner } from "@/shared/components/ui/InAppBrowserBanner";
 import { Chatbot } from "@/features/chatbot/components/Chatbot";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+const geist = Geist({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  display: "swap",
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
   subsets: ["latin"],
   weight: ["400", "600"],
+  display: "swap",
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
 const ibmPlexMono = IBM_Plex_Mono({
   variable: "--font-ibm-plex-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+  fallback: ["ui-monospace", "Cascadia Mono", "Roboto Mono", "Menlo", "monospace"],
 });
 
 const SITE_URL = "https://narihito-portfolio.vercel.app";
