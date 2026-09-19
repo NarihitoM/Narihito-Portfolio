@@ -156,7 +156,7 @@ export function HeaderNav() {
         </button>
       </div>
     </header>
-    <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} />
+    <WipeVeil veilRef={veilRef} panelRef={veilPanelRef} diagonal={false} />
     <MobileDrawer
       drawerRef={drawerRef}
       activeLink={activeLink}
