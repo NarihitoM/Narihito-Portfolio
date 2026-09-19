@@ -25,7 +25,7 @@ const DITHER_MASK = DITHER_SIZE - 1;
 const GRAIN_OPACITY = 0.3;
 const STATIC_FRAME_TIME = 7.2;
 
-const FOLD_FREQUENCY = 13;
+const FOLD_FREQUENCY = 9;
 const FOLD_TILT = 0.62;
 const FOLD_DRIFT = 0.1;
 const SHEEN_FREQUENCY = 6;
