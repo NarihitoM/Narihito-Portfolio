@@ -119,7 +119,7 @@ export function Preloader() {
         <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-veil-fg">
           NARIHITO
         </span>
-        <span className={`font-mono text-[10px] font-light tracking-[2px] text-violet uppercase transition-opacity duration-300 after:ml-0.5 after:animate-pulse after:content-['|'] ${ready ? "opacity-100" : "opacity-0"}`}>
+        <span className={`font-mono text-[10px] font-light tracking-[2px] text-veil-fg/70 uppercase transition-opacity duration-300 after:ml-0.5 after:animate-pulse after:content-['|'] ${ready ? "opacity-100" : "opacity-0"}`}>
           {typed || " "}
         </span>
       </div>
