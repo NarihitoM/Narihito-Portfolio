@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -34,14 +34,14 @@ export function Games() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
             <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             {games.map((game) => (
               <GameCard key={game.id} game={game} />
             ))}

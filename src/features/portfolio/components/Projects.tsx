@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -141,7 +141,7 @@ export function Projects() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
             <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
           </div>
@@ -150,7 +150,7 @@ export function Projects() {
         ) : PROJECTS.length === 0 ? (
           <p className="font-body text-[14px] text-text-muted">No projects yet.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-7">
+          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             {PROJECTS.map((project) => (
               <ProjectCard key={`${project.title}-${project.year}`} project={project} />
             ))}
