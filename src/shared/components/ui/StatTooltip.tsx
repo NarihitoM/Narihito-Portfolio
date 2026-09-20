@@ -14,13 +14,18 @@ export function StatTooltip({ children, text }: { children: ReactNode; text: str
   useEffect(() => {
     if (!visible) return;
 
+    const anchor = rootRef.current;
     const tooltip = tooltipRef.current;
-    if (tooltip) {
-      const rect = tooltip.getBoundingClientRect();
+    if (anchor && tooltip) {
+      const anchorRect = anchor.getBoundingClientRect();
+      const width = tooltip.offsetWidth;
+      const center = anchorRect.left + anchorRect.width / 2;
+      const naturalLeft = center - width / 2;
+      const naturalRight = center + width / 2;
       const margin = 12;
       let next = 0;
-      if (rect.left < margin) next = margin - rect.left;
-      else if (rect.right > window.innerWidth - margin) next = window.innerWidth - margin - rect.right;
+      if (naturalLeft < margin) next = margin - naturalLeft;
+      else if (naturalRight > window.innerWidth - margin) next = window.innerWidth - margin - naturalRight;
       setShift(next);
     }
   }, [visible]);
@@ -47,8 +52,12 @@ export function StatTooltip({ children, text }: { children: ReactNode; text: str
     <div
       ref={rootRef}
       className="relative inline-flex"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
+      onPointerEnter={(event) => {
+        if (event.pointerType === "mouse") setHovered(true);
+      }}
+      onPointerLeave={(event) => {
+        if (event.pointerType === "mouse") setHovered(false);
+      }}
     >
       <button
         type="button"

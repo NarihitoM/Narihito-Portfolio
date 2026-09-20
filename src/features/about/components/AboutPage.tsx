@@ -234,9 +234,24 @@ export function AboutPage() {
           </div>
         ) : stats ? (
           <div className="flex items-center gap-10 md:gap-16">
-            <StatItem value={stats.yearsExperience} suffix="+" label="Years Experience" />
-            <StatItem value={stats.projectsCount} suffix="+" label="Projects" />
-            <StatItem value={stats.satisfiedRate} suffix="%" label="Satisfied Rate" />
+            <StatItem
+              value={stats.yearsExperience}
+              suffix="+"
+              label="Years Experience"
+              tooltip="Years spent actively building and shipping software products."
+            />
+            <StatItem
+              value={stats.projectsCount}
+              suffix="+"
+              label="Projects"
+              tooltip="Projects I've completed and shipped, from web apps to AI-powered tools."
+            />
+            <StatItem
+              value={stats.satisfiedRate}
+              suffix="%"
+              label="Satisfied Rate"
+              tooltip="Scored by AI assistant reading testimonials and judging how positively people speak about working with me."
+            />
           </div>
         ) : null}
 
