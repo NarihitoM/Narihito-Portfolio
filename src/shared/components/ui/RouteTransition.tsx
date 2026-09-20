@@ -50,10 +50,10 @@ export function RouteTransition() {
 
       gsap
         .timeline({ delay: wait })
-        .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
         .to(bgLayer, { xPercent: 100, duration: BG_DURATION, ease: ease.wipe })
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.14")
-        .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "-=0.1")
+        .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
+        .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe })
         .set(veil, { display: "none" });
     };
 
@@ -78,10 +78,10 @@ export function RouteTransition() {
         .set(panel, { xPercent: -100 })
         .set(brand, { opacity: 0, scale: 0.94, "--veil-brand-fg": "var(--color-veil-fg)" })
         .set(bgLayer, { xPercent: -100 })
-        .to(panel, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe }, "reveal")
-        .to(bgLayer, { xPercent: 0, duration: BG_DURATION, ease: ease.wipe }, "reveal+=0.22")
-        .set(brand, { "--veil-brand-fg": "var(--color-text-primary)" }, "reveal+=0.3")
-        .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "reveal+=0.34");
+        .to(panel, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
+        .to(bgLayer, { xPercent: 0, duration: BG_DURATION, ease: ease.wipe })
+        .set(brand, { "--veil-brand-fg": "var(--color-text-primary)" })
+        .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance });
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(() => {
         go();
@@ -141,10 +141,10 @@ export function RouteTransition() {
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1, "--veil-brand-fg": "var(--color-text-primary)" })
       .set(bgLayer, { xPercent: 0 })
-      .to(bgLayer, { xPercent: 100, duration: BG_DURATION, ease: ease.wipe, delay: 0.2 })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction, delay: 0.25 })
+      .to(bgLayer, { xPercent: 100, duration: BG_DURATION, ease: ease.wipe })
       .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.14")
-      .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "-=0.1")
+      .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe })
       .set(veil, { display: "none" });
   }, [pathname]);
 
