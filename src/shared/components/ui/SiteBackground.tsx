@@ -261,7 +261,7 @@ export function SiteBackground() {
   }, [theme]);
 
   return (
-    <div ref={rootRef} aria-hidden className="pointer-events-none fixed inset-0 -z-10 isolate overflow-hidden">
+    <div ref={rootRef} aria-hidden className="pointer-events-none fixed -inset-20 -z-10 isolate overflow-hidden">
       <canvas ref={canvasRef} className="pointer-events-none absolute inset-0 h-full w-full" />
       <div className="aura-grain" style={{ opacity: GRAIN_OPACITY }}>
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
