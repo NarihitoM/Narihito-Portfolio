@@ -20,20 +20,23 @@ export function WipeVeil({
   bgFollow?: boolean;
 }) {
   const bgFollowLayer = bgFollow ? (
-    <div data-veil-bg className="absolute inset-0 bg-bg opacity-0" />
+    <div data-veil-bg className="absolute inset-0 bg-bg" />
   ) : null;
   const brandBlock = brand ? (
     <div
       data-veil-brand
+      style={{ "--veil-brand-fg": "var(--color-veil-fg)" } as React.CSSProperties}
       className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 ${diagonal ? "-rotate-45" : ""} flex-col items-center gap-5`}
     >
       <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
         <Image src="/img/Narihito.jpg" alt="" width={64} height={64} className="h-full w-full object-cover" />
       </div>
-      <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-veil-fg">NARIHITO</span>
+      <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-(--veil-brand-fg)">
+        NARIHITO
+      </span>
       <span
         data-veil-label
-        className="font-mono text-[13px] font-medium uppercase tracking-[4px] text-veil-fg/70"
+        className="font-mono text-[13px] font-medium uppercase tracking-[4px] text-(--veil-brand-fg) opacity-70"
       />
     </div>
   ) : null;

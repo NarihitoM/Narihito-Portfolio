@@ -206,6 +206,7 @@ function MobileDrawer({
               onClose(true);
               requestAnimationFrame(() => scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET));
             }}
+            onTouchStart={() => {}}
             className={`wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em] ${
               activeLink === link ? "is-active" : ""
             }`}

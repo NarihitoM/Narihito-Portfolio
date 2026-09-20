@@ -239,6 +239,7 @@ export function PageLayout({
                 onClick={() => {
                   if (!navigatesAway) setMenuOpen(false);
                 }}
+                onTouchStart={() => {}}
                 aria-current={isActive ? "page" : undefined}
                 className={`wave-link${isActive ? " is-active" : ""} shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em]`}
               >
