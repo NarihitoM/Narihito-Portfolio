@@ -51,10 +51,10 @@ export function RouteTransition() {
       gsap
         .timeline({ delay: wait })
         .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
+        .to(bgLayer, { xPercent: 100, duration: BG_DURATION, ease: ease.wipe })
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.14")
         .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "-=0.1")
-        .set(veil, { display: "none" })
-        .set(bgLayer, { xPercent: -100 });
+        .set(veil, { display: "none" });
     };
 
     revealRef.current = reveal;
@@ -139,11 +139,13 @@ export function RouteTransition() {
       .timeline()
       .set(veil, { display: "block" })
       .set(panel, { xPercent: 0 })
-      .set(brand, { opacity: 1, scale: 1, "--veil-brand-fg": "var(--color-veil-fg)" })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction, delay: 0.2 })
+      .set(brand, { opacity: 1, scale: 1, "--veil-brand-fg": "var(--color-text-primary)" })
+      .set(bgLayer, { xPercent: 0 })
+      .to(bgLayer, { xPercent: 100, duration: BG_DURATION, ease: ease.wipe, delay: 0.2 })
+      .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.14")
       .to(panel, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "-=0.1")
-      .set(veil, { display: "none" })
-      .set(bgLayer, { xPercent: -100 });
+      .set(veil, { display: "none" });
   }, [pathname]);
 
   return <WipeVeil veilRef={veilRef} panelRef={panelRef} className="z-99" brand bgFollow />;
