@@ -4,8 +4,19 @@ import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
 import { duration, ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { StatTooltip } from "@/shared/components/ui/StatTooltip";
 
-export function StatItem({ value, suffix, label }: { value: number; suffix: string; label: string }) {
+export function StatItem({
+  value,
+  suffix,
+  label,
+  tooltip,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  tooltip?: string;
+}) {
   const numRef = useRef<HTMLSpanElement>(null);
 
   useGSAP(
@@ -38,7 +49,7 @@ export function StatItem({ value, suffix, label }: { value: number; suffix: stri
     { scope: numRef, dependencies: [value, suffix] },
   );
 
-  return (
+  const content = (
     <div className="flex flex-col gap-1">
       <span ref={numRef} className="font-display text-[28px] md:text-[34px] font-semibold text-text-primary">
         0{suffix}
@@ -46,6 +57,10 @@ export function StatItem({ value, suffix, label }: { value: number; suffix: stri
       <span className="font-body text-[12px] md:text-[13px] text-text-secondary">{label}</span>
     </div>
   );
+
+  if (!tooltip) return content;
+
+  return <StatTooltip text={tooltip}>{content}</StatTooltip>;
 }
 
 export function StatItemSkeleton() {
