@@ -11,6 +11,8 @@ export function WipeVeil({
   brand = false,
   diagonal = true,
   bgFollow = false,
+  panelBg = "bg-veil",
+  brandFgVar = "--color-veil-fg",
 }: {
   veilRef: RefObject<HTMLDivElement | null>;
   panelRef: RefObject<HTMLDivElement | null>;
@@ -18,6 +20,8 @@ export function WipeVeil({
   brand?: boolean;
   diagonal?: boolean;
   bgFollow?: boolean;
+  panelBg?: string;
+  brandFgVar?: string;
 }) {
   const bgFollowLayer = bgFollow ? (
     <div data-veil-bg className="absolute inset-0 bg-bg" />
@@ -25,7 +29,7 @@ export function WipeVeil({
   const brandBlock = brand ? (
     <div
       data-veil-brand
-      style={{ "--veil-brand-fg": "var(--color-veil-fg)" } as React.CSSProperties}
+      style={{ "--veil-brand-fg": `var(${brandFgVar})` } as React.CSSProperties}
       className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 ${diagonal ? "-rotate-45" : ""} flex-col items-center gap-5`}
     >
       <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
@@ -49,13 +53,13 @@ export function WipeVeil({
     >
       {diagonal ? (
         <div className="absolute left-1/2 top-1/2 h-[240vmax] w-[240vmax] -translate-x-1/2 -translate-y-1/2 rotate-45">
-          <div ref={panelRef} className="relative h-full w-full overflow-hidden bg-veil">
+          <div ref={panelRef} className={`relative h-full w-full overflow-hidden ${panelBg}`}>
             {bgFollowLayer}
             {brandBlock}
           </div>
         </div>
       ) : (
-        <div ref={panelRef} className="relative h-full w-full overflow-hidden bg-veil">
+        <div ref={panelRef} className={`relative h-full w-full overflow-hidden ${panelBg}`}>
           {bgFollowLayer}
           {brandBlock}
         </div>
