@@ -10,13 +10,18 @@ export function WipeVeil({
   className = "z-61 lg:hidden",
   brand = false,
   diagonal = true,
+  bgFollow = false,
 }: {
   veilRef: RefObject<HTMLDivElement | null>;
   panelRef: RefObject<HTMLDivElement | null>;
   className?: string;
   brand?: boolean;
   diagonal?: boolean;
+  bgFollow?: boolean;
 }) {
+  const bgFollowLayer = bgFollow ? (
+    <div data-veil-bg className="absolute inset-0 bg-bg opacity-0" />
+  ) : null;
   const brandBlock = brand ? (
     <div
       data-veil-brand
@@ -41,12 +46,14 @@ export function WipeVeil({
     >
       {diagonal ? (
         <div className="absolute left-1/2 top-1/2 h-[240vmax] w-[240vmax] -translate-x-1/2 -translate-y-1/2 rotate-45">
-          <div ref={panelRef} className="relative h-full w-full bg-veil">
+          <div ref={panelRef} className="relative h-full w-full overflow-hidden bg-veil">
+            {bgFollowLayer}
             {brandBlock}
           </div>
         </div>
       ) : (
-        <div ref={panelRef} className="relative h-full w-full bg-veil">
+        <div ref={panelRef} className="relative h-full w-full overflow-hidden bg-veil">
+          {bgFollowLayer}
           {brandBlock}
         </div>
       )}

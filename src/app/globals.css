@@ -420,7 +420,8 @@ select option {
 }
 
 .wave-link:hover .wave-char,
-.wave-link:focus-visible .wave-char {
+.wave-link:focus-visible .wave-char,
+.wave-link:active .wave-char {
   color: var(--color-text-primary);
   transform: translateY(-6px);
 }

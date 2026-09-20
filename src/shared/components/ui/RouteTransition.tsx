@@ -37,6 +37,7 @@ export function RouteTransition() {
 
     const brand = panel.querySelector("[data-veil-brand]");
     const label = panel.querySelector("[data-veil-label]");
+    const bgLayer = panel.querySelector("[data-veil-bg]");
 
     const reveal = () => {
       if (!covered.current) return;
@@ -48,7 +49,8 @@ export function RouteTransition() {
 
       gsap
         .timeline({ delay: wait })
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction })
+        .to(bgLayer, { opacity: 0, duration: 0.22, ease: ease.interaction })
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.12")
         .to(panel, { xPercent: 100, duration: 0.65, ease: ease.wipe }, "-=0.1")
         .set(veil, { display: "none" });
     };
@@ -67,13 +69,15 @@ export function RouteTransition() {
       covered.current = true;
       pending.current = href;
       if (label) label.textContent = labelForPath(href);
-      gsap.killTweensOf([panel, brand]);
+      gsap.killTweensOf([panel, brand, bgLayer]);
       gsap
         .timeline({ onComplete: go })
         .set(veil, { display: "block" })
         .set(panel, { xPercent: -100 })
         .set(brand, { opacity: 0, scale: 0.94 })
+        .set(bgLayer, { opacity: 0 })
         .to(panel, { xPercent: 0, duration: COVER_IN, ease: ease.wipe })
+        .to(bgLayer, { opacity: 1, duration: 0.3, ease: ease.interaction }, "-=0.25")
         .to(brand, { opacity: 1, scale: 1, duration: 0.4, ease: ease.entrance }, "-=0.2");
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(() => {
@@ -124,18 +128,21 @@ export function RouteTransition() {
 
     const brand = panel.querySelector("[data-veil-brand]");
     const label = panel.querySelector("[data-veil-label]");
+    const bgLayer = panel.querySelector("[data-veil-bg]");
     if (label) label.textContent = labelForPath(pathname);
 
-    gsap.killTweensOf([panel, brand]);
+    gsap.killTweensOf([panel, brand, bgLayer]);
     gsap
       .timeline()
       .set(veil, { display: "block" })
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction, delay: 0.25 })
+      .set(bgLayer, { opacity: 1 })
+      .to(bgLayer, { opacity: 0, duration: 0.22, ease: ease.interaction, delay: 0.2 })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.26, ease: ease.interaction }, "-=0.12")
       .to(panel, { xPercent: 100, duration: 0.65, ease: ease.wipe }, "-=0.1")
       .set(veil, { display: "none" });
   }, [pathname]);
 
-  return <WipeVeil veilRef={veilRef} panelRef={panelRef} className="z-99" brand />;
+  return <WipeVeil veilRef={veilRef} panelRef={panelRef} className="z-99" brand bgFollow />;
 }
