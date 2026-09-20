@@ -203,7 +203,7 @@ function MobileDrawer({
             href={`#${link.toLowerCase()}`}
             onClick={(event) => {
               event.preventDefault();
-              onClose(true);
+              onClose();
               requestAnimationFrame(() => scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET));
             }}
             onTouchStart={() => {}}
