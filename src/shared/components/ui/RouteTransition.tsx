@@ -6,7 +6,7 @@ import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsa
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
 const PANEL_DURATION = 0.28;
-const BG_DURATION = 0.16;
+const BG_DURATION = 0.32;
 const COVER_TIMEOUT = 2600;
 const MIN_COVER_MS = 250;
 
