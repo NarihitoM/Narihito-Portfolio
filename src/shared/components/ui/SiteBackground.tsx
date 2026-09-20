@@ -172,11 +172,18 @@ export function SiteBackground() {
       const width = root.clientWidth;
       const height = root.clientHeight;
       if (width < 2 || height < 2) return;
+      if (width === uniforms.uResolution.value.x && height === uniforms.uResolution.value.y) return;
       renderer.setSize(width, height);
       uniforms.uResolution.value.set(width, height);
     };
     resize();
-    const observer = new ResizeObserver(resize);
+
+    let resizeTimeout = 0;
+    const debouncedResize = () => {
+      window.clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(resize, 150);
+    };
+    const observer = new ResizeObserver(debouncedResize);
     observer.observe(root);
 
     const onPointerMove = (clientX: number, clientY: number) => {
@@ -198,6 +205,7 @@ export function SiteBackground() {
 
     if (reduced) {
       return () => {
+        window.clearTimeout(resizeTimeout);
         observer.disconnect();
         window.removeEventListener("mousemove", onMouseMove);
         window.removeEventListener("touchmove", onTouchMove);
@@ -234,6 +242,7 @@ export function SiteBackground() {
 
     return () => {
       cancelAnimationFrame(raf);
+      window.clearTimeout(resizeTimeout);
       observer.disconnect();
       visObserver.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
