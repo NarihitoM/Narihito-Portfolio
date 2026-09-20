@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
-const PANEL_DURATION = 0.4;
-const BG_DURATION = 0.22;
+const PANEL_DURATION = 0.28;
+const BG_DURATION = 0.16;
 const COVER_TIMEOUT = 2600;
-const MIN_COVER_MS = 400;
+const MIN_COVER_MS = 250;
 
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
@@ -50,7 +50,7 @@ export function RouteTransition() {
 
       gsap
         .timeline({ delay: wait })
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.14, ease: ease.interaction })
         .to(bgLayer, { xPercent: -100, duration: BG_DURATION, ease: ease.wipe })
         .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
         .to(panel, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
@@ -81,7 +81,7 @@ export function RouteTransition() {
         .to(panel, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
         .to(bgLayer, { xPercent: 0, duration: BG_DURATION, ease: ease.wipe })
         .set(brand, { "--veil-brand-fg": "var(--color-text-primary)" })
-        .to(brand, { opacity: 1, scale: 1, duration: 0.3, ease: ease.entrance });
+        .to(brand, { opacity: 1, scale: 1, duration: 0.2, ease: ease.entrance });
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(() => {
         go();
@@ -141,7 +141,7 @@ export function RouteTransition() {
       .set(panel, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1, "--veil-brand-fg": "var(--color-text-primary)" })
       .set(bgLayer, { xPercent: 0 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction, delay: 0.2 })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.14, ease: ease.interaction, delay: 0.12 })
       .to(bgLayer, { xPercent: -100, duration: BG_DURATION, ease: ease.wipe })
       .set(brand, { "--veil-brand-fg": "var(--color-veil-fg)" })
       .to(panel, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
