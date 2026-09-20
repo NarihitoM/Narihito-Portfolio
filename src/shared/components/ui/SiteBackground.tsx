@@ -25,7 +25,7 @@ const SHEEN_DRIFT = -0.062;
 
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
-    low: [6 / 255, 5 / 255, 5 / 255],
+    low: [0, 0, 0],
     high: [42 / 255, 41 / 255, 39 / 255],
     foldGamma: 3.8,
     sheenGamma: 2.0,
@@ -34,7 +34,7 @@ const PALETTES: Record<Theme, SilkPalette> = {
     vignetteY: 0.3,
   },
   light: {
-    low: [240 / 255, 239 / 255, 236 / 255],
+    low: [1, 1, 1],
     high: [190 / 255, 188 / 255, 182 / 255],
     foldGamma: 1.7,
     sheenGamma: 1.5,
