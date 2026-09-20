@@ -1,15 +1,18 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Mail, ShieldCheck } from "lucide-react";
+import { Mail, ShieldCheck, Check, X } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
 import { useSendContact } from "@/features/contact/hooks/useSendContact";
+import { contactApi } from "@/features/contact/api/contactApi";
 import type { ContactFormData } from "@/features/contact/types/types";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const SOCIALS = [
   { label: "github", href: "https://github.com/NarihitoM" },
@@ -26,6 +29,40 @@ export function Contact() {
   const sendMut = useSendContact();
   const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [checkResult, setCheckResult] = useState<{ email: string; deliverable: boolean } | null>(null);
+  const [checking, setChecking] = useState(false);
+  const formatValid = EMAIL_RE.test(form.email);
+
+  useEffect(() => {
+    if (!formatValid) return;
+
+    setChecking(true);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => {
+      contactApi
+        .verifyEmail(form.email, controller.signal)
+        .then((deliverable) => setCheckResult({ email: form.email, deliverable }))
+        .catch(() => {})
+        .finally(() => setChecking(false));
+    }, 500);
+
+    return () => {
+      clearTimeout(timeout);
+      controller.abort();
+      setChecking(false);
+    };
+  }, [form.email, formatValid]);
+
+  const emailStatus =
+    !formatValid || form.email.length === 0
+      ? "idle"
+      : checking
+        ? "checking"
+        : checkResult?.email === form.email
+          ? checkResult.deliverable
+            ? "valid"
+            : "invalid"
+          : "idle";
 
   useGSAP(
     () => {
@@ -134,9 +171,32 @@ export function Contact() {
                     required
                     value={form.email}
                     onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-                    className="h-11 rounded-[4px] border border-border-glow-soft bg-surface px-3 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors placeholder:text-text-muted"
+                    className={`h-11 rounded-[4px] border bg-surface px-3 font-body text-[14px] text-text-primary outline-none transition-colors placeholder:text-text-muted ${
+                      emailStatus === "invalid"
+                        ? "border-red-500 focus:border-red-500"
+                        : "border-border-glow-soft focus:border-violet"
+                    }`}
                     placeholder="your@email.com"
                   />
+                  {emailStatus !== "idle" && (
+                    <span
+                      className={`flex items-center gap-1 font-body text-[12px] ${
+                        emailStatus === "valid"
+                          ? "text-green-600 dark:text-green-400"
+                          : emailStatus === "invalid"
+                            ? "text-red-600 dark:text-red-400"
+                            : "text-text-muted"
+                      }`}
+                    >
+                      {emailStatus === "valid" && <Check size={13} />}
+                      {emailStatus === "invalid" && <X size={13} />}
+                      {emailStatus === "checking"
+                        ? "Checking..."
+                        : emailStatus === "valid"
+                          ? "Email Verified"
+                          : "Email not verified"}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
