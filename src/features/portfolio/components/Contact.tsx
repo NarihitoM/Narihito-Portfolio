@@ -214,7 +214,11 @@ export function Contact() {
                   Failed to send message. Please try again.
                 </div>
               )}
-              <Button type="submit" disabled={sendMut.isPending} className="self-start mt-1">
+              <Button
+                type="submit"
+                disabled={sendMut.isPending || emailStatus === "checking" || emailStatus === "invalid"}
+                className="self-start mt-1"
+              >
                 {sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
