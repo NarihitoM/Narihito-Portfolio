@@ -132,25 +132,14 @@ export function SiteBackground() {
   const { theme } = useTheme();
 
   useEffect(() => {
-    const rootEl = rootRef.current;
+    const root = rootRef.current;
     const canvas = canvasRef.current;
-    if (!rootEl || !canvas) return;
+    if (!root || !canvas) return;
 
-    let cleanup: (() => void) | undefined;
-    let cancelled = false;
+    const palette = PALETTES[theme];
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 200));
-    const cancelIdle = window.cancelIdleCallback ?? window.clearTimeout;
-    const idleId = idle(() => {
-      if (!cancelled) cleanup = setup();
-    });
-
-    function setup() {
-      const root = rootEl!;
-      const palette = PALETTES[theme];
-      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-      const renderer = new THREE.WebGLRenderer({ canvas: canvas!, antialias: false, alpha: false });
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
 
     const scene = new THREE.Scene();
@@ -243,23 +232,16 @@ export function SiteBackground() {
     );
     visObserver.observe(root);
 
-      return () => {
-        cancelAnimationFrame(raf);
-        observer.disconnect();
-        visObserver.disconnect();
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("touchmove", onTouchMove);
-        material.dispose();
-        quad.geometry.dispose();
-        renderer.dispose();
-        uniformsRef.current = null;
-      };
-    }
-
     return () => {
-      cancelled = true;
-      cancelIdle(idleId as never);
-      cleanup?.();
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+      visObserver.disconnect();
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchmove", onTouchMove);
+      material.dispose();
+      quad.geometry.dispose();
+      renderer.dispose();
+      uniformsRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
