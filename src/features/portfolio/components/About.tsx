@@ -95,7 +95,7 @@ export function About() {
             </div>
           ) : null}
 
-          <DetailCta href="/about" route="/about" />
+          <DetailCta href="/about" route="/about" align="start" />
         </div>
       </div>
 
