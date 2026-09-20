@@ -30,39 +30,33 @@ export function Contact() {
   const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [checkResult, setCheckResult] = useState<{ email: string; deliverable: boolean } | null>(null);
-  const [checking, setChecking] = useState(false);
   const formatValid = EMAIL_RE.test(form.email);
 
   useEffect(() => {
     if (!formatValid) return;
 
-    setChecking(true);
     const controller = new AbortController();
     const timeout = setTimeout(() => {
       contactApi
         .verifyEmail(form.email, controller.signal)
         .then((deliverable) => setCheckResult({ email: form.email, deliverable }))
-        .catch(() => {})
-        .finally(() => setChecking(false));
+        .catch(() => {});
     }, 500);
 
     return () => {
       clearTimeout(timeout);
       controller.abort();
-      setChecking(false);
     };
   }, [form.email, formatValid]);
 
   const emailStatus =
     !formatValid || form.email.length === 0
       ? "idle"
-      : checking
+      : checkResult?.email !== form.email
         ? "checking"
-        : checkResult?.email === form.email
-          ? checkResult.deliverable
-            ? "valid"
-            : "invalid"
-          : "idle";
+        : checkResult.deliverable
+          ? "valid"
+          : "invalid";
 
   useGSAP(
     () => {
