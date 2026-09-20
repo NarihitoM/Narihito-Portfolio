@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="public/Narihito.jpg" alt="Narihito" width="120" height="120" style="border-radius:50%;" />
+  <img src="public/img/Narihito.jpg" alt="Narihito" width="120" height="120" style="border-radius:50%;" />
 </p>
 
 <h1 align="center">Narihito — Portfolio</h1>
