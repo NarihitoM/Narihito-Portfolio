@@ -105,7 +105,7 @@ export function About() {
                 value={stats.satisfiedRate}
                 suffix="%"
                 label="Satisfied Rate"
-                tooltip="Scored by my AI assistant, which reads through testimonials from clients and collaborators and judges how positively they speak about working with me."
+                tooltip="Scored by AI assistant reading testimonials and judging how positively people speak about working with me."
               />
             </div>
           ) : null}
