@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Mail, ShieldCheck, Check, X } from "lucide-react";
+import { Mail, ShieldCheck } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
@@ -184,25 +184,6 @@ export function Contact() {
                     }`}
                     placeholder="your@email.com"
                   />
-                  {emailStatus !== "idle" && (
-                    <span
-                      className={`flex items-center gap-1 font-body text-[12px] ${
-                        emailStatus === "valid"
-                          ? "text-green-600 dark:text-green-400"
-                          : emailStatus === "invalid"
-                            ? "text-red-600 dark:text-red-400"
-                            : "text-text-muted"
-                      }`}
-                    >
-                      {emailStatus === "valid" && <Check size={13} />}
-                      {emailStatus === "invalid" && <X size={13} />}
-                      {emailStatus === "checking"
-                        ? "Checking..."
-                        : emailStatus === "valid"
-                          ? "Email Verified"
-                          : "Email not verified"}
-                    </span>
-                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
