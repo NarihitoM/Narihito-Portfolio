@@ -111,10 +111,6 @@ export const metadata: Metadata = {
   verification: {
     google: "yiocS7kwAWSj_xpg9pFZTBGvnI6vm7iBs1spr86EMYs",
   },
-  icons: {
-    icon: "/img/Narihito.jpg",
-    apple: "/img/Narihito.jpg",
-  },
 };
 
 const personSchema = {
