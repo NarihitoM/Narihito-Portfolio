@@ -30,6 +30,7 @@ export function Contact() {
   const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [checkResult, setCheckResult] = useState<{ email: string; deliverable: boolean } | null>(null);
+  const [verifying, setVerifying] = useState(false);
   const formatValid = EMAIL_RE.test(form.email);
 
   useEffect(() => {
@@ -109,12 +110,23 @@ export function Contact() {
     { scope: sectionRef },
   );
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formatValid) return;
+
+    setVerifying(true);
+    const deliverable =
+      checkResult?.email === form.email ? checkResult.deliverable : await contactApi.verifyEmail(form.email).catch(() => false);
+    setCheckResult({ email: form.email, deliverable });
+    setVerifying(false);
+
+    if (!deliverable) return;
+
     sendMut.mutate(form, {
       onSuccess: () => {
         setSubmitted(true);
         setForm({ name: "", email: "", message: "" });
+        setCheckResult(null);
       },
     });
   };
@@ -211,15 +223,15 @@ export function Contact() {
                       <path d="M6 6l12 12M18 6L6 18" />
                     </svg>
                   </span>
-                  Failed to send message. Please try again.
+                  {sendMut.error?.message || "Failed to send message. Please try again."}
                 </div>
               )}
               <Button
                 type="submit"
-                disabled={sendMut.isPending || emailStatus === "checking" || emailStatus === "invalid"}
+                disabled={verifying || sendMut.isPending || emailStatus === "checking" || emailStatus === "invalid"}
                 className="self-start mt-1"
               >
-                {sendMut.isPending ? "Sending..." : "Send"}
+                {verifying ? "Verifying email..." : sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
           )}
