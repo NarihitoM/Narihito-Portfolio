@@ -247,9 +247,11 @@ export function GamesPage() {
               ref={cardsRef}
               className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
             >
-              {games.map((game) => (
-                <GameCard key={game.id} game={game} />
-              ))}
+              {[...games]
+                .sort((a, b) => Number(b.type === "favorite") - Number(a.type === "favorite"))
+                .map((game) => (
+                  <GameCard key={game.id} game={game} />
+                ))}
             </div>
 
             {hasNextPage && (
