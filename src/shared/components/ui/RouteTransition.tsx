@@ -56,7 +56,7 @@ export function RouteTransition() {
         .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
         .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
         .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
-        .set(veil, { display: "none" });
+        .set(veil, { display: "none", pointerEvents: "none" });
     };
 
     revealRef.current = reveal;
@@ -78,7 +78,7 @@ export function RouteTransition() {
       gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
       gsap
         .timeline({ onComplete: go })
-        .set(veil, { display: "block" })
+        .set(veil, { display: "block", pointerEvents: "auto" })
         .set(leftLeaf, { xPercent: -100 })
         .set(rightLeaf, { xPercent: 100 })
         .set(brand, { opacity: 0, scale: 0.94 })
@@ -147,7 +147,7 @@ export function RouteTransition() {
     gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
     gsap
       .timeline({ onComplete: () => (busy.current = false) })
-      .set(veil, { display: "block" })
+      .set(veil, { display: "block", pointerEvents: "auto" })
       .set(leftLeaf, { xPercent: 0 })
       .set(rightLeaf, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
@@ -155,7 +155,7 @@ export function RouteTransition() {
       .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction, delay: 0.4 })
       .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
       .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
-      .set(veil, { display: "none" });
+      .set(veil, { display: "none", pointerEvents: "none" });
   }, [pathname]);
 
   return (
