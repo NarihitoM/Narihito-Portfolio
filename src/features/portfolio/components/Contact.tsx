@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Mail, ShieldCheck } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
@@ -31,7 +31,14 @@ export function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [verifying, setVerifying] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
   const formatValid = EMAIL_RE.test(form.email);
+
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const id = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
+    return () => clearInterval(id);
+  }, [cooldown]);
 
   useGSAP(
     () => {
@@ -86,7 +93,7 @@ export function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formatValid) return;
+    if (!formatValid || cooldown > 0) return;
 
     setEmailInvalid(false);
     setVerifying(true);
@@ -103,6 +110,10 @@ export function Contact() {
         setSubmitted(true);
         setForm({ name: "", email: "", message: "" });
         setEmailInvalid(false);
+      },
+      onError: (err) => {
+        const retryAfter = (err as Error & { retryAfter?: number }).retryAfter;
+        if (retryAfter) setCooldown(retryAfter);
       },
     });
   };
@@ -160,6 +171,11 @@ export function Contact() {
                     }`}
                     placeholder="your@email.com"
                   />
+                  {(verifying || emailInvalid) && (
+                    <span className={`font-mono text-[10px] ${emailInvalid ? "text-red-500" : "text-text-muted"}`}>
+                      {verifying ? "Verifying email..." : "Email not verified"}
+                    </span>
+                  )}
                 </div>
               </div>
               <div className="flex flex-col gap-1.5">
@@ -185,8 +201,14 @@ export function Contact() {
                     : sendMut.error?.message || "Failed to send message. Please try again."}
                 </div>
               )}
-              <Button type="submit" disabled={verifying || sendMut.isPending} className="self-start mt-1">
-                {verifying ? "Verifying email..." : sendMut.isPending ? "Sending..." : "Send"}
+              <Button type="submit" disabled={verifying || sendMut.isPending || cooldown > 0} className="self-start mt-1">
+                {verifying
+                  ? "Verifying email..."
+                  : sendMut.isPending
+                    ? "Sending..."
+                    : cooldown > 0
+                      ? `Wait ${cooldown}s`
+                      : "Send"}
               </Button>
             </form>
           )}

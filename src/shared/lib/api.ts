@@ -14,7 +14,11 @@ api.interceptors.response.use(
   (res) => res,
   (err) => {
     const message = err.response?.data?.error || err.message || "Request failed";
-    return Promise.reject(new Error(message));
+    const error = new Error(message) as Error & { retryAfter?: number };
+    if (typeof err.response?.data?.retryAfter === "number") {
+      error.retryAfter = err.response.data.retryAfter;
+    }
+    return Promise.reject(error);
   },
 );
 
