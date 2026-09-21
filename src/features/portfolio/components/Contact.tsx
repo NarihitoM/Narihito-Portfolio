@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { Mail, ShieldCheck } from "lucide-react";
+import { Check, Mail, ShieldCheck, X } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
@@ -183,10 +183,12 @@ export function Contact() {
                   />
                   {(verifying || emailInvalid || emailVerified) && (
                     <span
-                      className={`font-mono text-[10px] ${
+                      className={`flex items-center gap-1 font-mono text-[10px] ${
                         emailInvalid ? "text-red-500" : emailVerified ? "text-green-600 dark:text-green-400" : "text-text-muted"
                       }`}
                     >
+                      {emailInvalid && <X size={11} strokeWidth={2.5} />}
+                      {emailVerified && <Check size={11} strokeWidth={2.5} />}
                       {verifying ? "Verifying email..." : emailInvalid ? "Email not verified" : "Email verified"}
                     </span>
                   )}
