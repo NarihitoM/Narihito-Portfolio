@@ -30,6 +30,7 @@ export function Contact() {
   const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [emailInvalid, setEmailInvalid] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const [cooldown, setCooldown] = useState(0);
   const formatValid = EMAIL_RE.test(form.email);
@@ -48,6 +49,7 @@ export function Contact() {
       const deliverable = await contactApi.verifyEmail(form.email).catch(() => false);
       setVerifying(false);
       setEmailInvalid(!deliverable);
+      setEmailVerified(deliverable);
     }, 500);
 
     return () => clearTimeout(id);
@@ -113,6 +115,7 @@ export function Contact() {
         setSubmitted(true);
         setForm({ name: "", email: "", message: "" });
         setEmailInvalid(false);
+        setEmailVerified(false);
       },
       onError: (err) => {
         const retryAfter = (err as Error & { retryAfter?: number }).retryAfter;
@@ -166,7 +169,11 @@ export function Contact() {
                     type="email"
                     required
                     value={form.email}
-                    onChange={(e) => { setForm((f) => ({ ...f, email: e.target.value })); setEmailInvalid(false); }}
+                    onChange={(e) => {
+                      setForm((f) => ({ ...f, email: e.target.value }));
+                      setEmailInvalid(false);
+                      setEmailVerified(false);
+                    }}
                     className={`h-11 rounded-[4px] border bg-surface px-3 font-body text-[14px] text-text-primary outline-none transition-colors placeholder:text-text-muted ${
                       emailInvalid
                         ? "border-red-500 focus:border-red-500"
@@ -174,9 +181,13 @@ export function Contact() {
                     }`}
                     placeholder="your@email.com"
                   />
-                  {(verifying || emailInvalid) && (
-                    <span className={`font-mono text-[10px] ${emailInvalid ? "text-red-500" : "text-text-muted"}`}>
-                      {verifying ? "Verifying email..." : "Email not verified"}
+                  {(verifying || emailInvalid || emailVerified) && (
+                    <span
+                      className={`font-mono text-[10px] ${
+                        emailInvalid ? "text-red-500" : emailVerified ? "text-green-600 dark:text-green-400" : "text-text-muted"
+                      }`}
+                    >
+                      {verifying ? "Verifying email..." : emailInvalid ? "Email not verified" : "Email verified"}
                     </span>
                   )}
                 </div>
