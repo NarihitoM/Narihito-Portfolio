@@ -5,9 +5,10 @@ import Image from "next/image";
 import { ease, gsap, registerGsap, ScrollTrigger } from "@/shared/lib/gsap";
 
 const TAGLINE = "Full-Stack & Agentic AI Developer";
-const TYPE_MS = 50;
+const NAME = "NARIHITO";
 const BAR_MS = 2000;
 const READY_FALLBACK_MS = 3000;
+const LETTER_STAGGER = 0.045;
 
 function subscribeLoad(onStoreChange: () => void) {
   window.addEventListener("load", onStoreChange);
@@ -24,13 +25,14 @@ function getServerLoaded() {
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const nameRef = useRef<HTMLSpanElement>(null);
+  const taglineRef = useRef<HTMLSpanElement>(null);
   const scrollYRef = useRef(0);
   const [done, setDone] = useState(false);
   const [timedOut, setTimedOut] = useState(false);
-  const [typed, setTyped] = useState("");
+  const [taglineDone, setTaglineDone] = useState(false);
   const loaded = useSyncExternalStore(subscribeLoad, getLoaded, getServerLoaded);
   const ready = loaded || timedOut;
-  const typingDone = typed.length === TAGLINE.length;
 
   useEffect(() => {
     const fallback = window.setTimeout(() => setTimedOut(true), READY_FALLBACK_MS);
@@ -38,15 +40,36 @@ export function Preloader() {
   }, []);
 
   useEffect(() => {
-    if (!ready) return;
-    let i = 0;
-    const tick = () => {
-      i += 1;
-      setTyped(TAGLINE.slice(0, i));
-      if (i < TAGLINE.length) id = window.setTimeout(tick, TYPE_MS);
-    };
-    let id = window.setTimeout(tick, TYPE_MS);
-    return () => window.clearTimeout(id);
+    const root = rootRef.current;
+    const name = nameRef.current;
+    const tagline = taglineRef.current;
+    if (!ready || !root || !name || !tagline) return;
+
+    const nameLetters = name.querySelectorAll("[data-preload-letter]");
+    const taglineLetters = tagline.querySelectorAll("[data-preload-letter]");
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      gsap.set(root, { opacity: 1 });
+      gsap.set([nameLetters, taglineLetters], { opacity: 1 });
+      requestAnimationFrame(() => setTaglineDone(true));
+      return;
+    }
+
+    registerGsap();
+    gsap.set(nameLetters, { y: 10 });
+    gsap.set(taglineLetters, { y: 8 });
+    gsap
+      .timeline()
+      .to(root, { opacity: 1, duration: 0.4, ease: ease.entrance })
+      .to(nameLetters, { opacity: 1, y: 0, duration: 0.3, stagger: LETTER_STAGGER, ease: ease.entrance })
+      .to(taglineLetters, {
+        opacity: 1,
+        y: 0,
+        duration: 0.25,
+        stagger: LETTER_STAGGER,
+        ease: ease.entrance,
+        onComplete: () => setTaglineDone(true),
+      });
   }, [ready]);
 
   useEffect(() => {
@@ -67,7 +90,7 @@ export function Preloader() {
 
   useEffect(() => {
     const root = rootRef.current;
-    if (!root || !typingDone) return;
+    if (!root || !taglineDone) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       requestAnimationFrame(() => {
@@ -95,7 +118,7 @@ export function Preloader() {
       window.clearTimeout(fallback);
       gsap.killTweensOf(root);
     };
-  }, [typingDone]);
+  }, [taglineDone]);
 
   if (done) return null;
 
@@ -103,7 +126,7 @@ export function Preloader() {
     <div
       id="preloader"
       ref={rootRef}
-      className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-bg"
+      className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-bg opacity-0"
     >
       <div className="flex flex-col items-center gap-5">
         <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
@@ -116,16 +139,24 @@ export function Preloader() {
             priority
           />
         </div>
-        <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
-          NARIHITO
+        <span ref={nameRef} className="font-display text-[28px] font-bold uppercase tracking-[6px] text-text-primary">
+          {NAME.split("").map((letter, i) => (
+            <span key={i} data-preload-letter className="inline-block opacity-0">
+              {letter}
+            </span>
+          ))}
         </span>
-        <span className={`font-mono text-[10px] font-light tracking-[2px] text-text-secondary uppercase transition-opacity duration-300 after:ml-0.5 after:animate-pulse after:content-['|'] ${ready ? "opacity-100" : "opacity-0"}`}>
-          {typed || " "}
+        <span ref={taglineRef} className="font-mono text-[10px] font-light tracking-[2px] text-text-secondary uppercase">
+          {TAGLINE.split("").map((letter, i) => (
+            <span key={i} data-preload-letter className="inline-block opacity-0">
+              {letter === " " ? " " : letter}
+            </span>
+          ))}
         </span>
       </div>
 
       <div className="flex h-[36px] w-70 flex-col gap-4">
-        {typed.length === TAGLINE.length && (
+        {taglineDone && (
           <>
             <div className="h-px w-full overflow-hidden bg-border-glow-soft">
               <span className="preload-bar block h-full w-full origin-left bg-text-primary" />

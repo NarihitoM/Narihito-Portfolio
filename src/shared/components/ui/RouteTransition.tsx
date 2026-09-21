@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
-const PANEL_DURATION = 0.28;
-const BG_DURATION = 0.16;
-const COVER_TIMEOUT = 2600;
-const MIN_COVER_MS = 700;
+const PANEL_DURATION = 0.6;
+const LETTER_STAGGER = 0.045;
+const COVER_TIMEOUT = 3600;
+const MIN_COVER_MS = 1200;
 
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
@@ -38,7 +38,9 @@ export function RouteTransition() {
 
     const brand = panel.querySelector("[data-veil-brand]");
     const label = panel.querySelector("[data-veil-label]");
-    const bgLayer = panel.querySelector("[data-veil-bg]");
+    const letters = panel.querySelectorAll("[data-veil-letter]");
+    const leftLeaf = panel.querySelector('[data-veil-leaf="left"]');
+    const rightLeaf = panel.querySelector('[data-veil-leaf="right"]');
 
     const reveal = () => {
       if (!covered.current) return;
@@ -50,10 +52,9 @@ export function RouteTransition() {
 
       gsap
         .timeline({ delay: wait })
-        .to(brand, { opacity: 0, scale: 0.94, duration: 0.14, ease: ease.interaction })
-        .to(bgLayer, { xPercent: -100, duration: BG_DURATION, ease: ease.wipe })
-        .set(brand, { "--veil-brand-fg": "var(--color-route-veil-fg)" })
-        .to(panel, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
+        .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
+        .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
+        .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
         .set(veil, { display: "none" });
     };
 
@@ -71,17 +72,18 @@ export function RouteTransition() {
       covered.current = true;
       pending.current = href;
       if (label) label.textContent = labelForPath(href);
-      gsap.killTweensOf([panel, brand, bgLayer]);
+      gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
       gsap
         .timeline({ onComplete: go })
         .set(veil, { display: "block" })
-        .set(panel, { xPercent: -100 })
-        .set(brand, { opacity: 0, scale: 0.94, "--veil-brand-fg": "var(--color-route-veil-fg)" })
-        .set(bgLayer, { xPercent: -100 })
-        .to(panel, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
-        .to(bgLayer, { xPercent: 0, duration: BG_DURATION, ease: ease.wipe })
-        .set(brand, { "--veil-brand-fg": "var(--color-text-primary)" })
-        .to(brand, { opacity: 1, scale: 1, duration: 0.2, ease: ease.entrance });
+        .set(leftLeaf, { xPercent: -100 })
+        .set(rightLeaf, { xPercent: 100 })
+        .set(brand, { opacity: 0, scale: 0.94 })
+        .set(letters, { opacity: 0, y: 10 })
+        .to(leftLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
+        .to(rightLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe }, "<")
+        .to(brand, { opacity: 1, scale: 1, duration: 0.2, ease: ease.entrance })
+        .to(letters, { opacity: 1, y: 0, duration: 0.3, stagger: LETTER_STAGGER, ease: ease.entrance });
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(() => {
         go();
@@ -131,20 +133,22 @@ export function RouteTransition() {
 
     const brand = panel.querySelector("[data-veil-brand]");
     const label = panel.querySelector("[data-veil-label]");
-    const bgLayer = panel.querySelector("[data-veil-bg]");
+    const letters = panel.querySelectorAll("[data-veil-letter]");
+    const leftLeaf = panel.querySelector('[data-veil-leaf="left"]');
+    const rightLeaf = panel.querySelector('[data-veil-leaf="right"]');
     if (label) label.textContent = labelForPath(pathname);
 
-    gsap.killTweensOf([panel, brand, bgLayer]);
+    gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
     gsap
       .timeline()
       .set(veil, { display: "block" })
-      .set(panel, { xPercent: 0 })
-      .set(brand, { opacity: 1, scale: 1, "--veil-brand-fg": "var(--color-text-primary)" })
-      .set(bgLayer, { xPercent: 0 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.14, ease: ease.interaction, delay: 0.12 })
-      .to(bgLayer, { xPercent: -100, duration: BG_DURATION, ease: ease.wipe })
-      .set(brand, { "--veil-brand-fg": "var(--color-route-veil-fg)" })
-      .to(panel, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
+      .set(leftLeaf, { xPercent: 0 })
+      .set(rightLeaf, { xPercent: 0 })
+      .set(brand, { opacity: 1, scale: 1 })
+      .set(letters, { opacity: 1, y: 0 })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction, delay: 0.4 })
+      .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
+      .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
       .set(veil, { display: "none" });
   }, [pathname]);
 
@@ -154,9 +158,9 @@ export function RouteTransition() {
       panelRef={panelRef}
       className="z-99"
       brand
-      bgFollow
-      panelBg="bg-route-veil"
-      brandFgVar="--color-route-veil-fg"
+      door
+      panelBg="bg-bg"
+      brandFgVar="--color-text-primary"
     />
   );
 }
