@@ -40,6 +40,19 @@ export function Contact() {
     return () => clearInterval(id);
   }, [cooldown]);
 
+  useEffect(() => {
+    if (!formatValid) return;
+
+    const id = setTimeout(async () => {
+      setVerifying(true);
+      const deliverable = await contactApi.verifyEmail(form.email).catch(() => false);
+      setVerifying(false);
+      setEmailInvalid(!deliverable);
+    }, 500);
+
+    return () => clearTimeout(id);
+  }, [form.email, formatValid]);
+
   useGSAP(
     () => {
       registerGsap();
@@ -91,19 +104,9 @@ export function Contact() {
     { scope: sectionRef },
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formatValid || cooldown > 0) return;
-
-    setEmailInvalid(false);
-    setVerifying(true);
-    const deliverable = await contactApi.verifyEmail(form.email).catch(() => false);
-    setVerifying(false);
-
-    if (!deliverable) {
-      setEmailInvalid(true);
-      return;
-    }
+    if (!formatValid || verifying || emailInvalid || cooldown > 0) return;
 
     sendMut.mutate(form, {
       onSuccess: () => {
@@ -202,13 +205,11 @@ export function Contact() {
                 </div>
               )}
               <Button type="submit" disabled={verifying || sendMut.isPending || cooldown > 0} className="self-start mt-1">
-                {verifying
-                  ? "Verifying email..."
-                  : sendMut.isPending
-                    ? "Sending..."
-                    : cooldown > 0
-                      ? `Wait ${cooldown}s`
-                      : "Send"}
+                {sendMut.isPending
+                  ? "Sending..."
+                  : cooldown > 0
+                    ? `Wait ${cooldown}s`
+                    : "Send"}
               </Button>
             </form>
           )}
