@@ -23,6 +23,7 @@ export function RouteTransition() {
   const pathname = usePathname();
   const lastPath = useRef(pathname);
   const covered = useRef(false);
+  const busy = useRef(false);
   const coveredAt = useRef(0);
   const failsafe = useRef(0);
   const pending = useRef<string | null>(null);
@@ -51,7 +52,7 @@ export function RouteTransition() {
       const wait = Math.max(0, MIN_COVER_MS - held) / 1000;
 
       gsap
-        .timeline({ delay: wait })
+        .timeline({ delay: wait, onComplete: () => (busy.current = false) })
         .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
         .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
         .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
@@ -69,6 +70,8 @@ export function RouteTransition() {
     };
 
     const cover = (href: string) => {
+      if (busy.current) return;
+      busy.current = true;
       covered.current = true;
       pending.current = href;
       if (label) label.textContent = labelForPath(href);
@@ -104,7 +107,7 @@ export function RouteTransition() {
       const path = href.split(/[?#]/)[0];
       if (path === window.location.pathname) return;
       if (/\.[a-z0-9]+$/i.test(path)) return;
-      if (covered.current) return;
+      if (covered.current || busy.current) return;
 
       event.preventDefault();
       cover(href);
@@ -131,6 +134,9 @@ export function RouteTransition() {
       return;
     }
 
+    if (busy.current) return;
+    busy.current = true;
+
     const brand = panel.querySelector("[data-veil-brand]");
     const label = panel.querySelector("[data-veil-label]");
     const letters = panel.querySelectorAll("[data-veil-letter]");
@@ -140,7 +146,7 @@ export function RouteTransition() {
 
     gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
     gsap
-      .timeline()
+      .timeline({ onComplete: () => (busy.current = false) })
       .set(veil, { display: "block" })
       .set(leftLeaf, { xPercent: 0 })
       .set(rightLeaf, { xPercent: 0 })
