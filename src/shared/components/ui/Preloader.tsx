@@ -9,6 +9,7 @@ const NAME = "NARIHITO";
 const BAR_MS = 2000;
 const READY_FALLBACK_MS = 3000;
 const LETTER_STAGGER = 0.045;
+const PANEL_DURATION = 0.6;
 
 function subscribeLoad(onStoreChange: () => void) {
   window.addEventListener("load", onStoreChange);
@@ -25,6 +26,10 @@ function getServerLoaded() {
 
 export function Preloader() {
   const rootRef = useRef<HTMLDivElement>(null);
+  const leftLeafRef = useRef<HTMLDivElement>(null);
+  const rightLeafRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
   const nameRef = useRef<HTMLSpanElement>(null);
   const taglineRef = useRef<HTMLSpanElement>(null);
   const scrollYRef = useRef(0);
@@ -40,16 +45,16 @@ export function Preloader() {
   }, []);
 
   useEffect(() => {
-    const root = rootRef.current;
+    const content = contentRef.current;
     const name = nameRef.current;
     const tagline = taglineRef.current;
-    if (!ready || !root || !name || !tagline) return;
+    if (!ready || !content || !name || !tagline) return;
 
     const nameLetters = name.querySelectorAll("[data-preload-letter]");
     const taglineLetters = tagline.querySelectorAll("[data-preload-letter]");
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      gsap.set(root, { opacity: 1 });
+      gsap.set(content, { opacity: 1 });
       gsap.set([nameLetters, taglineLetters], { opacity: 1 });
       requestAnimationFrame(() => setTaglineDone(true));
       return;
@@ -59,8 +64,8 @@ export function Preloader() {
     gsap.set(nameLetters, { y: 10 });
     gsap.set(taglineLetters, { y: 8 });
     gsap
-      .timeline()
-      .to(root, { opacity: 1, duration: 0.4, ease: ease.entrance })
+      .timeline({ delay: 0.3 })
+      .to(content, { opacity: 1, duration: 0.5, ease: ease.entrance })
       .to(nameLetters, { opacity: 1, y: 0, duration: 0.3, stagger: LETTER_STAGGER, ease: ease.entrance })
       .to(taglineLetters, {
         opacity: 1,
@@ -89,8 +94,11 @@ export function Preloader() {
   }, [done]);
 
   useEffect(() => {
-    const root = rootRef.current;
-    if (!root || !taglineDone) return;
+    const content = contentRef.current;
+    const bar = barRef.current;
+    const leftLeaf = leftLeafRef.current;
+    const rightLeaf = rightLeafRef.current;
+    if (!content || !bar || !leftLeaf || !rightLeaf || !taglineDone) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       requestAnimationFrame(() => {
@@ -101,34 +109,34 @@ export function Preloader() {
 
     const finish = () => {
       registerGsap();
-      gsap.to(root, {
-        yPercent: -100,
-        duration: 0.7,
-        ease: ease.entrance,
-        onComplete: () => {
-          setDone(true);
-          ScrollTrigger.refresh();
-        },
-      });
+      gsap
+        .timeline({
+          onComplete: () => {
+            setDone(true);
+            ScrollTrigger.refresh();
+          },
+        })
+        .to([content, bar], { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
+        .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
+        .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<");
     };
 
     const fallback = window.setTimeout(finish, BAR_MS + 300);
 
     return () => {
       window.clearTimeout(fallback);
-      gsap.killTweensOf(root);
+      gsap.killTweensOf([leftLeaf, rightLeaf, content, bar]);
     };
   }, [taglineDone]);
 
   if (done) return null;
 
   return (
-    <div
-      id="preloader"
-      ref={rootRef}
-      className="fixed inset-0 z-120 flex flex-col items-center justify-center gap-8 bg-bg opacity-0"
-    >
-      <div className="flex flex-col items-center gap-5">
+    <div id="preloader" ref={rootRef} className="fixed inset-0 z-120 overflow-hidden">
+      <div ref={leftLeafRef} className="absolute inset-y-0 left-0 w-1/2 bg-bg" />
+      <div ref={rightLeafRef} className="absolute inset-y-0 right-0 w-1/2 bg-bg" />
+      <div className="absolute inset-0 flex flex-col items-center justify-center gap-8">
+      <div ref={contentRef} className="flex flex-col items-center gap-5 opacity-0">
         <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
           <Image
             src="/img/Narihito.jpg"
@@ -155,7 +163,7 @@ export function Preloader() {
         </span>
       </div>
 
-      <div className="flex h-[36px] w-70 flex-col gap-4">
+      <div ref={barRef} className="flex h-[36px] w-70 flex-col gap-4">
         {taglineDone && (
           <>
             <div className="h-px w-full overflow-hidden bg-border-glow-soft">
@@ -166,6 +174,7 @@ export function Preloader() {
             </div>
           </>
         )}
+      </div>
       </div>
     </div>
   );
