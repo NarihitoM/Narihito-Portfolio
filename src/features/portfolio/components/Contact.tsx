@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { Mail, ShieldCheck } from "lucide-react";
 import { siGithub, siFacebook, siDiscord, siTelegram } from "simple-icons";
@@ -29,35 +29,9 @@ export function Contact() {
   const sendMut = useSendContact();
   const [form, setForm] = useState<ContactFormData>({ name: "", email: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
-  const [checkResult, setCheckResult] = useState<{ email: string; deliverable: boolean } | null>(null);
+  const [emailInvalid, setEmailInvalid] = useState(false);
   const [verifying, setVerifying] = useState(false);
   const formatValid = EMAIL_RE.test(form.email);
-
-  useEffect(() => {
-    if (!formatValid) return;
-
-    const controller = new AbortController();
-    const timeout = setTimeout(() => {
-      contactApi
-        .verifyEmail(form.email, controller.signal)
-        .then((deliverable) => setCheckResult({ email: form.email, deliverable }))
-        .catch(() => {});
-    }, 500);
-
-    return () => {
-      clearTimeout(timeout);
-      controller.abort();
-    };
-  }, [form.email, formatValid]);
-
-  const emailStatus =
-    !formatValid || form.email.length === 0
-      ? "idle"
-      : checkResult?.email !== form.email
-        ? "checking"
-        : checkResult.deliverable
-          ? "valid"
-          : "invalid";
 
   useGSAP(
     () => {
@@ -114,19 +88,21 @@ export function Contact() {
     e.preventDefault();
     if (!formatValid) return;
 
+    setEmailInvalid(false);
     setVerifying(true);
-    const deliverable =
-      checkResult?.email === form.email ? checkResult.deliverable : await contactApi.verifyEmail(form.email).catch(() => false);
-    setCheckResult({ email: form.email, deliverable });
+    const deliverable = await contactApi.verifyEmail(form.email).catch(() => false);
     setVerifying(false);
 
-    if (!deliverable) return;
+    if (!deliverable) {
+      setEmailInvalid(true);
+      return;
+    }
 
     sendMut.mutate(form, {
       onSuccess: () => {
         setSubmitted(true);
         setForm({ name: "", email: "", message: "" });
-        setCheckResult(null);
+        setEmailInvalid(false);
       },
     });
   };
@@ -176,9 +152,9 @@ export function Contact() {
                     type="email"
                     required
                     value={form.email}
-                    onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+                    onChange={(e) => { setForm((f) => ({ ...f, email: e.target.value })); setEmailInvalid(false); }}
                     className={`h-11 rounded-[4px] border bg-surface px-3 font-body text-[14px] text-text-primary outline-none transition-colors placeholder:text-text-muted ${
-                      emailStatus === "invalid"
+                      emailInvalid
                         ? "border-red-500 focus:border-red-500"
                         : "border-border-glow-soft focus:border-violet"
                     }`}
@@ -197,21 +173,19 @@ export function Contact() {
                   placeholder="Tell me about your project..."
                 />
               </div>
-              {sendMut.isError && (
+              {(sendMut.isError || emailInvalid) && (
                 <div className="flex items-center gap-2 font-body text-[13px] text-red-600 dark:text-white">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/15 dark:bg-white/10">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M6 6l12 12M18 6L6 18" />
                     </svg>
                   </span>
-                  {sendMut.error?.message || "Failed to send message. Please try again."}
+                  {emailInvalid
+                    ? "Email could not be verified. Please check it and try again."
+                    : sendMut.error?.message || "Failed to send message. Please try again."}
                 </div>
               )}
-              <Button
-                type="submit"
-                disabled={verifying || sendMut.isPending || emailStatus === "checking" || emailStatus === "invalid"}
-                className="self-start mt-1"
-              >
+              <Button type="submit" disabled={verifying || sendMut.isPending} className="self-start mt-1">
                 {verifying ? "Verifying email..." : sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
