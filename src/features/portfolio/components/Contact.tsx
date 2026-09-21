@@ -32,14 +32,8 @@ export function Contact() {
   const [emailInvalid, setEmailInvalid] = useState(false);
   const [emailVerified, setEmailVerified] = useState(false);
   const [verifying, setVerifying] = useState(false);
-  const [cooldown, setCooldown] = useState(0);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const formatValid = EMAIL_RE.test(form.email);
-
-  useEffect(() => {
-    if (cooldown <= 0) return;
-    const id = setInterval(() => setCooldown((c) => Math.max(0, c - 1)), 1000);
-    return () => clearInterval(id);
-  }, [cooldown]);
 
   useEffect(() => {
     if (!formatValid) return;
@@ -108,8 +102,9 @@ export function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formatValid || verifying || emailInvalid || cooldown > 0) return;
+    if (!formatValid || verifying || emailInvalid) return;
 
+    setErrorMsg(null);
     sendMut.mutate(form, {
       onSuccess: () => {
         setSubmitted(true);
@@ -119,7 +114,8 @@ export function Contact() {
       },
       onError: (err) => {
         const retryAfter = (err as Error & { retryAfter?: number }).retryAfter;
-        if (retryAfter) setCooldown(retryAfter);
+        setErrorMsg(retryAfter ? `Please wait ${retryAfter}s before sending another message.` : err.message);
+        setTimeout(() => setErrorMsg(null), 5000);
       },
     });
   };
@@ -205,21 +201,17 @@ export function Contact() {
                   placeholder="Tell me about your project..."
                 />
               </div>
-              {(sendMut.isError || emailInvalid || cooldown > 0) && (
+              {(errorMsg || emailInvalid) && (
                 <div className="flex items-center gap-2 font-body text-[13px] text-red-600 dark:text-white">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/15 dark:bg-white/10">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M6 6l12 12M18 6L6 18" />
                     </svg>
                   </span>
-                  {cooldown > 0
-                    ? `Please wait ${cooldown}s before sending another message.`
-                    : emailInvalid
-                      ? "Email could not be verified. Please check it and try again."
-                      : sendMut.error?.message || "Failed to send message. Please try again."}
+                  {errorMsg || "Email could not be verified. Please check it and try again."}
                 </div>
               )}
-              <Button type="submit" disabled={verifying || sendMut.isPending || cooldown > 0} className="self-start mt-1">
+              <Button type="submit" disabled={verifying || sendMut.isPending} className="self-start mt-1">
                 {sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
