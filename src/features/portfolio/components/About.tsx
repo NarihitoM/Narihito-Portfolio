@@ -9,6 +9,7 @@ import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { StatItem, StatItemSkeleton } from "@/shared/components/ui/StatItem";
 import { useStats } from "@/features/about/hooks/useAbout";
+import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 
 export function About() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -48,10 +49,12 @@ export function About() {
     { scope: sectionRef },
   );
 
+  useScrollReveal(sectionRef, { y: 24, dependencies: [stats, statsLoading] });
+
   return (
     <section id="about" ref={sectionRef} className="w-full py-14 md:py-16 lg:py-0 lg:h-[780px]">
       <div className="mx-5 md:mx-10 lg:mx-auto flex flex-col md:flex-row md:items-center gap-8 md:gap-10 lg:gap-[120px] md:h-full lg:max-w-[1400px] lg:justify-center">
-        <div className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
+        <div data-reveal className="relative w-full md:w-[240px] lg:w-[380px] h-[340px] md:h-[300px] lg:h-[460px] shrink-0">
           <div className="absolute left-[28px] top-[28px] h-full w-full border border-border-glow" />
           <button
             type="button"
@@ -72,7 +75,7 @@ export function About() {
 
         <div className="flex flex-col gap-3.5 md:gap-6 min-w-0 flex-1 lg:max-w-[600px]">
           <SectionEyebrow>01 - ABOUT</SectionEyebrow>
-          <h2 className="font-display text-[30px] md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
+          <h2 data-reveal className="font-display text-[30px] md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
             I&apos;m Hein Htet Aung, a full-stack developer from Yangon. I like making AI useful inside real products.
           </h2>
           <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
@@ -88,7 +91,7 @@ export function About() {
               <StatItemSkeleton />
             </div>
           ) : stats ? (
-            <div className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
+            <div data-reveal className="flex items-center gap-8 md:gap-10 pt-2 md:pt-4">
               <StatItem
                 value={stats.yearsExperience}
                 suffix="+"
@@ -110,7 +113,9 @@ export function About() {
             </div>
           ) : null}
 
-          <DetailCta href="/about" route="/about" align="end" />
+          <div data-reveal>
+            <DetailCta href="/about" route="/about" align="end" />
+          </div>
         </div>
       </div>
 
