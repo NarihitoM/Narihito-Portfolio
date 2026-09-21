@@ -12,6 +12,7 @@ import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { TestimonialDialog } from "@/features/testimonials/components/TestimonialDialog";
 import { useTilt } from "@/shared/hooks/useTilt";
+import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import type { Testimonial } from "@/features/testimonials/types/types";
 
 function TestimonialCardSkeleton() {
@@ -302,14 +303,16 @@ export function Testimonials() {
     { scope: sectionRef, dependencies: [TESTIMONIALS, loopItems.length] },
   );
 
+  useScrollReveal(sectionRef, { y: 24 });
+
   return (
     <section id="testimonials" ref={sectionRef} className="w-full py-12 md:py-[72px] overflow-hidden">
-      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
+      <div data-reveal className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
         <SectionEyebrow>07 - WORDS</SectionEyebrow>
         <SectionHeading>What people say</SectionHeading>
       </div>
 
-      <div ref={viewportRef} className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing overflow-hidden select-none">
+      <div ref={viewportRef} data-reveal className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing overflow-hidden select-none">
         {isLoading ? (
           <div className="flex gap-3.5 md:gap-6">
             <TestimonialCardSkeleton />
@@ -336,7 +339,7 @@ export function Testimonials() {
         ))}
       </div>
 
-      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
+      <div data-reveal className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
         <DetailCta href="/testimonials" route="/testimonials" />
       </div>
 

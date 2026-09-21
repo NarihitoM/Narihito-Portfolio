@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
+import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useSendContact } from "@/features/contact/hooks/useSendContact";
 import { contactApi } from "@/features/contact/api/contactApi";
 import type { ContactFormData } from "@/features/contact/types/types";
@@ -100,6 +101,8 @@ export function Contact() {
     { scope: sectionRef },
   );
 
+  useScrollReveal(sectionRef, { y: 24 });
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formatValid || verifying || emailInvalid) return;
@@ -125,13 +128,13 @@ export function Contact() {
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
         <SectionEyebrow>08 - CONTACT</SectionEyebrow>
 
-        <h2 className="font-display text-[34px] md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
+        <h2 data-reveal className="font-display text-[34px] md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
           Need a developer?
           <br />
           You found one.
         </h2>
 
-        <div className="w-full max-w-[600px]">
+        <div data-reveal className="w-full max-w-[600px]">
           {submitted ? (
             <div className="flex flex-col items-center gap-4 py-12">
               <div className="flex h-12 w-12 items-center justify-center rounded-full bg-green-500/15 dark:bg-white/10">
@@ -218,7 +221,7 @@ export function Contact() {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3">
+        <div data-reveal className="flex flex-wrap items-center justify-center gap-2.5 md:gap-3">
           {SOCIALS.map((social) => (
             <a
               key={social.label}

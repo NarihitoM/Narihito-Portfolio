@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
 import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { Chip } from "@/shared/components/ui/Chip";
@@ -116,26 +116,30 @@ function ProjectCard({ project }: { project: Project }) {
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
   const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(4);
-  const PROJECTS = previewProjects.map((p) => ({
-    projectimg: p.projectimg,
-    name: p.title,
-    title: p.title,
-    year: p.year,
-    category: p.category,
-    role: p.role,
-    status: p.status,
-    description: p.description,
-    url: p.url,
-    github: p.github,
-    pkg: p.pkg,
-    tags: p.chips,
-  }));
-  useScrollReveal(sectionRef, { selector: "[data-project-card]", y: 30, staggerAmount: 0.08, dependencies: [PROJECTS, isLoading] });
+  const PROJECTS = useMemo(
+    () =>
+      previewProjects.map((p) => ({
+        projectimg: p.projectimg,
+        name: p.title,
+        title: p.title,
+        year: p.year,
+        category: p.category,
+        role: p.role,
+        status: p.status,
+        description: p.description,
+        url: p.url,
+        github: p.github,
+        pkg: p.pkg,
+        tags: p.chips,
+      })),
+    [previewProjects],
+  );
+  useScrollReveal(sectionRef, { y: 30, staggerAmount: 0.08 });
 
   return (
     <section id="projects" ref={sectionRef} className="w-full py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
-        <div className="flex flex-col gap-2 md:gap-3">
+        <div data-reveal className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>04 - PROJECTS</SectionEyebrow>
           <SectionHeading>Selected work</SectionHeading>
         </div>
@@ -150,14 +154,16 @@ export function Projects() {
         ) : PROJECTS.length === 0 ? (
           <p className="font-body text-[14px] text-text-muted">No projects yet.</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
+          <div data-reveal className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             {PROJECTS.map((project) => (
               <ProjectCard key={`${project.title}-${project.year}`} project={project} />
             ))}
           </div>
         )}
 
-        <DetailCta href="/projects" route="/projects" />
+        <div data-reveal>
+          <DetailCta href="/projects" route="/projects" />
+        </div>
       </div>
     </section>
   );
