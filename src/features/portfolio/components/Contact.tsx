@@ -201,17 +201,17 @@ export function Contact() {
                   placeholder="Tell me about your project..."
                 />
               </div>
-              {(errorMsg || emailInvalid) && (
+              {errorMsg && (
                 <div className="flex items-center gap-2 font-body text-[13px] text-red-600 dark:text-white">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/15 dark:bg-white/10">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M6 6l12 12M18 6L6 18" />
                     </svg>
                   </span>
-                  {errorMsg || "Email could not be verified. Please check it and try again."}
+                  {errorMsg}
                 </div>
               )}
-              <Button type="submit" disabled={verifying || sendMut.isPending} className="self-start mt-1">
+              <Button type="submit" disabled={verifying || emailInvalid || sendMut.isPending} className="self-start mt-1">
                 {sendMut.isPending ? "Sending..." : "Send"}
               </Button>
             </form>
