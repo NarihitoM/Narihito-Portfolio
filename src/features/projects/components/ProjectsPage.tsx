@@ -177,7 +177,7 @@ export function ProjectsPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / PROJECTS"
-      eyebrow="[ 04 - PROJECTS ]"
+      eyebrow="04 - PROJECTS"
       title={`${projectCountWord} things I've built, from client work to weekend hacks.`}
       deck="Everything in one place. Filter by tag if you want, or just scroll. The flops are in here too."
       meta={pageMeta}

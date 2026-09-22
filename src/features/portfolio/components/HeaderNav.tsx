@@ -21,7 +21,9 @@ export function HeaderNav() {
   const veilPanelRef = useRef<HTMLDivElement>(null);
   const openedOnce = useRef(false);
   const skipVeil = useRef(false);
+  const isAnimating = useRef(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isBusy, setIsBusy] = useState(false);
   const [activeLink, setActiveLink] = useState(NAV_LINKS[0]);
   useLenisLock(menuOpen);
 
@@ -77,6 +79,8 @@ export function HeaderNav() {
       openedOnce.current = true;
 
       const items = drawer.querySelectorAll("[data-drawer-item]");
+      isAnimating.current = true;
+      setIsBusy(true);
       const timeline = playDrawerVeil({
         drawer,
         veil,
@@ -84,6 +88,10 @@ export function HeaderNav() {
         items,
         open: menuOpen,
         instant: skipVeil.current,
+      });
+      timeline.eventCallback("onComplete", () => {
+        isAnimating.current = false;
+        setIsBusy(false);
       });
       skipVeil.current = false;
 
@@ -147,8 +155,12 @@ export function HeaderNav() {
           type="button"
           aria-label="Open menu"
           aria-expanded={menuOpen}
-          onClick={() => setMenuOpen(true)}
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-transform active:scale-90"
+          disabled={isBusy}
+          onClick={() => {
+            if (menuOpen || isAnimating.current) return;
+            setMenuOpen(true);
+          }}
+          className="flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-[transform,opacity] active:scale-90 disabled:opacity-50"
         >
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M3 6h18M3 12h18M3 18h18" />
@@ -160,7 +172,9 @@ export function HeaderNav() {
     <MobileDrawer
       drawerRef={drawerRef}
       activeLink={activeLink}
+      isBusy={isBusy}
       onClose={(instant) => {
+        if (!menuOpen || (isAnimating.current && instant !== true)) return;
         skipVeil.current = instant === true;
         setMenuOpen(false);
       }}
@@ -172,10 +186,12 @@ export function HeaderNav() {
 function MobileDrawer({
   drawerRef,
   activeLink,
+  isBusy,
   onClose,
 }: {
   drawerRef: React.RefObject<HTMLDivElement | null>;
   activeLink: string;
+  isBusy: boolean;
   onClose: (instant?: boolean) => void;
 }) {
   return (
@@ -187,8 +203,9 @@ function MobileDrawer({
       <button
         type="button"
         aria-label="Close menu"
+        disabled={isBusy}
         onClick={() => onClose()}
-        className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary"
+        className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-opacity disabled:opacity-50"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M6 6l12 12M18 6L6 18" />

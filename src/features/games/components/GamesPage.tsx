@@ -118,7 +118,7 @@ export function GamesPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / GAMES"
-      eyebrow="[ 06 - GAMES ]"
+      eyebrow="06 - GAMES"
       title="What I play when I'm not writing code."
       deck="Games that actually keep my attention after work. Favorites, current rotations, and the ones I always come back to."
       meta={pageMeta}

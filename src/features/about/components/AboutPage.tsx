@@ -206,7 +206,7 @@ export function AboutPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / ABOUT"
-      eyebrow="[ 01 - ABOUT ]"
+      eyebrow="01 - ABOUT"
       title="Who I am, and how I like to build things."
       deck={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps from Yangon. What I care about, how I got here, and what I'm up to off the clock.`}
       meta={pageMeta}

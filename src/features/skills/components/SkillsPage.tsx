@@ -165,7 +165,7 @@ export function SkillsPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / SKILLS"
-      eyebrow="[ 02 - SKILLS & TECH STACK ]"
+      eyebrow="02 - SKILLS & TECH STACK"
       title="What I actually use to build things."
       deck="Where each tool fits in my day-to-day, how comfortable I am with it, and what I'm still figuring out."
       meta={pageMeta}
