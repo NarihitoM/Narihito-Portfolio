@@ -264,9 +264,9 @@ export function Chatbot() {
           type="button"
           aria-label={unreadCount > 0 ? `Open chat (${unreadCount} new message${unreadCount > 1 ? "s" : ""})` : "Open chat"}
           onClick={handleOpen}
-          className="fixed bottom-6 right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
+          className="fixed bottom-6 right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 animate-bounce items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
         >
-          <Bot size={20} className="animate-bounce" />
+          <Bot size={20} />
           {unreadCount > 0 && (
             <span className="absolute -top-0.5 -right-0.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full border-2 border-violet bg-wire px-1 font-mono text-[10px] font-semibold leading-none text-violet">
               {unreadCount > 9 ? "9+" : unreadCount}
