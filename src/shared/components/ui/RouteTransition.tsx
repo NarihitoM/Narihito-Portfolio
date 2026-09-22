@@ -130,7 +130,7 @@ export function RouteTransition() {
     if (window.matchMedia(REDUCED_MOTION_QUERY).matches) return;
 
     if (covered.current) {
-      revealRef.current?.();
+      requestAnimationFrame(() => requestAnimationFrame(() => revealRef.current?.()));
       return;
     }
 
