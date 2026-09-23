@@ -23,6 +23,12 @@ const SHEEN_FREQUENCY = 6;
 const SHEEN_TILT = 1.05;
 const SHEEN_DRIFT = -0.062;
 
+const POINTER_RADIUS = 0.018;
+const POINTER_BEND = 0.9;
+const POINTER_FOLLOW = 0.08;
+const ENERGY_GAIN = 4;
+const ENERGY_DECAY = 0.975;
+
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
     low: [0, 0, 0],
@@ -66,6 +72,7 @@ const FRAGMENT_SHADER = /* glsl */ `
   uniform float uVignetteX;
   uniform float uVignetteY;
   uniform vec2 uPointer;
+  uniform float uStrength;
 
   float hash(vec2 p) {
     return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
@@ -74,6 +81,9 @@ const FRAGMENT_SHADER = /* glsl */ `
   void main() {
     float diagonal = length(uResolution);
     vec2 nCoord = (vUv * uResolution) / diagonal;
+    vec2 toPointer = nCoord - (uPointer * uResolution) / diagonal;
+    float falloff = exp(-dot(toPointer, toPointer) / ${POINTER_RADIUS.toFixed(3)});
+    nCoord += toPointer * falloff * ${POINTER_BEND.toFixed(2)} * uStrength;
     float nx = nCoord.x;
     float ny = nCoord.y;
 
@@ -101,7 +111,7 @@ const FRAGMENT_SHADER = /* glsl */ `
     float v = vUv.y * 2.0 - 1.0;
     level *= (1.0 - uVignetteX * u * u) * (1.0 - uVignetteY * v * v);
 
-    float pointerGlow = smoothstep(0.55, 0.0, distance(vUv, uPointer)) * 0.05;
+    float pointerGlow = falloff * (0.03 + 0.07 * uStrength);
     level = clamp(level + pointerGlow, 0.0, 1.0);
 
     float noise = (hash(vUv * uResolution + uTime) - 0.5) / 255.0;
@@ -122,6 +132,7 @@ type SilkUniforms = {
   uVignetteX: { value: number };
   uVignetteY: { value: number };
   uPointer: { value: THREE.Vector2 };
+  uStrength: { value: number };
 };
 
 export function SiteBackground() {
@@ -156,6 +167,7 @@ export function SiteBackground() {
       uVignetteX: { value: palette.vignetteX },
       uVignetteY: { value: palette.vignetteY },
       uPointer: { value: new THREE.Vector2(0.5, 0.5) },
+      uStrength: { value: 0 },
     };
 
     uniformsRef.current = uniforms;
@@ -186,12 +198,15 @@ export function SiteBackground() {
     const observer = new ResizeObserver(debouncedResize);
     observer.observe(root);
 
+    const target = new THREE.Vector2(0.5, 0.5);
+    let energy = 0;
+
     const onPointerMove = (clientX: number, clientY: number) => {
       const rect = root.getBoundingClientRect();
-      uniforms.uPointer.value.set(
-        (clientX - rect.left) / rect.width,
-        1 - (clientY - rect.top) / rect.height,
-      );
+      const x = (clientX - rect.left) / rect.width;
+      const y = 1 - (clientY - rect.top) / rect.height;
+      energy = Math.min(1, energy + Math.hypot(x - target.x, y - target.y) * ENERGY_GAIN);
+      target.set(x, y);
     };
     const onMouseMove = (event: MouseEvent) => onPointerMove(event.clientX, event.clientY);
     const onTouchMove = (event: TouchEvent) => {
@@ -222,6 +237,9 @@ export function SiteBackground() {
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
       uniforms.uTime.value = 7.2 + (now - started) / 1000;
+      uniforms.uPointer.value.lerp(target, POINTER_FOLLOW);
+      energy *= ENERGY_DECAY;
+      uniforms.uStrength.value += (energy - uniforms.uStrength.value) * POINTER_FOLLOW;
       renderer.render(scene, camera);
     };
     raf = requestAnimationFrame(frame);
