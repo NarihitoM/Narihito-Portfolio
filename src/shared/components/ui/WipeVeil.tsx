@@ -46,7 +46,7 @@ export function WipeVeil({
       </span>
       <span
         data-veil-label
-        className="font-mono text-[13px] font-medium uppercase tracking-[4px] text-(--veil-brand-fg) opacity-70"
+        className="whitespace-nowrap text-center font-mono text-[13px] font-medium uppercase tracking-[4px] text-(--veil-brand-fg) opacity-70"
       />
     </div>
   ) : null;
