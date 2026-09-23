@@ -63,7 +63,7 @@ export function Hero() {
 
         <h1
           ref={headlineRef}
-          className="font-display fs-42 md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
+          className="font-display fs-50 md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
         >
           A developer who turns ideas
           into real-life products.
