@@ -265,7 +265,7 @@ export function Chatbot() {
           type="button"
           aria-label={unreadCount > 0 ? `Open chat (${unreadCount} new message${unreadCount > 1 ? "s" : ""})` : "Open chat"}
           onClick={handleOpen}
-          className="fixed bottom-6 right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 animate-bounce items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
+          className="fixed bottom-[calc(1.5rem+var(--in-app-banner,0px))] right-5 md:bottom-8 md:right-8 z-40 flex h-11 w-11 md:h-12 md:w-12 animate-bounce items-center justify-center rounded-full bg-violet text-wire shadow-[0_10px_28px_-12px_var(--color-violet)] transition-transform hover:-translate-y-0.5 active:scale-95"
         >
           <Bot size={20} />
           {unreadCount > 0 && (
@@ -277,7 +277,7 @@ export function Chatbot() {
       )}
 
       {open && (
-        <div className="pointer-events-none fixed bottom-6 md:bottom-8 inset-x-0 z-40 flex justify-end px-5 md:pr-8">
+        <div className="pointer-events-none fixed bottom-[calc(1.5rem+var(--in-app-banner,0px))] md:bottom-8 inset-x-0 z-40 flex justify-end px-5 md:pr-8">
         <div
           ref={panelRef}
           className="pointer-events-auto flex h-[65vh] max-h-[520px] w-full max-w-[360px] flex-col overflow-hidden rounded-[8px] border border-border-glow bg-bg-alt shadow-2xl"

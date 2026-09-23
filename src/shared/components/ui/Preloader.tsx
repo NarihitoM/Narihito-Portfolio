@@ -147,7 +147,7 @@ export function Preloader() {
             priority
           />
         </div>
-        <span ref={nameRef} className="font-display fs-28 font-bold uppercase tracking-[6px] text-text-primary">
+        <span ref={nameRef} className="whitespace-nowrap font-display fs-28 font-bold uppercase tracking-[4px] text-text-primary sm:tracking-[6px]">
           {NAME.split("").map((letter, i) => (
             <span key={i} data-preload-letter className="inline-block opacity-0">
               {letter}

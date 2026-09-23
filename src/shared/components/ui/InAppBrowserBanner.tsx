@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function isInAppBrowser(ua: string) {
   return /Instagram|FBAN|FBAV|Telegram|Line\//i.test(ua);
@@ -9,12 +9,27 @@ function isInAppBrowser(ua: string) {
 export function InAppBrowserBanner() {
   const [show, setShow] = useState(false);
   const [copied, setCopied] = useState(false);
+  const bannerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // navigator is unavailable during SSR, so this can only be detected after mount.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     if (isInAppBrowser(navigator.userAgent)) setShow(true);
   }, []);
+
+  useEffect(() => {
+    const banner = bannerRef.current;
+    if (!show || !banner) return;
+    const root = document.documentElement;
+    const observer = new ResizeObserver(() => {
+      root.style.setProperty("--in-app-banner", `${banner.offsetHeight}px`);
+    });
+    observer.observe(banner);
+    return () => {
+      observer.disconnect();
+      root.style.removeProperty("--in-app-banner");
+    };
+  }, [show]);
 
   if (!show) return null;
 
@@ -26,7 +41,10 @@ export function InAppBrowserBanner() {
   };
 
   return (
-    <div className="fixed inset-x-0 top-0 z-[110] flex items-center justify-between gap-3 bg-violet px-4 py-2.5 font-body fs-13 text-wire">
+    <div
+      ref={bannerRef}
+      className="fixed inset-x-0 bottom-0 z-[110] flex items-center justify-between gap-3 bg-violet px-4 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] font-body fs-13 text-wire"
+    >
       <span>
         Open in Chrome or Safari for a better experience.
       </span>
