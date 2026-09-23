@@ -186,11 +186,11 @@ export function Chatbot() {
     setFeedbackByMessage((prev) => ({ ...prev, [messageId]: type }));
   };
 
-  const sendVoiceInput = useCallback(() => {
+  const sendVoiceInput = useCallback(async () => {
     const text = getFullText().trim();
     if (!text) return;
-    send(text);
     setInput("");
+    if (!(await send(text))) setInput(text);
   }, [getFullText, send, setInput]);
 
   const { recording, transcribing, error: voiceError, toggle: toggleVoice } = useVoiceInput(appendTyped, sendVoiceInput);
@@ -229,11 +229,12 @@ export function Chatbot() {
     setFont(`${style.fontStyle} ${style.fontWeight} ${style.fontSize} ${style.fontFamily}`);
   }, [open, setFont]);
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!input.trim()) return;
-    send(input);
+    const text = input.trim();
+    if (!text) return;
     setInput("");
+    if (!(await send(text))) setInput(text);
   };
 
   const handleClose = () => {
@@ -331,11 +332,15 @@ export function Chatbot() {
                   {m.role === "assistant" && !isPendingReply && m.content && m.nav && (
                     <NavPill nav={m.nav} onGo={goTo} />
                   )}
-                  {m.role === "assistant" && !isPendingReply && m.content && (
+                  {!isPendingReply && m.content && (
                     <MessageActions
                       messageId={m.id}
                       content={m.content}
-                      userMessage={[...messages].slice(0, i).reverse().find((x) => x.role === "user")?.content}
+                      userMessage={
+                        m.role === "assistant"
+                          ? [...messages].slice(0, i).reverse().find((x) => x.role === "user")?.content
+                          : undefined
+                      }
                       feedback={feedbackByMessage[m.id] ?? null}
                       onFeedback={handleFeedback}
                     />

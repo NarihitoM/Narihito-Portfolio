@@ -38,7 +38,7 @@ export function useChatbot() {
 
   const send = async (text: string) => {
     const trimmed = text.trim();
-    if (!trimmed || isSending) return;
+    if (!trimmed || isSending) return false;
 
     const history = messages.slice(-HISTORY_LIMIT);
     setMessages((prev) => [
@@ -48,6 +48,8 @@ export function useChatbot() {
     ]);
     setError(false);
     setIsSending(true);
+
+    let sent = false;
 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
       try {
@@ -72,12 +74,13 @@ export function useChatbot() {
             return next;
           });
         }
+        sent = true;
         break;
       } catch (err) {
         const isConnectionError = err instanceof TypeError;
         if (isConnectionError || attempt === MAX_ATTEMPTS) {
           setError(true);
-          setMessages((prev) => prev.slice(0, -1));
+          setMessages((prev) => prev.slice(0, -2));
           break;
         }
         // backend responded but something went wrong mid-reply — retry silently instead
@@ -91,6 +94,7 @@ export function useChatbot() {
     }
 
     setIsSending(false);
+    return sent;
   };
 
   const goTo = (path: string) => {
