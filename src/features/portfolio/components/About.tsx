@@ -79,9 +79,9 @@ export function About() {
             I&apos;m Hein Htet Aung, a full-stack developer from Yangon. I like making AI useful inside real products.
           </h2>
           <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
-            I&apos;m 21, second-year Software Engineering at UIT. I spend most
-            days on web apps, React and Next.js up front with Node and Postgres
-            behind it. I slip AI in only where it survives real users, not just demos.
+            I&apos;m 21 and in my second year of Software Engineering at UIT. Most
+            days I&apos;m building web apps with React and Next.js on the front and
+            Node and Postgres behind it. I only add AI where it holds up with real users.
           </p>
 
           {statsLoading ? (
@@ -96,19 +96,19 @@ export function About() {
                 value={stats.yearsExperience}
                 suffix="+"
                 label="Years Experience"
-                tooltip="Years spent actively building and shipping software products."
+                tooltip="How long I've been building and shipping software."
               />
               <StatItem
                 value={stats.projectsCount}
                 suffix="+"
                 label="Projects"
-                tooltip="Projects I've completed and shipped, from web apps to AI-powered tools."
+                tooltip="Projects I've finished and shipped, from web apps to AI tools."
               />
               <StatItem
                 value={stats.satisfiedRate}
                 suffix="%"
                 label="Satisfied Rate"
-                tooltip="Scored by AI assistant reading testimonials and judging how positively people speak about working with me."
+                tooltip="An AI assistant reads my testimonials and scores how positively people talk about working with me."
               />
             </div>
           ) : null}

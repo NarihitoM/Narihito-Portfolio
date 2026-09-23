@@ -46,12 +46,12 @@ const roboto = Roboto({
 
 const SITE_URL = "https://narihito-portfolio.vercel.app";
 const SITE_DESCRIPTION =
-  "Narihito (Hein Htet Aung), A full-stack developer building web apps with Next.js, React, TypeScript and Node.js, plus AI-powered tools that ship to real users. Browse projects, skills, experience and get in touch.";
+  "Narihito (Hein Htet Aung) is a full-stack developer who builds web apps with Next.js, React, TypeScript and Node.js, plus AI tools that ship to real users. Browse his projects, skills and experience, or get in touch.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
+    default: "Narihito (Hein Htet Aung) - Full-Stack & Agentic AI Developer Portfolio",
     template: "%s | Narihito",
   },
   description: SITE_DESCRIPTION,
@@ -66,7 +66,7 @@ export const metadata: Metadata = {
     "Node.js developer",
     "AI web applications",
     "software engineer Myanmar",
-    "Agentic Ai Developer"
+    "Agentic AI Developer"
   ],
   authors: [{ name: "Hein Htet Aung", url: SITE_URL }],
   creator: "Hein Htet Aung",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     type: "website",
     url: SITE_URL,
     siteName: "Narihito",
-    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
+    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic AI Developer Portfolio",
     description: SITE_DESCRIPTION,
     locale: "en_US",
     images: [
@@ -86,13 +86,13 @@ export const metadata: Metadata = {
         url: "/img/Narihito.jpg",
         width: 1200,
         height: 630,
-        alt: "Narihito - full-stack & agentic ai developer portfolio",
+        alt: "Narihito - full-stack & agentic AI developer portfolio",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic Ai Developer Portfolio",
+    title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic AI Developer Portfolio",
     description: SITE_DESCRIPTION,
     images: ["/img/Narihito.jpg"],
   },

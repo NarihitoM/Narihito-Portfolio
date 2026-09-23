@@ -65,13 +65,13 @@ export function Hero() {
           ref={headlineRef}
           className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
         >
-          A Developer who turns rough ideas
+          A developer who turns rough ideas
           into shipped products.
         </h1>
 
         <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          Full-stack web apps builder who built front to back with React, Next.js and Node,
-          plus AI features that pull their weight in production.
+          I build web apps front to back with React, Next.js and Node, and add
+          AI features that hold up in production.
         </p>
 
         <div data-hero-fade className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
