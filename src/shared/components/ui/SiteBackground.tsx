@@ -28,6 +28,7 @@ const POINTER_BEND = 0.9;
 const POINTER_FOLLOW = 0.08;
 const ENERGY_GAIN = 4;
 const ENERGY_DECAY = 0.975;
+const TOUCH_ENERGY = 0.9;
 
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
@@ -213,7 +214,15 @@ export function SiteBackground() {
       const touch = event.touches[0];
       if (touch) onPointerMove(touch.clientX, touch.clientY);
     };
+    const onTouchStart = (event: TouchEvent) => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      onPointerMove(touch.clientX, touch.clientY);
+      uniforms.uPointer.value.copy(target);
+      energy = Math.max(energy, TOUCH_ENERGY);
+    };
     window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", onTouchMove, { passive: true });
 
     renderer.render(scene, camera);
@@ -223,7 +232,8 @@ export function SiteBackground() {
         window.clearTimeout(resizeTimeout);
         observer.disconnect();
         window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
         material.dispose();
         quad.geometry.dispose();
         renderer.dispose();
@@ -264,6 +274,7 @@ export function SiteBackground() {
       observer.disconnect();
       visObserver.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", onTouchMove);
       material.dispose();
       quad.geometry.dispose();
