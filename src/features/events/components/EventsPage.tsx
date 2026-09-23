@@ -87,7 +87,7 @@ export function EventsPage() {
       backHref="/"
       breadcrumb="HOME / EVENTS"
       eyebrow="05 - EVENTS"
-      title="The rooms that made me better at this."
+      title="Events that made me better at this."
       deck="Hackathons, meetups, and programs I've joined, with how long each one ran and what I took away from it."
       meta={pageMeta}
       metaLoading={isLoading}
