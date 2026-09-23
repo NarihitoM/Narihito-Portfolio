@@ -208,7 +208,7 @@ export function AboutPage() {
       breadcrumb="HOME / ABOUT"
       eyebrow="01 - ABOUT"
       title="Who I am, and how I like to build things."
-      deck={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps from Yangon. What I care about, how I got here, and what I'm up to off the clock.`}
+      deck={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps from Yangon. How I got into this, what I care about when I build, and a bit about life outside work.`}
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -238,19 +238,19 @@ export function AboutPage() {
               value={stats.yearsExperience}
               suffix="+"
               label="Years Experience"
-              tooltip="Years spent actively building and shipping software products."
+              tooltip="How long I've been building and shipping software."
             />
             <StatItem
               value={stats.projectsCount}
               suffix="+"
               label="Projects"
-              tooltip="Projects I've completed and shipped, from web apps to AI-powered tools."
+              tooltip="Projects I've finished and shipped, from web apps to AI tools."
             />
             <StatItem
               value={stats.satisfiedRate}
               suffix="%"
               label="Satisfied Rate"
-              tooltip="Scored by AI assistant reading testimonials and judging how positively people speak about working with me."
+              tooltip="An AI assistant reads my testimonials and scores how positively people talk about working with me."
             />
           </div>
         ) : null}
@@ -267,11 +267,11 @@ export function AboutPage() {
             front and back finally clicked for me. These days I&apos;m deep into AI agents.
           </p>
           <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
-            Right now I&apos;m grinding through ML basics and the unglamorous
-            stuff that matters at scale: system design, actually writing tests,
-            architecture that doesn&apos;t fall apart when more people touch it.
-            Slower than shipping a feature, but it&apos;s what I want everything
-            else to stand on.
+            Right now I&apos;m working through ML basics and the less exciting
+            stuff that matters once a project grows, like system design, writing
+            real tests, and architecture that holds up when more people touch it.
+            It&apos;s slower than shipping features, but I want everything else I
+            build to sit on top of it.
           </p>
         </div>
 

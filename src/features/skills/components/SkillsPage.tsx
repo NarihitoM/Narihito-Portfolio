@@ -167,7 +167,7 @@ export function SkillsPage() {
       breadcrumb="HOME / SKILLS"
       eyebrow="02 - SKILLS & TECH STACK"
       title="What I actually use to build things."
-      deck="Where each tool fits in my day-to-day, how comfortable I am with it, and what I'm still figuring out."
+      deck="Where each tool shows up in my work and how comfortable I am with it. The stuff I'm still learning is on here too."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -179,8 +179,8 @@ export function SkillsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          I&apos;d rather know five tools really well than recognize fifty.
-          If something new shows up here, it earned its spot.
+          I&apos;d rather know five tools really well than recognize fifty,
+          so anything new on this list had to earn its place.
         </p>
 
         {isLoading ? (

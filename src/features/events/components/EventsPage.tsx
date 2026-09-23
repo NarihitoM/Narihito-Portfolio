@@ -88,7 +88,7 @@ export function EventsPage() {
       breadcrumb="HOME / EVENTS"
       eyebrow="05 - EVENTS"
       title="The rooms that made me better at this."
-      deck="Hackathons, meetups, programs I showed up to. How long they ran, and what stuck with me after."
+      deck="Hackathons, meetups, and programs I've joined, with how long each one ran and what I took away from it."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -100,8 +100,8 @@ export function EventsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Coding alone makes you fast. Coding next to other people teaches
-          you everything else. These are the ones worth mentioning.
+          Coding alone made me faster, but most of the rest I picked up working
+          next to other people. These are the events worth mentioning.
         </p>
 
         {isLoading ? (

@@ -179,7 +179,7 @@ export function ProjectsPage() {
       breadcrumb="HOME / PROJECTS"
       eyebrow="04 - PROJECTS"
       title={`${projectCountWord} things I've built, from client work to weekend hacks.`}
-      deck="Everything in one place. Filter by tag if you want, or just scroll. The flops are in here too."
+      deck="Filter by tag if you're after something specific, or just scroll through the whole list."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -191,8 +191,8 @@ export function ProjectsPage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          If it&apos;s here, it either shipped or taught me something trying
-          to. I kept the failures up. Those taught me more, honestly.
+          Everything here either shipped or taught me something along the way.
+          I left the flops up too, since I learned more from those.
         </p>
 
         {isLoading ? (

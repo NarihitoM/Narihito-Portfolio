@@ -120,7 +120,7 @@ export function GamesPage() {
       breadcrumb="HOME / GAMES"
       eyebrow="06 - GAMES"
       title="What I play when I'm not writing code."
-      deck="Games that actually keep my attention after work. Favorites, current rotations, and the ones I always come back to."
+      deck="Some I'm playing right now, others I keep going back to."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}

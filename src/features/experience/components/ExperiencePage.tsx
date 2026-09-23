@@ -140,7 +140,7 @@ export function ExperiencePage() {
       breadcrumb="HOME / EXPERIENCE"
       eyebrow="03 - EXPERIENCE"
       title={`${yearsOfExperience(stats?.yearsExperience ?? 0)} building web apps and products, job by job.`}
-      deck="What I actually did in each role. What I owned, what got in the way, what came out of it, plus where I studied."
+      deck="Every role I've had and the work I actually did there, with where I studied at the bottom."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
@@ -152,8 +152,8 @@ export function ExperiencePage() {
           ref={leadRef}
           className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
-          Titles never told the full story, so I wrote down the real work
-          instead: what I owned, what made it hard, and what shipped in the end.
+          A job title doesn&apos;t say much, so for each role I wrote down what I
+          owned, what made it hard, and what actually shipped.
         </p>
 
         <div className="flex flex-col gap-6">
