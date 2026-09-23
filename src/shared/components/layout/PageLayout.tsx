@@ -344,7 +344,7 @@ export function PageLayout({
           href={prev.href}
           className="group flex-1 flex flex-col gap-3 py-6 md:border-l-2 md:border-violet md:pl-10 md:py-2"
         >
-          <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
+          <span className="w-fit font-mono text-[11px] text-text-muted transition-[color,transform] duration-300 group-hover:-translate-x-1.5 group-hover:text-text-primary">
             {prev.direction}
           </span>
           <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
@@ -355,7 +355,7 @@ export function PageLayout({
           href={next.href}
           className="group flex-1 flex flex-col gap-3 border-t border-border-glow-soft py-6 md:border-t-0 md:border-r-2 md:border-r-violet md:pr-10 md:py-2 md:text-right md:items-end"
         >
-          <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
+          <span className="w-fit font-mono text-[11px] text-text-muted transition-[color,transform] duration-300 group-hover:translate-x-1.5 group-hover:text-text-primary">
             {next.direction}
           </span>
           <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
