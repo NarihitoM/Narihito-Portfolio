@@ -2,33 +2,33 @@
   <img src="public/img/Narihito.jpg" alt="Narihito" width="120" height="120" style="border-radius:50%;" />
 </p>
 
-<h1 align="center">Narihito — Portfolio</h1>
+<h1 align="center">Narihito Portfolio</h1>
 
 <p align="center">
-  A full-stack, motion-rich portfolio site built with Next.js, TypeScript, Tailwind CSS, and GSAP.
+  My portfolio site, built with Next.js, TypeScript, Tailwind CSS, GSAP and Three.js.
 </p>
 
-## Getting Started
+## Getting started
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to see the result.
+Then open [http://localhost:3000](http://localhost:3000).
 
-## Tech Stack
+## Tech stack
 
 - [Next.js](https://nextjs.org) (App Router)
 - TypeScript
 - Tailwind CSS
-- [GSAP](https://gsap.com) — scroll-triggered and cursor-driven motion
-- [Three.js](https://threejs.org) — hero WebGL scene
-- [Lenis](https://lenis.darkroom.engineering) — smooth scroll
+- [GSAP](https://gsap.com) for scroll and cursor animations
+- [Three.js](https://threejs.org) for the hero scene and the silk background
+- [Lenis](https://lenis.darkroom.engineering) for smooth scrolling
 
-## Project Structure
+## Project structure
 
-Feature-based structure under `src/features/`, with shared UI, hooks, and utilities in `src/shared/`. Each feature owns its own `components/`, `types/`, and `data/`.
+Each feature lives in `src/features/` with its own `api/`, `hooks/`, `store/`, `components/` and `types/`. Page content is loaded from the backend API. Anything used by more than one feature goes in `src/shared/`.
 
 ## Scripts
 
