@@ -20,13 +20,7 @@ export function navigateWithVeil(href: string) {
 }
 
 const PAGE_LABELS: Record<string, string> = {
-  about: "01 - ABOUT",
-  skills: "02 - SKILLS & TECH STACK",
-  experience: "03 - EXPERIENCE",
-  projects: "04 - PROJECTS",
-  events: "05 - EVENTS",
-  games: "06 - GAMES",
-  testimonials: "07 - TESTIMONIALS",
+  skills: "SKILLS & TECH STACK",
   privacy: "PRIVACY POLICY",
 };
 
