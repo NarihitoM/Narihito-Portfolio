@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { chatbotApi } from "../api/chatbotApi";
 import { scrollToTarget } from "@/shared/lib/lenis";
+import { navigateWithVeil } from "@/shared/components/ui/RouteTransition";
 import type { ChatMessage } from "../types/types";
 
 const HEADER_OFFSET = -72;
@@ -95,7 +96,7 @@ export function useChatbot() {
   const goTo = (path: string) => {
     if (pathname === "/") {
       scrollToTarget(path === "/" ? 0 : path.replace(/^\/#?/, "#"), HEADER_OFFSET);
-    } else {
+    } else if (!navigateWithVeil(path)) {
       router.push(path);
     }
   };

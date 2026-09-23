@@ -10,6 +10,15 @@ const LETTER_STAGGER = 0.045;
 const COVER_TIMEOUT = 3600;
 const MIN_COVER_MS = 1200;
 
+let coverFn: ((href: string) => void) | null = null;
+
+export function navigateWithVeil(href: string) {
+  if (!coverFn) return false;
+  if (href.split(/[?#]/)[0] === window.location.pathname) return false;
+  coverFn(href);
+  return true;
+}
+
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
   if (!segment) return "[ PORTFOLIO ]";
@@ -94,6 +103,8 @@ export function RouteTransition() {
       }, COVER_TIMEOUT);
     };
 
+    coverFn = cover;
+
     const onClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -118,6 +129,7 @@ export function RouteTransition() {
       document.removeEventListener("click", onClick, true);
       window.clearTimeout(failsafe.current);
       revealRef.current = null;
+      coverFn = null;
     };
   }, [router]);
 
