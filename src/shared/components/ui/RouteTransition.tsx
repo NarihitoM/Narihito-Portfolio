@@ -5,10 +5,10 @@ import { usePathname, useRouter } from "next/navigation";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
-const PANEL_DURATION = 0.6;
-const LETTER_STAGGER = 0.045;
+const PANEL_DURATION = 0.45;
+const LETTER_STAGGER = 0.03;
 const COVER_TIMEOUT = 3600;
-const MIN_COVER_MS = 1200;
+const MIN_COVER_MS = 450;
 
 let coverFn: ((href: string) => void) | null = null;
 
@@ -100,7 +100,7 @@ export function RouteTransition() {
         .to(leftLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
         .to(rightLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe }, "<")
         .to(brand, { opacity: 1, scale: 1, duration: 0.2, ease: ease.entrance })
-        .to(letters, { opacity: 1, y: 0, duration: 0.3, stagger: LETTER_STAGGER, ease: ease.entrance });
+        .to(letters, { opacity: 1, y: 0, duration: 0.25, stagger: LETTER_STAGGER, ease: ease.entrance });
       window.clearTimeout(failsafe.current);
       failsafe.current = window.setTimeout(() => {
         go();
@@ -169,7 +169,7 @@ export function RouteTransition() {
       .set(rightLeaf, { xPercent: 0 })
       .set(brand, { opacity: 1, scale: 1 })
       .set(letters, { opacity: 1, y: 0 })
-      .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction, delay: 0.4 })
+      .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction, delay: 0.25 })
       .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
       .to(rightLeaf, { xPercent: 100, duration: PANEL_DURATION, ease: ease.wipe }, "<")
       .set(veil, { display: "none", pointerEvents: "none" });
