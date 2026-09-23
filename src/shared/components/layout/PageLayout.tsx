@@ -192,7 +192,7 @@ export function PageLayout({
                   <Link
                     href={href}
                     aria-current={isActive ? "page" : undefined}
-                    className={`group relative font-body text-[14px] font-medium transition-colors ${
+                    className={`group relative font-body fs-14 font-medium transition-colors ${
                       isActive ? "text-text-primary" : "text-text-secondary"
                     }`}
                   >
@@ -210,7 +210,7 @@ export function PageLayout({
           <ModeToggle />
           <Link
             href="/resume/Narihito CV.pdf"
-            className="flex items-center justify-center rounded-[4px] bg-violet px-5 py-2.5 font-body text-[13px] font-semibold text-wire"
+            className="flex items-center justify-center rounded-[4px] bg-violet px-5 py-2.5 font-body fs-13 font-semibold text-wire"
           >
             Download CV
           </Link>
@@ -287,7 +287,7 @@ export function PageLayout({
           <div data-drawer-item className="shrink-0 pt-4">
             <Link
               href="/resume/Narihito CV.pdf"
-              className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body text-[15px] font-semibold text-wire"
+              className="flex items-center justify-center rounded-[4px] bg-violet px-7 py-4 font-body fs-15 font-semibold text-wire"
             >
               Download CV
             </Link>
@@ -314,18 +314,18 @@ export function PageLayout({
       </div>
 
       <div className="flex flex-col gap-6 md:gap-7 px-5 md:px-10 lg:px-[120px] pt-6 md:pt-12">
-        <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
+        <p className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
           {eyebrow}
         </p>
         <h1
           data-page-title
-          className="font-display text-[32px] md:text-[52px] lg:text-[76px] font-semibold leading-[1.05] md:leading-[1.02] lg:leading-[0.98] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary max-w-[1080px]"
+          className="font-display fs-32 md:text-[52px] lg:text-[76px] font-semibold leading-[1.05] md:leading-[1.02] lg:leading-[0.98] tracking-[-1px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary max-w-[1080px]"
         >
           {title}
         </h1>
         <p
           data-page-deck
-          className="font-body text-[16px] md:text-[18px] lg:text-[19px] leading-[1.55] text-text-secondary max-w-[760px]"
+          className="font-body fs-16 md:text-[18px] lg:text-[19px] leading-[1.55] text-text-secondary max-w-[760px]"
         >
           {deck}
         </p>
@@ -362,7 +362,7 @@ export function PageLayout({
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             <DirectionLabel text={prev.direction} />
           </span>
-          <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
+          <span className="font-display fs-24 md:text-[28px] font-semibold text-text-primary">
             {prev.title}
           </span>
         </Link>
@@ -373,7 +373,7 @@ export function PageLayout({
           <span className="font-mono text-[11px] text-text-muted group-hover:text-text-primary transition-colors">
             <DirectionLabel text={next.direction} />
           </span>
-          <span className="font-display text-[24px] md:text-[28px] font-semibold text-text-primary">
+          <span className="font-display fs-24 md:text-[28px] font-semibold text-text-primary">
             {next.title}
           </span>
         </Link>
@@ -382,7 +382,7 @@ export function PageLayout({
 
       <footer className="mt-auto bg-bg-alt px-5 md:px-10 lg:px-[120px] pt-8 md:pt-12 pb-8 md:pb-14">
         <div className="h-px w-full bg-border-glow-soft" />
-        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between pt-5 font-mono text-[13px] md:text-[14px] text-text-muted">
+        <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between pt-5 font-mono fs-13 md:text-[14px] text-text-muted">
           <div className="flex flex-col gap-1.5">
             <span>© {new Date().getFullYear()} Narihito. All rights reserved.</span>
             <span>Designed &amp; developed by Narihito.</span>

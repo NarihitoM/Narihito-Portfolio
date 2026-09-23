@@ -36,7 +36,7 @@ export function ProjectCardBlock({ project, onView }: { project: ProjectCard; on
       )}
       <div className="flex flex-col gap-4 p-5 md:p-6">
         <div className="flex items-center gap-3">
-          <h3 className="font-display text-[18px] md:text-[20px] font-semibold text-text-primary">
+          <h3 className="font-display fs-18 md:text-[20px] font-semibold text-text-primary">
             {project.title}
           </h3>
         </div>
@@ -54,7 +54,7 @@ export function ProjectCardBlock({ project, onView }: { project: ProjectCard; on
             {project.status}
           </span>
         </div>
-        <p className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
+        <p className="font-body fs-14 md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {project.description}
         </p>
         <div className="flex flex-wrap gap-2">

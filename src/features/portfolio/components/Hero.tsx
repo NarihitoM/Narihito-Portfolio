@@ -57,19 +57,19 @@ export function Hero() {
       </div>
 
       <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
-        <p data-hero-fade className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-cyan">
+        <p data-hero-fade className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-cyan">
           HEIN HTET AUNG · FULL-STACK &amp; AGENTIC AI DEVELOPER
         </p>
 
         <h1
           ref={headlineRef}
-          className="font-display text-[42px] md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
+          className="font-display fs-42 md:text-[58px] lg:text-[76px] font-semibold leading-[0.98] tracking-[-1.5px] md:tracking-[-2px] lg:tracking-[-3px] text-text-primary lg:w-[760px]"
         >
           A developer who turns rough ideas
           into shipped products.
         </h1>
 
-        <p data-hero-fade className="font-body text-[15px] md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
+        <p data-hero-fade className="font-body fs-15 md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
           I build web apps front to back with React, Next.js and Node, and add
           AI features that hold up in production.
         </p>

@@ -287,7 +287,7 @@ export function Chatbot() {
               <Bot size={18} />
             </div>
             <div className="flex flex-col">
-              <span className="font-body text-[14px] font-medium text-text-primary">Narihito Assistant</span>
+              <span className="font-body fs-14 font-medium text-text-primary">Narihito Assistant</span>
               <span className="font-body text-[12px] tracking-[1px] text-text-muted">Ask me about his work</span>
             </div>
             <button
@@ -320,7 +320,7 @@ export function Chatbot() {
                     </div>
                   ) : (
                     <div
-                      className={`max-w-[85%] rounded-[6px] px-3.5 py-2.5 font-body text-[13px] leading-[1.55] ${
+                      className={`max-w-[85%] rounded-[6px] px-3.5 py-2.5 font-body fs-13 leading-[1.55] ${
                         m.role === "user"
                           ? "bg-violet text-wire whitespace-pre-wrap"
                           : "bg-chip text-text-primary"
@@ -371,14 +371,14 @@ export function Chatbot() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder={recording ? "Listening..." : "Ask a question..."}
-                className={`w-full rounded-[4px] border bg-surface px-3 py-2 font-body text-[13px] text-text-primary outline-none placeholder:text-text-muted transition-colors duration-300 ${
+                className={`w-full rounded-[4px] border bg-surface px-3 py-2 font-body fs-13 text-text-primary outline-none placeholder:text-text-muted transition-colors duration-300 ${
                   recording ? "border-violet animate-pulse" : "border-border-glow-soft focus:border-violet"
                 }`}
               />
               {ghost && (
                 <span
                   aria-hidden
-                  className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-pre font-body text-[13px] italic text-text-muted transition-all duration-200 ${
+                  className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-pre font-body fs-13 italic text-text-muted transition-all duration-200 ${
                     ghostVisible ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-1"
                   }`}
                   style={{ left: 12 + ghost.left }}

@@ -37,7 +37,7 @@ export function WipeVeil({
       <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
         <Image src="/img/Narihito.jpg" alt="" width={64} height={64} className="h-full w-full object-cover" />
       </div>
-      <span className="whitespace-nowrap font-display text-[22px] font-bold uppercase tracking-[4px] text-(--veil-brand-fg) sm:text-[28px] sm:tracking-[6px]">
+      <span className="whitespace-nowrap font-display fs-22 font-bold uppercase tracking-[4px] text-(--veil-brand-fg) sm:text-[28px] sm:tracking-[6px]">
         {"NARIHITO".split("").map((letter, i) => (
           <span key={i} data-veil-letter className="inline-block">
             {letter}

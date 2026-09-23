@@ -46,7 +46,7 @@ function ProjectCard({ project }: { project: Project }) {
         )}
         <div className="flex flex-col gap-4 p-5 md:p-6">
           <div className="flex items-center gap-3">
-            <h3 className="font-display text-[18px] md:text-[20px] font-semibold text-text-primary">{project.title}</h3>
+            <h3 className="font-display fs-18 md:text-[20px] font-semibold text-text-primary">{project.title}</h3>
           </div>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
             <span className="font-mono text-[10px] tracking-[1.5px] text-text-muted">{project.year}</span>
@@ -54,7 +54,7 @@ function ProjectCard({ project }: { project: Project }) {
             <span className="font-mono text-[10px] tracking-[1.5px] text-text-muted">{project.role}</span>
             <span className="font-mono text-[10px] tracking-[1.5px] text-violet">{project.status}</span>
           </div>
-          <p className="font-body text-[14px] md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
+          <p className="font-body fs-14 md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
             {project.description}
           </p>
           <div className="flex flex-wrap gap-2">
@@ -152,7 +152,7 @@ export function Projects() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : PROJECTS.length === 0 ? (
-          <p className="font-body text-[14px] text-text-muted">No projects yet.</p>
+          <p className="font-body fs-14 text-text-muted">No projects yet.</p>
         ) : (
           <div data-reveal className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
             {PROJECTS.map((project) => (

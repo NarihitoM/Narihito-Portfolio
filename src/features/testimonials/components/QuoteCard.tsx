@@ -14,19 +14,19 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
       data-quote-card
       className="flex cursor-pointer flex-col gap-6 rounded-[6px] border border-border-glow-soft bg-surface p-6 md:p-8 text-left transition-colors hover:border-border-glow active:border-violet active:bg-chip/30"
     >
-      <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-primary italic line-clamp-3">
+      <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-primary italic line-clamp-3">
         &ldquo;{testimonial.quote}&rdquo;
       </p>
       <div className="flex items-center gap-4 border-t border-border-glow-soft pt-5">
         {testimonial.profilePic ? (
           <img src={testimonial.profilePic} alt={testimonial.name} className="h-10 w-10 shrink-0 rounded-full object-cover" />
         ) : (
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
+          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono fs-13 font-medium text-text-primary">
             {testimonial.initials}
           </div>
         )}
         <div className="flex flex-col gap-1">
-          <span className="font-body text-[14px] font-medium text-text-primary">
+          <span className="font-body fs-14 font-medium text-text-primary">
             {testimonial.name}
           </span>
           <span className="font-mono text-[11px] tracking-[0.5px] text-text-muted">
@@ -34,7 +34,7 @@ export function QuoteCard({ testimonial, onClick }: { testimonial: Testimonial; 
           </span>
         </div>
       </div>
-      <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">
+      <p className="font-body fs-13 leading-[1.6] text-text-secondary line-clamp-2">
         {testimonial.context}
       </p>
 

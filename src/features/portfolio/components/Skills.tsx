@@ -48,7 +48,7 @@ export function Skills() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : SKILLS.length === 0 ? (
-          <p className="font-body text-[14px] text-text-muted">No skills yet.</p>
+          <p className="font-body fs-14 text-text-muted">No skills yet.</p>
         ) : (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 2xl:grid-cols-7 gap-3 md:gap-4">
             {SKILLS.map((skill) => (
@@ -76,7 +76,7 @@ function SkillCard({ skill, onClick }: { skill: Tool; onClick: () => void }) {
       className="flex flex-col gap-3 md:gap-3.5 bg-bg-panel p-[18px] md:p-6 rounded-[4px] cursor-pointer border border-transparent transition-colors hover:border-border-glow-soft active:border-violet"
     >
       <TechIcon name={skill.name} className="h-[22px] w-[22px] md:h-6 md:w-6 text-text-primary" />
-      <span className="font-mono text-[13px] md:text-[14px] text-text-secondary">{skill.name}</span>
+      <span className="font-mono fs-13 md:text-[14px] text-text-secondary">{skill.name}</span>
     </div>
   );
 }

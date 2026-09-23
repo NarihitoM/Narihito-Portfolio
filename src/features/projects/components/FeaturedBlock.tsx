@@ -7,7 +7,7 @@ export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProje
   return (
     <div data-featured className={hideEyebrow ? "flex flex-col gap-8" : "flex flex-col gap-8 border-t border-border-glow pt-9"}>
       {!hideEyebrow && (
-        <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
+        <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
           {project.eyebrow}
         </span>
       )}
@@ -32,11 +32,11 @@ export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProje
         </div>
 
         <div className="flex-1 flex flex-col gap-6">
-          <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          <h2 className="font-display fs-28 md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
             {project.title}
           </h2>
 
-          <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">
+          <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">
             {project.description}
           </p>
 

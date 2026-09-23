@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import { useGSAP } from "@gsap/react";
@@ -110,7 +110,7 @@ export function Experience() {
             ) : isError ? (
               <ErrorState onRetry={refetch} />
             ) : ENTRIES.length === 0 ? (
-              <p className="font-body text-[14px] text-text-muted">No experience entries yet.</p>
+              <p className="font-body fs-14 text-text-muted">No experience entries yet.</p>
             ) : (
               ENTRIES.map((entry) => (
                 <div
@@ -124,14 +124,14 @@ export function Experience() {
                   />
                   <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
 
-                  <h3 className="font-display text-[19px] font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
+                  <h3 className="font-display fs-19 font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
                     <span className="md:hidden block">{entry.role}</span>
                     <span className="hidden md:inline">
                       {entry.role} · {entry.company}
                     </span>
                   </h3>
                   <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
-                  <p className="font-body text-[14px] leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
+                  <p className="font-body fs-14 leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
                     {entry.description}
                   </p>
                 </div>

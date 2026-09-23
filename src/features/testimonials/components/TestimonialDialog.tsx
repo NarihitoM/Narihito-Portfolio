@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
@@ -85,7 +85,7 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
       >
         <DialogCloseButton onClick={handleClose} />
 
-        <p className="font-body text-[16px] md:text-[18px] leading-[1.7] text-text-primary italic">
+        <p className="font-body fs-16 md:text-[18px] leading-[1.7] text-text-primary italic">
           &ldquo;{testimonial.quote}&rdquo;
         </p>
 
@@ -100,12 +100,12 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
               <img src={testimonial.profilePic} alt={testimonial.name} className="h-full w-full object-cover" />
             </button>
           ) : (
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono text-[13px] font-medium text-text-primary">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-chip font-mono fs-13 font-medium text-text-primary">
               {testimonial.initials}
             </div>
           )}
           <div className="flex flex-col gap-1">
-            <span className="font-body text-[14px] font-medium text-text-primary">
+            <span className="font-body fs-14 font-medium text-text-primary">
               {testimonial.name}
             </span>
             <span className="font-mono text-[11px] tracking-[0.5px] text-text-muted">
@@ -114,7 +114,7 @@ export function TestimonialDialog({ testimonial, onClose }: { testimonial: Testi
           </div>
         </div>
 
-        <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-secondary">
+        <p className="font-body fs-14 md:text-[15px] leading-[1.7] text-text-secondary">
           {testimonial.context}
         </p>
 

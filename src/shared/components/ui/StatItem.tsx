@@ -51,7 +51,7 @@ export function StatItem({
 
   const content = (
     <div className="flex flex-col gap-1">
-      <span ref={numRef} className="font-display text-[28px] md:text-[34px] font-semibold text-text-primary">
+      <span ref={numRef} className="font-display fs-28 md:text-[34px] font-semibold text-text-primary">
         0{suffix}
       </span>
       <span className="font-body text-[12px] md:text-[13px] text-text-secondary">{label}</span>

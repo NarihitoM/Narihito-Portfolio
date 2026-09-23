@@ -218,7 +218,7 @@ export function AboutPage() {
       <div ref={contentRef} className="flex flex-col gap-12 md:gap-20">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.6] text-text-primary"
         >
           I&apos;m Hein Htet Aung, most people call me Narihito. I&apos;m a full-stack
           and AI developer in Yangon. I care a lot about the boring stuff that
@@ -258,7 +258,7 @@ export function AboutPage() {
         <GitHubContributions />
 
         <div ref={bioRef} className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-16">
-          <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
+          <p className="font-body fs-15 md:text-[16px] leading-[1.65] text-text-secondary">
             I started with HTML and CSS, but static pages got boring fast.
             So I went backend for a while, databases and server logic for a
             logistics company, and learned the hard way that a fast query
@@ -266,7 +266,7 @@ export function AboutPage() {
             to the browser: plain JS first, then React, then Next.js, where
             front and back finally clicked for me. These days I&apos;m deep into AI agents.
           </p>
-          <p className="font-body text-[15px] md:text-[16px] leading-[1.65] text-text-secondary">
+          <p className="font-body fs-15 md:text-[16px] leading-[1.65] text-text-secondary">
             Right now I&apos;m working through ML basics and the less exciting
             stuff that matters once a project grows, like system design, writing
             real tests, and architecture that holds up when more people touch it.
@@ -292,7 +292,7 @@ export function AboutPage() {
           </button>
 
           <div ref={principlesRef} className="flex flex-col gap-0 flex-1">
-            <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet mb-6">
+            <p className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet mb-6">
               HOW I WORK
             </p>
             {principlesLoading ? (
@@ -317,14 +317,14 @@ export function AboutPage() {
                     key={p.id}
                     className="flex gap-5 py-5 border-t border-border-glow-soft"
                   >
-                    <span className="font-mono text-[13px] text-text-muted shrink-0 pt-0.5">
+                    <span className="font-mono fs-13 text-text-muted shrink-0 pt-0.5">
                       {p.key}
                     </span>
                     <div className="flex flex-col gap-1">
-                      <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                      <h3 className="font-display fs-17 font-semibold text-text-primary">
                         {p.title}
                       </h3>
-                      <p className="font-body text-[14px] leading-[1.55] text-text-secondary">
+                      <p className="font-body fs-14 leading-[1.55] text-text-secondary">
                         {p.desc}
                       </p>
                     </div>
@@ -343,7 +343,7 @@ export function AboutPage() {
         </div>
 
         <div ref={routeRef} className="flex flex-col gap-5">
-          <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
+          <p className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             THE ROUTE HERE
           </p>
           {routeLoading ? (
@@ -368,14 +368,14 @@ export function AboutPage() {
                   key={r.id}
                   className="flex gap-6 md:gap-10 py-5 border-t border-border-glow-soft"
                 >
-                  <span className="font-mono text-[13px] text-text-muted shrink-0 w-12">
+                  <span className="font-mono fs-13 text-text-muted shrink-0 w-12">
                     {r.year}
                   </span>
                   <div className="flex flex-col gap-1">
-                    <h3 className="font-display text-[17px] font-semibold text-text-primary">
+                    <h3 className="font-display fs-17 font-semibold text-text-primary">
                       {r.title}
                     </h3>
-                    <p className="font-body text-[14px] leading-[1.55] text-text-secondary max-w-[640px]">
+                    <p className="font-body fs-14 leading-[1.55] text-text-secondary max-w-[640px]">
                       {r.desc}
                     </p>
                   </div>
@@ -389,10 +389,10 @@ export function AboutPage() {
         </div>
 
         <div ref={interestsRef} className="flex flex-col gap-5">
-          <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
+          <p className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             OUTSIDE OF WORK
           </p>
-          <p className="font-body text-[15px] text-text-secondary">
+          <p className="font-body fs-15 text-text-secondary">
             Stuff I do when I&apos;m not coding. Some of it sneaks into my work anyway.
           </p>
           {interestsError ? (
@@ -421,7 +421,7 @@ export function AboutPage() {
           ref={quoteRef}
           className="border-l-2 border-violet pl-6 md:pl-10 py-2 flex flex-col gap-3"
         >
-          <p className="font-display text-[22px] md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
+          <p className="font-display fs-22 md:text-[28px] lg:text-[32px] font-semibold leading-[1.3] tracking-[-0.5px] text-text-primary">
             &ldquo;The best opportunity you can get is the one in your hands&rdquo;
           </p>
           <cite className="font-mono text-[12px] text-text-muted not-italic">

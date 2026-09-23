@@ -9,6 +9,26 @@ html {
   max-width: 100%;
 }
 
+:root {
+  --text-scale: 1;
+}
+
+@media (max-width: 639px) {
+  :root {
+    --text-scale: 0.9;
+  }
+}
+
+@media (max-width: 374px) {
+  :root {
+    --text-scale: 0.85;
+  }
+}
+
+@utility fs-* {
+  font-size: calc(--value(integer) * 1px * var(--text-scale));
+}
+
 @keyframes scroll-dot {
   0% {
     transform: translateY(0);

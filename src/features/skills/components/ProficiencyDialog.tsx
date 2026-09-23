@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
@@ -80,13 +80,13 @@ export function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () =
 
         <div className="flex items-center gap-4">
           <TechIcon name={tool.name} className="h-8 w-8 text-text-primary" />
-          <h2 className="font-display text-[22px] font-semibold text-text-primary">{tool.name}</h2>
+          <h2 className="font-display fs-22 font-semibold text-text-primary">{tool.name}</h2>
         </div>
 
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <span className="font-mono text-[11px] tracking-[2px] text-text-muted">PROFICIENCY</span>
-            <span className="font-mono text-[14px] font-medium text-violet">{progress}%</span>
+            <span className="font-mono fs-14 font-medium text-violet">{progress}%</span>
           </div>
           <div className="relative h-3 w-full rounded-full bg-border-glow-soft overflow-hidden">
             <div

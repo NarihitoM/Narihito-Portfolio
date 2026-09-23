@@ -10,7 +10,7 @@ function CategoryHeader({ category }: { category: Category }) {
       <span className="font-mono text-[11px] md:text-[17px] font-medium tracking-[3px] text-violet">
         {category.eyebrow}
       </span>
-      <span className="font-body text-[15px] text-text-muted">
+      <span className="font-body fs-15 text-text-muted">
         {category.note}
       </span>
       <span className="ml-auto shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">
@@ -34,7 +34,7 @@ export function CategorySection({ category, onSelect }: { category: Category; on
       {tools.map((tool) => (
         <ToolRow key={tool.id} tool={tool} onClick={onSelect ? () => onSelect(tool) : undefined} />
       ))}
-      {error && <p className="font-body text-[13px] text-red-400">{error}</p>}
+      {error && <p className="font-body fs-13 text-red-400">{error}</p>}
       {hasMore && <LoadMoreButton onClick={loadMore} loading={loading} label="LOAD MORE" />}
     </div>
   );

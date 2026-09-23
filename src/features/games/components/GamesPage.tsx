@@ -130,7 +130,7 @@ export function GamesPage() {
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I build software all day and still make time to play it.
           This is what&apos;s on my screen once work is done.
@@ -164,7 +164,7 @@ export function GamesPage() {
 
         {favouriteGames.length > 0 && !isLoading && !isError && (
           <div ref={favouritesRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
-            <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">FAVOURITE</span>
+            <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FAVOURITE</span>
             <div className="flex flex-col gap-12">
               {favouriteGames.map((game) => (
                 <div key={`fav-${game.id}`} data-favourite className="flex flex-col lg:flex-row gap-8 lg:gap-14">
@@ -180,10 +180,10 @@ export function GamesPage() {
                     )}
                   </div>
                   <div className="flex-1 flex flex-col gap-6">
-                    <h2 className="font-display text-[28px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+                    <h2 className="font-display fs-28 md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
                       {game.name}
                     </h2>
-                    <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">{game.description}</p>
+                    <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">{game.description}</p>
                     {game.chips?.length > 0 && (
                       <div className="flex flex-wrap gap-2.5">
                         {game.chips.map((chip) => (
@@ -239,7 +239,7 @@ export function GamesPage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : games.length === 0 ? (
-          <p className="font-body text-[15px] text-text-muted">No games listed yet.</p>
+          <p className="font-body fs-15 text-text-muted">No games listed yet.</p>
         ) : (
           <>
             <div

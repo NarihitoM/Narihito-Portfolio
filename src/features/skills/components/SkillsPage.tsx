@@ -177,7 +177,7 @@ export function SkillsPage() {
       <div ref={contentRef} className="flex flex-col gap-20">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           I&apos;d rather know five tools really well than recognize fifty,
           so anything new on this list had to earn its place.
@@ -274,10 +274,10 @@ export function SkillsPage() {
             className="flex flex-col gap-8 rounded border border-border-glow-soft bg-surface p-6 md:flex-row md:gap-16 md:p-10"
           >
             <div className="flex flex-col gap-3.5 md:w-[320px] md:shrink-0">
-              <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
+              <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
                 CURRENTLY LEARNING
               </span>
-              <p className="font-body text-[15px] leading-[1.7] text-text-secondary">
+              <p className="font-body fs-15 leading-[1.7] text-text-secondary">
                 {learningTotal} thing{learningTotal === 1 ? "" : "s"} I&apos;m
                 learning right now. Listed here so I don&apos;t oversell the stack above.
               </p>
@@ -295,11 +295,11 @@ export function SkillsPage() {
                         className="h-[15px] w-[15px] text-text-primary"
                       />
                     </div>
-                    <span className="font-body text-[16px] font-medium text-text-primary">
+                    <span className="font-body fs-16 font-medium text-text-primary">
                       {item.name}
                     </span>
                   </div>
-                  <span className="font-body text-[15px] leading-[1.6] text-text-secondary">
+                  <span className="font-body fs-15 leading-[1.6] text-text-secondary">
                     {item.desc}
                   </span>
                 </div>

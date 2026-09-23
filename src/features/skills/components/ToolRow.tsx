@@ -22,11 +22,11 @@ export function ToolRow({ tool, onClick }: { tool: Tool; onClick?: () => void })
         <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[4px] bg-chip">
           <TechIcon name={tool.icon} className="h-[18px] w-[18px] text-text-primary" />
         </div>
-        <span className="font-body text-[18px] font-medium text-text-primary">
+        <span className="font-body fs-18 font-medium text-text-primary">
           {tool.name}
         </span>
       </div>
-      <span className="font-body text-[15px] leading-[1.6] text-text-secondary md:flex-1">
+      <span className="font-body fs-15 leading-[1.6] text-text-secondary md:flex-1">
         {tool.note}
       </span>
       <div className="flex items-center justify-between gap-4 md:contents">

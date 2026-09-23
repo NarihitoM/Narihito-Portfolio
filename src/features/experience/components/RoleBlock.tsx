@@ -10,7 +10,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
       className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9 pb-9"
     >
       <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
-        <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">
+        <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
           {role.period}
         </span>
         <span className="font-mono text-[11px] tracking-[2px] text-text-muted">
@@ -20,7 +20,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
 
       <div className="flex-1 flex flex-col gap-5 md:gap-[26px]">
         <div className="flex items-start justify-between gap-4">
-          <h3 className="font-display text-[26px] md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] md:tracking-[-1.2px] text-text-primary">
+          <h3 className="font-display fs-26 md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] md:tracking-[-1.2px] text-text-primary">
             {role.title}
           </h3>
           <button
@@ -31,10 +31,10 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
             {collapsed ? "SHOW DETAILS" : "HIDE DETAILS"}
           </button>
         </div>
-        <span className="font-mono text-[13px] tracking-[0.6px] text-text-primary">
+        <span className="font-mono fs-13 tracking-[0.6px] text-text-primary">
           {role.org}
         </span>
-        <p className="max-w-[820px] font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">
+        <p className="max-w-[820px] font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">
           {role.desc}
         </p>
 

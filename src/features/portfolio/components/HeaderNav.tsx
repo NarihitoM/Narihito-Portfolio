@@ -129,7 +129,7 @@ export function HeaderNav() {
                   event.preventDefault();
                   scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
                 }}
-                className={`group relative font-body text-[14px] font-medium transition-colors ${
+                className={`group relative font-body fs-14 font-medium transition-colors ${
                   activeLink === link ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
@@ -144,7 +144,7 @@ export function HeaderNav() {
           ))}
         </ul>
         <ModeToggle />
-        <Button href="/resume/Narihito CV.pdf" variant="primary" className="!px-5 !py-2.5 !text-[13px]">
+        <Button href="/resume/Narihito CV.pdf" variant="primary" className="!px-5 !py-2.5 !fs-13">
           Download CV
         </Button>
       </nav>

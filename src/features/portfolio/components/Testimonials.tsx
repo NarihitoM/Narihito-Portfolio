@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState, useMemo, useCallback } from "react";
 import { useGSAP } from "@gsap/react";
@@ -55,8 +55,8 @@ function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void
       onTouchEnd={onTouchEnd}
       className="flex flex-col gap-[18px] md:gap-4 shrink-0 w-[306px] md:w-[384px] bg-bg-panel rounded-[4px] p-[22px] md:p-8 cursor-pointer transition-colors hover:bg-chip/40 active:bg-chip/60 select-none"
     >
-      <span className="font-display text-[36px] md:text-[40px] font-normal leading-none text-violet">&ldquo;</span>
-      <p className="font-body text-[15px] leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
+      <span className="font-display fs-36 md:text-[40px] font-normal leading-none text-violet">&ldquo;</span>
+      <p className="font-body fs-15 leading-[1.55] text-text-primary line-clamp-3">{t.quote}</p>
       <div className="flex items-center gap-3">
         {t.profilePic ? (
           <img src={t.profilePic} alt={t.name} className="h-9 w-9 shrink-0 rounded-full object-cover" />
@@ -66,11 +66,11 @@ function TestimonialCard({ t, onSelect }: { t: Testimonial; onSelect: () => void
           </div>
         )}
         <div className="flex flex-col gap-[3px]">
-          <span className="font-mono text-[13px] text-cyan">{t.name}</span>
+          <span className="font-mono fs-13 text-cyan">{t.name}</span>
           <span className="font-body text-[12px] text-text-muted">{t.role}</span>
         </div>
       </div>
-      <p className="font-body text-[13px] leading-[1.6] text-text-secondary line-clamp-2">{t.context}</p>
+      <p className="font-body fs-13 leading-[1.6] text-text-secondary line-clamp-2">{t.context}</p>
       {t.socials?.length > 0 && (
         <div className="flex flex-wrap items-center gap-2 pt-1">
           {t.socials.map((social) => (

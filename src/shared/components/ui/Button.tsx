@@ -32,7 +32,7 @@ const variantClasses: Record<ButtonVariant, string> = {
 };
 
 const baseClasses =
-  "inline-flex select-none items-center justify-center rounded-[4px] px-7 py-4 font-body text-[15px] font-semibold " +
+  "inline-flex select-none items-center justify-center rounded-[4px] px-7 py-4 font-body fs-15 font-semibold " +
   "transition-[transform,opacity,background-color,border-color,box-shadow] duration-300 ease-out " +
   "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-bg " +

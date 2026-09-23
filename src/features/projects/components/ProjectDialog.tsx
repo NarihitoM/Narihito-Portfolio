@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
@@ -97,7 +97,7 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
         )}
 
         <div className="flex flex-col gap-3">
-          <h2 className="font-display text-[26px] md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          <h2 className="font-display fs-26 md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
             {project.title}
           </h2>
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
@@ -116,7 +116,7 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
           </div>
         </div>
 
-        <p className="font-body text-[15px] md:text-[16px] leading-[1.7] text-text-secondary">
+        <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">
           {project.description}
         </p>
 

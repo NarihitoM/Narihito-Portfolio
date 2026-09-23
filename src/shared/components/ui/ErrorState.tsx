@@ -6,7 +6,7 @@ export function ErrorState({ onRetry }: { onRetry: () => void }) {
   return (
     <div className="flex flex-col items-center gap-4 py-20 text-center">
       <TriangleAlert className="h-8 w-8 text-destructive" />
-      <p className="font-body text-[15px] text-text-secondary">Failed to load content.</p>
+      <p className="font-body fs-15 text-text-secondary">Failed to load content.</p>
       <button
         type="button"
         onClick={() => onRetry()}

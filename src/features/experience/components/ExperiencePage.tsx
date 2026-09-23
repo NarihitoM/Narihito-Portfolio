@@ -150,14 +150,14 @@ export function ExperiencePage() {
       <div ref={contentRef} className="flex flex-col gap-20">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           A job title doesn&apos;t say much, so for each role I wrote down what I
           owned, what made it hard, and what actually shipped.
         </p>
 
         <div className="flex flex-col gap-6">
-          <h2 className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
+          <h2 className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             Experience
           </h2>
           {rolesLoading ? (
@@ -187,7 +187,7 @@ export function ExperiencePage() {
         </div>
 
         <div ref={eduRef} className="flex flex-col gap-6">
-          <h2 className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
+          <h2 className="font-mono fs-15 md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
             Education
           </h2>
           {eduLoading ? (

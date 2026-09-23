@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import Image from "next/image";
@@ -75,10 +75,10 @@ export function About() {
 
         <div className="flex flex-col gap-3.5 md:gap-6 min-w-0 flex-1 lg:max-w-[600px]">
           <SectionEyebrow>01 - ABOUT</SectionEyebrow>
-          <h2 data-reveal className="font-display text-[30px] md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
+          <h2 data-reveal className="font-display fs-30 md:text-[36px] lg:text-[44px] font-semibold leading-[1.14] tracking-[-1px] md:tracking-[-1.2px] lg:tracking-[-1.4px] text-text-primary">
             I&apos;m Hein Htet Aung, a full-stack developer from Yangon. I like making AI useful inside real products.
           </h2>
-          <p ref={bodyRef} className="font-body text-[15px] md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
+          <p ref={bodyRef} className="font-body fs-15 md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
             I&apos;m 21 and in my second year of Software Engineering at UIT. Most
             days I&apos;m building web apps with React and Next.js on the front and
             Node and Postgres behind it. I only add AI where it holds up with real users.

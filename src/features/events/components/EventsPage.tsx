@@ -98,7 +98,7 @@ export function EventsPage() {
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           Coding alone made me faster, but most of the rest I picked up working
           next to other people. These are the events worth mentioning.
@@ -112,7 +112,7 @@ export function EventsPage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : events.length === 0 ? (
-          <p className="font-body text-[15px] text-text-muted">No events listed yet.</p>
+          <p className="font-body fs-15 text-text-muted">No events listed yet.</p>
         ) : (
           <>
             <div

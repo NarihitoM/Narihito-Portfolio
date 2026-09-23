@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
@@ -95,12 +95,12 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
           <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet uppercase">
             {game.type}
           </span>
-          <h2 className="font-display text-[26px] md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          <h2 className="font-display fs-26 md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
             {game.name}
           </h2>
         </div>
 
-        <p className="font-body text-[14px] md:text-[15px] leading-[1.7] text-text-secondary">
+        <p className="font-body fs-14 md:text-[15px] leading-[1.7] text-text-secondary">
           {game.description}
         </p>
 

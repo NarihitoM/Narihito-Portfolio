@@ -128,7 +128,7 @@ export function Contact() {
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
         <SectionEyebrow>08 - CONTACT</SectionEyebrow>
 
-        <h2 data-reveal className="font-display text-[34px] md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
+        <h2 data-reveal className="font-display fs-34 md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
           Need a developer?
           <br />
           You found one.
@@ -142,9 +142,9 @@ export function Contact() {
                   <path d="M20 6L9 17l-5-5" />
                 </svg>
               </div>
-              <p className="font-body text-[16px] text-text-primary text-center">Message sent.</p>
-              <p className="font-body text-[14px] text-text-muted text-center">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
-              <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-2 !rounded-full !px-5 !py-2.5 !text-[13px]">
+              <p className="font-body fs-16 text-text-primary text-center">Message sent.</p>
+              <p className="font-body fs-14 text-text-muted text-center">Thanks for reaching out, I&apos;ll reply within a day or two.</p>
+              <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-2 !rounded-full !px-5 !py-2.5 !fs-13">
                 Send Another
               </Button>
             </div>
@@ -158,7 +158,7 @@ export function Contact() {
                     required
                     value={form.name}
                     onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-                    className="h-11 rounded-[4px] border border-border-glow-soft bg-surface px-3 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors placeholder:text-text-muted"
+                    className="h-11 rounded-[4px] border border-border-glow-soft bg-surface px-3 font-body fs-14 text-text-primary outline-none focus:border-violet transition-colors placeholder:text-text-muted"
                     placeholder="Your name"
                   />
                 </div>
@@ -173,7 +173,7 @@ export function Contact() {
                       setEmailInvalid(false);
                       setEmailVerified(false);
                     }}
-                    className={`h-11 rounded-[4px] border bg-surface px-3 font-body text-[14px] text-text-primary outline-none transition-colors placeholder:text-text-muted ${
+                    className={`h-11 rounded-[4px] border bg-surface px-3 font-body fs-14 text-text-primary outline-none transition-colors placeholder:text-text-muted ${
                       emailInvalid
                         ? "border-red-500 focus:border-red-500"
                         : "border-border-glow-soft focus:border-violet"
@@ -200,12 +200,12 @@ export function Contact() {
                   rows={4}
                   value={form.message}
                   onChange={(e) => setForm((f) => ({ ...f, message: e.target.value }))}
-                  className="rounded-[4px] border border-border-glow-soft bg-surface px-3 py-2.5 font-body text-[14px] text-text-primary outline-none focus:border-violet transition-colors resize-none placeholder:text-text-muted"
+                  className="rounded-[4px] border border-border-glow-soft bg-surface px-3 py-2.5 font-body fs-14 text-text-primary outline-none focus:border-violet transition-colors resize-none placeholder:text-text-muted"
                   placeholder="Tell me about your project..."
                 />
               </div>
               {errorMsg && (
-                <div className="flex items-center gap-2 font-body text-[13px] text-red-600 dark:text-white">
+                <div className="flex items-center gap-2 font-body fs-13 text-red-600 dark:text-white">
                   <span className="flex h-6 w-6 items-center justify-center rounded-full bg-red-500/15 dark:bg-white/10">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                       <path d="M6 6l12 12M18 6L6 18" />

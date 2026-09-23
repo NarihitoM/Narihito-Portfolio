@@ -189,7 +189,7 @@ export function ProjectsPage() {
       <div ref={contentRef} className="flex flex-col gap-16">
         <p
           ref={leadRef}
-          className="max-w-[960px] font-body text-[18px] md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
+          className="max-w-[960px] font-body fs-18 md:text-[20px] lg:text-[22px] leading-[1.55] text-text-primary"
         >
           Everything here either shipped or taught me something along the way.
           I left the flops up too, since I learned more from those.
@@ -263,7 +263,7 @@ export function ProjectsPage() {
           <>
             {filter === "All" && FEATURED.length > 0 && (
               <div ref={featuredRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
-                <span className="font-mono text-[15px] md:text-[17px] font-medium tracking-[3px] text-violet">FEATURED</span>
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FEATURED</span>
                 <div className="flex flex-col gap-12">
                   {FEATURED.map((project) => (
                     <FeaturedBlock key={project.title} project={project} hideEyebrow />
@@ -273,7 +273,7 @@ export function ProjectsPage() {
             )}
 
             {PROJECTS.length === 0 ? (
-              <p className="font-body text-[15px] text-text-muted">
+              <p className="font-body fs-15 text-text-muted">
                 No projects in this category yet.
               </p>
             ) : (
