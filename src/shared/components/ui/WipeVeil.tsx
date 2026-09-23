@@ -32,12 +32,12 @@ export function WipeVeil({
     <div
       data-veil-brand
       style={{ "--veil-brand-fg": `var(${brandFgVar})` } as React.CSSProperties}
-      className={`absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 ${diagonal && !door ? "-rotate-45" : ""} flex-col items-center gap-5`}
+      className={`absolute left-1/2 top-1/2 flex w-max max-w-[calc(100vw-32px)] -translate-x-1/2 -translate-y-1/2 ${diagonal && !door ? "-rotate-45" : ""} flex-col items-center gap-5`}
     >
       <div className="h-14 w-14 overflow-hidden rounded-full md:h-16 md:w-16">
         <Image src="/img/Narihito.jpg" alt="" width={64} height={64} className="h-full w-full object-cover" />
       </div>
-      <span className="font-display text-[28px] font-bold uppercase tracking-[6px] text-(--veil-brand-fg)">
+      <span className="whitespace-nowrap font-display text-[22px] font-bold uppercase tracking-[4px] text-(--veil-brand-fg) sm:text-[28px] sm:tracking-[6px]">
         {"NARIHITO".split("").map((letter, i) => (
           <span key={i} data-veil-letter className="inline-block">
             {letter}
@@ -46,7 +46,7 @@ export function WipeVeil({
       </span>
       <span
         data-veil-label
-        className="whitespace-nowrap text-center font-mono text-[13px] font-medium uppercase tracking-[4px] text-(--veil-brand-fg) opacity-70"
+        className="whitespace-nowrap text-center font-mono text-[11px] font-medium uppercase tracking-[3px] sm:text-[13px] sm:tracking-[4px] text-(--veil-brand-fg) opacity-70"
       />
     </div>
   ) : null;
