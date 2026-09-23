@@ -19,10 +19,21 @@ export function navigateWithVeil(href: string) {
   return true;
 }
 
+const PAGE_LABELS: Record<string, string> = {
+  about: "01 - ABOUT",
+  skills: "02 - SKILLS & TECH STACK",
+  experience: "03 - EXPERIENCE",
+  projects: "04 - PROJECTS",
+  events: "05 - EVENTS",
+  games: "06 - GAMES",
+  testimonials: "07 - TESTIMONIALS",
+  privacy: "PRIVACY POLICY",
+};
+
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
   if (!segment) return "[ PORTFOLIO ]";
-  return `[ ${segment.replace(/-/g, " ").toUpperCase()} ]`;
+  return `[ ${PAGE_LABELS[segment] ?? segment.replace(/-/g, " ").toUpperCase()} ]`;
 }
 
 export function RouteTransition() {
