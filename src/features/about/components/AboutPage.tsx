@@ -390,7 +390,7 @@ export function AboutPage() {
 
         <div ref={interestsRef} className="flex flex-col gap-5">
           <p className="font-mono text-[15px] md:text-[17px] font-medium uppercase tracking-[3px] text-violet">
-            OFF THE CLOCK
+            OUTSIDE OF WORK
           </p>
           <p className="font-body text-[15px] text-text-secondary">
             Stuff I do when I&apos;m not coding. Some of it sneaks into my work anyway.
