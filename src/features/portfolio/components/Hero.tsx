@@ -70,7 +70,7 @@ export function Hero() {
         </h1>
 
         <p data-hero-fade className="font-body fs-15 md:text-[17px] leading-[1.6] text-text-secondary lg:max-w-[520px]">
-          I build web apps front to back with React, Next.js and Node, and add
+          Building web apps from frontend to backend with React, Next.js and Node, and add
           AI features that hold up in production.
         </p>
 
