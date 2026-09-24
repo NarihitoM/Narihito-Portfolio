@@ -11,6 +11,7 @@ import { Games } from "@/features/portfolio/components/Games";
 import { Contact } from "@/features/portfolio/components/Contact";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
+import { SectionTracker } from "@/features/portfolio/components/SectionTracker";
 
 export default function Home() {
   return (
@@ -28,6 +29,7 @@ export default function Home() {
         <Testimonials />
         <Contact />
       </main>
+      <SectionTracker />
       <ScrollToTop />
     </SmoothScrollProvider>
   );

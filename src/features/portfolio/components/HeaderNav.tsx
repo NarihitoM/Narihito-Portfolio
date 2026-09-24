@@ -11,8 +11,8 @@ import { WipeVeil, playDrawerVeil } from "@/shared/components/ui/WipeVeil";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "@/shared/components/ui/Button";
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
-const HEADER_OFFSET = -72;
+export const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
+export const HEADER_OFFSET = -72;
 
 export function HeaderNav() {
   const headerRef = useRef<HTMLElement>(null);
