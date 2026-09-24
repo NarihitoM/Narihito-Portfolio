@@ -51,7 +51,7 @@ export function Hero() {
   );
 
   return (
-    <section ref={sectionRef} className="relative flex flex-col justify-center w-full overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-svh lg:min-h-[min(100svh,900px)]">
+    <section ref={sectionRef} className="relative flex flex-col justify-center w-full overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-[min(100svh,900px)]">
       <div className="pointer-events-none absolute inset-0">
         <SnakeGridOverlay />
       </div>
