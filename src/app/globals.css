@@ -29,26 +29,6 @@ html {
   font-size: calc(--value(integer) * 1px * var(--text-scale));
 }
 
-@keyframes tracker-label {
-  0% {
-    opacity: 0;
-    translate: 6px 0;
-  }
-  12%,
-  80% {
-    opacity: 1;
-    translate: 0 0;
-  }
-  100% {
-    opacity: 0;
-    translate: 0 0;
-  }
-}
-
-@utility animate-tracker-label {
-  animation: tracker-label 1.8s ease-out forwards;
-}
-
 @keyframes scroll-dot {
   0% {
     transform: translateY(0);
