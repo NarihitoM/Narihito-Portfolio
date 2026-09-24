@@ -308,7 +308,7 @@ export function Testimonials() {
   return (
     <section id="testimonials" ref={sectionRef} className="w-full py-12 md:py-[72px] overflow-hidden">
       <div data-reveal className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-2 md:gap-3 mb-6 md:mb-24">
-        <SectionEyebrow>07 - WORDS</SectionEyebrow>
+        <SectionEyebrow>07 - TESTIMONIALS</SectionEyebrow>
         <SectionHeading>What people say</SectionHeading>
       </div>
 
