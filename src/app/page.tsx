@@ -9,7 +9,6 @@ import { Testimonials } from "@/features/portfolio/components/Testimonials";
 import { Events } from "@/features/portfolio/components/Events";
 import { Games } from "@/features/portfolio/components/Games";
 import { Contact } from "@/features/portfolio/components/Contact";
-import { ScrollLine } from "@/features/portfolio/components/ScrollLine";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
 import { ScrollToTop } from "@/features/portfolio/components/ScrollToTop";
 
@@ -19,17 +18,14 @@ export default function Home() {
       <HeaderNav />
       <main className="flex-1">
         <Hero />
-        <div className="relative">
-          <ScrollLine />
-          <About />
-          <NameMarquee />
-          <Skills />
-          <Experience />
-          <Projects />
-          <Events />
-          <Games />
-          <Testimonials />
-        </div>
+        <About />
+        <NameMarquee />
+        <Skills />
+        <Experience />
+        <Projects />
+        <Events />
+        <Games />
+        <Testimonials />
         <Contact />
       </main>
       <ScrollToTop />
