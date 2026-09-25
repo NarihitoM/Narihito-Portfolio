@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { SnakeGridOverlay } from "@/features/portfolio/three/SnakeGridOverlay";
+import { HeroSphere } from "@/features/portfolio/three/HeroSphere";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -53,6 +54,7 @@ export function Hero() {
   return (
     <section ref={sectionRef} className="relative flex flex-col justify-center w-full overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-[min(100svh,900px)]">
       <div className="pointer-events-none absolute inset-0">
+        <HeroSphere />
         <SnakeGridOverlay />
       </div>
 
@@ -74,7 +76,7 @@ export function Hero() {
           AI features that hold up in production.
         </p>
 
-        <div data-hero-fade className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
+        <div data-hero-fade data-hero-cta className="flex flex-col sm:flex-row justify-center gap-2.5 md:gap-4">
           <Button href="#projects" variant="primary" className="w-full sm:w-auto h-[52px] md:h-auto">
             View Projects
           </Button>
@@ -85,35 +87,38 @@ export function Hero() {
       </div>
 
       <div className="hidden lg:flex relative z-10 mx-auto mt-10 xl:mt-14 flex-col items-center gap-6 xl:gap-8">
-        <div className="flex items-center justify-center gap-14">
+        <div data-hero-meta className="flex items-center justify-center gap-14">
           <MetaItem label="STATUS" value="OPEN FOR WORK" />
           <MetaItem label="BASED IN" value="MYANMAR" />
         </div>
 
         <div className="flex flex-col items-center gap-3">
-          <span className="font-mono text-[11px] text-text-muted">SCROLL</span>
+          <span className={SCROLL_LABEL}>SCROLL</span>
           <ScrollMouseIcon className="h-9 w-5" dotClassName="h-1.5 w-1.5" />
         </div>
       </div>
 
-      <div className="relative z-10 flex lg:hidden items-center justify-center mx-5 md:mx-10 mt-6 gap-10 md:gap-14">
+      <div data-hero-meta className="relative z-10 flex lg:hidden items-center justify-center mx-5 md:mx-10 mt-6 gap-10 md:gap-14">
         <MetaItem label="STATUS" value="OPEN FOR WORK" />
         <MetaItem label="BASED IN" value="MYANMAR" />
       </div>
 
       <div className="relative z-10 flex lg:hidden flex-col items-center gap-2 pt-4 pb-8">
-        <span className="font-mono text-[10px] text-text-muted">SCROLL</span>
+        <span className={SCROLL_LABEL}>SCROLL</span>
         <ScrollMouseIcon className="h-7 w-4" dotClassName="h-1 w-1" />
       </div>
     </section>
   );
 }
 
+const TEXT_HALO = "[text-shadow:0_0_10px_var(--color-bg),0_0_4px_var(--color-bg)]";
+const SCROLL_LABEL = `font-mono text-[11px] font-medium tracking-[1px] text-text-primary opacity-70 ${TEXT_HALO}`;
+
 function MetaItem({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex flex-col items-center gap-1.5 text-center">
-      <span className="font-mono text-[10px] text-text-muted">{label}</span>
-      <span className="font-mono text-[12px] text-text-secondary">{value}</span>
+    <div className={`flex flex-col items-center gap-1.5 text-center ${TEXT_HALO}`}>
+      <span className="font-mono text-[11px] font-medium tracking-[1px] text-text-primary opacity-70">{label}</span>
+      <span className="font-mono fs-13 font-medium text-text-primary">{value}</span>
     </div>
   );
 }
