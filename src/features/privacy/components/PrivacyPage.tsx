@@ -5,9 +5,9 @@ export function PrivacyPage() {
     <div className="flex min-h-screen flex-col px-5 py-12 md:px-10 md:py-20 lg:px-[120px]">
       <Link
         href="/"
-        className="font-mono text-[12px] text-text-secondary transition-colors hover:text-text-primary"
+        className="group self-start font-mono text-[12px] text-text-secondary transition-[color,transform] duration-150 ease-out hover:text-text-primary active:scale-95 active:text-violet"
       >
-        ← Home
+        <span className="inline-block transition-transform duration-300 ease-out group-hover:-translate-x-1 group-active:-translate-x-1.5">←</span> Back To Portfolio
       </Link>
 
       <div className="mt-10 flex max-w-[720px] flex-col gap-8">

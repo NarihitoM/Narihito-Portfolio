@@ -55,22 +55,24 @@ export function Experience() {
           },
         );
 
-        gsap.from("[data-timeline-dot]", {
-          opacity: 0,
-          scale: 0,
-          duration: 0.5,
-          ease: ease.pop,
-          stagger: 0.1,
-          scrollTrigger: { trigger: spine, start: "top 70%" },
+        gsap.utils.toArray<HTMLElement>("[data-timeline-dot]").forEach((dot) => {
+          gsap.from(dot, {
+            opacity: 0,
+            scale: 0,
+            duration: 0.5,
+            ease: ease.pop,
+            scrollTrigger: { trigger: dot, start: "top 85%", once: true },
+          });
         });
 
-        gsap.from("[data-timeline-entry]", {
-          opacity: 0,
-          y: 24,
-          duration: 0.6,
-          ease: ease.entrance,
-          stagger: 0.1,
-          scrollTrigger: { trigger: spine, start: "top 75%" },
+        gsap.utils.toArray<HTMLElement>("[data-timeline-entry]").forEach((entry) => {
+          gsap.from(entry, {
+            opacity: 0,
+            y: 24,
+            duration: 0.6,
+            ease: ease.entrance,
+            scrollTrigger: { trigger: entry, start: "top 88%", once: true },
+          });
         });
       });
 

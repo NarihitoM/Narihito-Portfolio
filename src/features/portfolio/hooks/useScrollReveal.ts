@@ -6,6 +6,7 @@ import {
   ease,
   gsap,
   registerGsap,
+  ScrollTrigger,
   stagger,
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
@@ -31,22 +32,28 @@ export function useScrollReveal(
 
       const mm = gsap.matchMedia();
 
+      const targets = Array.from(el.querySelectorAll<HTMLElement>(selector));
+      if (!targets.length) return;
+
       mm.add(REDUCED_MOTION_QUERY, () => {
-        gsap.set(selector, { opacity: 1, y: 0 });
+        gsap.set(targets, { opacity: 1, y: 0 });
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        gsap.fromTo(selector, { opacity: 0, y }, {
-          opacity: 1,
-          y: 0,
-          duration: 0.7,
-          ease: ease.entrance,
-          stagger: staggerAmount,
-          delay,
-          scrollTrigger: {
-            trigger: el,
-            once: true,
-          },
+        gsap.set(targets, { opacity: 0, y });
+        ScrollTrigger.batch(targets, {
+          start: "top 88%",
+          once: true,
+          onEnter: (batch) =>
+            gsap.to(batch, {
+              opacity: 1,
+              y: 0,
+              duration: 0.7,
+              ease: ease.entrance,
+              stagger: staggerAmount,
+              delay,
+              overwrite: true,
+            }),
         });
       });
 
