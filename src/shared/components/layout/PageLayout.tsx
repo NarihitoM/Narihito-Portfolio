@@ -246,10 +246,12 @@ export function PageLayout({
         <button
           type="button"
           aria-label="Close menu"
+          disabled={isBusy}
           onClick={() => {
-            if (menuOpen) setMenuOpen(false);
+            if (!menuOpen || isAnimating.current) return;
+            setMenuOpen(false);
           }}
-          className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-transform active:scale-90"
+          className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-[transform,opacity] active:scale-90 disabled:opacity-50"
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <path d="M6 6l12 12M18 6L6 18" />
