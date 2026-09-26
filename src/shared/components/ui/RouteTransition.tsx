@@ -20,14 +20,20 @@ export function navigateWithVeil(href: string) {
 }
 
 const PAGE_LABELS: Record<string, string> = {
-  skills: "SKILLS & TECH STACK",
+  about: "01 - ABOUT",
+  skills: "02 - SKILLS & TECH STACK",
+  experience: "03 - EXPERIENCE",
+  projects: "04 - PROJECTS",
+  events: "05 - EVENTS",
+  games: "06 - GAMES",
+  testimonials: "07 - TESTIMONIALS",
   privacy: "PRIVACY POLICY",
 };
 
 function labelForPath(path: string) {
   const segment = path.split(/[?#]/)[0].split("/").filter(Boolean).pop();
-  if (!segment) return "[ PORTFOLIO ]";
-  return `[ ${PAGE_LABELS[segment] ?? segment.replace(/-/g, " ").toUpperCase()} ]`;
+  if (!segment) return "PORTFOLIO";
+  return PAGE_LABELS[segment] ?? segment.replace(/-/g, " ").toUpperCase();
 }
 
 export function RouteTransition() {

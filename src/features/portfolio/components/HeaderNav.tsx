@@ -20,12 +20,19 @@ export function HeaderNav() {
   const veilRef = useRef<HTMLDivElement>(null);
   const veilPanelRef = useRef<HTMLDivElement>(null);
   const openedOnce = useRef(false);
-  const skipVeil = useRef(false);
   const isAnimating = useRef(false);
+  const pendingTarget = useRef<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [isBusy, setIsBusy] = useState(false);
   const [activeLink, setActiveLink] = useState(NAV_LINKS[0]);
   useLenisLock(menuOpen);
+
+  useEffect(() => {
+    if (menuOpen || !pendingTarget.current) return;
+    const target = pendingTarget.current;
+    pendingTarget.current = null;
+    scrollToTarget(target, HEADER_OFFSET);
+  }, [menuOpen]);
 
   useEffect(() => {
     const sections = NAV_LINKS.map((link) => document.getElementById(link.toLowerCase())).filter(
@@ -87,13 +94,11 @@ export function HeaderNav() {
         panel,
         items,
         open: menuOpen,
-        instant: skipVeil.current,
       });
       timeline.eventCallback("onComplete", () => {
         isAnimating.current = false;
         setIsBusy(false);
       });
-      skipVeil.current = false;
 
       return () => {
         timeline.kill();
@@ -172,10 +177,9 @@ export function HeaderNav() {
     <MobileDrawer
       drawerRef={drawerRef}
       activeLink={activeLink}
-      isBusy={isBusy}
-      onClose={(instant) => {
-        if (!menuOpen || (isAnimating.current && instant !== true)) return;
-        skipVeil.current = instant === true;
+      onClose={(target) => {
+        if (!menuOpen) return;
+        pendingTarget.current = target ?? null;
         setMenuOpen(false);
       }}
     />
@@ -186,13 +190,11 @@ export function HeaderNav() {
 function MobileDrawer({
   drawerRef,
   activeLink,
-  isBusy,
   onClose,
 }: {
   drawerRef: React.RefObject<HTMLDivElement | null>;
   activeLink: string;
-  isBusy: boolean;
-  onClose: (instant?: boolean) => void;
+  onClose: (target?: string) => void;
 }) {
   return (
     <div
@@ -203,9 +205,8 @@ function MobileDrawer({
       <button
         type="button"
         aria-label="Close menu"
-        disabled={isBusy}
         onClick={() => onClose()}
-        className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-opacity disabled:opacity-50"
+        className="absolute top-[8px] right-5 flex h-11 w-11 items-center justify-center rounded-full bg-chip text-text-primary transition-transform active:scale-90"
       >
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
           <path d="M6 6l12 12M18 6L6 18" />
@@ -220,8 +221,7 @@ function MobileDrawer({
             href={`#${link.toLowerCase()}`}
             onClick={(event) => {
               event.preventDefault();
-              onClose();
-              requestAnimationFrame(() => scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET));
+              onClose(`#${link.toLowerCase()}`);
             }}
             onTouchStart={() => {}}
             className={`wave-link shrink-0 font-display text-[clamp(32px,9vw,52px)] font-bold uppercase leading-[1.08] tracking-[-0.02em] ${
