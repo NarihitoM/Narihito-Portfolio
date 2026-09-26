@@ -26,20 +26,13 @@ type ButtonProps = ButtonAsLink | ButtonAsButton;
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-violet/85 text-wire border border-white/30 " +
-    "shadow-[inset_0_1px_0_rgba(255,255,255,0.55),inset_0_-1px_0_rgba(0,0,0,0.18),0_8px_24px_-12px_rgba(0,0,0,0.55)] " +
-    "hover:bg-violet/95 hover:shadow-[inset_0_1px_0_rgba(255,255,255,0.65),inset_0_-1px_0_rgba(0,0,0,0.18),0_14px_32px_-14px_var(--color-violet)]",
+    "bg-violet text-wire hover:shadow-[0_10px_28px_-12px_var(--color-violet)] hover:opacity-90 active:opacity-100",
   secondary:
-    "bg-chip text-text-primary border border-border-glow " +
-    "shadow-[inset_0_1px_0_rgba(255,255,255,0.22),inset_0_-1px_0_rgba(0,0,0,0.08),0_8px_24px_-14px_rgba(0,0,0,0.45)] " +
-    "hover:border-violet/60 hover:bg-violet/10",
+    "bg-transparent text-text-primary border border-border-glow hover:border-violet hover:bg-chip",
 };
 
 const baseClasses =
-  "relative isolate inline-flex select-none items-center justify-center overflow-hidden rounded-full px-7 py-4 font-body fs-15 font-semibold " +
-  "backdrop-blur-xl backdrop-saturate-150 " +
-  "before:pointer-events-none before:absolute before:inset-0 before:-z-10 before:rounded-[inherit] " +
-  "before:bg-[linear-gradient(180deg,rgba(255,255,255,0.28),rgba(255,255,255,0.04)_45%,transparent_60%)] " +
+  "inline-flex select-none items-center justify-center rounded-[4px] px-7 py-4 font-body fs-15 font-semibold " +
   "transition-[transform,opacity,background-color,border-color,box-shadow] duration-300 ease-out " +
   "hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.97] active:duration-100 " +
   "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet focus-visible:ring-offset-2 focus-visible:ring-offset-bg " +
