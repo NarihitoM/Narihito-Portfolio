@@ -161,7 +161,7 @@ export function Projects() {
           </div>
         )}
 
-        <div data-reveal>
+        <div>
           <DetailCta href="/projects" route="/projects" />
         </div>
       </div>

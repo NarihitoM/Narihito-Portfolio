@@ -339,7 +339,7 @@ export function Testimonials() {
         ))}
       </div>
 
-      <div data-reveal className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
         <DetailCta href="/testimonials" route="/testimonials" />
       </div>
 

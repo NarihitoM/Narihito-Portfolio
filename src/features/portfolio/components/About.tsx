@@ -113,7 +113,7 @@ export function About() {
             </div>
           ) : null}
 
-          <div data-reveal>
+          <div>
             <DetailCta href="/about" route="/about" align="end" />
           </div>
         </div>
