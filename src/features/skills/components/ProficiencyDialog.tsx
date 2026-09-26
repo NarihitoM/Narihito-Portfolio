@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
@@ -67,7 +68,7 @@ export function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () =
     setTimeout(() => mm.revert(), 500);
   };
 
-  return (
+  return createPortal(
     <div ref={overlayRef} className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={handleClose}>
       <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
       <div
@@ -102,7 +103,8 @@ export function ProficiencyDialog({ tool, onClose }: { tool: Tool; onClose: () =
           </span>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 

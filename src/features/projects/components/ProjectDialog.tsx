@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import {
   ease,
@@ -65,7 +66,7 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
     setTimeout(() => mm.revert(), 500);
   };
 
-  return (
+  return createPortal(
     <>
     <div
       ref={overlayRef}
@@ -171,7 +172,8 @@ export function ProjectDialog({ project, onClose }: { project: ProjectCard; onCl
         onClose={() => setZoomed(false)}
       />
     )}
-    </>
+    </>,
+    document.body,
   );
 }
 

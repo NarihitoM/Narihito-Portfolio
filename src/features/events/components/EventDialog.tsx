@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "@/shared/components/ui/DialogCloseButton";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
@@ -62,7 +63,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
     setTimeout(() => mm.revert(), 500);
   };
 
-  return (
+  return createPortal(
     <>
     <div
       ref={overlayRef}
@@ -111,7 +112,8 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
         onClose={() => setZoomed(false)}
       />
     )}
-    </>
+    </>,
+    document.body,
   );
 }
 

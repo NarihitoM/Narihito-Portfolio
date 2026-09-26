@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { createPortal } from "react-dom";
 import { useGSAP } from "@gsap/react";
 import { DialogCloseButton } from "./DialogCloseButton";
 import { useLenisLock } from "@/shared/hooks/useLenisLock";
@@ -59,7 +60,7 @@ export function ImageLightbox({ src, alt, onClose }: { src: string; alt: string;
     setTimeout(() => mm.revert(), 500);
   };
 
-  return (
+  return createPortal(
     <div
       ref={overlayRef}
       className="fixed inset-0 z-[60] flex items-center justify-center p-4"
@@ -78,6 +79,7 @@ export function ImageLightbox({ src, alt, onClose }: { src: string; alt: string;
           className="block h-auto max-h-[85vh] w-auto max-w-[90vw] object-contain"
         />
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
