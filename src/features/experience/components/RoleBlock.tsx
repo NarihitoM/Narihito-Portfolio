@@ -30,7 +30,7 @@ export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed
             type="button"
             aria-label={`View ${role.org} image`}
             onClick={() => setZoomed(true)}
-            className="block w-full max-w-[320px] cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft transition-colors hover:border-violet"
+            className="block w-full md:max-w-[320px] cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft transition-colors hover:border-violet"
           >
             <img src={role.image} alt={role.org} loading="lazy" className="block h-auto w-full" />
           </button>
