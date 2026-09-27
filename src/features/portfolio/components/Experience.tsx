@@ -126,21 +126,25 @@ export function Experience() {
                   />
                   <span className="font-mono text-[11px] text-text-muted">{entry.dates}</span>
 
-                  <h3 className="font-display fs-19 font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
-                    <span className="md:hidden block">{entry.role}</span>
-                    <span className="hidden md:inline">
-                      {entry.role} · {entry.company}
-                    </span>
-                  </h3>
-                  <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
+                  <div className="flex items-center gap-3 md:gap-4">
+                    {entry.image && (
+                      <div className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-border-glow-soft bg-white p-1">
+                        <img src={entry.image} alt={entry.company} loading="lazy" className="h-full w-full object-contain" />
+                      </div>
+                    )}
+                    <div className="flex min-w-0 flex-col gap-1">
+                      <h3 className="font-display fs-19 font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
+                        <span className="md:hidden block">{entry.role}</span>
+                        <span className="hidden md:inline">
+                          {entry.role} · {entry.company}
+                        </span>
+                      </h3>
+                      <span className="font-mono text-[12px] text-cyan md:hidden">{entry.company}</span>
+                    </div>
+                  </div>
                   <p className="font-body fs-14 leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
                     {entry.description}
                   </p>
-                  {entry.image && (
-                    <div className="mt-2 aspect-video w-full max-w-[360px] overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
-                      <img src={entry.image} alt={entry.company} loading="lazy" className="h-full w-full object-cover" />
-                    </div>
-                  )}
                 </div>
               ))
             )}
