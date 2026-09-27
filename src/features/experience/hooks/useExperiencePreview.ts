@@ -17,6 +17,7 @@ export function useExperiencePreview(limit: number) {
     () =>
       (data?.roles ?? []).map((r) => ({
         id: r.id,
+        image: r.image ?? "",
         dates: r.period,
         role: r.title,
         company: r.org,

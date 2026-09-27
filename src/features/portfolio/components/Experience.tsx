@@ -136,6 +136,11 @@ export function Experience() {
                   <p className="font-body fs-14 leading-[1.55] text-text-secondary md:max-w-[640px] md:text-[15px]">
                     {entry.description}
                   </p>
+                  {entry.image && (
+                    <div className="mt-2 aspect-video w-full max-w-[360px] overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
+                      <img src={entry.image} alt={entry.company} loading="lazy" className="h-full w-full object-cover" />
+                    </div>
+                  )}
                 </div>
               ))
             )}

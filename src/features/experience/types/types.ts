@@ -5,6 +5,7 @@ export interface Duty {
 
 export interface Role {
   id: string;
+  image: string;
   period: string;
   type: string;
   title: string;
@@ -24,6 +25,7 @@ export interface Education {
 
 export interface RawRole {
   id: string;
+  image?: string | null;
   period: string;
   type: string;
   title: string;
@@ -47,6 +49,7 @@ export interface CursorPage<T> {
 
 export interface ExperienceEntry {
   id: string;
+  image: string;
   dates: string;
   role: string;
   company: string;

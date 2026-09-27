@@ -1,22 +1,45 @@
+"use client";
+
+import { useState } from "react";
 import { Chip } from "@/shared/components/ui/Chip";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { DutyRow } from "./DutyRow";
 import type { Role } from "@/features/experience/types/types";
 
 export function RoleBlock({ role, collapsed, onToggle }: { role: Role; collapsed: boolean; onToggle: () => void }) {
+  const [zoomed, setZoomed] = useState(false);
+
   return (
     <div
       data-role
       className="flex flex-col md:flex-row gap-6 md:gap-14 border-t border-border-glow-soft pt-9 pb-9"
     >
-      <div className="md:w-[240px] md:shrink-0 flex flex-row md:flex-col gap-2.5">
-        <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
-          {role.period}
-        </span>
-        <span className="font-mono text-[11px] tracking-[2px] text-text-muted">
-          {role.type}
-        </span>
+      <div className="md:w-[240px] md:shrink-0 flex flex-col gap-5">
+        <div className="flex flex-row md:flex-col gap-2.5">
+          <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
+            {role.period}
+          </span>
+          <span className="font-mono text-[11px] tracking-[2px] text-text-muted">
+            {role.type}
+          </span>
+        </div>
+
+        {role.image && (
+          <button
+            type="button"
+            aria-label={`View ${role.org} image`}
+            onClick={() => setZoomed(true)}
+            className="aspect-4/3 w-full cursor-zoom-in overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface transition-colors hover:border-violet"
+          >
+            <img src={role.image} alt={role.org} loading="lazy" className="h-full w-full object-cover" />
+          </button>
+        )}
       </div>
+
+      {zoomed && role.image && (
+        <ImageLightbox src={role.image} alt={role.org} onClose={() => setZoomed(false)} />
+      )}
 
       <div className="flex-1 flex flex-col gap-5 md:gap-[26px]">
         <div className="flex items-start justify-between gap-4">

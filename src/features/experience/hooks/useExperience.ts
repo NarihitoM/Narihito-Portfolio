@@ -18,6 +18,7 @@ export function useExperienceRoles() {
       (query.data?.pages ?? []).flatMap((page) =>
         page.data.map((r) => ({
           id: r.id,
+          image: r.image ?? "",
           period: r.period,
           type: r.type,
           title: r.title,
