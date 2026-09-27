@@ -18,6 +18,7 @@ export interface Role {
 
 export interface Education {
   id: string;
+  image?: string | null;
   year: string;
   name: string;
   org: string;

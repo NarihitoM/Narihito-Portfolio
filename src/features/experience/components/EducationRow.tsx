@@ -10,7 +10,15 @@ export function EducationRow({ edu }: { edu: Education }) {
       <span className="md:w-[70px] md:shrink-0 font-mono text-[12px] tracking-[1px] text-text-muted">
         {edu.year}
       </span>
-      <span className="md:flex-1 font-body fs-15 md:text-[17px] font-medium text-text-primary">
+      <span className="md:flex-1 flex items-center gap-3 font-body fs-15 md:text-[17px] font-medium text-text-primary">
+        {edu.image && (
+          <img
+            src={edu.image}
+            alt={edu.org}
+            loading="lazy"
+            className="h-10 w-10 md:h-12 md:w-12 shrink-0 rounded-[6px] border border-border-glow-soft object-cover"
+          />
+        )}
         {edu.name}
       </span>
       <span className="md:w-[340px] md:shrink-0 md:text-right font-mono text-[11px] tracking-[0.6px] text-text-muted">
