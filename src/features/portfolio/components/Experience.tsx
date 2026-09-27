@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { SectionEyebrow, SectionHeading } from "@/shared/components/ui/SectionHeading";
@@ -8,6 +8,7 @@ import { DetailCta } from "@/shared/components/ui/DetailCta";
 import { useExperiencePreview } from "@/features/experience/hooks/useExperiencePreview";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 
 function TimelineEntrySkeleton() {
   return (
@@ -24,6 +25,7 @@ export function Experience() {
   const sectionRef = useRef<HTMLElement>(null);
   const spineFillRef = useRef<HTMLDivElement>(null);
   const { entries: ENTRIES, isLoading, isError, refetch } = useExperiencePreview(10);
+  const [zoomed, setZoomed] = useState<{ src: string; alt: string } | null>(null);
 
   useGSAP(
     () => {
@@ -128,9 +130,14 @@ export function Experience() {
 
                   <div className="flex items-center gap-3 md:gap-4">
                     {entry.image && (
-                      <div className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-border-glow-soft bg-surface">
+                      <button
+                        type="button"
+                        aria-label={`View ${entry.company} logo`}
+                        onClick={() => setZoomed({ src: entry.image, alt: entry.company })}
+                        className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 cursor-zoom-in items-center justify-center overflow-hidden rounded-[8px] border border-border-glow-soft bg-surface transition-[border-color,transform] hover:border-violet active:scale-95"
+                      >
                         <img src={entry.image} alt={entry.company} loading="lazy" className="h-full w-full object-contain" />
-                      </div>
+                      </button>
                     )}
                     <div className="flex min-w-0 flex-col gap-1">
                       <h3 className="font-display fs-19 font-semibold tracking-[-0.5px] text-text-primary md:text-[24px]">
@@ -153,6 +160,8 @@ export function Experience() {
 
         <DetailCta href="/experience" route="/experience" />
       </div>
+
+      {zoomed && <ImageLightbox src={zoomed.src} alt={zoomed.alt} onClose={() => setZoomed(null)} />}
     </section>
   );
 }
