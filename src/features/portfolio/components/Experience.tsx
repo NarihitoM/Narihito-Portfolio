@@ -128,7 +128,7 @@ export function Experience() {
 
                   <div className="flex items-center gap-3 md:gap-4">
                     {entry.image && (
-                      <div className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-border-glow-soft bg-white p-1">
+                      <div className="flex h-11 w-11 md:h-12 md:w-12 shrink-0 items-center justify-center overflow-hidden rounded-[8px] border border-border-glow-soft bg-surface">
                         <img src={entry.image} alt={entry.company} loading="lazy" className="h-full w-full object-contain" />
                       </div>
                     )}

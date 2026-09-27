@@ -16,7 +16,7 @@ export function EducationRow({ edu }: { edu: Education }) {
             src={edu.image}
             alt={edu.org}
             loading="lazy"
-            className="h-10 w-10 md:h-12 md:w-12 shrink-0 rounded-[8px] border border-border-glow-soft bg-white object-contain p-1"
+            className="h-auto w-16 md:w-20 shrink-0 rounded-[6px] border border-border-glow-soft"
           />
         )}
         {edu.name}
