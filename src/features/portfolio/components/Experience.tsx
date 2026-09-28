@@ -14,8 +14,13 @@ function TimelineEntrySkeleton() {
   return (
     <div className="flex flex-col gap-2 md:gap-2.5">
       <Skeleton className="h-[13px] w-28" />
-      <Skeleton className="h-[23px] md:h-[29px] w-3/4" />
-      <Skeleton className="h-[14px] w-32 md:hidden" />
+      <div className="flex items-center gap-3 md:gap-4">
+        <Skeleton className="h-11 w-11 md:h-12 md:w-12 shrink-0 rounded-[8px]" />
+        <div className="flex flex-1 flex-col gap-1">
+          <Skeleton className="h-[23px] md:h-[29px] w-3/4" />
+          <Skeleton className="h-[14px] w-32 md:hidden" />
+        </div>
+      </div>
       <Skeleton className="h-[43px] md:h-[47px] w-full md:max-w-[640px]" />
     </div>
   );

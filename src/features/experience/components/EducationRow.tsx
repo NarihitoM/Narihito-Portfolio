@@ -32,7 +32,10 @@ export function EducationRowSkeleton() {
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-1.5 md:gap-7 border-t border-border-glow-soft py-3.5">
       <Skeleton className="h-4 w-[70px] md:shrink-0" />
-      <Skeleton className="h-[22px] md:h-[25px] w-3/4 md:flex-1" />
+      <div className="md:flex-1 flex items-center gap-3">
+        <Skeleton className="h-10 w-10 md:h-12 md:w-12 shrink-0 rounded-[8px]" />
+        <Skeleton className="h-[22px] md:h-[25px] w-3/4" />
+      </div>
       <Skeleton className="h-[13px] w-40 md:w-[340px] md:shrink-0" />
     </div>
   );
