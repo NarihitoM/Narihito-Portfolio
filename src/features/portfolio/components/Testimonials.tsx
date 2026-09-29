@@ -363,7 +363,7 @@ export function Testimonials() {
         className="px-5 pt-2 md:px-10 lg:px-[120px]"
       />
 
-      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] mt-4 md:mt-6">
         <DetailCta href="/testimonials" route="/testimonials" />
       </div>
 
