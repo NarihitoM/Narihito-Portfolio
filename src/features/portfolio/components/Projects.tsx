@@ -7,12 +7,16 @@ import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { Globe } from "lucide-react";
 import { ProjectDialog } from "@/features/projects/components/ProjectDialog";
+import { FeaturedBlock, FeaturedBlockSkeleton } from "@/features/projects/components/FeaturedBlock";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { useProjectsPreview } from "@/features/projects/hooks/useProjectsPreview";
 import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
+import { Carousel } from "./Carousel";
 import type { Project } from "@/features/portfolio/types/types";
+import type { FeaturedProject } from "@/features/projects/types/types";
 
 function ProjectCard({ project }: { project: Project }) {
   const tilt = useTilt<HTMLDivElement>();
@@ -115,25 +119,38 @@ function ProjectCard({ project }: { project: Project }) {
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(4);
-  const PROJECTS = useMemo(
-    () =>
-      previewProjects.map((p) => ({
-        projectimg: p.projectimg,
-        name: p.title,
-        title: p.title,
-        year: p.year,
-        category: p.category,
-        role: p.role,
-        status: p.status,
-        description: p.description,
-        url: p.url,
-        github: p.github,
-        pkg: p.pkg,
-        tags: p.chips,
-      })),
-    [previewProjects],
-  );
+  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(7);
+  const { featured, others } = useMemo(() => {
+    const [main, ...rest] = previewProjects;
+    const featured: FeaturedProject | null = main
+      ? {
+          projectimg: main.projectimg,
+          eyebrow: "FEATURED",
+          title: main.title,
+          description: main.description,
+          url: main.url,
+          github: main.github,
+          pkg: main.pkg,
+          chips: main.chips,
+          meta: { year: main.year, role: main.role, stack: main.category, status: main.status },
+        }
+      : null;
+    const others: Project[] = rest.map((p) => ({
+      projectimg: p.projectimg,
+      name: p.title,
+      title: p.title,
+      year: p.year,
+      category: p.category,
+      role: p.role,
+      status: p.status,
+      description: p.description,
+      url: p.url,
+      github: p.github,
+      pkg: p.pkg,
+      tags: p.chips,
+    }));
+    return { featured, others };
+  }, [previewProjects]);
   useScrollReveal(sectionRef, { y: 30, staggerAmount: 0.08 });
 
   return (
@@ -145,19 +162,39 @@ export function Projects() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
-            <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
-            <CardSkeleton imageClassName="h-[200px] md:h-[230px]" />
+          <div className="flex flex-col gap-12 md:gap-16">
+            <div className="flex flex-col gap-8">
+              <Skeleton className="h-[22px] md:h-[25px] w-28" />
+              <FeaturedBlockSkeleton />
+            </div>
+            <div className="flex flex-col gap-8">
+              <Skeleton className="h-[22px] md:h-[25px] w-40" />
+              <Carousel label="Projects">
+                {[0, 1, 2].map((i) => (
+                  <CardSkeleton key={i} imageClassName="h-[200px] md:h-[230px]" />
+                ))}
+              </Carousel>
+            </div>
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
-        ) : PROJECTS.length === 0 ? (
+        ) : !featured ? (
           <p className="font-body fs-14 text-text-muted">No projects yet.</p>
         ) : (
-          <div data-reveal className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
-            {PROJECTS.map((project) => (
-              <ProjectCard key={`${project.title}-${project.year}`} project={project} />
-            ))}
+          <div data-reveal className="flex flex-col gap-12 md:gap-16">
+            <FeaturedBlock project={featured} />
+            {others.length > 0 && (
+              <div className="flex flex-col gap-8">
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
+                  MORE PROJECTS
+                </span>
+                <Carousel label="Projects">
+                  {others.map((project) => (
+                    <ProjectCard key={`${project.title}-${project.year}`} project={project} />
+                  ))}
+                </Carousel>
+              </div>
+            )}
           </div>
         )}
 

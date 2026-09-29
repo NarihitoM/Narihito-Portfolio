@@ -17,7 +17,7 @@ import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useProjectsInfinite } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
-import { FeaturedBlock } from "./FeaturedBlock";
+import { FeaturedBlock, FeaturedBlockSkeleton } from "./FeaturedBlock";
 import { ProjectCardBlock } from "./ProjectCardBlock";
 import { ProjectDialog } from "./ProjectDialog";
 import type { ProjectCard } from "../types/types";
@@ -233,22 +233,7 @@ export function ProjectsPage() {
             {(isLoading || filter === "All") && (
               <div className="flex flex-col gap-8 border-y border-border-glow py-9">
                 <Skeleton className="h-3 w-24" />
-                <div className="flex flex-col lg:flex-row gap-8 lg:gap-14 lg:items-stretch">
-                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1 shrink-0 rounded-[6px]" />
-                  <div className="flex-1 flex flex-col gap-6 justify-center min-h-[240px] lg:min-h-[320px]">
-                    <Skeleton className="h-8 w-48" />
-                    <Skeleton className="h-20 w-full" />
-                    <div className="flex gap-2.5">
-                      <Skeleton className="h-6 w-16 rounded-full" />
-                      <Skeleton className="h-6 w-16 rounded-full" />
-                      <Skeleton className="h-6 w-20 rounded-full" />
-                    </div>
-                    <div className="flex flex-col gap-2 pt-4 border-t border-border-glow-soft">
-                      <Skeleton className="h-4 w-40" />
-                      <Skeleton className="h-4 w-52" />
-                    </div>
-                  </div>
-                </div>
+                <FeaturedBlockSkeleton />
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">

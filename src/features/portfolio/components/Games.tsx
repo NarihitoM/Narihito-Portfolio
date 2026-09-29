@@ -10,10 +10,11 @@ import { useGames } from "@/features/games/hooks/useGames";
 import { useGamesUI } from "@/features/games/store/gamesUIStore";
 import { GameCard } from "@/features/games/components/GameCard";
 import { GameDialog } from "@/features/games/components/GameDialog";
+import { Carousel } from "./Carousel";
 
 export function Games() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { games, isLoading, isError, refetch } = useGames(4);
+  const { games, isLoading, isError, refetch } = useGames(6);
   const { selectedGameId, setSelectedGameId } = useGamesUI();
   const selected = games.find((game) => game.id === selectedGameId) ?? null;
   useScrollReveal(sectionRef, {
@@ -34,18 +35,19 @@ export function Games() {
         </div>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
-            <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
-            <CardSkeleton imageClassName="h-[180px] md:h-[220px]" />
-          </div>
+          <Carousel label="Games">
+            {[0, 1, 2].map((i) => (
+              <CardSkeleton key={i} imageClassName="h-[180px] md:h-[220px]" />
+            ))}
+          </Carousel>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-4 md:gap-7">
+          <Carousel label="Games">
             {games.map((game) => (
               <GameCard key={game.id} game={game} />
             ))}
-          </div>
+          </Carousel>
         )}
 
         <DetailCta href="/games" route="/games" />
