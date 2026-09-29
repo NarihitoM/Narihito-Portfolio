@@ -4,6 +4,7 @@ import { useTilt } from "@/shared/hooks/useTilt";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useEventsUI } from "../store/eventsUIStore";
 import { EventMeta } from "./EventMeta";
+import { EventLinks } from "./EventLinks";
 import type { Event } from "../types/types";
 
 export function EventCard({ event }: { event: Event }) {
@@ -44,7 +45,8 @@ export function EventCard({ event }: { event: Event }) {
         <p className="font-body fs-14 md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {event.description}
         </p>
-        <EventMeta event={event} className="mt-auto pt-4" />
+        <EventMeta event={event} divider={false} className="mt-auto pt-2" />
+        <EventLinks event={event} className="pt-2" />
       </div>
     </div>
   );
@@ -57,7 +59,7 @@ export function EventCardSkeleton() {
       <div className="flex flex-col gap-2.5 p-5 md:p-6">
         <Skeleton className="h-6 md:h-7 w-4/5" />
         <Skeleton className="h-[67px] md:h-[72px] w-full" />
-        <div className="flex flex-col gap-2 border-t border-border-glow-soft pt-4">
+        <div className="flex flex-col gap-2 pt-2">
           <Skeleton className="h-[18px] w-44" />
           <Skeleton className="h-[18px] w-36" />
           <Skeleton className="h-[18px] w-32" />

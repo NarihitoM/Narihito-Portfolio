@@ -14,6 +14,7 @@ import {
 } from "@/shared/lib/gsap";
 import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import { EventMeta } from "./EventMeta";
+import { EventLinks } from "./EventLinks";
 import type { Event } from "../types/types";
 
 export function EventDialog({ event, onClose }: { event: Event; onClose: () => void }) {
@@ -100,6 +101,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
         </p>
 
         <EventMeta event={event} />
+        <EventLinks event={event} />
       </div>
     </div>
 

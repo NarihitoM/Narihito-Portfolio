@@ -1,3 +1,8 @@
+export interface EventLink {
+  type: string;
+  url: string;
+}
+
 export interface Event {
   id: string;
   image: string;
@@ -7,6 +12,7 @@ export interface Event {
   type?: string;
   host?: string;
   pinned?: boolean;
+  links?: EventLink[];
 }
 
 export interface CursorEventsResponse {

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { EventMeta } from "./EventMeta";
+import { EventLinks } from "./EventLinks";
 import type { Event } from "../types/types";
 
 export function PinnedEventBlock({ event }: { event: Event }) {
@@ -33,6 +34,7 @@ export function PinnedEventBlock({ event }: { event: Event }) {
         </h2>
         <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">{event.description}</p>
         <EventMeta event={event} />
+        <EventLinks event={event} className="pt-2" />
       </div>
 
       {zoomed && event.image && (
