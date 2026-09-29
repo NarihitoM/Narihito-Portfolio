@@ -152,7 +152,7 @@ export function EventsPage() {
           <>
             {pinnedEvents.length > 0 && (
               <div ref={pinnedRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
-                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">PINNED</span>
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FEATURED</span>
                 <div className="flex flex-col gap-12">
                   {pinnedEvents.map((event) => (
                     <PinnedEventBlock key={event.id} event={event} />
