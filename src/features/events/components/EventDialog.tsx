@@ -100,7 +100,7 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
           {event.description}
         </p>
 
-        <EventMeta event={event} />
+        <EventMeta event={event} divider={false} />
         <EventLinks event={event} />
       </div>
     </div>
