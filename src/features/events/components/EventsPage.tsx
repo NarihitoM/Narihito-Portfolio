@@ -17,14 +17,18 @@ import { useEventsInfinite } from "../hooks/useEvents";
 import { useEventsUI } from "../store/eventsUIStore";
 import { EventCard, EventCardSkeleton } from "./EventCard";
 import { EventDialog } from "./EventDialog";
+import { PinnedEventBlock } from "./PinnedEventBlock";
 
 export function EventsPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
+  const pinnedRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
   const { events, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
     useEventsInfinite();
   const { selectedEventId, setSelectedEventId } = useEventsUI();
+  const pinnedEvents = events.filter((event) => event.pinned);
+  const otherEvents = events.filter((event) => !event.pinned);
   const selected = events.find((event) => event.id === selectedEventId) ?? null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
@@ -54,6 +58,30 @@ export function EventsPage() {
       return () => mm.revert();
     },
     { scope: contentRef },
+  );
+
+  useGSAP(
+    () => {
+      registerGsap();
+      const container = pinnedRef.current;
+      if (!container) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add(REDUCED_MOTION_QUERY, () => {
+        gsap.set(container, { opacity: 1, y: 0 });
+      });
+
+      mm.add(NO_REDUCED_MOTION_QUERY, () => {
+        gsap.fromTo(container, { opacity: 0, y: 24 }, {
+          opacity: 1, y: 0, duration: 0.7, ease: ease.entrance,
+          scrollTrigger: { trigger: container, start: "top 80%", once: true },
+        });
+      });
+
+      return () => mm.revert();
+    },
+    { scope: contentRef, dependencies: [events] },
   );
 
   useGSAP(
@@ -115,15 +143,28 @@ export function EventsPage() {
           <p className="font-body fs-15 text-text-muted">No events listed yet.</p>
         ) : (
           <>
-            <div
-              id="events-grid"
-              ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
-            >
-              {events.map((event) => (
-                <EventCard key={event.id} event={event} />
-              ))}
-            </div>
+            {pinnedEvents.length > 0 && (
+              <div ref={pinnedRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">PINNED</span>
+                <div className="flex flex-col gap-12">
+                  {pinnedEvents.map((event) => (
+                    <PinnedEventBlock key={event.id} event={event} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {otherEvents.length > 0 && (
+              <div
+                id="events-grid"
+                ref={cardsRef}
+                className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
+              >
+                {otherEvents.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))}
+              </div>
+            )}
 
             {hasNextPage && (
               <LoadMoreButton

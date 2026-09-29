@@ -4,6 +4,7 @@ export interface Event {
   title: string;
   duration: string;
   description: string;
+  pinned?: boolean;
 }
 
 export interface CursorEventsResponse {
