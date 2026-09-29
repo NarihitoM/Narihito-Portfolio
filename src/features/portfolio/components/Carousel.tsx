@@ -145,7 +145,7 @@ export function Carousel({ label, action, children }: { label: string; action?: 
         <CarouselDots label={label} count={position.pages} active={position.active} onSelect={scrollToPage} className="pt-2" />
       )}
 
-      {action && <div className="mt-4 md:mt-6">{action}</div>}
+      {action && <div className="mt-4 md:mt-16">{action}</div>}
     </div>
   );
 }
