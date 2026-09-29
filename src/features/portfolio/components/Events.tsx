@@ -13,7 +13,7 @@ import { Carousel } from "./Carousel";
 
 export function Events() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { events, isLoading, isError, refetch } = useEvents(6);
+  const { events, isLoading, isError, refetch } = useEvents(4);
   const { selectedEventId, setSelectedEventId } = useEventsUI();
   const selected = events.find((event) => event.id === selectedEventId) ?? null;
   useScrollReveal(sectionRef, {
@@ -25,6 +25,8 @@ export function Events() {
 
   if (!isLoading && !isError && events.length === 0) return null;
 
+  const cta = <DetailCta href="/events" route="/events" />;
+
   return (
     <section id="events" ref={sectionRef} className="w-full py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
@@ -34,22 +36,23 @@ export function Events() {
         </div>
 
         {isLoading ? (
-          <Carousel label="Events">
+          <Carousel label="Events" action={cta}>
             {[0, 1, 2].map((i) => (
               <EventCardSkeleton key={i} />
             ))}
           </Carousel>
         ) : isError ? (
-          <ErrorState onRetry={refetch} />
+          <>
+            <ErrorState onRetry={refetch} />
+            {cta}
+          </>
         ) : (
-          <Carousel label="Events">
+          <Carousel label="Events" action={cta}>
             {events.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </Carousel>
         )}
-
-        <DetailCta href="/events" route="/events" />
       </div>
 
       {selected && <EventDialog event={selected} onClose={() => setSelectedEventId(null)} />}

@@ -7,12 +7,13 @@ import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
 import { Globe } from "lucide-react";
 import { ProjectDialog } from "@/features/projects/components/ProjectDialog";
-import { FeaturedBlock, FeaturedBlockSkeleton } from "@/features/projects/components/FeaturedBlock";
+import { FeaturedBlock } from "@/features/projects/components/FeaturedBlock";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useTilt } from "@/shared/hooks/useTilt";
 import { useProjectsPreview } from "@/features/projects/hooks/useProjectsPreview";
 import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ShowcaseSkeleton } from "@/shared/components/ui/ShowcaseSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { Carousel } from "./Carousel";
 import type { Project } from "@/features/portfolio/types/types";
@@ -119,7 +120,7 @@ function ProjectCard({ project }: { project: Project }) {
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(7);
+  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(5);
   const { featured, others } = useMemo(() => {
     const [main, ...rest] = previewProjects;
     const featured: FeaturedProject | null = main
@@ -152,6 +153,7 @@ export function Projects() {
     return { featured, others };
   }, [previewProjects]);
   useScrollReveal(sectionRef, { y: 30, staggerAmount: 0.08 });
+  const cta = <DetailCta href="/projects" route="/projects" />;
 
   return (
     <section id="projects" ref={sectionRef} className="w-full py-12 md:py-[72px]">
@@ -165,11 +167,11 @@ export function Projects() {
           <div className="flex flex-col gap-12 md:gap-16">
             <div className="flex flex-col gap-8">
               <Skeleton className="h-[22px] md:h-[25px] w-28" />
-              <FeaturedBlockSkeleton />
+              <ShowcaseSkeleton />
             </div>
             <div className="flex flex-col gap-8">
               <Skeleton className="h-[22px] md:h-[25px] w-40" />
-              <Carousel label="Projects">
+              <Carousel label="Projects" action={cta}>
                 {[0, 1, 2].map((i) => (
                   <CardSkeleton key={i} imageClassName="h-[200px] md:h-[230px]" />
                 ))}
@@ -177,30 +179,31 @@ export function Projects() {
             </div>
           </div>
         ) : isError ? (
-          <ErrorState onRetry={refetch} />
+          <>
+            <ErrorState onRetry={refetch} />
+            {cta}
+          </>
         ) : !featured ? (
           <p className="font-body fs-14 text-text-muted">No projects yet.</p>
         ) : (
           <div data-reveal className="flex flex-col gap-12 md:gap-16">
             <FeaturedBlock project={featured} />
-            {others.length > 0 && (
+            {others.length > 0 ? (
               <div className="flex flex-col gap-8">
                 <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
                   MORE PROJECTS
                 </span>
-                <Carousel label="Projects">
+                <Carousel label="Projects" action={cta}>
                   {others.map((project) => (
                     <ProjectCard key={`${project.title}-${project.year}`} project={project} />
                   ))}
                 </Carousel>
               </div>
+            ) : (
+              cta
             )}
           </div>
         )}
-
-        <div>
-          <DetailCta href="/projects" route="/projects" />
-        </div>
       </div>
     </section>
   );

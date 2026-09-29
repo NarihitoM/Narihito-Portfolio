@@ -13,11 +13,12 @@ import {
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
+import { ShowcaseSkeleton } from "@/shared/components/ui/ShowcaseSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useProjectsInfinite } from "../hooks/useProjects";
 import { useProjectsUI } from "../store/projectsUIStore";
-import { FeaturedBlock, FeaturedBlockSkeleton } from "./FeaturedBlock";
+import { FeaturedBlock } from "./FeaturedBlock";
 import { ProjectCardBlock } from "./ProjectCardBlock";
 import { ProjectDialog } from "./ProjectDialog";
 import type { ProjectCard } from "../types/types";
@@ -233,7 +234,7 @@ export function ProjectsPage() {
             {(isLoading || filter === "All") && (
               <div className="flex flex-col gap-8 border-y border-border-glow py-9">
                 <Skeleton className="h-3 w-24" />
-                <FeaturedBlockSkeleton />
+                <ShowcaseSkeleton />
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">

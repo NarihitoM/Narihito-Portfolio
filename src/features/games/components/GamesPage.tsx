@@ -10,18 +10,17 @@ import {
   NO_REDUCED_MOTION_QUERY,
   ScrollTrigger,
 } from "@/shared/lib/gsap";
-import Image from "next/image";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { CardSkeleton } from "@/shared/components/ui/CardSkeleton";
+import { ShowcaseSkeleton } from "@/shared/components/ui/ShowcaseSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useGamesInfinite } from "../hooks/useGames";
 import { useGamesUI } from "../store/gamesUIStore";
 import { GameCard } from "./GameCard";
 import { GameDialog } from "./GameDialog";
-import { Chip } from "@/shared/components/ui/Chip";
-import { SocialIcon } from "@/shared/components/ui/SocialIcon";
+import { FavouriteBlock } from "./FavouriteBlock";
 
 export function GamesPage() {
   const contentRef = useRef<HTMLDivElement>(null);
@@ -141,22 +140,7 @@ export function GamesPage() {
             <Skeleton className="h-3 w-24" />
             <div className="flex flex-col gap-12">
               {Array.from({ length: 2 }, (_, i) => (
-                <div key={i} className="flex flex-col lg:flex-row gap-8 lg:gap-14 lg:items-stretch">
-                  <Skeleton className="h-[240px] lg:h-[320px] w-full flex-1 shrink-0 rounded-[6px]" />
-                  <div className="flex-1 flex flex-col gap-6 justify-center min-h-[240px] lg:min-h-[320px]">
-                    <Skeleton className="h-8 w-48" />
-                    <Skeleton className="h-20 w-full" />
-                    <div className="flex gap-2.5">
-                      <Skeleton className="h-6 w-16 rounded-full" />
-                      <Skeleton className="h-6 w-16 rounded-full" />
-                      <Skeleton className="h-6 w-20 rounded-full" />
-                    </div>
-                    <div className="flex flex-col gap-2 pt-4 border-t border-border-glow-soft">
-                      <Skeleton className="h-4 w-40" />
-                      <Skeleton className="h-4 w-52" />
-                    </div>
-                  </div>
-                </div>
+                <ShowcaseSkeleton key={i} />
               ))}
             </div>
           </div>
@@ -167,64 +151,7 @@ export function GamesPage() {
             <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FAVOURITE</span>
             <div className="flex flex-col gap-12">
               {favouriteGames.map((game) => (
-                <div key={`fav-${game.id}`} data-favourite className="flex flex-col lg:flex-row gap-8 lg:gap-14">
-                  <div className="flex-1">
-                    {game.pic ? (
-                      <div className="relative h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
-                        <Image src={game.pic} alt={game.name} fill unoptimized className="object-cover" />
-                      </div>
-                    ) : (
-                      <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
-                        <span className="font-mono text-[12px] tracking-[2px] text-text-muted">{game.name}</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1 flex flex-col gap-6">
-                    <h2 className="font-display fs-28 md:text-[34px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
-                      {game.name}
-                    </h2>
-                    <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">{game.description}</p>
-                    {game.chips?.length > 0 && (
-                      <div className="flex flex-wrap gap-2.5">
-                        {game.chips.map((chip) => (
-                          <Chip key={chip.name}>{chip.name}</Chip>
-                        ))}
-                      </div>
-                    )}
-                    <div className="flex flex-col gap-2 pt-4 border-t border-border-glow-soft">
-                      <div className="flex items-center gap-4">
-                        <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">TYPE</span>
-                        <span className="font-mono text-[12px] text-text-secondary uppercase">{game.type}</span>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">GENRE</span>
-                        <span className="font-mono text-[12px] text-text-secondary">{game.chips?.length ? game.chips.map((c) => c.name).join(", ") : "—"}</span>
-                      </div>
-                      {game.links?.length ? (
-                        <div className="flex items-center gap-4">
-                          <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">LINKS</span>
-                          <span className="font-mono text-[12px] text-text-secondary">{game.links.length} platforms</span>
-                        </div>
-                      ) : null}
-                    </div>
-                    {game.links?.length ? (
-                      <div className="flex flex-wrap items-center gap-2 pt-2">
-                        {game.links.map((link) => (
-                          <a
-                            key={link.type + link.url}
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex h-9 w-9 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-colors hover:border-violet hover:text-violet"
-                          >
-                            <SocialIcon type={link.type} />
-                          </a>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                </div>
+                <FavouriteBlock key={`fav-${game.id}`} game={game} />
               ))}
             </div>
           </div>
