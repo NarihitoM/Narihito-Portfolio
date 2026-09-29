@@ -80,8 +80,12 @@ export function About() {
           </h2>
           <p ref={bodyRef} className="font-body fs-15 md:text-[16px] lg:text-[17px] leading-[1.65] text-text-secondary">
             I&apos;m 21 and in my second year of Software Engineering at UIT. Most
-            days I&apos;m building web apps with React and Next.js on the front and
-            Node and Postgres behind it. I only add AI where it holds up with real users.
+            days you&apos;ll find me building web apps from end to end, with React and
+            Next.js on the front and Node and Postgres behind it. I care about the
+            quiet parts too: clean APIs, data models that make sense, and pages that
+            still feel fast on a cheap phone. I only reach for AI when it genuinely
+            helps the person using the app, and I keep it in only if it holds up once
+            real users get their hands on it.
           </p>
 
           {statsLoading ? (
