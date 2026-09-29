@@ -8,6 +8,7 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, NO_REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { SectionEyebrow } from "@/shared/components/ui/SectionHeading";
+import { LINKEDIN_PATH } from "@/shared/components/ui/SocialIcon";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import { useSendContact } from "@/features/contact/hooks/useSendContact";
 import { contactApi } from "@/features/contact/api/contactApi";
@@ -265,9 +266,8 @@ function SocialIcon({ name }: { name: string }) {
       );
     case "linkedin":
       return (
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6">
-          <rect x="3" y="3" width="18" height="18" rx="2" />
-          <path d="M7 10v7M7 7v.01M11 17v-4.5a2.5 2.5 0 0 1 5 0V17" />
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+          <path d={LINKEDIN_PATH} />
         </svg>
       );
     case "facebook":
