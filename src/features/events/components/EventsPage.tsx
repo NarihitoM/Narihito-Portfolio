@@ -11,6 +11,8 @@ import {
   ScrollTrigger,
 } from "@/shared/lib/gsap";
 import { PageLayout } from "@/shared/components/layout/PageLayout";
+import { Skeleton } from "@/shared/components/ui/Skeleton";
+import { ShowcaseSkeleton } from "@/shared/components/ui/ShowcaseSkeleton";
 import { ErrorState } from "@/shared/components/ui/ErrorState";
 import { LoadMoreButton } from "@/shared/components/ui/LoadMoreButton";
 import { useEventsInfinite } from "../hooks/useEvents";
@@ -132,10 +134,16 @@ export function EventsPage() {
         </p>
 
         {isLoading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
-            <EventCardSkeleton />
-            <EventCardSkeleton />
-          </div>
+          <>
+            <div className="flex flex-col gap-8 border-y border-border-glow py-9">
+              <Skeleton className="h-3 w-24" />
+              <ShowcaseSkeleton />
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
+              <EventCardSkeleton />
+              <EventCardSkeleton />
+            </div>
+          </>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : events.length === 0 ? (
