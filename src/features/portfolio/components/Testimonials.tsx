@@ -339,10 +339,10 @@ export function Testimonials() {
 
       <div ref={viewportRef} data-reveal className="px-5 md:px-10 lg:px-[120px] cursor-grab active:cursor-grabbing overflow-hidden select-none">
         {isLoading ? (
-          <div className="flex gap-3.5 md:gap-6">
-            <TestimonialCardSkeleton />
-            <TestimonialCardSkeleton />
-            <TestimonialCardSkeleton />
+          <div data-lenis-prevent-horizontal className="no-scrollbar -mx-5 md:-mx-10 lg:-mx-[120px] flex gap-3.5 md:gap-6 overflow-x-auto overscroll-x-contain px-5 md:px-10 lg:px-[120px]">
+            {[0, 1, 2, 3].map((i) => (
+              <TestimonialCardSkeleton key={i} />
+            ))}
           </div>
         ) : isError ? (
           <ErrorState onRetry={refetch} />
