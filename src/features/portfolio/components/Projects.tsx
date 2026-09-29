@@ -19,6 +19,8 @@ import { Carousel } from "./Carousel";
 import type { Project } from "@/features/portfolio/types/types";
 import type { FeaturedProject } from "@/features/projects/types/types";
 
+const EYEBROW = "font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet";
+
 function ProjectCard({ project }: { project: Project }) {
   const tilt = useTilt<HTMLDivElement>();
   const [open, setOpen] = useState(false);
@@ -120,36 +122,38 @@ function ProjectCard({ project }: { project: Project }) {
 
 export function Projects() {
   const sectionRef = useRef<HTMLElement>(null);
-  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(5);
+  const { projects: previewProjects, isLoading, isError, refetch } = useProjectsPreview(12);
   const { featured, others } = useMemo(() => {
-    const [main, ...rest] = previewProjects;
-    const featured: FeaturedProject | null = main
-      ? {
-          projectimg: main.projectimg,
-          eyebrow: "FEATURED",
-          title: main.title,
-          description: main.description,
-          url: main.url,
-          github: main.github,
-          pkg: main.pkg,
-          chips: main.chips,
-          meta: { year: main.year, role: main.role, stack: main.category, status: main.status },
-        }
-      : null;
-    const others: Project[] = rest.map((p) => ({
+    const pinned = previewProjects.filter((p) => p.featured);
+    const mains = pinned.length > 0 ? pinned : previewProjects.slice(0, 1);
+    const featured: FeaturedProject[] = mains.map((p) => ({
       projectimg: p.projectimg,
-      name: p.title,
+      eyebrow: "FEATURED",
       title: p.title,
-      year: p.year,
-      category: p.category,
-      role: p.role,
-      status: p.status,
       description: p.description,
       url: p.url,
       github: p.github,
       pkg: p.pkg,
-      tags: p.chips,
+      chips: p.chips,
+      meta: { year: p.year, role: p.role, stack: p.category, status: p.status },
     }));
+    const others: Project[] = previewProjects
+      .filter((p) => !mains.includes(p))
+      .slice(0, 4)
+      .map((p) => ({
+        projectimg: p.projectimg,
+        name: p.title,
+        title: p.title,
+        year: p.year,
+        category: p.category,
+        role: p.role,
+        status: p.status,
+        description: p.description,
+        url: p.url,
+        github: p.github,
+        pkg: p.pkg,
+        tags: p.chips,
+      }));
     return { featured, others };
   }, [previewProjects]);
   useScrollReveal(sectionRef, { y: 30, staggerAmount: 0.08 });
@@ -157,7 +161,7 @@ export function Projects() {
 
   return (
     <section id="projects" ref={sectionRef} className="w-full py-12 md:py-[72px]">
-      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-24">
+      <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-12">
         <div data-reveal className="flex flex-col gap-2 md:gap-3">
           <SectionEyebrow>04 - PROJECTS</SectionEyebrow>
           <SectionHeading>Selected work</SectionHeading>
@@ -183,16 +187,21 @@ export function Projects() {
             <ErrorState onRetry={refetch} />
             {cta}
           </>
-        ) : !featured ? (
+        ) : featured.length === 0 ? (
           <p className="font-body fs-14 text-text-muted">No projects yet.</p>
         ) : (
           <div data-reveal className="flex flex-col gap-12 md:gap-16">
-            <FeaturedBlock project={featured} />
+            <div className="flex flex-col gap-8">
+              <span className={EYEBROW}>FEATURED</span>
+              <div className="flex flex-col gap-12">
+                {featured.map((project) => (
+                  <FeaturedBlock key={project.title} project={project} hideEyebrow />
+                ))}
+              </div>
+            </div>
             {others.length > 0 ? (
               <div className="flex flex-col gap-8">
-                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">
-                  MORE PROJECTS
-                </span>
+                <span className={EYEBROW}>MORE PROJECTS</span>
                 <Carousel label="Projects" action={cta}>
                   {others.map((project) => (
                     <ProjectCard key={`${project.title}-${project.year}`} project={project} />

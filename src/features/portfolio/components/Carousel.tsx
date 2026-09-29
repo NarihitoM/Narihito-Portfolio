@@ -138,7 +138,7 @@ export function Carousel({ label, action, children }: { label: string; action?: 
             role="group"
             aria-roledescription="slide"
             aria-label={`${index + 1} of ${slides.length}`}
-            className="grid w-[85%] shrink-0 snap-start md:w-[calc((100%_-_1.75rem)/2)]"
+            className={`grid shrink-0 snap-start ${slides.length > 1 ? "w-[85%] md:w-[calc((100%_-_1.75rem)/2)]" : "w-full"}`}
           >
             {slide}
           </div>
