@@ -4,6 +4,8 @@ export interface Event {
   title: string;
   duration: string;
   description: string;
+  type?: string;
+  host?: string;
   pinned?: boolean;
 }
 

@@ -36,6 +36,18 @@ export function PinnedEventBlock({ event }: { event: Event }) {
             <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">DATE</span>
             <span className="font-mono text-[12px] text-text-secondary">{event.duration}</span>
           </div>
+          {event.type && (
+            <div className="flex items-center gap-4">
+              <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">TYPE</span>
+              <span className="font-mono text-[12px] text-text-secondary">{event.type}</span>
+            </div>
+          )}
+          {event.host && (
+            <div className="flex items-center gap-4">
+              <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">HOST</span>
+              <span className="font-mono text-[12px] text-text-secondary">{event.host}</span>
+            </div>
+          )}
         </div>
       </div>
 
