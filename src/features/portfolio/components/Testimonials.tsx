@@ -334,7 +334,7 @@ export function Testimonials() {
         {TESTIMONIALS.map((t, index) => (
           <span
             key={t.name}
-            className={index === activeIndex ? "h-1.5 w-[18px] rounded-full bg-violet" : "h-1.5 w-1.5 rounded-full bg-text-muted"}
+            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ${index === activeIndex ? "w-[18px] bg-violet" : "w-1.5 bg-text-muted"}`}
           />
         ))}
       </div>

@@ -10,11 +10,7 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
-import { ArrowLeft, ArrowRight } from "lucide-react";
 import { REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
-
-const NAV_BUTTON =
-  "flex h-12 w-12 md:h-10 md:w-10 items-center justify-center rounded border border-border-glow-soft text-text-secondary transition-[color,border-color,transform] hover:border-violet hover:text-violet active:scale-95 disabled:pointer-events-none disabled:opacity-40";
 
 function slideStep(track: HTMLElement) {
   const slide = track.firstElementChild as HTMLElement | null;
@@ -119,7 +115,7 @@ export function Carousel({ label, action, children }: { label: string; action?: 
   };
 
   return (
-    <div role="region" aria-roledescription="carousel" aria-label={label} className="flex flex-col gap-5 md:gap-8">
+    <div role="region" aria-roledescription="carousel" aria-label={label} className="flex flex-col">
       <div
         ref={trackRef}
         onScroll={onScroll}
@@ -145,29 +141,8 @@ export function Carousel({ label, action, children }: { label: string; action?: 
         ))}
       </div>
 
-      <div className="grid grid-cols-[1fr_auto_1fr] items-center gap-2">
-        <div className={`flex items-center gap-2 ${scrollable ? "" : "invisible"}`}>
-          <button
-            type="button"
-            aria-label={`Previous ${label}`}
-            disabled={position.active === 0}
-            onClick={() => scrollToPage(position.active - 1)}
-            className={NAV_BUTTON}
-          >
-            <ArrowLeft size={16} />
-          </button>
-          <button
-            type="button"
-            aria-label={`Next ${label}`}
-            disabled={position.active === position.pages - 1}
-            onClick={() => scrollToPage(position.active + 1)}
-            className={NAV_BUTTON}
-          >
-            <ArrowRight size={16} />
-          </button>
-        </div>
-
-        <div aria-hidden className={`flex items-center gap-[7px] ${scrollable ? "" : "invisible"}`}>
+      {scrollable && (
+        <div aria-hidden className="flex items-center justify-center gap-[7px] pt-4">
           {Array.from({ length: position.pages }, (_, page) => (
             <span
               key={page}
@@ -175,9 +150,9 @@ export function Carousel({ label, action, children }: { label: string; action?: 
             />
           ))}
         </div>
+      )}
 
-        <div className="justify-self-end">{action}</div>
-      </div>
+      {action && <div className="mt-6 md:mt-24">{action}</div>}
     </div>
   );
 }
