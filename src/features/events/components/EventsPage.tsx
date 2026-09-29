@@ -28,7 +28,6 @@ export function EventsPage() {
     useEventsInfinite();
   const { selectedEventId, setSelectedEventId } = useEventsUI();
   const pinnedEvents = events.filter((event) => event.pinned);
-  const otherEvents = events.filter((event) => !event.pinned);
   const selected = events.find((event) => event.id === selectedEventId) ?? null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
@@ -154,13 +153,13 @@ export function EventsPage() {
               </div>
             )}
 
-            {otherEvents.length > 0 && (
+            {events.length > 0 && (
               <div
                 id="events-grid"
                 ref={cardsRef}
                 className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
               >
-                {otherEvents.map((event) => (
+                {events.map((event) => (
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
