@@ -1,16 +1,27 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import { Chip } from "@/shared/components/ui/Chip";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import type { Game } from "../types/types";
 
 export function FavouriteBlock({ game }: { game: Game }) {
+  const [zoomed, setZoomed] = useState(false);
+
   return (
     <div data-favourite className="flex flex-col lg:flex-row gap-8 lg:gap-14">
       <div className="flex-1">
         {game.pic ? (
-          <div className="relative h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
+          <button
+            type="button"
+            aria-label={`View ${game.name} image`}
+            onClick={() => setZoomed(true)}
+            className="relative block h-[240px] lg:h-[320px] w-full cursor-zoom-in rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden transition-colors hover:border-violet"
+          >
             <Image src={game.pic} alt={game.name} fill unoptimized className="object-cover" />
-          </div>
+          </button>
         ) : (
           <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
             <span className="font-mono text-[12px] tracking-[2px] text-text-muted">{game.name}</span>
@@ -62,6 +73,8 @@ export function FavouriteBlock({ game }: { game: Game }) {
           </div>
         ) : null}
       </div>
+
+      {zoomed && game.pic && <ImageLightbox src={game.pic} alt={game.name} onClose={() => setZoomed(false)} />}
     </div>
   );
 }

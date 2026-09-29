@@ -1,9 +1,15 @@
+"use client";
+
+import { useState } from "react";
 import { Chip } from "@/shared/components/ui/Chip";
 import { TechIcon } from "@/shared/components/ui/TechIcon";
+import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
 import { ExternalLink } from "lucide-react";
 import type { FeaturedProject } from "../types/types";
 
 export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProject; hideEyebrow?: boolean }) {
+  const [zoomed, setZoomed] = useState(false);
+
   return (
     <div data-featured className="flex flex-col gap-8">
       {!hideEyebrow && (
@@ -15,13 +21,18 @@ export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProje
       <div className="flex flex-col lg:flex-row gap-8 lg:gap-14">
         <div className="flex-1 flex flex-col gap-6">
           {project.projectimg ? (
-            <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden">
+            <button
+              type="button"
+              aria-label={`View ${project.title} image`}
+              onClick={() => setZoomed(true)}
+              className="block h-[240px] lg:h-[320px] w-full cursor-zoom-in rounded-[6px] bg-surface border border-border-glow-soft overflow-hidden transition-colors hover:border-violet"
+            >
               <img
                 src={project.projectimg}
                 alt={project.title}
                 className="h-full w-full object-cover"
               />
-            </div>
+            </button>
           ) : (
             <div className="h-[240px] lg:h-[320px] w-full rounded-[6px] bg-surface border border-border-glow-soft flex items-center justify-center">
               <span className="font-mono text-[12px] tracking-[2px] text-text-muted">
@@ -96,6 +107,10 @@ export function FeaturedBlock({ project, hideEyebrow }: { project: FeaturedProje
           </div>
         </div>
       </div>
+
+      {zoomed && project.projectimg && (
+        <ImageLightbox src={project.projectimg} alt={project.title} onClose={() => setZoomed(false)} />
+      )}
     </div>
   );
 }
