@@ -5,7 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { ease, gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY, SplitText } from "@/shared/lib/gsap";
 import { Button } from "@/shared/components/ui/Button";
 import { SnakeGridOverlay } from "@/features/portfolio/three/SnakeGridOverlay";
-import { HeroSphere } from "@/features/portfolio/three/HeroSphere";
+import { HeroGlobe } from "@/features/portfolio/three/HeroGlobe";
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -54,8 +54,8 @@ export function Hero() {
   return (
     <section ref={sectionRef} className="relative flex flex-col justify-center w-full overflow-hidden pt-[110px] md:pt-[120px] pb-10 md:pb-12 min-h-[min(100svh,900px)]">
       <div className="pointer-events-none absolute inset-0">
-        <HeroSphere />
         <SnakeGridOverlay />
+        <HeroGlobe />
       </div>
 
       <div className="relative z-10 mx-5 md:mx-10 lg:mx-auto lg:flex lg:flex-col lg:items-center text-center lg:w-[760px] flex flex-col gap-4 md:gap-6 lg:gap-8">
