@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { EventMeta } from "./EventMeta";
 import type { Event } from "../types/types";
 
 export function PinnedEventBlock({ event }: { event: Event }) {
@@ -31,24 +32,7 @@ export function PinnedEventBlock({ event }: { event: Event }) {
           {event.title}
         </h2>
         <p className="font-body fs-15 md:text-[16px] leading-[1.7] text-text-secondary">{event.description}</p>
-        <div className="flex flex-col gap-2 border-t border-border-glow-soft pt-4">
-          <div className="flex items-center gap-4">
-            <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">DATE</span>
-            <span className="font-mono text-[12px] text-text-secondary">{event.duration}</span>
-          </div>
-          {event.type && (
-            <div className="flex items-center gap-4">
-              <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">TYPE</span>
-              <span className="font-mono text-[12px] text-text-secondary">{event.type}</span>
-            </div>
-          )}
-          {event.host && (
-            <div className="flex items-center gap-4">
-              <span className="w-[80px] shrink-0 font-mono text-[10px] tracking-[2px] text-text-muted">HOST</span>
-              <span className="font-mono text-[12px] text-text-secondary">{event.host}</span>
-            </div>
-          )}
-        </div>
+        <EventMeta event={event} />
       </div>
 
       {zoomed && event.image && (

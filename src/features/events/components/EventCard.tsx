@@ -3,6 +3,7 @@
 import { useTilt } from "@/shared/hooks/useTilt";
 import { Skeleton } from "@/shared/components/ui/Skeleton";
 import { useEventsUI } from "../store/eventsUIStore";
+import { EventMeta } from "./EventMeta";
 import type { Event } from "../types/types";
 
 export function EventCard({ event }: { event: Event }) {
@@ -36,16 +37,14 @@ export function EventCard({ event }: { event: Event }) {
         <div className="h-[180px] md:h-[220px] w-full bg-chip" />
       )}
 
-      <div className="flex flex-col gap-2.5 p-5 md:p-6">
-        <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet">
-          {event.duration}
-        </span>
+      <div className="flex flex-1 flex-col gap-2.5 p-5 md:p-6">
         <h3 className="font-display fs-20 md:text-[24px] font-semibold leading-[1.2] tracking-[-0.5px] text-text-primary">
           {event.title}
         </h3>
         <p className="font-body fs-14 md:text-[15px] leading-[1.6] text-text-secondary line-clamp-3">
           {event.description}
         </p>
+        <EventMeta event={event} className="mt-auto pt-4" />
       </div>
     </div>
   );
@@ -56,9 +55,13 @@ export function EventCardSkeleton() {
     <div className="flex flex-col overflow-hidden rounded-[6px] border border-border-glow-soft bg-surface">
       <Skeleton className="h-[180px] md:h-[220px] w-full rounded-none border-0" />
       <div className="flex flex-col gap-2.5 p-5 md:p-6">
-        <Skeleton className="h-[13px] w-28" />
         <Skeleton className="h-6 md:h-7 w-4/5" />
         <Skeleton className="h-[67px] md:h-[72px] w-full" />
+        <div className="flex flex-col gap-2 border-t border-border-glow-soft pt-4">
+          <Skeleton className="h-[18px] w-44" />
+          <Skeleton className="h-[18px] w-36" />
+          <Skeleton className="h-[18px] w-32" />
+        </div>
       </div>
     </div>
   );

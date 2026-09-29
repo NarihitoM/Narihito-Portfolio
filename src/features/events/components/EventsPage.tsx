@@ -26,15 +26,31 @@ export function EventsPage() {
   const leadRef = useRef<HTMLParagraphElement>(null);
   const pinnedRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { events, total, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useEventsInfinite();
-  const { selectedEventId, setSelectedEventId } = useEventsUI();
-  const pinnedEvents = events.filter((event) => event.pinned);
-  const selected = events.find((event) => event.id === selectedEventId) ?? null;
+  const filtersRef = useRef<HTMLDivElement>(null);
+  const { selectedEventId, setSelectedEventId, filter, setFilter } = useEventsUI();
+  const {
+    events,
+    total,
+    featured: pinnedEvents,
+    filters,
+    isLoading,
+    isFetching,
+    isError,
+    refetch,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useEventsInfinite(filter);
+  const isSwitchingTab = isFetching && !isFetchingNextPage;
+  const globalTotal = filters[0]?.count ?? total;
+  const selected =
+    events.find((event) => event.id === selectedEventId) ??
+    pinnedEvents.find((event) => event.id === selectedEventId) ??
+    null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
-    { key: "EVENTS", value: String(total) },
-    { key: "SHOWING", value: `${events.length} / ${total}` },
+    { key: "EVENTS", value: String(globalTotal) },
+    { key: "SHOWING", value: `${events.length} / ${globalTotal}` },
   ];
 
   useGSAP(
@@ -134,11 +150,39 @@ export function EventsPage() {
         </p>
 
         {isLoading ? (
+          <div className="flex flex-wrap gap-3">
+            <Skeleton className="h-9 w-[72px] rounded-full" />
+            <Skeleton className="h-9 w-[150px] rounded-full" />
+            <Skeleton className="h-9 w-[120px] rounded-full" />
+          </div>
+        ) : (
+          <div ref={filtersRef} className="flex flex-wrap gap-3">
+            {filters.map((tag) => (
+              <button
+                key={tag.label}
+                type="button"
+                onClick={() => setFilter(tag.label)}
+                className={`flex items-center gap-2 rounded-full border px-4 py-2 font-mono text-[11px] tracking-[1px] transition-[color,background-color,border-color,transform] duration-200 active:scale-95 ${
+                  filter === tag.label
+                    ? "animate-chip-pop border-violet bg-violet font-medium text-wire"
+                    : "border-border-glow-soft bg-surface text-text-secondary hover:border-violet hover:text-text-primary"
+                }`}
+              >
+                <span>{tag.label}</span>
+                <span className={filter === tag.label ? "text-wire/60" : "text-text-muted"}>({tag.count})</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {isLoading || isSwitchingTab ? (
           <>
-            <div className="flex flex-col gap-8 border-y border-border-glow py-9">
-              <Skeleton className="h-3 w-24" />
-              <ShowcaseSkeleton />
-            </div>
+            {(isLoading || filter === "All") && (
+              <div className="flex flex-col gap-8 border-y border-border-glow py-9">
+                <Skeleton className="h-3 w-24" />
+                <ShowcaseSkeleton />
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
               <EventCardSkeleton />
               <EventCardSkeleton />
@@ -147,10 +191,12 @@ export function EventsPage() {
         ) : isError ? (
           <ErrorState onRetry={refetch} />
         ) : events.length === 0 ? (
-          <p className="font-body fs-15 text-text-muted">No events listed yet.</p>
+          <p className="font-body fs-15 text-text-muted">
+            {filter === "All" ? "No events listed yet." : "No events of this type yet."}
+          </p>
         ) : (
           <>
-            {pinnedEvents.length > 0 && (
+            {filter === "All" && pinnedEvents.length > 0 && (
               <div ref={pinnedRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
                 <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FEATURED</span>
                 <div className="flex flex-col gap-12">

@@ -13,4 +13,12 @@ export interface CursorEventsResponse {
   data: Event[];
   nextCursor: string | null;
   total: number;
+  totalAll?: number;
+  featured?: Event[];
+  types?: EventFilter[];
+}
+
+export interface EventFilter {
+  label: string;
+  count: number;
 }

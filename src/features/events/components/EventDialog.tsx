@@ -13,6 +13,7 @@ import {
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
 import { useLenisLock } from "@/shared/hooks/useLenisLock";
+import { EventMeta } from "./EventMeta";
 import type { Event } from "../types/types";
 
 export function EventDialog({ event, onClose }: { event: Event; onClose: () => void }) {
@@ -90,22 +91,15 @@ export function EventDialog({ event, onClose }: { event: Event; onClose: () => v
           </button>
         )}
 
-        <div className="flex flex-col gap-3">
-          <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet">
-            {[event.type, event.duration].filter(Boolean).join(" · ")}
-          </span>
-          <h2 className="font-display fs-26 md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
-            {event.title}
-          </h2>
-        </div>
-
-        {event.host && (
-          <span className="font-mono text-[12px] text-text-muted">Hosted by {event.host}</span>
-        )}
+        <h2 className="font-display fs-26 md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
+          {event.title}
+        </h2>
 
         <p className="font-body fs-14 md:text-[15px] leading-[1.7] text-text-secondary">
           {event.description}
         </p>
+
+        <EventMeta event={event} />
       </div>
     </div>
 
