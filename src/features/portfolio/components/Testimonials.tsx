@@ -14,6 +14,7 @@ import { TestimonialDialog } from "@/features/testimonials/components/Testimonia
 import { useTilt } from "@/shared/hooks/useTilt";
 import { useScrollReveal } from "@/features/portfolio/hooks/useScrollReveal";
 import type { Testimonial } from "@/features/testimonials/types/types";
+import { CarouselDots } from "./Carousel";
 
 function TestimonialCardSkeleton() {
   return (
@@ -96,6 +97,7 @@ export function Testimonials() {
   const sectionRef = useRef<HTMLElement>(null);
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
+  const goToRef = useRef<((index: number) => void) | null>(null);
   const { activeIndex, setActiveIndex } = useTestimonialsUI();
   const { testimonials: TESTIMONIALS, isLoading, isError, refetch } = useTestimonialsPreview(9);
   const [selected, setSelected] = useState<Testimonial | null>(null);
@@ -123,13 +125,21 @@ export function Testimonials() {
       if (!viewport || !track) return;
       if (TESTIMONIALS.length === 0) return;
 
-      const reduced = window.matchMedia(REDUCED_MOTION_QUERY).matches;
-      if (reduced) return;
-
       const cards = gsap.utils.toArray<HTMLElement>("[data-testimonial-card]", track);
       if (cards.length === 0) return;
 
       const gap = parseFloat(getComputedStyle(track).columnGap || "24");
+
+      if (window.matchMedia(REDUCED_MOTION_QUERY).matches) {
+        goToRef.current = (index) => {
+          setActiveIndex(index);
+          gsap.set(track, { x: -index * (cards[0].offsetWidth + gap) });
+        };
+        return () => {
+          goToRef.current = null;
+        };
+      }
+
       let cardWidth = cards[0].offsetWidth + gap;
       let singleWidth = TESTIMONIALS.length * cardWidth;
 
@@ -248,6 +258,20 @@ export function Testimonials() {
 
       initDraggable();
 
+      goToRef.current = (index) => {
+        if (resumeTimeout) clearTimeout(resumeTimeout);
+        isDragging = true;
+        setActiveIndex(index);
+        gsap.to(track, {
+          x: -index * cardWidth,
+          duration: 0.6,
+          ease: "power3.out",
+          overwrite: true,
+          onUpdate: () => draggable?.update(),
+          onComplete: scheduleResume,
+        });
+      };
+
       const onTouchStart = () => {
         isDragging = true;
         if (resumeTimeout) clearTimeout(resumeTimeout);
@@ -297,6 +321,7 @@ export function Testimonials() {
         clearTimeout(resizeTimer);
         gsap.ticker.remove(ticker);
         draggable?.kill();
+        goToRef.current = null;
         visObserver?.disconnect();
       };
     },
@@ -330,14 +355,13 @@ export function Testimonials() {
         )}
       </div>
 
-      <div className="flex items-center justify-center gap-[7px] px-5 pt-4 md:px-10 lg:px-[120px]">
-        {TESTIMONIALS.map((t, index) => (
-          <span
-            key={t.name}
-            className={`h-1.5 rounded-full transition-[width,background-color] duration-300 ${index === activeIndex ? "w-[18px] bg-violet" : "w-1.5 bg-text-muted"}`}
-          />
-        ))}
-      </div>
+      <CarouselDots
+        label="testimonial"
+        count={TESTIMONIALS.length}
+        active={activeIndex}
+        onSelect={(index) => goToRef.current?.(index)}
+        className="px-5 pt-2 md:px-10 lg:px-[120px]"
+      />
 
       <div className="mx-5 md:mx-10 lg:mx-[120px] mt-6 md:mt-24">
         <DetailCta href="/testimonials" route="/testimonials" />

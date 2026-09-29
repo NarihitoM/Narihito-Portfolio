@@ -26,8 +26,6 @@ export function Carousel({ label, action, children }: { label: string; action?: 
   const dragRef = useRef<{ x: number; left: number; moved: boolean } | null>(null);
   const draggedRef = useRef(false);
   const settleRef = useRef(0);
-  const dotsRef = useRef<HTMLDivElement>(null);
-  const scrubRef = useRef(-1);
   const [position, setPosition] = useState({ active: 0, pages: 1 });
   const slides = Children.toArray(children);
   const scrollable = position.pages > 1;
@@ -55,34 +53,6 @@ export function Carousel({ label, action, children }: { label: string; action?: 
     const track = trackRef.current;
     if (!track) return;
     track.scrollTo({ left: Math.max(0, page) * slideStep(track), behavior: scrollBehavior() });
-  };
-
-  const scrubTo = (clientX: number) => {
-    const dots = dotsRef.current;
-    if (!dots) return;
-    let nearest = 0;
-    let best = Infinity;
-    Array.from(dots.children).forEach((dot, page) => {
-      const rect = dot.getBoundingClientRect();
-      const distance = Math.abs(rect.left + rect.width / 2 - clientX);
-      if (distance < best) {
-        best = distance;
-        nearest = page;
-      }
-    });
-    if (nearest === scrubRef.current) return;
-    scrubRef.current = nearest;
-    scrollToPage(nearest);
-  };
-
-  const onDotsPointerDown = (event: PointerEvent<HTMLDivElement>) => {
-    event.currentTarget.setPointerCapture(event.pointerId);
-    scrubRef.current = -1;
-    scrubTo(event.clientX);
-  };
-
-  const onDotsPointerMove = (event: PointerEvent<HTMLDivElement>) => {
-    if (event.currentTarget.hasPointerCapture(event.pointerId)) scrubTo(event.clientX);
   };
 
   const settle = () => {
@@ -172,30 +142,79 @@ export function Carousel({ label, action, children }: { label: string; action?: 
       </div>
 
       {scrollable && (
-        <div
-          ref={dotsRef}
-          onPointerDown={onDotsPointerDown}
-          onPointerMove={onDotsPointerMove}
-          className="flex touch-none items-center justify-center gap-[7px] pt-2"
-        >
-          {Array.from({ length: position.pages }, (_, page) => (
-            <button
-              key={page}
-              type="button"
-              aria-label={`Go to ${label} ${page + 1}`}
-              aria-current={page === position.active}
-              onClick={() => scrollToPage(page)}
-              className="group cursor-pointer py-2"
-            >
-              <span
-                className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ${page === position.active ? "w-[18px] bg-violet" : "w-1.5 bg-text-muted group-hover:bg-violet"}`}
-              />
-            </button>
-          ))}
-        </div>
+        <CarouselDots label={label} count={position.pages} active={position.active} onSelect={scrollToPage} className="pt-2" />
       )}
 
       {action && <div className="mt-6 md:mt-24">{action}</div>}
+    </div>
+  );
+}
+
+export function CarouselDots({
+  label,
+  count,
+  active,
+  onSelect,
+  className = "",
+}: {
+  label: string;
+  count: number;
+  active: number;
+  onSelect: (index: number) => void;
+  className?: string;
+}) {
+  const dotsRef = useRef<HTMLDivElement>(null);
+  const scrubRef = useRef(-1);
+
+  const scrubTo = (clientX: number) => {
+    const dots = dotsRef.current;
+    if (!dots) return;
+    let nearest = 0;
+    let best = Infinity;
+    Array.from(dots.children).forEach((dot, index) => {
+      const rect = dot.getBoundingClientRect();
+      const distance = Math.abs(rect.left + rect.width / 2 - clientX);
+      if (distance < best) {
+        best = distance;
+        nearest = index;
+      }
+    });
+    if (nearest === scrubRef.current) return;
+    scrubRef.current = nearest;
+    onSelect(nearest);
+  };
+
+  const onPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    event.currentTarget.setPointerCapture(event.pointerId);
+    scrubRef.current = -1;
+    scrubTo(event.clientX);
+  };
+
+  const onPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) scrubTo(event.clientX);
+  };
+
+  return (
+    <div
+      ref={dotsRef}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      className={`flex touch-none items-center justify-center gap-[7px] ${className}`}
+    >
+      {Array.from({ length: count }, (_, index) => (
+        <button
+          key={index}
+          type="button"
+          aria-label={`Go to ${label} ${index + 1}`}
+          aria-current={index === active}
+          onClick={() => onSelect(index)}
+          className="group cursor-pointer py-2"
+        >
+          <span
+            className={`block h-1.5 rounded-full transition-[width,background-color] duration-300 ${index === active ? "w-[18px] bg-violet" : "w-1.5 bg-text-muted group-hover:bg-violet"}`}
+          />
+        </button>
+      ))}
     </div>
   );
 }
