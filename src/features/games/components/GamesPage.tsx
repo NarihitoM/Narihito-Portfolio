@@ -169,16 +169,21 @@ export function GamesPage() {
           <p className="font-body fs-15 text-text-muted">No games listed yet.</p>
         ) : (
           <>
-            <div
-              id="games-grid"
-              ref={cardsRef}
-              className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
-            >
-              {[...games]
-                .sort((a, b) => Number(b.type === "favorite") - Number(a.type === "favorite"))
-                .map((game) => (
-                  <GameCard key={game.id} game={game} />
-                ))}
+            <div className="flex flex-col gap-8">
+              {favouriteGames.length > 0 && (
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">MORE GAMES</span>
+              )}
+              <div
+                id="games-grid"
+                ref={cardsRef}
+                className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
+              >
+                {[...games]
+                  .sort((a, b) => Number(b.type === "favorite") - Number(a.type === "favorite"))
+                  .map((game) => (
+                    <GameCard key={game.id} game={game} />
+                  ))}
+              </div>
             </div>
 
             {hasNextPage && (
