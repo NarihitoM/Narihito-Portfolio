@@ -207,7 +207,10 @@ export function EventsPage() {
               </div>
             )}
 
-            {events.length > 0 && (
+            <div className="flex flex-col gap-8">
+              {filter === "All" && pinnedEvents.length > 0 && (
+                <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">MORE EVENTS</span>
+              )}
               <div
                 id="events-grid"
                 ref={cardsRef}
@@ -217,7 +220,7 @@ export function EventsPage() {
                   <EventCard key={event.id} event={event} />
                 ))}
               </div>
-            )}
+            </div>
 
             {hasNextPage && (
               <LoadMoreButton

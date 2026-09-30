@@ -263,17 +263,22 @@ export function ProjectsPage() {
                 No projects in this category yet.
               </p>
             ) : (
-              <div
-                ref={gridRef}
-                className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
-              >
-                {PROJECTS.map((project) => (
-                  <ProjectCardBlock
-                    key={project.title}
-                    project={project}
-                    onView={() => setSelected(project)}
-                  />
-                ))}
+              <div className="flex flex-col gap-8">
+                {filter === "All" && FEATURED.length > 0 && (
+                  <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">MORE PROJECTS</span>
+                )}
+                <div
+                  ref={gridRef}
+                  className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
+                >
+                  {PROJECTS.map((project) => (
+                    <ProjectCardBlock
+                      key={project.title}
+                      project={project}
+                      onView={() => setSelected(project)}
+                    />
+                  ))}
+                </div>
               </div>
             )}
 
