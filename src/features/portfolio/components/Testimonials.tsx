@@ -360,7 +360,7 @@ export function Testimonials() {
         count={TESTIMONIALS.length}
         active={activeIndex}
         onSelect={(index) => goToRef.current?.(index)}
-        className="px-5 pt-2 md:px-10 lg:px-[120px]"
+        className="px-5 md:px-10 lg:px-[120px]"
       />
 
       <div className="mx-5 md:mx-10 lg:mx-[120px] mt-4 md:mt-16">

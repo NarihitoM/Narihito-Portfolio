@@ -142,7 +142,7 @@ export function Carousel({ label, action, children }: { label: string; action?: 
       </div>
 
       {scrollable && (
-        <CarouselDots label={label} count={position.pages} active={position.active} onSelect={scrollToPage} className="pt-2" />
+        <CarouselDots label={label} count={position.pages} active={position.active} onSelect={scrollToPage} />
       )}
 
       {action && <div className="mt-4 md:mt-16">{action}</div>}
@@ -199,7 +199,7 @@ export function CarouselDots({
       ref={dotsRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
-      className={`flex touch-none items-center justify-center gap-[7px] ${className}`}
+      className={`flex touch-none items-center justify-center gap-[7px] pt-6 ${className}`}
     >
       {Array.from({ length: count }, (_, index) => (
         <button
