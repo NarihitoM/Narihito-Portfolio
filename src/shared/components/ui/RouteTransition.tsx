@@ -7,7 +7,7 @@ import { WipeVeil } from "@/shared/components/ui/WipeVeil";
 
 const PANEL_DURATION = 0.45;
 const LETTER_STAGGER = 0.03;
-const COVER_TIMEOUT = 3600;
+const NAV_TIMEOUT = 8000;
 const MIN_COVER_MS = 450;
 
 let coverFn: ((href: string) => void) | null = null;
@@ -47,6 +47,7 @@ export function RouteTransition() {
   const coveredAt = useRef(0);
   const failsafe = useRef(0);
   const pending = useRef<(() => void) | null>(null);
+  const target = useRef("");
   const revealRef = useRef<(() => void) | null>(null);
   const timeline = useRef<gsap.core.Timeline | null>(null);
 
@@ -87,12 +88,15 @@ export function RouteTransition() {
       if (!navigate) return;
       pending.current = null;
       coveredAt.current = performance.now();
+      window.clearTimeout(failsafe.current);
+      failsafe.current = window.setTimeout(() => window.location.assign(target.current), NAV_TIMEOUT);
       navigate();
     };
 
     const cover = (href: string, navigate = () => router.push(href)) => {
       if (covered.current && !pending.current) return;
       if (label) label.textContent = labelForPath(href);
+      target.current = href;
       if (covered.current) {
         pending.current = navigate;
         return;
@@ -112,11 +116,6 @@ export function RouteTransition() {
         .to(rightLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe }, "<")
         .to(brand, { opacity: 1, scale: 1, duration: 0.2, ease: ease.entrance })
         .to(letters, { opacity: 1, y: 0, duration: 0.25, stagger: LETTER_STAGGER, ease: ease.entrance });
-      window.clearTimeout(failsafe.current);
-      failsafe.current = window.setTimeout(() => {
-        go();
-        reveal();
-      }, COVER_TIMEOUT);
     };
 
     coverFn = cover;
@@ -151,7 +150,7 @@ export function RouteTransition() {
       if (!waiting && (covered.current || path === lastPath.current)) return;
 
       event.stopImmediatePropagation();
-      cover(path, () => {
+      cover(path + window.location.search, () => {
         replaying = true;
         window.dispatchEvent(new PopStateEvent("popstate", { state: event.state }));
         if (window.location.pathname === lastPath.current) reveal();
