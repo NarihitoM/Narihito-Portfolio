@@ -6,9 +6,6 @@ import { gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } fro
 
 const WORD = "NARIHITO";
 const COPIES_PER_HALF = 20;
-const LOOP_SECONDS = 120;
-const MAX_BOOST = 6;
-
 const rows = [
   { outline: true, from: -50, to: -20 },
   { outline: false, from: -20, to: -50 },
@@ -51,31 +48,25 @@ export function NameMarquee() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        const loops = tracks.map((track, i) =>
-          gsap.fromTo(
-            track,
-            { xPercent: rows[i].from < rows[i].to ? -50 : 0 },
-            { xPercent: rows[i].from < rows[i].to ? 0 : -50, duration: LOOP_SECONDS, ease: "none", repeat: -1 },
-          ),
-        );
+        const setters = tracks.map((track, i) => {
+          gsap.set(track, { xPercent: rows[i].from });
+          return gsap.quickTo(track, "xPercent", { duration: 0.6, ease: "power3.out" });
+        });
 
-        let lastY = window.scrollY;
         const onScroll = () => {
-          const boost = Math.min(Math.abs(window.scrollY - lastY) / 8, MAX_BOOST);
-          lastY = window.scrollY;
-          gsap.to(loops, { timeScale: 1 + boost, duration: 0.2, overwrite: true });
-          gsap.to(loops, { timeScale: 1, duration: 1, delay: 0.2 });
+          const rect = section.getBoundingClientRect();
+          const viewport = window.innerHeight;
+          const progress = gsap.utils.clamp(0, 1, (viewport - rect.top) / (viewport + rect.height));
+          setters.forEach((setTo, i) => setTo(rows[i].from + (rows[i].to - rows[i].from) * progress));
         };
 
-        const visibility = new IntersectionObserver(([entry]) => {
-          loops.forEach((loop) => loop.paused(!entry.isIntersecting));
-        });
-        visibility.observe(section);
+        onScroll();
         window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", onScroll);
 
         return () => {
-          visibility.disconnect();
           window.removeEventListener("scroll", onScroll);
+          window.removeEventListener("resize", onScroll);
         };
       });
 
