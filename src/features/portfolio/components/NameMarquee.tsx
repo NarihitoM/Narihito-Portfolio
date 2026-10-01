@@ -6,6 +6,8 @@ import { gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } fro
 
 const WORD = "NARIHITO";
 const COPIES_PER_HALF = 20;
+const LOOP_SECONDS = 120;
+const MAX_BOOST = 6;
 
 const rows = [
   { outline: true, from: -50, to: -20 },
@@ -49,22 +51,32 @@ export function NameMarquee() {
       });
 
       mm.add(NO_REDUCED_MOTION_QUERY, () => {
-        tracks.forEach((track, i) => {
+        const loops = tracks.map((track, i) =>
           gsap.fromTo(
             track,
-            { xPercent: rows[i].from },
-            {
-              xPercent: rows[i].to,
-              ease: "none",
-              scrollTrigger: {
-                trigger: section,
-                start: "top bottom",
-                end: "bottom top",
-                scrub: 0.6,
-              },
-            },
-          );
+            { xPercent: rows[i].from < rows[i].to ? -50 : 0 },
+            { xPercent: rows[i].from < rows[i].to ? 0 : -50, duration: LOOP_SECONDS, ease: "none", repeat: -1 },
+          ),
+        );
+
+        let lastY = window.scrollY;
+        const onScroll = () => {
+          const boost = Math.min(Math.abs(window.scrollY - lastY) / 8, MAX_BOOST);
+          lastY = window.scrollY;
+          gsap.to(loops, { timeScale: 1 + boost, duration: 0.2, overwrite: true });
+          gsap.to(loops, { timeScale: 1, duration: 1, delay: 0.2 });
+        };
+
+        const visibility = new IntersectionObserver(([entry]) => {
+          loops.forEach((loop) => loop.paused(!entry.isIntersecting));
         });
+        visibility.observe(section);
+        window.addEventListener("scroll", onScroll, { passive: true });
+
+        return () => {
+          visibility.disconnect();
+          window.removeEventListener("scroll", onScroll);
+        };
       });
 
       return () => mm.revert();
