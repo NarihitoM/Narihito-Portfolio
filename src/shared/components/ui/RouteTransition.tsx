@@ -46,7 +46,7 @@ export function RouteTransition() {
   const busy = useRef(false);
   const coveredAt = useRef(0);
   const failsafe = useRef(0);
-  const pending = useRef<string | null>(null);
+  const pending = useRef<(() => void) | null>(null);
   const revealRef = useRef<(() => void) | null>(null);
 
   useEffect(() => {
@@ -82,18 +82,18 @@ export function RouteTransition() {
     revealRef.current = reveal;
 
     const go = () => {
-      const href = pending.current;
-      if (!href) return;
+      const navigate = pending.current;
+      if (!navigate) return;
       pending.current = null;
       coveredAt.current = performance.now();
-      router.push(href);
+      navigate();
     };
 
-    const cover = (href: string) => {
+    const cover = (href: string, navigate = () => router.push(href)) => {
       if (busy.current) return;
       busy.current = true;
       covered.current = true;
-      pending.current = href;
+      pending.current = navigate;
       if (label) label.textContent = labelForPath(href);
       gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
       gsap
@@ -135,9 +135,28 @@ export function RouteTransition() {
       cover(href);
     };
 
+    let replaying = false;
+
+    const onPopState = (event: PopStateEvent) => {
+      if (replaying) {
+        replaying = false;
+        return;
+      }
+      const path = window.location.pathname;
+      if (path === lastPath.current || busy.current) return;
+
+      event.stopImmediatePropagation();
+      cover(path, () => {
+        replaying = true;
+        window.dispatchEvent(new PopStateEvent("popstate", { state: event.state }));
+      });
+    };
+
     document.addEventListener("click", onClick, true);
+    window.addEventListener("popstate", onPopState, true);
     return () => {
       document.removeEventListener("click", onClick, true);
+      window.removeEventListener("popstate", onPopState, true);
       window.clearTimeout(failsafe.current);
       revealRef.current = null;
       coverFn = null;
