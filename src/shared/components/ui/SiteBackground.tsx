@@ -150,6 +150,7 @@ export function SiteBackground() {
   const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const uniformsRef = useRef<SilkUniforms | null>(null);
+  const renderRef = useRef<(() => void) | null>(null);
   const { theme } = useTheme();
 
   useEffect(() => {
@@ -181,6 +182,7 @@ export function SiteBackground() {
     };
 
     uniformsRef.current = uniforms;
+    renderRef.current = () => renderer.render(scene, camera);
 
     const material = new THREE.ShaderMaterial({
       vertexShader: VERTEX_SHADER,
@@ -283,6 +285,7 @@ export function SiteBackground() {
       quad.geometry.dispose();
       renderer.dispose();
       uniformsRef.current = null;
+      renderRef.current = null;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -299,6 +302,7 @@ export function SiteBackground() {
     uniforms.uSheenWeight.value = palette.sheenWeight;
     uniforms.uVignetteX.value = palette.vignetteX;
     uniforms.uVignetteY.value = palette.vignetteY;
+    renderRef.current?.();
   }, [theme]);
 
   return (

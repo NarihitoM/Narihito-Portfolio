@@ -1,5 +1,6 @@
 "use client";
 
+import { flushSync } from "react-dom";
 import { useTheme } from "@/shared/hooks/useTheme";
 
 export function ModeToggle() {
@@ -16,7 +17,7 @@ export function ModeToggle() {
 
     const x = event.clientX;
     const y = event.clientY;
-    const transition = document.startViewTransition(() => setTheme(next));
+    const transition = document.startViewTransition(() => flushSync(() => setTheme(next)));
 
     transition.ready.then(() => {
       const endRadius = Math.hypot(
@@ -25,7 +26,7 @@ export function ModeToggle() {
       );
       document.documentElement.animate(
         { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${endRadius}px at ${x}px ${y}px)`] },
-        { duration: 550, easing: "ease-in-out", pseudoElement: "::view-transition-new(root)" },
+        { duration: 750, easing: "cubic-bezier(0.65, 0, 0.35, 1)", pseudoElement: "::view-transition-new(root)" },
       );
     });
   };
