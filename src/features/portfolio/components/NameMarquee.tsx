@@ -7,9 +7,9 @@ import { gsap, registerGsap, REDUCED_MOTION_QUERY, NO_REDUCED_MOTION_QUERY } fro
 const WORD = "NARIHITO";
 const COPIES_PER_HALF = 20;
 const rows = [
-  { outline: true, from: -50, to: -20 },
-  { outline: false, from: -20, to: -50 },
-  { outline: true, from: -50, to: -20 },
+  { outline: true, from: -45, to: -25 },
+  { outline: false, from: -25, to: -45 },
+  { outline: true, from: -45, to: -25 },
 ];
 
 function Track({ outline }: { outline: boolean }) {
