@@ -48,6 +48,7 @@ export function RouteTransition() {
   const failsafe = useRef(0);
   const pending = useRef<(() => void) | null>(null);
   const revealRef = useRef<(() => void) | null>(null);
+  const timeline = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
     const veil = veilRef.current;
@@ -71,7 +72,7 @@ export function RouteTransition() {
       const held = performance.now() - coveredAt.current;
       const wait = Math.max(0, MIN_COVER_MS - held) / 1000;
 
-      gsap
+      timeline.current = gsap
         .timeline({ delay: wait, onComplete: () => (busy.current = false) })
         .to(brand, { opacity: 0, scale: 0.94, duration: 0.2, ease: ease.interaction })
         .to(leftLeaf, { xPercent: -100, duration: PANEL_DURATION, ease: ease.wipe })
@@ -90,17 +91,21 @@ export function RouteTransition() {
     };
 
     const cover = (href: string, navigate = () => router.push(href)) => {
-      if (busy.current) return;
+      if (covered.current && !pending.current) return;
+      if (label) label.textContent = labelForPath(href);
+      if (covered.current) {
+        pending.current = navigate;
+        return;
+      }
+      const hidden = veil.style.display !== "block";
       busy.current = true;
       covered.current = true;
       pending.current = navigate;
-      if (label) label.textContent = labelForPath(href);
+      timeline.current?.kill();
       gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
-      gsap
-        .timeline({ onComplete: go })
-        .set(veil, { display: "block", pointerEvents: "auto" })
-        .set(leftLeaf, { xPercent: -100 })
-        .set(rightLeaf, { xPercent: 100 })
+      const tl = gsap.timeline({ onComplete: go }).set(veil, { display: "block", pointerEvents: "auto" });
+      if (hidden) tl.set(leftLeaf, { xPercent: -100 }).set(rightLeaf, { xPercent: 100 });
+      timeline.current = tl
         .set(brand, { opacity: 0, scale: 0.94 })
         .set(letters, { opacity: 0, y: 10 })
         .to(leftLeaf, { xPercent: 0, duration: PANEL_DURATION, ease: ease.wipe })
@@ -129,7 +134,6 @@ export function RouteTransition() {
       const path = href.split(/[?#]/)[0];
       if (path === window.location.pathname) return;
       if (/\.[a-z0-9]+$/i.test(path)) return;
-      if (covered.current || busy.current) return;
 
       event.preventDefault();
       cover(href);
@@ -143,12 +147,14 @@ export function RouteTransition() {
         return;
       }
       const path = window.location.pathname;
-      if (path === lastPath.current || busy.current) return;
+      const waiting = covered.current && pending.current;
+      if (!waiting && (covered.current || path === lastPath.current)) return;
 
       event.stopImmediatePropagation();
       cover(path, () => {
         replaying = true;
         window.dispatchEvent(new PopStateEvent("popstate", { state: event.state }));
+        if (window.location.pathname === lastPath.current) reveal();
       });
     };
 
@@ -187,7 +193,7 @@ export function RouteTransition() {
     if (label) label.textContent = labelForPath(pathname);
 
     gsap.killTweensOf([leftLeaf, rightLeaf, brand, letters]);
-    gsap
+    timeline.current = gsap
       .timeline({ onComplete: () => (busy.current = false) })
       .set(veil, { display: "block", pointerEvents: "auto" })
       .set(leftLeaf, { xPercent: 0 })
