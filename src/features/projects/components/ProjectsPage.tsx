@@ -238,7 +238,7 @@ export function ProjectsPage() {
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
-              {Array.from({ length: 4 }, (_, i) => (
+              {Array.from({ length: 8 }, (_, i) => (
                 <CardSkeleton key={i} imageClassName="h-[200px] md:h-[230px]" />
               ))}
             </div>

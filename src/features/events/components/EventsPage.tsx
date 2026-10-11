@@ -184,8 +184,9 @@ export function EventsPage() {
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
-              <EventCardSkeleton />
-              <EventCardSkeleton />
+              {Array.from({ length: 8 }, (_, i) => (
+                <EventCardSkeleton key={i} />
+              ))}
             </div>
           </>
         ) : isError ? (

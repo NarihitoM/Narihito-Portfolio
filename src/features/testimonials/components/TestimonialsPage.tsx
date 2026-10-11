@@ -191,17 +191,17 @@ export function TestimonialsPage() {
               <Skeleton className="h-3 w-32" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
-              <QuoteCardSkeleton />
-              <QuoteCardSkeleton />
+              {Array.from({ length: 4 }, (_, i) => (
+                <QuoteCardSkeleton key={i} />
+              ))}
             </div>
             <div className="border-t border-border-glow-soft pt-8">
               <Skeleton className="h-3 w-44" />
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6">
-              <QuoteCardSkeleton />
-              <QuoteCardSkeleton />
-              <QuoteCardSkeleton />
-              <QuoteCardSkeleton />
+              {Array.from({ length: 8 }, (_, i) => (
+                <QuoteCardSkeleton key={i} />
+              ))}
             </div>
           </>
         ) : isError ? (
