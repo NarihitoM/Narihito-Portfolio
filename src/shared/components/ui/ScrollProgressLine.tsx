@@ -21,7 +21,8 @@ export function ScrollProgressLine() {
       return max > 0 ? Math.min(top / max, 1) : 0;
     };
 
-    const tick = () => {
+    const update = () => {
+      frame = 0;
       const lenis = getLenisInstance();
       const value =
         lenis && lenis.limit > 0 && Number.isFinite(lenis.progress) ? lenis.progress : nativeProgress();
@@ -29,19 +30,32 @@ export function ScrollProgressLine() {
 
       if (progress !== last) {
         last = progress;
-        line.style.width = `${progress * 100}%`;
+        line.style.transform = `scaleX(${progress})`;
       }
-      frame = requestAnimationFrame(tick);
     };
 
-    tick();
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
 
-    return () => cancelAnimationFrame(frame);
+    update();
+
+    const observer = new ResizeObserver(schedule);
+    observer.observe(document.body);
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+    };
   }, []);
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-[55] h-[2px]">
-      <div ref={lineRef} className="h-full bg-violet" style={{ width: 0 }} />
+      <div ref={lineRef} className="h-full w-full origin-left bg-violet" style={{ transform: "scaleX(0)" }} />
     </div>
   );
 }

@@ -39,6 +39,9 @@ const POINTER_FOLLOW = 0.08;
 const ENERGY_GAIN = 4;
 const ENERGY_DECAY = 0.975;
 const TOUCH_ENERGY = 0.9;
+const RENDER_SCALE = 0.5;
+const FRAME_INTERVAL = 1000 / 30;
+const BASE_FRAME = 1000 / 60;
 
 const PALETTES: Record<Theme, SilkPalette> = {
   dark: {
@@ -162,7 +165,7 @@ export function SiteBackground() {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, alpha: false });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5) * RENDER_SCALE);
 
     const scene = new THREE.Scene();
     const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
@@ -192,12 +195,15 @@ export function SiteBackground() {
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     scene.add(quad);
 
+    let bounds = root.getBoundingClientRect();
+
     const resize = () => {
+      bounds = root.getBoundingClientRect();
       const width = root.clientWidth;
       const height = root.clientHeight;
       if (width < 2 || height < 2) return;
       if (width === uniforms.uResolution.value.x && height === uniforms.uResolution.value.y) return;
-      renderer.setSize(width, height);
+      renderer.setSize(width, height, false);
       uniforms.uResolution.value.set(width, height);
       renderer.render(scene, camera);
     };
@@ -210,9 +216,8 @@ export function SiteBackground() {
     let energy = 0;
 
     const onPointerMove = (clientX: number, clientY: number) => {
-      const rect = root.getBoundingClientRect();
-      const x = (clientX - rect.left) / rect.width;
-      const y = 1 - (clientY - rect.top) / rect.height;
+      const x = (clientX - bounds.left) / bounds.width;
+      const y = 1 - (clientY - bounds.top) / bounds.height;
       energy = Math.min(1, energy + Math.hypot(x - target.x, y - target.y) * ENERGY_GAIN);
       target.set(x, y);
     };
@@ -239,7 +244,7 @@ export function SiteBackground() {
         observer.disconnect();
         window.removeEventListener("mousemove", onMouseMove);
         window.removeEventListener("touchstart", onTouchStart);
-      window.removeEventListener("touchmove", onTouchMove);
+        window.removeEventListener("touchmove", onTouchMove);
         material.dispose();
         quad.geometry.dispose();
         renderer.dispose();
@@ -249,13 +254,20 @@ export function SiteBackground() {
     let raf = 0;
     let isVisible = true;
     const started = performance.now();
+    let last = started;
 
     const frame = (now: number) => {
       raf = requestAnimationFrame(frame);
+      const elapsed = now - last;
+      if (elapsed < FRAME_INTERVAL - 4) return;
+      last = now;
+
+      const steps = Math.min(elapsed, 100) / BASE_FRAME;
+      const follow = 1 - Math.pow(1 - POINTER_FOLLOW, steps);
       uniforms.uTime.value = 7.2 + (now - started) / 1000;
-      uniforms.uPointer.value.lerp(target, POINTER_FOLLOW);
-      energy *= ENERGY_DECAY;
-      uniforms.uStrength.value += (energy - uniforms.uStrength.value) * POINTER_FOLLOW;
+      uniforms.uPointer.value.lerp(target, follow);
+      energy *= Math.pow(ENERGY_DECAY, steps);
+      uniforms.uStrength.value += (energy - uniforms.uStrength.value) * follow;
       renderer.render(scene, camera);
     };
     raf = requestAnimationFrame(frame);

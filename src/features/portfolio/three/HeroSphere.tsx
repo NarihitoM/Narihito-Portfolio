@@ -53,6 +53,8 @@ export function horizonCircle(layer: HTMLElement) {
   return { cx: width / 2, cy: apex + radius, radius };
 }
 const POINTER_FOLLOW = 0.04;
+const FRAME_INTERVAL = 1000 / 30;
+const BASE_FRAME = 1000 / 60;
 
 const VERTEX_SHADER = /* glsl */ `
   void main() {
@@ -213,6 +215,7 @@ export function HeroSphere() {
     let frameId = 0;
     let isVisible = true;
     const started = performance.now();
+    let last = started;
 
     const animate = (now: number) => {
       if (!isVisible) {
@@ -220,8 +223,13 @@ export function HeroSphere() {
         return;
       }
       frameId = requestAnimationFrame(animate);
+      const elapsed = now - last;
+      if (elapsed < FRAME_INTERVAL - 4) return;
+      last = now;
+
+      const follow = 1 - Math.pow(1 - POINTER_FOLLOW, Math.min(elapsed, 100) / BASE_FRAME);
       uniforms.uTime.value = (now - started) / 1000;
-      uniforms.uFocus.value += (targetFocus - uniforms.uFocus.value) * POINTER_FOLLOW;
+      uniforms.uFocus.value += (targetFocus - uniforms.uFocus.value) * follow;
       render();
     };
     frameId = requestAnimationFrame(animate);

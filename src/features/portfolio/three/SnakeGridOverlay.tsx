@@ -33,6 +33,7 @@ const TRAIL_BANDS = 4;
 const IMPACT_LIFE = 0.9;
 const IMPACT_SPREAD = 46;
 const DRAIN_RATE = 2;
+const FRAME_INTERVAL = 1000 / 60;
 
 export function SnakeGridOverlay() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -237,6 +238,8 @@ export function SnakeGridOverlay() {
         raf = 0;
         return;
       }
+      raf = requestAnimationFrame(frame);
+      if (now - last < FRAME_INTERVAL - 4) return;
       const dt = Math.min((now - last) / 1000, 0.05);
       last = now;
 
@@ -256,8 +259,6 @@ export function SnakeGridOverlay() {
         if (impacts[i].age >= IMPACT_LIFE) impacts.splice(i, 1);
         else drawImpact(impacts[i]);
       }
-
-      raf = requestAnimationFrame(frame);
     }
 
     if (isVisible) raf = requestAnimationFrame(frame);
