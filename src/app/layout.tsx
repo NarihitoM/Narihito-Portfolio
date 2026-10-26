@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Space_Grotesk, Inter, Roboto, Geist } from "next/font/google";
+import { Space_Grotesk, Inter, Geist } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
 import { Providers } from "@/shared/components/layout/Providers";
@@ -36,10 +37,10 @@ const inter = Inter({
   fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
-const roboto = Roboto({
+const roboto = localFont({
+  src: "./fonts/Roboto-latin.woff2",
   variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  weight: "400 700",
   display: "swap",
   fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
