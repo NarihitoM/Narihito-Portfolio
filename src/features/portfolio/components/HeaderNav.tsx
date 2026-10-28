@@ -111,7 +111,7 @@ export function HeaderNav() {
     <>
     <header
       ref={headerRef}
-      className="fixed top-0 z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12"
+      className="fixed top-[var(--birthday-banner,0px)] z-50 w-full bg-bg-panel h-[60px] md:h-[72px] flex items-center justify-between px-5 md:px-12"
     >
       <Link href="/" className="block h-8 w-8 md:h-9 md:w-9 overflow-hidden rounded-full">
         <Image

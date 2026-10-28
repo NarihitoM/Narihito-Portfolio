@@ -85,6 +85,25 @@ html {
   }
 }
 
+@keyframes headline-ticker {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-headline-ticker {
+  animation: headline-ticker 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-headline-ticker {
+    animation: none;
+  }
+}
+
 .cursor-none,
 .cursor-none * {
   cursor: none;
