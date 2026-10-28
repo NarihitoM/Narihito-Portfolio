@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Lenis from "lenis";
-import { gsap, ScrollTrigger, registerGsap } from "@/shared/lib/gsap";
+import { ScrollTrigger, registerGsap } from "@/shared/lib/gsap";
 import { setLenisInstance } from "@/shared/lib/lenis";
 
 export function useLenis() {
@@ -15,17 +15,11 @@ export function useLenis() {
     if (reduced) return;
 
     const lenis = new Lenis({
-      autoRaf: false,
+      autoRaf: true,
     });
 
     setLenisInstance(lenis);
     lenis.on("scroll", ScrollTrigger.update);
-
-    const tick = (time: number) => {
-      lenis.raf(time * 1000);
-    };
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(500, 33);
 
     let lastHeight = document.body.scrollHeight;
     let pending = 0;
@@ -54,7 +48,6 @@ export function useLenis() {
       if (pending) cancelAnimationFrame(pending);
       if (refreshPending) clearTimeout(refreshPending);
       observer.disconnect();
-      gsap.ticker.remove(tick);
       setLenisInstance(null);
       lenis.destroy();
     };
