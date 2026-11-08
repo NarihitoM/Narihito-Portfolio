@@ -127,7 +127,7 @@ export function Contact() {
   return (
     <section id="contact" ref={sectionRef} className="w-full bg-bg-alt py-16 md:pt-[160px] md:pb-16">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col items-start text-left md:items-center md:text-center gap-4.5 md:gap-14">
-        <SectionEyebrow>08 - CONTACT</SectionEyebrow>
+        <SectionEyebrow>09 - CONTACT</SectionEyebrow>
 
         <h2 data-reveal className="font-display fs-34 md:text-[52px] lg:text-[72px] font-semibold leading-[1.1] md:leading-[1.06] lg:leading-[1.04] tracking-[-1px] md:tracking-[-1.8px] lg:tracking-[-2.8px] text-text-primary lg:max-w-[880px]">
           Need a developer?

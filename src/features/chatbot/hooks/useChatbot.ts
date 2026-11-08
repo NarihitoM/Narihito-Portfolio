@@ -26,6 +26,7 @@ const NAV_ALLOWLIST = new Set([
   "/#projects", "/projects",
   "/#testimonials", "/testimonials",
   "/#events", "/events",
+  "/#certificates", "/certificates",
   "/#contact",
 ]);
 

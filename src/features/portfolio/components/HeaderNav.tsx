@@ -11,7 +11,7 @@ import { WipeVeil, playDrawerVeil } from "@/shared/components/ui/WipeVeil";
 import { ModeToggle } from "./ModeToggle";
 import { Button } from "@/shared/components/ui/Button";
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
+const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Certificates", "Games", "Testimonials", "Contact"];
 const HEADER_OFFSET = -72;
 
 export function HeaderNav() {
@@ -124,8 +124,8 @@ export function HeaderNav() {
         />
       </Link>
 
-      <nav className="hidden lg:flex items-center gap-9">
-        <ul className="flex items-center gap-8">
+      <nav className="hidden xl:flex items-center gap-7 2xl:gap-9">
+        <ul className="flex items-center gap-6 2xl:gap-8">
           {NAV_LINKS.map((link) => (
             <li key={link}>
               <a
@@ -134,7 +134,7 @@ export function HeaderNav() {
                   event.preventDefault();
                   scrollToTarget(`#${link.toLowerCase()}`, HEADER_OFFSET);
                 }}
-                className={`group relative font-body fs-14 font-medium transition-colors ${
+                className={`group relative whitespace-nowrap font-body fs-14 font-medium transition-colors ${
                   activeLink === link ? "text-text-primary" : "text-text-secondary"
                 }`}
               >
@@ -154,7 +154,7 @@ export function HeaderNav() {
         </Button>
       </nav>
 
-      <div className="flex lg:hidden items-center gap-2">
+      <div className="flex xl:hidden items-center gap-2">
         <ModeToggle />
         <button
           type="button"
@@ -203,7 +203,7 @@ function MobileDrawer({
     <div
       ref={drawerRef}
       data-lenis-prevent
-      className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
+      className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 xl:hidden"
     >
       <button
         type="button"

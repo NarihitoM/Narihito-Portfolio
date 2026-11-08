@@ -151,7 +151,7 @@ export function TestimonialsPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / TESTIMONIALS"
-      eyebrow="07 - TESTIMONIALS"
+      eyebrow="08 - TESTIMONIALS"
       title="Nice things people I've worked with said."
       deck="The quotes are unedited, and each one comes with the project we worked on together."
       meta={pageMeta}

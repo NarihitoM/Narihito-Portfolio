@@ -34,7 +34,7 @@ export function Games() {
     <section id="games" ref={sectionRef} className="w-full py-12 md:py-[72px]">
       <div className="mx-5 md:mx-10 lg:mx-[120px] flex flex-col gap-6 md:gap-12">
         <div className="flex flex-col gap-2 md:gap-3">
-          <SectionEyebrow>06 - GAMES</SectionEyebrow>
+          <SectionEyebrow>07 - GAMES</SectionEyebrow>
           <SectionHeading>Games I&apos;m into</SectionHeading>
         </div>
 

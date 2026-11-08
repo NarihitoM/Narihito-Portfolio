@@ -7,6 +7,7 @@ import { Experience } from "@/features/portfolio/components/Experience";
 import { Projects } from "@/features/portfolio/components/Projects";
 import { Testimonials } from "@/features/portfolio/components/Testimonials";
 import { Events } from "@/features/portfolio/components/Events";
+import { Certificates } from "@/features/portfolio/components/Certificates";
 import { Games } from "@/features/portfolio/components/Games";
 import { Contact } from "@/features/portfolio/components/Contact";
 import { SmoothScrollProvider } from "@/shared/components/layout/SmoothScrollProvider";
@@ -24,6 +25,7 @@ export default function Home() {
         <Experience />
         <Projects />
         <Events />
+        <Certificates />
         <Games />
         <Testimonials />
         <Contact />

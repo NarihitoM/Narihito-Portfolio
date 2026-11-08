@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 const SITE_URL = "https://narihito-portfolio.vercel.app";
-const ROUTES = ["", "/about", "/skills", "/experience", "/projects", "/events", "/games", "/testimonials", "/privacy"];
+const ROUTES = ["", "/about", "/skills", "/experience", "/projects", "/events", "/certificates", "/games", "/testimonials", "/privacy"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();

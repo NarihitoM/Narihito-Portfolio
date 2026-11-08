@@ -117,13 +117,13 @@ export function GamesPage() {
       backLink="Back To Portfolio"
       backHref="/"
       breadcrumb="HOME / GAMES"
-      eyebrow="06 - GAMES"
+      eyebrow="07 - GAMES"
       title="What I play when I'm not writing code."
       deck="The games that still hold my attention after work, and the ones I keep going back to."
       meta={pageMeta}
       metaLoading={isLoading}
       metaError={isError}
-      prev={{ direction: "← PREV", title: "Events", href: "/events" }}
+      prev={{ direction: "← PREV", title: "Certificates", href: "/certificates" }}
       next={{ direction: "NEXT →", title: "Testimonials", href: "/testimonials" }}
     >
       <div ref={contentRef} className="flex flex-col gap-16">
