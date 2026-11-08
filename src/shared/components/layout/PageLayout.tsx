@@ -15,8 +15,8 @@ import { useLenisLock } from "@/shared/hooks/useLenisLock";
 import { WipeVeil, playDrawerVeil } from "@/shared/components/ui/WipeVeil";
 import type { PageLayoutProps } from "@/shared/types/types";
 
-const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials", "Contact"];
-const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Games", "Testimonials"];
+const NAV_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Certificates", "Games", "Testimonials", "Contact"];
+const ROUTED_LINKS = ["About", "Skills", "Experience", "Projects", "Events", "Certificates", "Games", "Testimonials"];
 
 function DirectionLabel({ text }: { text: string }) {
   return text.split(/([←→])/).map((part, i) =>
@@ -182,8 +182,8 @@ export function PageLayout({
           />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-9">
-          <ul className="flex items-center gap-8">
+        <nav className="hidden xl:flex items-center gap-7 2xl:gap-9">
+          <ul className="flex items-center gap-6 2xl:gap-8">
             {NAV_LINKS.map((link) => {
               const href = `/${ROUTED_LINKS.includes(link) ? link.toLowerCase() : `#${link.toLowerCase()}`}`;
               const isActive = pathname === `/${link.toLowerCase()}`;
@@ -192,7 +192,7 @@ export function PageLayout({
                   <Link
                     href={href}
                     aria-current={isActive ? "page" : undefined}
-                    className={`group relative font-body fs-14 font-medium transition-colors ${
+                    className={`group relative whitespace-nowrap font-body fs-14 font-medium transition-colors ${
                       isActive ? "text-text-primary" : "text-text-secondary"
                     }`}
                   >
@@ -216,7 +216,7 @@ export function PageLayout({
           </Link>
         </nav>
 
-        <div className="flex lg:hidden items-center gap-2">
+        <div className="flex xl:hidden items-center gap-2">
           <ModeToggle />
           <button
             type="button"
@@ -241,7 +241,7 @@ export function PageLayout({
       <div
         ref={drawerRef}
         data-lenis-prevent
-        className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 lg:hidden"
+        className="no-scrollbar fixed inset-x-0 top-0 z-[60] hidden h-[100dvh] flex-col overflow-y-auto overscroll-contain bg-bg-panel-solid px-5 pt-18 pb-8 xl:hidden"
       >
         <button
           type="button"
