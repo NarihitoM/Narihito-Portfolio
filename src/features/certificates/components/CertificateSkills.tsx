@@ -1,4 +1,5 @@
 import { Chip } from "@/shared/components/ui/Chip";
+import { hasTechIcon } from "@/shared/components/ui/TechIcon";
 import type { Certificate } from "../types/types";
 
 export function CertificateSkills({ certificate, className = "" }: { certificate: Certificate; className?: string }) {
@@ -7,7 +8,7 @@ export function CertificateSkills({ certificate, className = "" }: { certificate
   return (
     <div className={`flex flex-wrap gap-2 ${className}`}>
       {certificate.skills.map((skill) => (
-        <Chip key={skill}>{skill}</Chip>
+        <Chip key={skill} icon={hasTechIcon(skill) ? skill : undefined}>{skill}</Chip>
       ))}
     </div>
   );

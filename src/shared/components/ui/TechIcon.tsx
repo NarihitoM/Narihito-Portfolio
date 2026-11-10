@@ -166,12 +166,21 @@ const ICONS: Record<string, IconRef> = {
   },
 };
 
-export function TechIcon({ name, className }: { name: string; className?: string }) {
+function resolveIcon(name: string): IconRef | undefined {
   const key = name.toLowerCase();
-  const icon =
+  return (
     ICONS[key] ??
     ICONS[key.replace(/[.\s]/g, "")] ??
-    Object.entries(ICONS).find(([k]) => key.includes(k))?.[1];
+    Object.entries(ICONS).find(([k]) => key.includes(k))?.[1]
+  );
+}
+
+export function hasTechIcon(name: string): boolean {
+  return resolveIcon(name) !== undefined;
+}
+
+export function TechIcon({ name, className }: { name: string; className?: string }) {
+  const icon = resolveIcon(name);
 
   if (!icon) {
     return (
