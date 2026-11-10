@@ -11,7 +11,7 @@ export function CredentialLink({ certificate, className = "" }: { certificate: C
       rel="noopener noreferrer"
       onClick={(e) => e.stopPropagation()}
       aria-label={`Verify ${certificate.title} credential`}
-      className={`group inline-flex h-10 items-center justify-center gap-1.5 self-start rounded-[4px] border border-border-glow-soft px-4 font-mono text-[11px] tracking-[1.5px] text-text-primary transition-[color,border-color,background-color,transform] duration-150 ease-out hover:border-violet hover:bg-fill-glow-soft hover:text-violet active:scale-95 ${className}`}
+      className={`group inline-flex h-10 shrink-0 items-center justify-center gap-1.5 self-start rounded-[4px] border border-border-glow-soft px-4 font-mono text-[11px] tracking-[1.5px] text-text-primary transition-[color,border-color,background-color,transform] duration-150 ease-out hover:border-violet hover:bg-fill-glow-soft hover:text-violet active:scale-95 ${className}`}
     >
       VERIFY CREDENTIAL
       <ArrowUpRight
