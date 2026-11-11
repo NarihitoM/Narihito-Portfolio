@@ -22,8 +22,8 @@ export function Games() {
   const { games, isLoading, isError, refetch } = useGames(5);
   const { selectedGameId, setSelectedGameId } = useGamesUI();
   const selected = games.find((game) => game.id === selectedGameId) ?? null;
-  const favourite = games.find((game) => (game.type ?? "").toLowerCase() === "favorite");
-  const others = games.filter((game) => game !== favourite).slice(0, 4);
+  const pinned = games.find((game) => game.pinned);
+  const others = games.filter((game) => game !== pinned).slice(0, 4);
   useScrollReveal(sectionRef, { y: 30, staggerAmount: 0.08, dependencies: [games, isLoading] });
 
   if (!isLoading && !isError && games.length === 0) return null;
@@ -60,15 +60,15 @@ export function Games() {
           </>
         ) : (
           <div data-reveal className="flex flex-col gap-12 md:gap-16">
-            {favourite && (
+            {pinned && (
               <div className="flex flex-col gap-8">
-                <span className={EYEBROW}>FAVOURITE</span>
-                <FavouriteBlock game={favourite} />
+                <span className={EYEBROW}>PINNED</span>
+                <FavouriteBlock game={pinned} />
               </div>
             )}
             {others.length > 0 ? (
               <div className="flex flex-col gap-8">
-                {favourite && <span className={EYEBROW}>MORE GAMES</span>}
+                {pinned && <span className={EYEBROW}>MORE GAMES</span>}
                 <Carousel label="Games" action={cta}>
                   {others.map((game) => (
                     <GameCard key={game.id} game={game} />

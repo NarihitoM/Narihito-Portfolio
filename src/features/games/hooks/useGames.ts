@@ -24,10 +24,12 @@ export function useGamesInfinite() {
   });
 
   const games = useMemo(() => (query.data?.pages ?? []).flatMap((page) => page.data), [query.data]);
-  const total = query.data?.pages[0]?.total ?? 0;
+  const firstPage = query.data?.pages[0];
+  const total = firstPage?.total ?? 0;
+  const featured = useMemo(() => firstPage?.featured ?? [], [firstPage]);
   const favourites =
-    query.data?.pages[0]?.favourites ??
+    firstPage?.favourites ??
     games.filter((g) => (g.type ?? "").toLowerCase() === "favorite").length;
 
-  return { ...query, games, total, favourites };
+  return { ...query, games, total, favourites, featured };
 }

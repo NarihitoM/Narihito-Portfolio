@@ -9,6 +9,7 @@ export interface Game {
   pic: string;
   description: string;
   type: string;
+  pinned?: boolean;
   links: GameLink[];
   chips: { name: string }[];
 }
@@ -18,4 +19,5 @@ export interface CursorGamesResponse {
   nextCursor: string | null;
   total: number;
   favourites?: number;
+  featured?: Game[];
 }

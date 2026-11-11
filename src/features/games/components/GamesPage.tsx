@@ -25,13 +25,25 @@ import { FavouriteBlock } from "./FavouriteBlock";
 export function GamesPage() {
   const contentRef = useRef<HTMLDivElement>(null);
   const leadRef = useRef<HTMLParagraphElement>(null);
-  const favouritesRef = useRef<HTMLDivElement>(null);
+  const pinnedRef = useRef<HTMLDivElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
-  const { games, total, favourites, isLoading, isError, refetch, hasNextPage, isFetchingNextPage, fetchNextPage } =
-    useGamesInfinite();
+  const {
+    games,
+    total,
+    favourites,
+    featured: pinnedGames,
+    isLoading,
+    isError,
+    refetch,
+    hasNextPage,
+    isFetchingNextPage,
+    fetchNextPage,
+  } = useGamesInfinite();
   const { selectedGameId, setSelectedGameId } = useGamesUI();
-  const selected = games.find((game) => game.id === selectedGameId) ?? null;
-  const favouriteGames = games.filter((g) => (g.type ?? "").toLowerCase() === "favorite");
+  const selected =
+    games.find((game) => game.id === selectedGameId) ??
+    pinnedGames.find((game) => game.id === selectedGameId) ??
+    null;
   const pageMeta = [
     { key: "SOURCE", value: "NARIHITO" },
     { key: "FAVOURITES", value: String(favourites) },
@@ -66,7 +78,7 @@ export function GamesPage() {
   useGSAP(
     () => {
       registerGsap();
-      const container = favouritesRef.current;
+      const container = pinnedRef.current;
       if (!container || !container.children.length) return;
 
       const mm = gsap.matchMedia();
@@ -84,7 +96,7 @@ export function GamesPage() {
 
       return () => mm.revert();
     },
-    { scope: contentRef, dependencies: [favouriteGames] },
+    { scope: contentRef, dependencies: [pinnedGames] },
   );
 
   useGSAP(
@@ -146,12 +158,12 @@ export function GamesPage() {
           </div>
         ) : null}
 
-        {favouriteGames.length > 0 && !isLoading && !isError && (
-          <div ref={favouritesRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
-            <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">FAVOURITE</span>
+        {pinnedGames.length > 0 && !isLoading && !isError && (
+          <div ref={pinnedRef} className="flex flex-col gap-8 border-y border-border-glow py-9">
+            <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">PINNED</span>
             <div className="flex flex-col gap-12">
-              {favouriteGames.map((game) => (
-                <FavouriteBlock key={`fav-${game.id}`} game={game} />
+              {pinnedGames.map((game) => (
+                <FavouriteBlock key={`pinned-${game.id}`} game={game} />
               ))}
             </div>
           </div>
@@ -170,7 +182,7 @@ export function GamesPage() {
         ) : (
           <>
             <div className="flex flex-col gap-8">
-              {favouriteGames.length > 0 && (
+              {pinnedGames.length > 0 && (
                 <span className="font-mono fs-15 md:text-[17px] font-medium tracking-[3px] text-violet">MORE GAMES</span>
               )}
               <div
@@ -178,11 +190,9 @@ export function GamesPage() {
                 ref={cardsRef}
                 className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-5 md:gap-6"
               >
-                {[...games]
-                  .sort((a, b) => Number(b.type === "favorite") - Number(a.type === "favorite"))
-                  .map((game) => (
-                    <GameCard key={game.id} game={game} />
-                  ))}
+                {games.map((game) => (
+                  <GameCard key={game.id} game={game} />
+                ))}
               </div>
             </div>
 
