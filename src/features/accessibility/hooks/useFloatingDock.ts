@@ -54,10 +54,12 @@ function parseDock(raw: string | null): Dock | null {
   }
 }
 
-function toPoint(dock: Dock): DockPoint {
+function toPoint(dock: Dock | null): DockPoint {
   const { margin, size } = dockMetrics();
-  const x = dock.side === "left" ? margin : viewportWidth() - size - margin;
-  return { ...clampPoint({ x, y: dock.yRatio * window.innerHeight }), side: dock.side };
+  const side = dock?.side ?? "left";
+  const x = side === "left" ? margin : viewportWidth() - size - margin;
+  const y = dock ? dock.yRatio * window.innerHeight : (window.innerHeight - size) / 2;
+  return { ...clampPoint({ x, y }), side };
 }
 
 function getSnapshot() {
@@ -65,8 +67,7 @@ function getSnapshot() {
   const key = `${raw}|${viewportWidth()}|${window.innerHeight}`;
   if (key !== cachedKey) {
     cachedKey = key;
-    const dock = parseDock(raw);
-    cachedPoint = dock ? toPoint(dock) : null;
+    cachedPoint = toPoint(parseDock(raw));
   }
   return cachedPoint;
 }

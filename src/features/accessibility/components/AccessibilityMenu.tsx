@@ -176,7 +176,7 @@ export function AccessibilityMenu() {
     triggerRef.current?.focus();
   };
 
-  const positionClass = point ? "" : "bottom-[calc(1.5rem+var(--in-app-banner,0px))] left-5 md:bottom-8 md:left-8";
+  const positionClass = point ? "" : "invisible";
   const motionClass = drag
     ? "scale-110 cursor-grabbing transition-[scale] duration-200"
     : "transition-[translate,scale,opacity] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-95";
