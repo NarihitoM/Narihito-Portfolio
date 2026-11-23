@@ -477,3 +477,77 @@ select option {
     transform: none !important;
   }
 }
+
+:root {
+  --a11y-font-default: var(--font-inter);
+  --a11y-font-system: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+html {
+  zoom: var(--a11y-zoom, 1);
+}
+
+html[data-a11y-size="90"] {
+  --a11y-zoom: 0.9;
+}
+
+html[data-a11y-size="110"] {
+  --a11y-zoom: 1.1;
+}
+
+html[data-a11y-size="120"] {
+  --a11y-zoom: 1.2;
+}
+
+html[data-a11y-size="130"] {
+  --a11y-zoom: 1.3;
+}
+
+.a11y-unzoom {
+  zoom: calc(1 / var(--a11y-zoom, 1));
+}
+
+html[data-a11y-font="hyperlegible"] {
+  --a11y-font: var(--font-atkinson);
+}
+
+html[data-a11y-font="lexend"] {
+  --a11y-font: var(--font-lexend);
+}
+
+html[data-a11y-font="system"] {
+  --a11y-font: var(--a11y-font-system);
+}
+
+html[data-a11y-font] body {
+  --font-inter: var(--a11y-font);
+  --font-space-grotesk: var(--a11y-font);
+  --font-roboto: var(--a11y-font);
+  --font-sans: var(--a11y-font);
+}
+
+html[data-a11y-vision="contrast"] {
+  --color-text-secondary: #e6e6e6;
+  --color-text-muted: #c4c4c4;
+  --color-border-glow: #ffffff8c;
+  --color-border-glow-soft: #ffffff59;
+  --color-chip: #ffffff1f;
+  --color-bg-panel: #161616;
+}
+
+html[data-theme="light"][data-a11y-vision="contrast"] {
+  --color-text-secondary: #1a1a1a;
+  --color-text-muted: #3a3a3a;
+  --color-border-glow: #0000008c;
+  --color-border-glow-soft: #00000059;
+  --color-chip: #0000001a;
+  --color-bg-panel: #eaeaea;
+}
+
+html[data-a11y-vision="grayscale"] {
+  filter: grayscale(1);
+}
+
+html[data-a11y-vision="dim"] {
+  filter: brightness(0.82);
+}

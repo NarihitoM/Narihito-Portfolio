@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Script from "next/script";
-import { Space_Grotesk, Inter, Geist } from "next/font/google";
+import { Space_Grotesk, Inter, Geist, Atkinson_Hyperlegible, Lexend } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { cn } from "@/shared/lib/utils";
@@ -14,6 +14,8 @@ import { RouteTransition } from "@/shared/components/ui/RouteTransition";
 import { InAppBrowserBanner } from "@/shared/components/ui/InAppBrowserBanner";
 import { BirthdayBanner } from "@/shared/components/ui/BirthdayBanner";
 import { Chatbot } from "@/features/chatbot/components/Chatbot";
+import { AccessibilityMenu } from "@/features/accessibility/components/AccessibilityMenu";
+import { accessibilityInitScript } from "@/features/accessibility/lib/preferences";
 
 const geist = Geist({
   variable: "--font-sans",
@@ -43,6 +45,23 @@ const roboto = localFont({
   variable: "--font-roboto",
   weight: "400 700",
   display: "swap",
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+});
+
+const atkinson = Atkinson_Hyperlegible({
+  variable: "--font-atkinson",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  display: "swap",
+  preload: false,
+  fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
+});
+
+const lexend = Lexend({
+  variable: "--font-lexend",
+  subsets: ["latin"],
+  display: "swap",
+  preload: false,
   fallback: ["Segoe UI", "Helvetica Neue", "Arial", "sans-serif"],
 });
 
@@ -165,11 +184,16 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html
       lang="en"
       data-theme="dark"
-      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, roboto.variable, "font-sans", geist.variable)}
+      className={cn("h-full", "antialiased", spaceGrotesk.variable, inter.variable, roboto.variable, "font-sans", geist.variable, atkinson.variable, lexend.variable)}
       suppressHydrationWarning
     >
       <head>
         <Script id="theme-init" strategy="beforeInteractive" dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+        <Script
+          id="a11y-init"
+          strategy="beforeInteractive"
+          dangerouslySetInnerHTML={{ __html: accessibilityInitScript }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
@@ -191,6 +215,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ScrollProgressLine />
         <Providers>{children}</Providers>
         <Chatbot />
+        <AccessibilityMenu />
       </body>
     </html>
   );

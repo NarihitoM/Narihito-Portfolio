@@ -78,12 +78,12 @@ export function CursorFollower() {
     <>
       <div
         ref={dotRef}
-        className="pointer-events-none fixed left-0 top-0 z-95 h-1.5 w-1.5 rounded-full opacity-0 transition-opacity duration-200"
+        className="a11y-unzoom pointer-events-none fixed left-0 top-0 z-95 h-1.5 w-1.5 rounded-full opacity-0 transition-opacity duration-200"
         style={{ backgroundColor: `rgb(${rgb})` }}
       />
       <div
         ref={ringRef}
-        className="pointer-events-none fixed left-0 top-0 z-95 h-8 w-8 rounded-full border opacity-0 transition-opacity duration-200"
+        className="a11y-unzoom pointer-events-none fixed left-0 top-0 z-95 h-8 w-8 rounded-full border opacity-0 transition-opacity duration-200"
         style={{ borderColor: `rgba(${rgb},0.4)` }}
       />
     </>
