@@ -27,6 +27,21 @@ export function PrivacyPage() {
         </section>
 
         <section className="flex flex-col gap-2">
+          <h2 className="font-display fs-18 font-semibold text-text-primary">Feedback form</h2>
+          <p className="font-body fs-15 leading-[1.7] text-text-secondary">
+            If you send feedback through the{" "}
+            <Link href="/feedback" className="text-violet underline underline-offset-2">
+              feedback form
+            </Link>
+            , your name, feedback type, and message are sent to an AI provider, which decides whether the
+            feedback needs my attention and writes the automatic email reply you receive. If it needs my
+            attention, your name, email address, message, the reply, and a short summary are stored so I
+            can follow up. Otherwise nothing is stored after the reply is sent. None of it is sold or used
+            for marketing.
+          </p>
+        </section>
+
+        <section className="flex flex-col gap-2">
           <h2 className="font-display fs-18 font-semibold text-text-primary">Chatbot</h2>
           <p className="font-body fs-15 leading-[1.7] text-text-secondary">
             Messages you send to the chatbot are forwarded to an AI provider to generate a response.
@@ -39,8 +54,8 @@ export function PrivacyPage() {
         <section className="flex flex-col gap-2">
           <h2 className="font-display fs-18 font-semibold text-text-primary">Local storage</h2>
           <p className="font-body fs-15 leading-[1.7] text-text-secondary">
-            Your light/dark theme preference is saved in your browser&apos;s local storage. It never
-            leaves your device.
+            Your light/dark theme, accessibility preferences, and accessibility button position are
+            saved in your browser&apos;s local storage. They never leave your device.
           </p>
         </section>
 
@@ -57,6 +72,10 @@ export function PrivacyPage() {
             Questions about this policy? Reach out via the{" "}
             <Link href="/#contact" className="text-violet underline underline-offset-2">
               contact form
+            </Link>
+            , or share thoughts about the site through the{" "}
+            <Link href="/feedback" className="text-violet underline underline-offset-2">
+              feedback form
             </Link>
             .
           </p>
