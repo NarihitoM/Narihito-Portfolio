@@ -2,7 +2,7 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
-import { Bug, Check, Lightbulb, MessageCircle, Palette, Sparkles, X, type LucideIcon } from "lucide-react";
+import { Bug, Check, Lightbulb, Mail, MessageCircle, Palette, X, type LucideIcon } from "lucide-react";
 import { Button } from "@/shared/components/ui/Button";
 import { feedbackApi } from "../api/feedbackApi";
 import { useSendFeedback } from "../hooks/useSendFeedback";
@@ -183,9 +183,9 @@ export function FeedbackForm() {
       </div>
 
       <p className="flex items-start gap-2 font-body fs-13 leading-[1.6] text-text-muted">
-        <Sparkles size={14} strokeWidth={1.8} className="mt-0.5 shrink-0 text-violet" />
+        <Mail size={14} strokeWidth={1.8} className="mt-0.5 shrink-0 text-violet" />
         <span>
-          An AI assistant will email you a reply right away. See the{" "}
+          You&apos;ll get a reply by email. See the{" "}
           <Link href="/privacy" className="text-violet underline underline-offset-2">
             privacy policy
           </Link>{" "}
