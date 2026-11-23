@@ -79,8 +79,7 @@ export function FeedbackForm() {
         <div className="flex flex-col gap-2">
           <p className="font-display fs-22 font-semibold text-text-primary">Thanks for the feedback.</p>
           <p className="font-body fs-15 leading-[1.6] text-text-secondary">
-            Check your inbox. My AI assistant has emailed you a reply, and anything that needs my attention
-            has been passed on to me.
+            I appreciate you taking the time to share your thoughts.
           </p>
         </div>
         <Button variant="secondary" onClick={() => setSubmitted(false)} className="mt-1 !rounded-full !px-5 !py-2.5 !fs-13">
