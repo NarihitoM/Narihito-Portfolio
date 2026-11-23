@@ -1,13 +1,15 @@
 "use client";
 
 import { useLayoutEffect, useRef, useState, type CSSProperties, type PointerEvent } from "react";
-import { Accessibility } from "lucide-react";
+import { PersonStanding } from "lucide-react";
 import { gsap, REDUCED_MOTION_QUERY } from "@/shared/lib/gsap";
 import { clampPoint, dockMetrics, saveDock, useFloatingDock, type Point } from "../hooks/useFloatingDock";
 import { AccessibilitySheet } from "./AccessibilitySheet";
 
 const HOLD_MS = 250;
-const MOVE_THRESHOLD = 6;
+const MOUSE_THRESHOLD = 6;
+const TOUCH_THRESHOLD = 10;
+const TUCK_RATIO = 0.3;
 const MAX_STRETCH = 0.35;
 
 interface DragState {
@@ -66,7 +68,7 @@ export function AccessibilityMenu() {
     if (!point) return undefined;
     if (!tucked || !docked) return { left: point.x, top: point.y };
     const { margin, size } = dockMetrics();
-    const offset = margin + size / 2;
+    const offset = margin + size * TUCK_RATIO;
     return { left: point.x, top: point.y, "--tuck": `${docked.side === "left" ? -offset : offset}px` } as CSSProperties;
   };
 
@@ -102,6 +104,7 @@ export function AccessibilityMenu() {
 
   const onPointerDown = (event: PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return;
+    suppressClickRef.current = false;
     const rect = event.currentTarget.getBoundingClientRect();
     event.currentTarget.setPointerCapture(event.pointerId);
 
@@ -138,14 +141,8 @@ export function AccessibilityMenu() {
       return;
     }
 
-    const moved = Math.hypot(event.clientX - state.startX, event.clientY - state.startY) > MOVE_THRESHOLD;
-    if (!moved) return;
-    if (state.pointerType === "mouse") {
-      activate(state);
-    } else {
-      window.clearTimeout(state.timer);
-      dragRef.current = null;
-    }
+    const threshold = state.pointerType === "mouse" ? MOUSE_THRESHOLD : TOUCH_THRESHOLD;
+    if (Math.hypot(event.clientX - state.startX, event.clientY - state.startY) > threshold) activate(state);
   };
 
   const endDrag = (event: PointerEvent<HTMLButtonElement>) => {
@@ -181,6 +178,8 @@ export function AccessibilityMenu() {
     ? "scale-110 cursor-grabbing transition-[scale] duration-200"
     : "transition-[translate,scale,opacity] duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] active:scale-95";
   const edgeZoneClass = docked?.side === "right" ? "after:left-full" : "after:right-full";
+  const tooltipClass =
+    (docked?.side ?? "left") === "left" ? "left-full ml-3 -translate-x-1" : "right-full mr-3 translate-x-1";
   const tuckClass = tucked
     ? `translate-x-[var(--tuck)] opacity-80 hover:translate-x-0 hover:opacity-100 focus-visible:translate-x-0 focus-visible:opacity-100 after:absolute after:inset-y-0 after:w-5 md:after:w-8 after:content-[''] ${edgeZoneClass}`
     : "";
@@ -193,7 +192,6 @@ export function AccessibilityMenu() {
         aria-label="Open accessibility menu"
         aria-haspopup="dialog"
         aria-expanded={open}
-        title="Hold to move"
         onClick={onClick}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
@@ -201,20 +199,28 @@ export function AccessibilityMenu() {
         onPointerCancel={endDrag}
         onContextMenu={(event) => event.preventDefault()}
         style={buttonStyle()}
-        className={`a11y-unzoom group fixed z-40 flex h-11 w-11 md:h-12 md:w-12 touch-none select-none items-center justify-center text-text-primary [-webkit-touch-callout:none] ${positionClass} ${motionClass} ${tuckClass}`}
+        className={`a11y-unzoom group fixed z-40 flex h-11 w-11 md:h-12 md:w-12 touch-none select-none items-center justify-center text-wire [-webkit-touch-callout:none] ${positionClass} ${motionClass} ${tuckClass}`}
       >
         <span ref={moverRef} className="absolute inset-0 flex items-center justify-center">
           <span
             ref={blobRef}
             aria-hidden
-            className={`absolute inset-0 rounded-full border bg-bg-panel-solid transition-[border-color,box-shadow] duration-300 ${
+            className={`absolute inset-0 rounded-full bg-violet transition-shadow duration-300 ${
               drag
-                ? "border-violet shadow-[0_14px_32px_-12px_var(--color-violet)]"
-                : "border-border-glow group-hover:border-violet"
+                ? "shadow-[0_14px_32px_-10px_var(--color-violet)]"
+                : "shadow-[0_10px_28px_-12px_var(--color-violet)]"
             }`}
           />
-          <Accessibility size={20} strokeWidth={1.8} className="relative" />
+          <PersonStanding size={22} strokeWidth={1.8} className="relative" />
         </span>
+        {!drag && (
+          <span
+            aria-hidden
+            className={`pointer-events-none absolute top-1/2 -translate-y-1/2 whitespace-nowrap rounded-[4px] bg-violet px-2.5 py-1.5 font-mono text-[11px] tracking-[1.5px] text-wire opacity-0 transition-[opacity,translate] duration-200 [@media(hover:hover)]:group-hover:translate-x-0 [@media(hover:hover)]:group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 ${tooltipClass}`}
+          >
+            ACCESSIBILITY
+          </span>
+        )}
       </button>
       {open && <AccessibilitySheet onClose={close} />}
     </>

@@ -33,11 +33,19 @@ export function dockMetrics() {
   return { margin: wide ? 32 : 20, size: wide ? 48 : 44 };
 }
 
+function headerBottom() {
+  const header = document.querySelector("header");
+  if (!header) return 0;
+  const rect = header.getBoundingClientRect();
+  return Math.max(rect.bottom, rect.height);
+}
+
 export function clampPoint(point: Point): Point {
   const { margin, size } = dockMetrics();
+  const top = Math.max(margin, headerBottom() + 12);
   return {
     x: Math.min(Math.max(point.x, margin), viewportWidth() - size - margin),
-    y: Math.min(Math.max(point.y, margin), window.innerHeight - size - margin),
+    y: Math.min(Math.max(point.y, top), window.innerHeight - size - margin),
   };
 }
 
