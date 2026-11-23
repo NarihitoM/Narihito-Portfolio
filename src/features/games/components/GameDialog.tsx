@@ -15,6 +15,7 @@ import {
   REDUCED_MOTION_QUERY,
   NO_REDUCED_MOTION_QUERY,
 } from "@/shared/lib/gsap";
+import { GameStatusBadge } from "./GameStatusBadge";
 import type { Game } from "../types/types";
 
 export function GameDialog({ game, onClose }: { game: Game; onClose: () => void }) {
@@ -93,9 +94,12 @@ export function GameDialog({ game, onClose }: { game: Game; onClose: () => void 
         )}
 
         <div className="flex flex-col gap-3">
-          <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet uppercase">
-            {game.type}
-          </span>
+          <div className={`flex items-center justify-between gap-3 ${game.pic ? "" : "pr-10"}`}>
+            <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet uppercase">
+              {game.type}
+            </span>
+            <GameStatusBadge status={game.status} />
+          </div>
           <h2 className="font-display fs-26 md:text-[32px] font-semibold leading-[1.15] tracking-[-0.8px] text-text-primary">
             {game.name}
           </h2>

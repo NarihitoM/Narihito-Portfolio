@@ -4,6 +4,7 @@ import { useTilt } from "@/shared/hooks/useTilt";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import { Chip } from "@/shared/components/ui/Chip";
 import { useGamesUI } from "../store/gamesUIStore";
+import { GameStatusBadge } from "./GameStatusBadge";
 import type { Game } from "../types/types";
 
 export function GameCard({ game }: { game: Game }) {
@@ -38,9 +39,12 @@ export function GameCard({ game }: { game: Game }) {
       )}
 
       <div className="flex flex-col gap-2.5 p-5 md:p-6">
-        <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet uppercase">
-          {game.type}
-        </span>
+        <div className="flex items-center justify-between gap-3">
+          <span className="font-mono text-[11px] font-medium tracking-[2px] text-violet uppercase">
+            {game.type}
+          </span>
+          <GameStatusBadge status={game.status} />
+        </div>
         <h3 className="font-display fs-20 md:text-[24px] font-semibold leading-[1.2] tracking-[-0.5px] text-text-primary">
           {game.name}
         </h3>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Chip } from "@/shared/components/ui/Chip";
 import { SocialIcon, socialLabel } from "@/shared/components/ui/SocialIcon";
 import { ImageLightbox } from "@/shared/components/ui/ImageLightbox";
+import { GameStatusBadge } from "./GameStatusBadge";
 import type { Game } from "../types/types";
 
 export function FavouriteBlock({ game }: { game: Game }) {
@@ -45,6 +46,12 @@ export function FavouriteBlock({ game }: { game: Game }) {
             <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">TYPE</span>
             <span className="font-mono text-[12px] text-text-secondary uppercase">{game.type}</span>
           </div>
+          {game.status && (
+            <div className="flex items-center gap-4">
+              <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">STATUS</span>
+              <GameStatusBadge status={game.status} />
+            </div>
+          )}
           <div className="flex items-center gap-4">
             <span className="font-mono text-[10px] tracking-[2px] text-text-muted w-[80px] shrink-0">GENRE</span>
             <span className="font-mono text-[12px] text-text-secondary">{game.chips?.length ? game.chips.map((c) => c.name).join(", ") : "—"}</span>
