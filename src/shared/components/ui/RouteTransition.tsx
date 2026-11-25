@@ -25,8 +25,9 @@ const PAGE_LABELS: Record<string, string> = {
   experience: "03 - EXPERIENCE",
   projects: "04 - PROJECTS",
   events: "05 - EVENTS",
-  games: "06 - GAMES",
-  testimonials: "07 - TESTIMONIALS",
+  certificates: "06 - CERTIFICATES",
+  games: "07 - GAMES",
+  testimonials: "08 - TESTIMONIALS",
   privacy: "PRIVACY POLICY",
 };
 
