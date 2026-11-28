@@ -104,7 +104,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/img/Narihito.jpg",
+        url: "/img/og.jpg",
         width: 1200,
         height: 630,
         alt: "Narihito - full-stack & agentic AI developer portfolio",
@@ -115,7 +115,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Narihito (Hein Htet Aung) - Full-Stack & Agentic AI Developer Portfolio",
     description: SITE_DESCRIPTION,
-    images: ["/img/Narihito.jpg"],
+    images: ["/img/og.jpg"],
   },
   robots: {
     index: true,
